@@ -1,0 +1,61 @@
+﻿1.1. UC-01 Fazer empréstimo
+1.1.1. Descrição: Este caso especifica ação de realizar o empréstimo de um material da biblioteca.
+1.1.2. Atores: Bibliotecária, Usuário Comum.
+1.1.3. Pré-condições: A Bibliotecária deve estar logada no sistema. O Usuário Comum deve estar com os dados válidos e cadastrados no sistema.
+1.1.4. Pós-condições: O empréstimo será realizado e cadastrado no sistema.
+1.1.5. Requisito funcional: 
+1. Gerenciar
+, empréstimo no sistema.
+1.1.6. Requisito não funcional:
+1. O sistema deve impedir a duplicata de cadastro.
+2. O sistema deve garantir que os dados não sejam vazados para outros locais fora dele.
+1.1.7. Fluxo básico: 
+1. Usuário Comum chega com as informações dele e do material que quer emprestar.
+2. Bibliotecária entra com os dados do Usuário Comum. 
+3. Bibliotecária verifica se os dados do Usuário Comum são válidos. 
+4. Bibliotecária entra com os dados do material a ser emprestado.
+5. Bibliotecária cadastra o empréstimo no sistema e realiza-o.
+
+1.1.8. Fluxo alternativo A: 
+1. Usuário Comum chega com as informações dele e do material que quer empréstimo.
+2. Bibliotecária entra com os dados do Usuário Comum. 
+3. Bibliotecária verifica que os dados do Usuário Comum não são válidos. 
+4. Empréstimo não é realizado.
+
+1.1.9. Fluxo alternativo B: 
+1. Usuário Comum chega com as informações dele e do material que quer empréstimo.
+2. Bibliotecária entra com os dados do Usuário Comum. 
+3. Bibliotecária verifica que Usuário Comum não possui autorização para realizar empréstimo. 
+4. Empréstimo não é realizado.
+
+1.1.10. Fluxo alternativo C: 
+1. Usuário Comum chega com as informações dele e do material que quer empréstimo.
+2. Bibliotecária entra com os dados do Usuário Comum. 
+3. Bibliotecária verifica se os dados do Usuário Comum são válidos. 
+4. Bibliotecária entra com os dados do material a ser emprestado.
+5. Bibliotecária cadastra o empréstimo no sistema e realiza-o.
+6. Bibliotecária ou Usuário Comum verifica que há alguma informação no cadastro do empréstido errada ou equivocada.
+7. Bibliotecária acessa a tela de edição de empréstimo e faz as devidas alterações.
+
+1.1.11. Fluxo alternativo D: 
+1. Usuário Comum chega com o material para ser devolvido e informa os dados dele.
+2. Bibliotecária localiza o empréstimo de acordo com dados informados pelo Usuário Comum.
+3. Bibliotecária confirma a devolução do material emprestado.
+
+1.1.12. Fluxo alternativo E: 
+1. Usuário Comum chega para renovar o empréstimo do material e informa os dados dele.
+2. Bibliotecária localiza o empréstimo de acordo com dados informados pelo Usuário Comum.
+3. Bibliotecária faz e confirma a renovação do material emprestado.
+
+1.1.13. Fluxo alternativo F: 
+1. Usuário Comum chega para renovar o empréstimo do material e informa os dados dele.
+2. Bibliotecária localiza o empréstimo de acordo com dados informados pelo Usuário Comum.
+3. Bibliotecária verifica que o empréstimo não pode ser renovado.
+4. Renovação do empréstimo não é realizado.
+
+1.1.14. Fluxo alternativo G: 
+1. Usuário Comum chega com as informações dele e do material que quer emprestar.
+2. Bibliotecária entra com os dados do Usuário Comum. 
+3. Bibliotecária verifica se os dados do Usuário Comum não estão cadastrados. 
+4. Empréstimo não é realizado.
+5. Bibliotecária faz o cadastro do Usuário Comum, se ele tiver os dados necessário para isso.
