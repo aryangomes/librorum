@@ -26,11 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'idemprestimo',
-            'usuario_idusuario',
-            'acervo_idacervo',
             'dataemprestimo',
             'dataprevisaodevolucao',
-            // 'datadevolucao',
+            'datadevolucao',
+            'usuario_idusuario',
+            // 'usuario_nome',
+            // 'usuario_rg',
+            // 'acervo_exemplar_idacervo_exemplar',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

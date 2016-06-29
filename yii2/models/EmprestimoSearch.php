@@ -18,8 +18,8 @@ class EmprestimoSearch extends Emprestimo
     public function rules()
     {
         return [
-            [['idemprestimo', 'usuario_idusuario', 'acervo_idacervo'], 'integer'],
-            [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao'], 'safe'],
+            [['idemprestimo', 'usuario_idusuario', 'acervo_exemplar_idacervo_exemplar'], 'integer'],
+            [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao', 'usuario_nome', 'usuario_rg'], 'safe'],
         ];
     }
 
@@ -57,12 +57,15 @@ class EmprestimoSearch extends Emprestimo
 
         $query->andFilterWhere([
             'idemprestimo' => $this->idemprestimo,
-            'usuario_idusuario' => $this->usuario_idusuario,
-            'acervo_idacervo' => $this->acervo_idacervo,
             'dataemprestimo' => $this->dataemprestimo,
             'dataprevisaodevolucao' => $this->dataprevisaodevolucao,
             'datadevolucao' => $this->datadevolucao,
+            'usuario_idusuario' => $this->usuario_idusuario,
+            'acervo_exemplar_idacervo_exemplar' => $this->acervo_exemplar_idacervo_exemplar,
         ]);
+
+        $query->andFilterWhere(['like', 'usuario_nome', $this->usuario_nome])
+            ->andFilterWhere(['like', 'usuario_rg', $this->usuario_rg]);
 
         return $dataProvider;
     }

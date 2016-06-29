@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'idemprestimo',
-            'usuario_idusuario',
-            'acervo_idacervo',
             'dataemprestimo',
             'dataprevisaodevolucao',
             'datadevolucao',
+            'usuario_idusuario',
+            'usuario_nome',
+            'usuario_rg',
+            'acervo_exemplar_idacervo_exemplar',
         ],
     ]) ?>
 
