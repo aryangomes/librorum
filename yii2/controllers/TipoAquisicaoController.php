@@ -8,6 +8,7 @@ use app\models\TipoAquisicaoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 
 /**
  * TipoAquisicaoController implements the CRUD actions for TipoAquisicao model.
@@ -117,5 +118,24 @@ class TipoAquisicaoController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionTipoAquisicaoList($q = null, $idtipo_aquisicao = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query->select('idtipo_aquisicao AS id, nome AS text')
+                ->from('tipo_aquisicao')
+                ->where(['like', 'nome', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($idtipo_aquisicao > 0) {
+            $out['results'] = ['id' => $idtipo_aquisicao, 'text' => TipoMaterial::find($idtipo_aquisicao)->nome];
+        }
+        return $out;
     }
 }

@@ -8,6 +8,7 @@ use app\models\TipoMaterialSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 
 /**
  * TipoMaterialController implements the CRUD actions for TipoMaterial model.
@@ -120,5 +121,24 @@ class TipoMaterialController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionTipoMaterialList($q = null, $idtipo_material = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query->select('idtipo_material AS id, nome AS text')
+                ->from('tipo_material')
+                ->where(['like', 'nome', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($idtipo_material > 0) {
+            $out['results'] = ['id' => $idtipo_material, 'text' => TipoMaterial::find($idtipo_material)->nome];
+        }
+        return $out;
     }
 }
