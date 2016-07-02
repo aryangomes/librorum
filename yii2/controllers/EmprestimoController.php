@@ -111,6 +111,28 @@ class EmprestimoController extends Controller
     }
 
     /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionDevolucao($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->datadevolucao =date("Y-m-d H:i:s",
+                strtotime(Yii::$app->request->post()['Emprestimo']['datadevolucao']));
+
+            if( $model->save()){
+                return $this->redirect(['view', 'id' => $id]);
+            }
+            return $this->redirect(['view', 'id' => $id]);
+
+        } else {
+            return $this->redirect(['index']);
+        }
+    }
+
+    /**
      * Deletes an existing Emprestimo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
