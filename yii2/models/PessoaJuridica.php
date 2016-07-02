@@ -30,7 +30,7 @@ class PessoaJuridica extends \yii\db\ActiveRecord
         return [
             [['cnpj', 'pessoa_idpessoa'], 'required'],
             [['pessoa_idpessoa'], 'integer'],
-            [['cnpj'], 'string', 'max' => 14]
+            [['cnpj'], 'string', 'max' => 18]
         ];
     }
 

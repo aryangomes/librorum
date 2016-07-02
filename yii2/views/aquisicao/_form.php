@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'preco')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'quantidade')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'quantidade')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 10']) ?>
 
     <?= $form->field($model, 'tipo_aquisicao_idtipo_aquisicao')->textInput() ?>
 

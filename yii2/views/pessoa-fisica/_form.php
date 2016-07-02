@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use \yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PessoaFisica */
@@ -12,7 +13,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'cpf')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'cpf')->widget(MaskedInput::className(), [
+        'mask' => ['999.999.999-99'],
+    ]); ?>
 
     <?= $form->field($model, 'pessoa_idpessoa')->textInput() ?>
 

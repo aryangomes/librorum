@@ -30,7 +30,7 @@ class PessoaFisica extends \yii\db\ActiveRecord
         return [
             [['cpf', 'pessoa_idpessoa'], 'required'],
             [['pessoa_idpessoa'], 'integer'],
-            [['cpf'], 'string', 'max' => 11]
+            [['cpf'], 'string', 'max' => 14]
         ];
     }
 
