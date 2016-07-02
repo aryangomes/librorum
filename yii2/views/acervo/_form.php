@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\builder\FormGrid;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -10,21 +12,42 @@ use yii\widgets\ActiveForm;
 
 <div class="acervo-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'cdd')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 48.194']) ?>
-
-    <?= $form->field($model, 'autor')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Machado de Assis']) ?>
-
-    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Dom Casmurro']) ?>
-
-    <?= $form->field($model, 'editora')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Abril']) ?>
-
-    <?= $form->field($model, 'chamada')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 48.194.25']) ?>
-
-    <?= $form->field($model, 'aquisicao_idaquisicao')->textInput() ?>
-
-    <?= $form->field($model, 'tipo_material_idtipo_material')->textInput() ?>
+    <?php
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
+    
+    echo FormGrid::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Material</small></legend>',
+                'attributes'=>[       // 2 column layout
+                    'tipo_material_idtipo_material'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Enter username...']],
+                    'titulo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Dom Casmurro']],
+                ]
+            ],
+            [
+                'attributes'=>[       // 1 column layout
+                    'autor'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Machado de Assis']],
+                    'editora'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Abril']],
+                ],
+            ],
+            [
+                'attributes'=>[       // 1 column layout
+                    'cdd'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: 48.194']],
+                    'chamada'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: 48.194.25']],
+                ],
+            ],
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Aquisição</small></legend>',
+                'attributes'=>[
+                    'aquisicao_idaquisicao'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Doação']],
+                ],
+            ],
+        ]
+    ]);
+?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
