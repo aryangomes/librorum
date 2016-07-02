@@ -20,11 +20,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'editora')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Abril']) ?>
 
-    <?= $form->field($model, 'tipo_material')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Livro, Revista...']) ?>
-
     <?= $form->field($model, 'chamada')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 48.194.25']) ?>
 
     <?= $form->field($model, 'aquisicao_idaquisicao')->textInput() ?>
+
+    <?= $form->field($model, 'tipo_material_idtipo_material')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

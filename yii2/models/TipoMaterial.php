@@ -5,21 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "tipo_aquisicao".
+ * This is the model class for table "tipo_material".
  *
- * @property integer $idtipo_aquisicao
+ * @property integer $idtipo_material
  * @property string $nome
  *
- * @property Aquisicao[] $aquisicaos
+ * @property Acervo[] $acervos
  */
-class TipoAquisicao extends \yii\db\ActiveRecord
+class TipoMaterial extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'tipo_aquisicao';
+        return 'tipo_material';
     }
 
     /**
@@ -39,7 +39,7 @@ class TipoAquisicao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idtipo_aquisicao' => Yii::t('app', 'Idtipo Aquisicao'),
+            'idtipo_material' => Yii::t('app', 'Idtipo Material'),
             'nome' => Yii::t('app', 'Nome'),
         ];
     }
@@ -47,8 +47,8 @@ class TipoAquisicao extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAquisicaos()
+    public function getAcervos()
     {
-        return $this->hasMany(Aquisicao::className(), ['tipo_aquisicao_idtipo_aquisicao' => 'idtipo_aquisicao']);
+        return $this->hasMany(Acervo::className(), ['tipo_material_idtipo_material' => 'idtipo_material']);
     }
 }

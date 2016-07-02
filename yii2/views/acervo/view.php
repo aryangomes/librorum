@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'autor',
             'titulo',
             'editora',
-            'tipo_material',
             'chamada',
             'aquisicao_idaquisicao',
+            'tipo_material_idtipo_material',
         ],
     ]) ?>
 

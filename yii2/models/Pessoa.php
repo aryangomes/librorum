@@ -31,7 +31,7 @@ class Pessoa extends \yii\db\ActiveRecord
     {
         return [
             [['nome'], 'required'],
-            [['nome'], 'string', 'max' => 45]
+            [['nome'], 'string', 'max' => 100],
         ];
     }
 

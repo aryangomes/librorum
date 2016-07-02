@@ -12,11 +12,12 @@ use Yii;
  * @property string $autor
  * @property string $titulo
  * @property string $editora
- * @property string $tipo_material
  * @property string $chamada
  * @property integer $aquisicao_idaquisicao
+ * @property integer $tipo_material_idtipo_material
  *
  * @property Aquisicao $aquisicaoIdaquisicao
+ * @property TipoMaterial $tipoMaterialIdtipoMaterial
  * @property AcervoExemplar[] $acervoExemplars
  */
 class Acervo extends \yii\db\ActiveRecord
@@ -35,10 +36,12 @@ class Acervo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cdd', 'autor', 'titulo', 'editora', 'tipo_material', 'chamada', 'aquisicao_idaquisicao'], 'required'],
-            [['aquisicao_idaquisicao'], 'integer'],
-            [['cdd', 'tipo_material', 'chamada'], 'string', 'max' => 45],
-            [['autor', 'titulo', 'editora'], 'string', 'max' => 100]
+            [['cdd', 'autor', 'titulo', 'editora', 'chamada', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material'], 'required'],
+            [['aquisicao_idaquisicao', 'tipo_material_idtipo_material'], 'integer'],
+            [['cdd', 'chamada'], 'string', 'max' => 45],
+            [['autor', 'titulo', 'editora'], 'string', 'max' => 100],
+            [['aquisicao_idaquisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Aquisicao::className(), 'targetAttribute' => ['aquisicao_idaquisicao' => 'idaquisicao']],
+            [['tipo_material_idtipo_material'], 'exist', 'skipOnError' => true, 'targetClass' => TipoMaterial::className(), 'targetAttribute' => ['tipo_material_idtipo_material' => 'idtipo_material']],
         ];
     }
 
@@ -51,11 +54,11 @@ class Acervo extends \yii\db\ActiveRecord
             'idacervo' => Yii::t('app', 'Idacervo'),
             'cdd' => Yii::t('app', 'Cdd'),
             'autor' => Yii::t('app', 'Autor'),
-            'titulo' => Yii::t('app', 'Título'),
+            'titulo' => Yii::t('app', 'Titulo'),
             'editora' => Yii::t('app', 'Editora'),
-            'tipo_material' => Yii::t('app', 'Tipo de Material'),
             'chamada' => Yii::t('app', 'Chamada'),
-            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisição'),
+            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisicao Idaquisicao'),
+            'tipo_material_idtipo_material' => Yii::t('app', 'Tipo Material Idtipo Material'),
         ];
     }
 
@@ -65,6 +68,14 @@ class Acervo extends \yii\db\ActiveRecord
     public function getAquisicaoIdaquisicao()
     {
         return $this->hasOne(Aquisicao::className(), ['idaquisicao' => 'aquisicao_idaquisicao']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoMaterialIdtipoMaterial()
+    {
+        return $this->hasOne(TipoMaterial::className(), ['idtipo_material' => 'tipo_material_idtipo_material']);
     }
 
     /**
