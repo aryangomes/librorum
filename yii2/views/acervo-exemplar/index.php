@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcervoExemplarSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,8 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create Acervo Exemplar'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?= GridView::widget([
+<?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -28,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'idacervo_exemplar',
             'acervo_idacervo',
             'codigo_livro',
+            'esta_disponivel',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-</div>
+<?php Pjax::end(); ?></div>

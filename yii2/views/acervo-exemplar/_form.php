@@ -16,6 +16,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'codigo_livro')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'esta_disponivel')->dropDownList([1=>'Disponível',0=>'Não disponível'],
+        ['prompt'=>'Selecione se o exemplar está disponível ou não']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

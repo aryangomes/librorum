@@ -10,6 +10,7 @@ use Yii;
  * @property integer $idacervo_exemplar
  * @property integer $acervo_idacervo
  * @property string $codigo_livro
+ * @property integer $esta_disponivel
  *
  * @property Acervo $acervoIdacervo
  * @property Emprestimo[] $emprestimos
@@ -30,9 +31,10 @@ class AcervoExemplar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['acervo_idacervo', 'codigo_livro'], 'required'],
-            [['acervo_idacervo'], 'integer'],
-            [['codigo_livro'], 'string', 'max' => 45]
+            [['acervo_idacervo', 'codigo_livro', 'esta_disponivel'], 'required'],
+            [['acervo_idacervo', 'esta_disponivel'], 'integer'],
+            [['codigo_livro'], 'string', 'max' => 45],
+            [['acervo_idacervo'], 'exist', 'skipOnError' => true, 'targetClass' => Acervo::className(), 'targetAttribute' => ['acervo_idacervo' => 'idacervo']],
         ];
     }
 
@@ -42,9 +44,10 @@ class AcervoExemplar extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idacervo_exemplar' => Yii::t('app', 'Idacervo Exemplar'),
-            'acervo_idacervo' => Yii::t('app', 'Acervo Idacervo'),
-            'codigo_livro' => Yii::t('app', 'Codigo Livro'),
+            'idacervo_exemplar' => 'Idacervo Exemplar',
+            'acervo_idacervo' => 'Acervo Idacervo',
+            'codigo_livro' => 'Codigo Livro',
+            'esta_disponivel' => 'Esta Disponivel',
         ];
     }
 
