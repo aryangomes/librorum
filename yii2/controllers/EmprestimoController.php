@@ -75,6 +75,9 @@ class EmprestimoController extends Controller
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $exemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
+            $exemplar->esta_disponivel = 0;
+            $exemplar->save();
             return $this->redirect(['view', 'id' => $model->idemprestimo]);
         } else {
             return $this->render('create', [
@@ -118,11 +121,14 @@ class EmprestimoController extends Controller
     public function actionDevolucao($id)
     {
         $model = $this->findModel($id);
+        $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
         if ($model->load(Yii::$app->request->post())) {
             $model->datadevolucao =date("Y-m-d H:i:s",
                 strtotime(Yii::$app->request->post()['Emprestimo']['datadevolucao']));
 
             if( $model->save()){
+                $acervoExemplar->esta_disponivel = 1;
+                $acervoExemplar->save();
                 return $this->redirect(['view', 'id' => $id]);
             }
             return $this->redirect(['view', 'id' => $id]);
@@ -140,8 +146,12 @@ class EmprestimoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
+        $acervoExemplar->esta_disponivel = 1;
+        if($acervoExemplar->save()){
+            $model->delete();
+        }
         return $this->redirect(['index']);
     }
 

@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idemprestimo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idemprestimo], [
+        <?= Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -29,8 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <!--   Devolução     -->
         <?php
         Modal::begin([
-            'header' => '<h2>Devolução</h2>',
-            'toggleButton' => ['label' => 'Devolução', 'class' => 'btn btn-info',],
+            'header' =>  '<h2>Devolução</h2>',
+            'toggleButton' => ['label' =>isset($model->datadevolucao) ? 'Devolvido': 'Fazer Devolução',
+                'class' => 'btn btn-info',
+                'disabled'=>isset($model->datadevolucao) ? true:false],
 
         ]);
 
@@ -43,25 +45,22 @@ $this->params['breadcrumbs'][] = $this->title;
         //Definindo zona de tempo para o horário brasileiro
         date_default_timezone_set('America/Sao_Paulo');
 
-        echo Html::activeLabel($model,'data_devolucao');
-        echo  DateTimePicker::widget([
-            'name'=>'Emprestimo[datadevolucao]',
-            'language' =>'pt-BR',
-            'value'=>isset($model->datadevolucao) ? date('d/m/Y H:i:s',
-                strtotime($model->datadevolucao)) :date('d/m/Y H:i:s'),
 
-            'pluginOptions' => [
-                'autoclose'=>true,
-                'format' => 'dd/mm/yyyy hh:ii:ss'
-            ],
-
-
-        ]);
         ?>
+        <?= $form->field($model, 'datadevolucao')->textInput(['disabled' => true,
+            'value'=> isset($model->datadevolucao) ? date('d/m/Y H:i:s',
+            strtotime($model->datadevolucao)) :date('d/m/Y H:i:s')]) ?>
+
+        <?= $form->field($model, 'datadevolucao')->hiddenInput(
+            [  'value'=> isset($model->datadevolucao) ? date('d/m/Y H:i:s',
+                strtotime($model->datadevolucao)) :date('d/m/Y H:i:s')]
+        )->label(false) ?>
+
+
 
     </div>
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Confirmar devolução') , ['class' => 'btn btn-info']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Confirmar devolução') , ['class' => 'btn-lg btn-block btn-info']) ?>
     </div>
     <div id="result-messagem-busca-usuario">
 
