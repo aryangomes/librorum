@@ -69,7 +69,7 @@ class EmprestimoController extends Controller
         $usuario = new Usuario();
         $acervo = new Acervo();
         $exemplar = new AcervoExemplar();
-        
+
         //Definindo a data de Empréstimo
         date_default_timezone_set('America/Sao_Paulo');
         $model->dataemprestimo = date('Y-m-d H:i:s');
@@ -180,8 +180,8 @@ class EmprestimoController extends Controller
      */
     public function actionGetUsuario($rg)
     {
-       /* $modelSearch = new UsuariosSearch();
-        $usuario = $modelSearch->searchUsuario($matricula);*/
+        /* $modelSearch = new UsuariosSearch();
+         $usuario = $modelSearch->searchUsuario($matricula);*/
 
         $usuario = Usuario::find()->where(['rg'=>$rg])->one();
 
@@ -197,8 +197,8 @@ class EmprestimoController extends Controller
      */
     public function actionGetBuscaUsuario($nomeUsuario)
     {
-      /*  $modelSearch = new UsuariosSearch();
-        $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);*/
+        /*  $modelSearch = new UsuariosSearch();
+          $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);*/
 
 
         $usuario = [];
@@ -215,10 +215,10 @@ class EmprestimoController extends Controller
      */
     public function actionGetExemplar($codigoExemplar)
     {
-      /*  $modelSearch = new EmprestimosSearch();
-        $exemplar = $modelSearch->searchExemplar($idExemplar);
+        /*  $modelSearch = new EmprestimosSearch();
+          $exemplar = $modelSearch->searchExemplar($idExemplar);
 
-        echo Json::encode([$exemplar, $exemplar["tipoMaterialIdtipo"]]);*/
+          echo Json::encode([$exemplar, $exemplar["tipoMaterialIdtipo"]]);*/
 
         $exemplar = AcervoExemplar::find()
             ->joinWith('acervoIdacervo')
@@ -242,6 +242,30 @@ class EmprestimoController extends Controller
 
 
         echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionRenovar($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->dataprevisaodevolucao =date("Y-m-d H:i:s",
+                strtotime(Yii::$app->request->post()['Emprestimo']['dataprevisaodevolucao']));
+
+            if( $model->save()){
+
+                return $this->redirect(['view', 'id' => $id]);
+            }
+            return $this->redirect(['view', 'id' => $id]);
+
+        } else {
+            return $this->redirect(['index']);
+        }
     }
 
 }

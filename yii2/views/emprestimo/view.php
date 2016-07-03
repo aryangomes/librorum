@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <?= $form->field($model, 'datadevolucao')->textInput(['disabled' => true,
             'value'=> isset($model->datadevolucao) ? date('d/m/Y H:i:s',
-            strtotime($model->datadevolucao)) :date('d/m/Y H:i:s')]) ?>
+                strtotime($model->datadevolucao)) :date('d/m/Y H:i:s')]) ?>
 
         <?= $form->field($model, 'datadevolucao')->hiddenInput(
             [  'value'=> isset($model->datadevolucao) ? date('d/m/Y H:i:s',
@@ -72,6 +72,51 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
     ?>
     <!--   Devolução  -->
+
+    <!--   Renovação     -->
+    <?php
+    Modal::begin([
+        'header' =>  '<h2>Renovar empréstimo</h2>',
+        'toggleButton' => ['label' => 'Fazer Renovação de Empréstimo',
+            'class' => 'btn btn-info',
+            'disabled'=>isset($model->datadevolucao) ? true:false],
+
+    ]);
+
+    $form = ActiveForm::begin(['action' =>['renovar' , 'id'=>$model->idemprestimo]]);
+
+    ?>
+    <div class="form-group">
+        <?php
+
+        //Definindo zona de tempo para o horário brasileiro
+        date_default_timezone_set('America/Sao_Paulo');
+
+
+        ?>
+        <?= $form->field($model, 'dataprevisaodevolucao')->textInput(['disabled' => true,
+            'value'=> date('d/m/Y H:i:s', strtotime("+10 days",strtotime(date('Y-m-d H:i:s')))) ]) ?>
+
+        <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput(
+            [    'value'=> date('Y-m-d H:i:s', strtotime("+10 days",strtotime(date('Y-m-d H:i:s')))) ]
+        )->label(false) ?>
+
+
+
+    </div>
+    <div class="form-group">
+        <?= Html::submitButton(Yii::t('app', 'Confirmar renovação de empréstimo') , ['class' => 'btn-lg btn-block btn-info']) ?>
+    </div>
+    <div id="result-messagem-busca-usuario">
+
+
+    </div>
+    <?php
+    ActiveForm::end();
+
+    Modal::end();
+    ?>
+    <!--   Renovação  -->
     </p>
 
     <?= DetailView::widget([
