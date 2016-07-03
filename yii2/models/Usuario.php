@@ -37,10 +37,11 @@ class Usuario extends \yii\db\ActiveRecord
         return [
             [['nome', 'rg', 'endereco', 'telefone', 'email'], 'required'],
             [['nome'], 'string', 'max' => 55],
-            [['rg', 'cpf'], 'string', 'max' => 11],
+            [['rg'], 'string', 'max' => 12],
+            [['cpf'], 'string', 'max' => 14],
             [['cargo', 'reparticao'], 'string', 'max' => 45],
             [['endereco'], 'string', 'max' => 200],
-            [['telefone'], 'string', 'max' => 12],
+            [['telefone'], 'string', 'max' => 14],
             [['email'], 'string', 'max' => 150]
         ];
     }
