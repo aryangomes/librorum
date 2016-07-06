@@ -2,6 +2,7 @@
 
 namespace amnah\yii2\user\controllers;
 
+use app\models\Usuario;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -77,15 +78,17 @@ class DefaultController extends Controller
     {
         /** @var \amnah\yii2\user\models\forms\LoginForm $model */
         $model = $this->module->model("LoginForm");
-
+        $usuario = new Usuario();
         // load post data and login
         $post = Yii::$app->request->post();
-        if ($model->load($post) && $model->validate()) {
-            $returnUrl = $this->performLogin($model->getUser(), $model->rememberMe);
+//        var_dump($post);
+        if ($model->load($post)/* && $model->validate()*/) {
+
+            $returnUrl = $this->performLogin($model->getUser($post['Usuario']['rg']), $model->rememberMe);
             return $this->redirect($returnUrl);
         }
 
-        return $this->render('login', compact("model"));
+        return $this->render('login', compact("model","usuario"));
     }
 
     /**

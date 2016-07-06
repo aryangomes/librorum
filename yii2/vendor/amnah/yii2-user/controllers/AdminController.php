@@ -2,6 +2,7 @@
 
 namespace amnah\yii2\user\controllers;
 
+use app\models\Usuario;
 use Yii;
 use amnah\yii2\user\models\User;
 use amnah\yii2\user\models\UserToken;
@@ -23,7 +24,7 @@ class AdminController extends Controller
      * @inheritdoc
      */
     public $module;
-    
+
     /**
      * @inheritdoc
      */
@@ -87,11 +88,12 @@ class AdminController extends Controller
     {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
-
+        $usuario = new Usuario();
         $user = $this->module->model("User");
         $user->setScenario("admin");
         $profile = $this->module->model("Profile");
-
+        $user->role_id = 2;
+        $user->status = 1;
         $post = Yii::$app->request->post();
         $userLoaded = $user->load($post);
         $profile->load($post);
@@ -105,11 +107,26 @@ class AdminController extends Controller
         if ($userLoaded && $user->validate() && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
-            return $this->redirect(['view', 'id' => $user->id]);
+
+//            return $this->redirect(['view', 'id' => $user->id]);
+           $usuario->nome = $post['Usuario']['nome'];
+            $usuario->rg = $post['Usuario']['rg'];
+            $usuario->cpf = $post['Usuario']['cpf'];
+            $usuario->cargo = $post['Usuario']['cargo'];
+            $usuario->reparticao = $post['Usuario']['reparticao'];
+            $usuario->endereco = $post['Usuario']['endereco'];
+            $usuario->telefone = $post['Usuario']['telefone'];
+            $usuario->email = $post['Usuario']['email'];
+            $usuario->user_id = $user->id;
+
+            if ($usuario->save()) {
+                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+            }
+
         }
 
         // render
-        return $this->render('create', compact('user', 'profile'));
+        return $this->render('create', compact('user', 'profile', 'usuario'));
     }
 
     /**
@@ -121,9 +138,12 @@ class AdminController extends Controller
     public function actionUpdate($id)
     {
         // set up user and profile
+
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
+
+        $usuario = Usuario::find()->where(['user_id'=>$id])->one();
 
         $post = Yii::$app->request->post();
         $userLoaded = $user->load($post);
@@ -137,13 +157,27 @@ class AdminController extends Controller
 
         // load post data and validate
         if ($userLoaded && $user->validate() && $profile->validate()) {
+            $user->username = $post['Usuario']['nome'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
-            return $this->redirect(['view', 'id' => $user->id]);
+//            return $this->redirect(['view', 'id' => $user->id]);
+            $usuario->nome = $post['Usuario']['nome'];
+            $usuario->rg = $post['Usuario']['rg'];
+            $usuario->cpf = $post['Usuario']['cpf'];
+            $usuario->cargo = $post['Usuario']['cargo'];
+            $usuario->reparticao = $post['Usuario']['reparticao'];
+            $usuario->endereco = $post['Usuario']['endereco'];
+            $usuario->telefone = $post['Usuario']['telefone'];
+            $usuario->email = $post['Usuario']['email'];
+
+
+            if ($usuario->save()) {
+                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+            }
         }
 
         // render
-        return $this->render('update', compact('user', 'profile'));
+        return $this->render('update', compact('user', 'profile','usuario'));
     }
 
     /**

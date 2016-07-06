@@ -2,6 +2,8 @@
 
 namespace amnah\yii2\user\models\forms;
 
+use amnah\yii2\user\models\User;
+use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 
@@ -116,21 +118,28 @@ class LoginForm extends Model
      * Get user based on email and/or username
      * @return \amnah\yii2\user\models\User|null
      */
-    public function getUser()
+    public function getUser($rg)
     {
         // check if we need to get user
         if ($this->user === false) {
 
             // build query based on email and/or username login properties
             $user = $this->module->model("User");
-            $user = $user::find();
+            /*$user = $user::find();
             if ($this->module->loginEmail) {
                 $user->orWhere(["email" => $this->email]);
             }
             if ($this->module->loginUsername) {
                 $user->orWhere(["username" => $this->email]);
             }
-            $this->user = $user->one();
+            $this->user = $user->one();*/
+
+            /*
+             * Buscando o User pelo Rg do usuário
+             */
+            $usuario = Usuario::find()->where(['rg'=>$rg])->one();
+            $this->user = User::find()->where(['id'=>$usuario->user_id])->one();
+            
         }
         return $this->user;
     }

@@ -37,8 +37,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            Yii::$app->user->can("admin") ?    ['label' => 'Acervo', 'url' => ['/acervo']] : '',
+            Yii::$app->user->can("admin") ?    ['label' => 'Empréstimo', 'url' => ['/emprestimo']]: '',
+            Yii::$app->user->can("admin") ?   ['label' => 'Usuário', 'url' => ['/user/admin']] : '',
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/user/login']] :
                 [
