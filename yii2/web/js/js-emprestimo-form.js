@@ -5,7 +5,7 @@
 
 $('#tableresult').hide();
 
-$('#emprestimo-usuario_rg').keyup(function () {
+$('#emprestimo-usuario_rg').keyup(function () { 
     var
         rg = $(this).val();
     if (rg != ' ') {

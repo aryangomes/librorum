@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use \yii\widgets\MaskedInput;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
@@ -26,7 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ]); ?>
 
-    <?= $form->field($model, 'email') ?>
+    <?= $form->field($usuario, 'rg')->widget(MaskedInput::className(), [
+        'mask' => ['99.999.999-9'],
+    ]); ?>
     <?= $form->field($model, 'password')->passwordInput() ?>
     <?= $form->field($model, 'rememberMe', [
         'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
@@ -37,9 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
 
             <br/><br/>
-            <?= Html::a(Yii::t("user", "Register"), ["/user/register"]) ?> /
-            <?= Html::a(Yii::t("user", "Forgot password") . "?", ["/user/forgot"]) ?> /
-            <?= Html::a(Yii::t("user", "Resend confirmation email"), ["/user/resend"]) ?>
+
         </div>
     </div>
 
@@ -53,9 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     <?php endif; ?>
 
-    <div class="col-lg-offset-2" style="color:#999;">
-        You may login with <strong>neo/neo</strong>.<br>
-        To modify the username/password, log in first and then <?= HTML::a("update your account", ["/user/account"]) ?>.
-    </div>
+
 
 </div>

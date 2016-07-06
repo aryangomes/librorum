@@ -25,7 +25,7 @@ use kartik\form\ActiveForm;
 
     ?>
     <?= $form->field($model, 'rg')->widget(MaskedInput::className(), [
-        'mask' => ['99.999.999.9'],
+        'mask' => ['99.999.999-9'],
     ]);?>
 
     <?=  $form->field($model, 'cpf')->widget(MaskedInput::className(), [

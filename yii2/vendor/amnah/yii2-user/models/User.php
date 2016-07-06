@@ -95,10 +95,10 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
-            [['email', 'username'], 'unique'],
-            [['email', 'username'], 'filter', 'filter' => 'trim'],
-            [['email'], 'email'],
-            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
+       //     [['email', 'username'], 'unique'],
+        //    [['email', 'username'], 'filter', 'filter' => 'trim'],
+//            [['email'], 'email'],
+         //   [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],
@@ -124,13 +124,13 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         // add required rules for email/username depending on module properties
-        $requireFields = ["requireEmail", "requireUsername"];
+      /*  $requireFields = ["requireEmail", "requireUsername"];
         foreach ($requireFields as $requireField) {
             if ($this->module->$requireField) {
                 $attribute = strtolower(substr($requireField, 7)); // "email" or "username"
                 $rules[] = [$attribute, "required"];
             }
-        }
+        }*/
 
         return $rules;
     }
@@ -290,6 +290,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
+
         // check if we're setting $this->password directly
         // handle it by setting $this->newPassword instead
         $dirtyAttributes = $this->getDirtyAttributes();
