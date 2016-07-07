@@ -54,19 +54,29 @@ use kartik\builder\FormGrid;
 
     ?>
     <div class="form-group">
-        <?= Html::label('Nome do usuário', 'busca-usuario') ?>
-
-        <?= Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
-            'placeholder' => 'Digite o nome do usuário']) ?>
-
+        <div class="row">
+            <div class="col-md-4">
+                <?= Html::label('Nome do usuário', 'busca-usuario') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <?= Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
+                    'placeholder' => 'Digite o nome do usuário']) ?>
+            </div>
+            <div class="col-md-2">
+                <?= Html::button('Pesquisar', ['id'=>'btPesquisar','class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
     </div>
+
     <div id="result-messagem-busca-usuario">
     </div>
     <table id="tableresult" class="table table-bordered">
         <thead>
         <tr>
             <th>Nome</th>
-            <th>Matrícula</th>
+            <th>RG</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -131,6 +141,57 @@ use kartik\builder\FormGrid;
         ]
     ]);
     ?>
+
+    <!--   Busca de Exemplar     -->
+    <?php
+    Modal::begin([
+        'header' => '<h2>Buscar Usuário</h2>',
+        'toggleButton' => ['label' => 'Buscar Exemplar', 'class' => 'btn btn-primary btn-block',],
+
+    ]);
+
+    ?>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <?= Html::label('Nome do usuário', 'busca-exemplar') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <?= Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
+                    'placeholder' => 'Digite o título do exemplar']) ?>
+            </div>
+            <div class="col-md-2">
+                <?= Html::button('Pesquisar', ['id'=>'btPesquisarExemplar','class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-messagem-busca-exemplar">
+    </div>
+    <table id="tableresult-exemplar" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Código Exemplar</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-result-exemplar">
+
+        </tbody>
+    </table>
+
+
+    <?php
+
+
+    Modal::end();
+    ?>
+    <!--    Busca de Exemplar      -->
+
     <div id="message-indisponivel-exemaplar">
 
 
@@ -224,18 +285,37 @@ use kartik\builder\FormGrid;
 
 <script type="application/javascript">
     function actionSelecionarUsuario(rg) {
-        $('#usuario-rg').val(rg);
+
+        $('#emprestimo-usuario_rg').val(rg);
         $.get('get-usuario', {rg: rg}, function (data) {
 
-            var
-                usuario = $.parseJSON(data);
+            var usuario = $.parseJSON(data);
+            $('#usuario-rg').val(usuario.rg);
+            $('#rgusuario').val(usuario.rg);
+            $('#emprestimo-usuario_nome').val(usuario.nome);
+            $('#nomeusuario').val(usuario.nome);
+            $('#usuario-cpf').val(usuario.cpf);
+            $('#usuario-cargo').val(usuario.cargo);
+            $('#usuario-reparticao').val(usuario.reparticao);
+            $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
+            $('#usuario_idusuario').val(usuario.idusuario);
+            console.log('usuario.idusuario.:'+usuario.idusuario);
 
-            $('#usuario-curso_idcurso').val(usuario[2].nome_curso);
-            $('#usuario-nome').val(usuario[0].nome);
-            $('#usuario-situacao_usuario_idsituacao_usuario').val(usuario[1].situacao);
-            $('#usuario-observacao').val(usuario[0].observacao);
-            $('#emprestimos-usuario_idusuario').val(usuario[0].idusuario);
-            $('#usuario-departamento_iddepartamento').val(usuario[3].nome_departamento);
+        });
+
+    }
+
+    function actionSelecionarExemplar(codigoExemplar) {
+
+        $('#acervoexemplar-codigo_livro').val(codigoExemplar);
+        $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
+
+            var exemplar = $.parseJSON(data);
+            console.log(exemplar);
+            $('#acervoexemplar-codigo_livro').val(codigoExemplar);
+            $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(exemplar[0].idacervo_exemplar);
+            $('#acervo-titulo').val(exemplar[1].titulo);
+            $('#acervo-autor').val(exemplar[1].autor);
 
         });
 
