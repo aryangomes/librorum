@@ -2,11 +2,10 @@
 
 namespace app\models;
 
-use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-
+use app\models\Usuario;
 
 /**
  * UsuarioSearch represents the model behind the search form about `app\models\Usuario`.
@@ -19,8 +18,8 @@ class UsuarioSearch extends Usuario
     public function rules()
     {
         return [
-            [['idusuario'], 'integer'],
-            [['nome', 'rg', 'cpf', 'cargo', 'reparticao', 'endereco', 'telefone', 'email'], 'safe'],
+            [['idusuario', 'user_id'], 'integer'],
+            [['nome', 'rg', 'cpf', 'cargo', 'reparticao', 'endereco', 'telefone', 'email', 'foto'], 'safe'],
         ];
     }
 
@@ -44,6 +43,8 @@ class UsuarioSearch extends Usuario
     {
         $query = Usuario::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -56,8 +57,10 @@ class UsuarioSearch extends Usuario
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'idusuario' => $this->idusuario,
+            'user_id' => $this->user_id,
         ]);
 
         $query->andFilterWhere(['like', 'nome', $this->nome])
@@ -67,7 +70,8 @@ class UsuarioSearch extends Usuario
             ->andFilterWhere(['like', 'reparticao', $this->reparticao])
             ->andFilterWhere(['like', 'endereco', $this->endereco])
             ->andFilterWhere(['like', 'telefone', $this->telefone])
-            ->andFilterWhere(['like', 'email', $this->email]);
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'foto', $this->foto]);
 
         return $dataProvider;
     }
@@ -78,13 +82,13 @@ class UsuarioSearch extends Usuario
      */
     public function searchUsuario($rg)
     {
-        $query =  Usuario::find()
-           
+        $query = Usuario::find()
+
             ->where(['rg'=>$rg])->one();
         if($query != null){
             return $query;
         }
-        
+
         return null;
 
     }
@@ -103,4 +107,5 @@ class UsuarioSearch extends Usuario
         }
         return null;
     }
+
 }

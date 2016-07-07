@@ -1,7 +1,6 @@
 <?php
 
 namespace app\models;
-
 use amnah\yii2\user\models\User;
 use Yii;
 
@@ -18,6 +17,7 @@ use Yii;
  * @property string $telefone
  * @property string $email
  * @property integer $user_id
+ * @property string $foto
  *
  * @property Emprestimo[] $emprestimos
  * @property User $user
@@ -46,6 +46,7 @@ class Usuario extends \yii\db\ActiveRecord
             [['cargo', 'reparticao'], 'string', 'max' => 45],
             [['endereco'], 'string', 'max' => 200],
             [['email'], 'string', 'max' => 150],
+            [['foto'], 'string', 'max' => 300],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -66,6 +67,7 @@ class Usuario extends \yii\db\ActiveRecord
             'telefone' => Yii::t('app', 'Telefone'),
             'email' => Yii::t('app', 'Email'),
             'user_id' => Yii::t('app', 'User ID'),
+            'foto' => Yii::t('app', 'Foto'),
         ];
     }
 
