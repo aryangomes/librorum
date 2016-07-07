@@ -15,9 +15,11 @@ use Yii;
  * @property string $chamada
  * @property integer $aquisicao_idaquisicao
  * @property integer $tipo_material_idtipo_material
+ * @property integer $categoria_acervo_idcategorial_acervo
  *
  * @property Aquisicao $aquisicaoIdaquisicao
  * @property TipoMaterial $tipoMaterialIdtipoMaterial
+ * @property CategoriaAcervo $categoriaAcervoIdcategorialAcervo
  * @property AcervoExemplar[] $acervoExemplars
  */
 class Acervo extends \yii\db\ActiveRecord
@@ -37,11 +39,12 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return [
             [['cdd', 'autor', 'titulo', 'editora', 'chamada', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material'], 'required'],
-            [['aquisicao_idaquisicao', 'tipo_material_idtipo_material'], 'integer'],
+            [['aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategorial_acervo'], 'integer'],
             [['cdd', 'chamada'], 'string', 'max' => 45],
             [['autor', 'titulo', 'editora'], 'string', 'max' => 100],
             [['aquisicao_idaquisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Aquisicao::className(), 'targetAttribute' => ['aquisicao_idaquisicao' => 'idaquisicao']],
             [['tipo_material_idtipo_material'], 'exist', 'skipOnError' => true, 'targetClass' => TipoMaterial::className(), 'targetAttribute' => ['tipo_material_idtipo_material' => 'idtipo_material']],
+            [['categoria_acervo_idcategorial_acervo'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaAcervo::className(), 'targetAttribute' => ['categoria_acervo_idcategorial_acervo' => 'idcategorial_acervo']],
         ];
     }
 
@@ -59,6 +62,7 @@ class Acervo extends \yii\db\ActiveRecord
             'chamada' => Yii::t('app', 'Chamada'),
             'aquisicao_idaquisicao' => Yii::t('app', 'Aquisicao Idaquisicao'),
             'tipo_material_idtipo_material' => Yii::t('app', 'Tipo Material Idtipo Material'),
+            'categoria_acervo_idcategorial_acervo' => Yii::t('app', 'Categoria Acervo Idcategorial Acervo'),
         ];
     }
 
@@ -77,6 +81,14 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TipoMaterial::className(), ['idtipo_material' => 'tipo_material_idtipo_material']);
     }
+
+    /** 
+     * @return \yii\db\ActiveQuery 
+     */ 
+    public function getCategoriaAcervoIdcategorialAcervo() 
+    { 
+        return $this->hasOne(CategoriaAcervo::className(), ['idcategorial_acervo' => 'categoria_acervo_idcategorial_acervo']);
+    } 
 
     /**
      * @return \yii\db\ActiveQuery

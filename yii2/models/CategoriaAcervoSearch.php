@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Acervo;
+use app\models\CategoriaAcervo;
 
 /**
- * AcervoSearch represents the model behind the search form about `app\models\Acervo`.
+ * CategoriaAcervoSearch represents the model behind the search form about `app\models\CategoriaAcervo`.
  */
-class AcervoSearch extends Acervo
+class CategoriaAcervoSearch extends CategoriaAcervo
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class AcervoSearch extends Acervo
     public function rules()
     {
         return [
-            [['idacervo', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategorial_acervo'], 'integer'],
-            [['cdd', 'autor', 'titulo', 'editora', 'chamada'], 'safe'],
+            [['idcategorial_acervo'], 'integer'],
+            [['categoria'], 'safe'],
         ];
     }
 
@@ -41,7 +41,9 @@ class AcervoSearch extends Acervo
      */
     public function search($params)
     {
-        $query = Acervo::find();
+        $query = CategoriaAcervo::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,18 +57,12 @@ class AcervoSearch extends Acervo
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
-            'idacervo' => $this->idacervo,
-            'aquisicao_idaquisicao' => $this->aquisicao_idaquisicao,
-            'tipo_material_idtipo_material' => $this->tipo_material_idtipo_material,
-            'categoria_acervo_idcategorial_acervo' => $this->categoria_acervo_idcategorial_acervo,
+            'idcategorial_acervo' => $this->idcategorial_acervo,
         ]);
 
-        $query->andFilterWhere(['like', 'cdd', $this->cdd])
-            ->andFilterWhere(['like', 'autor', $this->autor])
-            ->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'editora', $this->editora])
-            ->andFilterWhere(['like', 'chamada', $this->chamada]);
+        $query->andFilterWhere(['like', 'categoria', $this->categoria]);
 
         return $dataProvider;
     }
