@@ -96,7 +96,7 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
-            [['user_rg'], 'string', 'max' => 12],
+
        //     [['email', 'username'], 'unique'],
         //    [['email', 'username'], 'filter', 'filter' => 'trim'],
 //            [['email'], 'email'],
@@ -168,7 +168,7 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => Yii::t('user', 'Updated At'),
             'banned_at' => Yii::t('user', 'Banned At'),
             'banned_reason' => Yii::t('user', 'Banned Reason'),
-            'user_rg'=> Yii::t('app', 'Rg'),
+          
 
             // virtual attributes set above
             'currentPassword' => Yii::t('user', 'Current Password'),
