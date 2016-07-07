@@ -5,6 +5,7 @@
 
 $('#tableresult').hide();
 $('#tableresult-exemplar').hide();
+$('#btSave').prop('disabled',true);
 
 $('#emprestimo-usuario_rg').blur(function () {
     var
@@ -25,7 +26,11 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#usuario-cargo').val(data.cargo);
                 $('#usuario-reparticao').val(data.reparticao);
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
-
+                $('#usuario-user_id').val(data.user_id);
+                /*$.get('get-user', {user_id: data.user_id}, function (data) {
+                    var data = $.parseJSON(data);
+                    console.log('password.:'+data.password);
+                });*/
             }
         });
     }
@@ -234,6 +239,31 @@ $('#btPesquisarExemplar').blur(function () {
                 $('#result-messagem-busca-exemplar').attr('class', 'alert alert-danger');
                 $('#result-messagem-busca-exemplar').html('Nenhum exemplar encontrado');
             }
+        });
+    }
+});
+
+$('#user-password').blur(function () {
+    var senha = $(this).val();
+    var user_id = $('#usuario-user_id').val();
+
+    if (senha != ' ' && senha.length > 0) {
+
+
+        $.get('validar-senha', {user_id: user_id, senha:senha}, function (data) {
+
+            var data = $.parseJSON(data);
+            if(data){
+                $('#message-senha-errada').hide();
+                $('#btSave').prop('disabled',false);
+
+            }else{
+                $('#message-senha-errada').attr('class', 'alert alert-danger');
+                $('#message-senha-errada').html('Senha incorreta');
+                $('#message-senha-errada').show();
+                $('#btSave').prop('disabled',true);
+            }
+
         });
     }
 });

@@ -72,12 +72,35 @@ class UsuarioSearch extends Usuario
         return $dataProvider;
     }
 
+    /***
+     * @param $rg
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function searchUsuario($rg)
+    {
+        $query =  Usuario::find()
+           
+            ->where(['rg'=>$rg])->one();
+        if($query != null){
+            return $query;
+        }
+        
+        return null;
 
+    }
+
+    /***
+     * @param $nomeUsuario
+     * @return array|null|\yii\db\ActiveRecord[]
+     */
     public function searchMatriculaUsuario($nomeUsuario)
     {
         $query = Usuario::find()->where(['like','nome',$nomeUsuario])->all();
 
 
-        return $query;
+        if($query != null){
+            return $query;
+        }
+        return null;
     }
 }
