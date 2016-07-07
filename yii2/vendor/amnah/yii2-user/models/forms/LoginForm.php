@@ -2,6 +2,8 @@
 
 namespace amnah\yii2\user\models\forms;
 
+use amnah\yii2\user\models\User;
+use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 
@@ -131,6 +133,12 @@ class LoginForm extends Model
                 $user->orWhere(["username" => $this->email]);
             }
             $this->user = $user->one();
+
+            /*
+             * Buscando o User pelo Rg do usuário
+             */
+
+            
         }
         return $this->user;
     }

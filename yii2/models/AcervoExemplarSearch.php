@@ -18,7 +18,7 @@ class AcervoExemplarSearch extends AcervoExemplar
     public function rules()
     {
         return [
-            [['idacervo_exemplar', 'acervo_idacervo'], 'integer'],
+            [['idacervo_exemplar', 'acervo_idacervo', 'esta_disponivel'], 'integer'],
             [['codigo_livro'], 'safe'],
         ];
     }
@@ -43,6 +43,8 @@ class AcervoExemplarSearch extends AcervoExemplar
     {
         $query = AcervoExemplar::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,13 +57,27 @@ class AcervoExemplarSearch extends AcervoExemplar
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'idacervo_exemplar' => $this->idacervo_exemplar,
             'acervo_idacervo' => $this->acervo_idacervo,
+            'esta_disponivel' => $this->esta_disponivel,
         ]);
 
         $query->andFilterWhere(['like', 'codigo_livro', $this->codigo_livro]);
 
         return $dataProvider;
+    }
+
+    public function searchExemplarByTitulo($tituloExemplar)
+    {
+        $query = AcervoExemplar::find()
+            ->joinWith('acervoIdacervo')
+            ->where(['like','titulo',$tituloExemplar])
+            ->andWhere(['esta_disponivel'=>1])
+            ->all();
+
+
+        return $query;
     }
 }

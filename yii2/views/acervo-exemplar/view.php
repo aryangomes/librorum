@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'idacervo_exemplar',
             'acervo_idacervo',
             'codigo_livro',
+            'esta_disponivel',
         ],
     ]) ?>
 

@@ -28,6 +28,7 @@ use ReflectionClass;
  * @property string $updated_at
  * @property string $banned_at
  * @property string $banned_reason
+ *  * @property string $user_rg
  *
  * @property Profile $profile
  * @property Role $role
@@ -95,10 +96,14 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
-            [['email', 'username'], 'unique'],
-            [['email', 'username'], 'filter', 'filter' => 'trim'],
-            [['email'], 'email'],
-            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
+
+
+            [['password'], 'required'],
+
+       //     [['email', 'username'], 'unique'],
+        //    [['email', 'username'], 'filter', 'filter' => 'trim'],
+//            [['email'], 'email'],
+         //   [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],
@@ -124,13 +129,13 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         // add required rules for email/username depending on module properties
-        $requireFields = ["requireEmail", "requireUsername"];
+      /*  $requireFields = ["requireEmail", "requireUsername"];
         foreach ($requireFields as $requireField) {
             if ($this->module->$requireField) {
                 $attribute = strtolower(substr($requireField, 7)); // "email" or "username"
                 $rules[] = [$attribute, "required"];
             }
-        }
+        }*/
 
         return $rules;
     }
@@ -166,6 +171,7 @@ class User extends ActiveRecord implements IdentityInterface
             'updated_at' => Yii::t('user', 'Updated At'),
             'banned_at' => Yii::t('user', 'Banned At'),
             'banned_reason' => Yii::t('user', 'Banned Reason'),
+          
 
             // virtual attributes set above
             'currentPassword' => Yii::t('user', 'Current Password'),
@@ -283,6 +289,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password);
+
     }
 
     /**
@@ -290,6 +297,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
+
         // check if we're setting $this->password directly
         // handle it by setting $this->newPassword instead
         $dirtyAttributes = $this->getDirtyAttributes();

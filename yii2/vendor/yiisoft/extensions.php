@@ -255,4 +255,22 @@ return array (
       '@kartik/widgets' => $vendorDir . '/kartik-v/yii2-widgets',
     ),
   ),
+  'kartik-v/yii2-grid' => 
+  array (
+    'name' => 'kartik-v/yii2-grid',
+    'version' => '3.1.1.0',
+    'alias' => 
+    array (
+      '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
+    ),
+  ),
+  'kartik-v/yii2-builder' => 
+  array (
+    'name' => 'kartik-v/yii2-builder',
+    'version' => '1.6.1.0',
+    'alias' => 
+    array (
+      '@kartik/builder' => $vendorDir . '/kartik-v/yii2-builder',
+    ),
+  ),
 );
