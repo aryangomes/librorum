@@ -39,7 +39,7 @@ class Emprestimo extends \yii\db\ActiveRecord
             [['dataprevisaodevolucao', 'usuario_idusuario', 'usuario_nome', 'usuario_rg', 'acervo_exemplar_idacervo_exemplar'], 'required'],
             [['usuario_idusuario', 'acervo_exemplar_idacervo_exemplar'], 'integer'],
             [['usuario_nome'], 'string', 'max' => 55],
-            [['usuario_rg'], 'string', 'max' => 11]
+            [['usuario_rg'], 'string', 'max' => 12]
         ];
     }
 

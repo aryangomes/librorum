@@ -105,6 +105,8 @@ class AdminController extends Controller
         }
 
         if ($userLoaded && $user->validate() && $profile->validate()) {
+            $user->username= $post['Usuario']['nome'];
+            $user->email  = $post['Usuario']['rg'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 

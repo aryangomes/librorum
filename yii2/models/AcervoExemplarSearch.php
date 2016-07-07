@@ -68,4 +68,16 @@ class AcervoExemplarSearch extends AcervoExemplar
 
         return $dataProvider;
     }
+
+    public function searchExemplarByTitulo($tituloExemplar)
+    {
+        $query = AcervoExemplar::find()
+            ->joinWith('acervoIdacervo')
+            ->where(['like','titulo',$tituloExemplar])
+            ->andWhere(['esta_disponivel'=>1])
+            ->all();
+
+
+        return $query;
+    }
 }

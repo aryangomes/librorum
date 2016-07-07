@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Modal;
-use kartik\widgets\DateTimePicker;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
 
@@ -17,14 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idemprestimo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
+        <?= !(isset($model->datadevolucao)) ?  Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idemprestimo],
+            ['class' => 'btn btn-primary']) : ''?>
+        <?= !(isset($model->datadevolucao)) ?  Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) : ''?>
 
         <!--   Devolução     -->
         <?php

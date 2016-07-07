@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\Acervo;
 
 use app\models\AcervoExemplar;
+use app\models\AcervoExemplarSearch;
 use app\models\Usuario;
+use app\models\UsuarioSearch;
 use Yii;
 use app\models\Emprestimo;
 use app\models\EmprestimoSearch;
@@ -197,8 +199,8 @@ class EmprestimoController extends Controller
      */
     public function actionGetBuscaUsuario($nomeUsuario)
     {
-        /*  $modelSearch = new UsuariosSearch();
-          $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);*/
+          $modelSearch = new UsuarioSearch();
+          $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);
 
 
         $usuario = [];
@@ -215,10 +217,7 @@ class EmprestimoController extends Controller
      */
     public function actionGetExemplar($codigoExemplar)
     {
-        /*  $modelSearch = new EmprestimosSearch();
-          $exemplar = $modelSearch->searchExemplar($idExemplar);
-
-          echo Json::encode([$exemplar, $exemplar["tipoMaterialIdtipo"]]);*/
+       
 
         $exemplar = AcervoExemplar::find()
             ->joinWith('acervoIdacervo')
@@ -242,6 +241,28 @@ class EmprestimoController extends Controller
 
 
         echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+    }
+
+    public function actionGetBuscaExemplar($tituloExemplar)
+    {
+        $modelSearch = new AcervoExemplarSearch();
+       $exemplares = $modelSearch->searchExemplarByTitulo($tituloExemplar);
+
+
+        $exemplar = [];
+
+        $auxexemplar = [];
+        foreach ($exemplares as $e){
+            array_push($exemplar , $e);
+            array_push($auxexemplar,$e['acervoIdacervo']);
+
+        }
+        if(count($exemplar) <= 0){
+            echo Json::encode(0);
+    }else {
+
+            echo Json::encode([$exemplar, $auxexemplar]);
+        }
     }
 
     /**

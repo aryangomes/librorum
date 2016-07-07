@@ -82,9 +82,9 @@ class DefaultController extends Controller
         // load post data and login
         $post = Yii::$app->request->post();
 //        var_dump($post);
-        if ($model->load($post)/* && $model->validate()*/) {
+        if ($model->load($post) && $model->validate()) {
 
-            $returnUrl = $this->performLogin($model->getUser($post['Usuario']['rg']), $model->rememberMe);
+            $returnUrl = $this->performLogin($model->getUser(), $model->rememberMe);
             return $this->redirect($returnUrl);
         }
 

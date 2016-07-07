@@ -2,10 +2,11 @@
 
 namespace app\models;
 
+use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Usuario;
+
 
 /**
  * UsuarioSearch represents the model behind the search form about `app\models\Usuario`.
@@ -69,5 +70,14 @@ class UsuarioSearch extends Usuario
             ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
+    }
+
+
+    public function searchMatriculaUsuario($nomeUsuario)
+    {
+        $query = Usuario::find()->where(['like','nome',$nomeUsuario])->all();
+
+
+        return $query;
     }
 }
