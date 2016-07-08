@@ -44,7 +44,7 @@ class Acervo extends \yii\db\ActiveRecord
             [['autor', 'titulo', 'editora'], 'string', 'max' => 100],
             [['aquisicao_idaquisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Aquisicao::className(), 'targetAttribute' => ['aquisicao_idaquisicao' => 'idaquisicao']],
             [['tipo_material_idtipo_material'], 'exist', 'skipOnError' => true, 'targetClass' => TipoMaterial::className(), 'targetAttribute' => ['tipo_material_idtipo_material' => 'idtipo_material']],
-            [['categoria_acervo_idcategoria_acervo'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaAcervo::className(), 'targetAttribute' => ['categoria_acervo_idcategoria_acervo' => 'idcategorial_acervo']],
+            [['categoria_acervo_idcategoria_acervo'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaAcervo::className(), 'targetAttribute' => ['categoria_acervo_idcategoria_acervo' => 'idcategoria_acervo']],
         ];
     }
 
