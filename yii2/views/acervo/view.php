@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
-$this->title = $model->idacervo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
+$this->title = $model->titulo;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view">
@@ -29,14 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'idacervo',
-            'cdd',
-            'autor',
             'titulo',
+            'autor',
             'editora',
+            'cdd',
             'chamada',
-            'aquisicao_idaquisicao',
-            'tipo_material_idtipo_material',
             'categoria_acervo_idcategoria_acervo',
+            'tipo_material_idtipo_material',
+            'aquisicao_idaquisicao',
         ],
     ]) ?>
 
