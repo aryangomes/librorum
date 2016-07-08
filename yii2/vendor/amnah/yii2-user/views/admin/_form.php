@@ -20,6 +20,7 @@ $role = $module->model("Role");
 <div class="user-form">
 
     <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data'],
         'enableAjaxValidation' => true,
     ]); ?>
 
@@ -71,7 +72,9 @@ $role = $module->model("Role");
 
 
 
-    <?= $form->field($user, 'newPassword')->passwordInput() ?>
+ <!--   --><?/*= $form->field($user, 'newPassword')->passwordInput() */?>
+
+    <?= $form->field($user, 'password')->passwordInput() ?>
 
     <?= $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
 
@@ -100,6 +103,9 @@ $role = $module->model("Role");
 
     <?= $form->field($user, 'banned_reason'); ?>
 
+
+    <?= $form->field($usuario, 'imageFile')->fileInput() ?>
+    
     <div class="form-group">
         <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
