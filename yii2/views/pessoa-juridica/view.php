@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\PessoaJuridica */
 
-$this->title = $model->pessoa_idpessoa;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pessoa Juridicas'), 'url' => ['index']];
+$this->title = $model->cnpj;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Legal People'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pessoa-juridica-view">

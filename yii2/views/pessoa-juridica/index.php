@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\PessoaJuridicaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Pessoa Juridicas');
+$this->title = Yii::t('app', 'Legal Person');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pessoa-juridica-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Pessoa Juridica'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Legal Person')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
