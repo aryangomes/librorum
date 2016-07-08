@@ -18,7 +18,7 @@ class CategoriaAcervoSearch extends CategoriaAcervo
     public function rules()
     {
         return [
-            [['idcategorial_acervo'], 'integer'],
+            [['idcategoria_acervo'], 'integer'],
             [['categoria'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class CategoriaAcervoSearch extends CategoriaAcervo
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idcategorial_acervo' => $this->idcategorial_acervo,
+            'idcategoria_acervo' => $this->idcategoria_acervo,
         ]);
 
         $query->andFilterWhere(['like', 'categoria', $this->categoria]);

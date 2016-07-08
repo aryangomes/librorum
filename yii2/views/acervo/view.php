@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'chamada',
             'aquisicao_idaquisicao',
             'tipo_material_idtipo_material',
+            'categoria_acervo_idcategoria_acervo',
         ],
     ]) ?>
 

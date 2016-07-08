@@ -7,9 +7,11 @@ use kartik\builder\FormGrid;
 
 use yii\web\JsExpression;
 use app\models\TipoMaterial;
+use app\models\CategoriaAcervo;
 
 $urltipomaterial = \yii\helpers\Url::to(['tipo-material/tipo-material-list']);
 $urltipoaquisicao = \yii\helpers\Url::to(['tipo-aquisicao/tipo-aquisicao-list']);
+$urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-list']);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -29,28 +31,45 @@ $urltipoaquisicao = \yii\helpers\Url::to(['tipo-aquisicao/tipo-aquisicao-list'])
             [
                 'contentBefore'=>'<legend class="text-info"><small>Material</small></legend>',
                 'attributes'=>[       // 2 column layout
+                    'categoria_acervo_idcategoria_acervo'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => 'kartik\widgets\Select2','options' => ['pluginOptions' =>[
+                        
+                        'placeholder'=>'Digite a categoria do material. Ex: Romance, Jornalismo ...',
+                        'allowClear' => true,
+                        'minimumInputLength' => 2,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => $urlcategoriaacervo,
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(tipo) { return tipo.text; }'),
+                        'templateSelection' => new JsExpression('function (tipo) { return tipo.text; }'),
+                    ]]],
                     'tipo_material_idtipo_material'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => 'kartik\widgets\Select2','options' => ['pluginOptions' =>[
                     
-                    'placeholder'=>'Digite o Tipo de Material. Ex: Livro, Revista ...',
-                    'allowClear' => true,
-                    'minimumInputLength' => 2,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => $urltipomaterial,
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(tipo) { return tipo.text; }'),
-                    'templateSelection' => new JsExpression('function (tipo) { return tipo.text; }'),
-                ]]],
-                    'titulo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Dom Casmurro']],
+                        'placeholder'=>'Digite o Tipo de Material. Ex: Livro, Revista ...',
+                        'allowClear' => true,
+                        'minimumInputLength' => 2,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => $urltipomaterial,
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(tipo) { return tipo.text; }'),
+                        'templateSelection' => new JsExpression('function (tipo) { return tipo.text; }'),
+                    ]]],
                 ]
             ],
             [
                 'attributes'=>[       // 1 column layout
+                    'titulo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Dom Casmurro']],
                     'autor'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Machado de Assis']],
                     'editora'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Abril']],
                 ],

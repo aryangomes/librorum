@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\CategoriaAcervo */
 
-$this->title = $model->idcategorial_acervo;
+$this->title = $model->idcategoria_acervo;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categoria Acervos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idcategorial_acervo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idcategorial_acervo], [
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idcategoria_acervo], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idcategoria_acervo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idcategorial_acervo',
+            'idcategoria_acervo',
             'categoria',
         ],
     ]) ?>

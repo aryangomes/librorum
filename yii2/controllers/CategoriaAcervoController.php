@@ -8,6 +8,7 @@ use app\models\CategoriaAcervoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 
 /**
  * CategoriaAcervoController implements the CRUD actions for CategoriaAcervo model.
@@ -66,7 +67,7 @@ class CategoriaAcervoController extends Controller
         $model = new CategoriaAcervo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcategorial_acervo]);
+            return $this->redirect(['view', 'id' => $model->idcategoria_acervo]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,7 +86,7 @@ class CategoriaAcervoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcategorial_acervo]);
+            return $this->redirect(['view', 'id' => $model->idcategoria_acervo]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -120,5 +121,24 @@ class CategoriaAcervoController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionCategoriaAcervoList($q = null, $idcategoria_acervo = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query->select('idcategoria_acervo AS id, categoria AS text')
+                ->from('categoria_acervo')
+                ->where(['like', 'categoria', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($idcategoria_acervo > 0) {
+            $out['results'] = ['id' => $idcategoria_acervo, 'text' => TipoMaterial::find($idcategoria_acervo)->categoria];
+        }
+        return $out;
     }
 }

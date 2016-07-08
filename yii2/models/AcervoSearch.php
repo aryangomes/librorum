@@ -18,7 +18,7 @@ class AcervoSearch extends Acervo
     public function rules()
     {
         return [
-            [['idacervo', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategorial_acervo'], 'integer'],
+            [['idacervo', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategoria_acervo'], 'integer'],
             [['cdd', 'autor', 'titulo', 'editora', 'chamada'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class AcervoSearch extends Acervo
             'idacervo' => $this->idacervo,
             'aquisicao_idaquisicao' => $this->aquisicao_idaquisicao,
             'tipo_material_idtipo_material' => $this->tipo_material_idtipo_material,
-            'categoria_acervo_idcategorial_acervo' => $this->categoria_acervo_idcategorial_acervo,
+            'categoria_acervo_idcategoria_acervo' => $this->categoria_acervo_idcategoria_acervo,
         ]);
 
         $query->andFilterWhere(['like', 'cdd', $this->cdd])
