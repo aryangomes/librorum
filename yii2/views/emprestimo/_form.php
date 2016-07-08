@@ -44,6 +44,33 @@ use kartik\builder\FormGrid;
     ]);
     ?>
 
+    <?= FormGrid::widget([
+        'model' => $user,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Senha do Usuário</small></legend>',
+                'attributes' => [
+
+                    'password' => ['type' => Form::INPUT_PASSWORD, 'options'=>
+                    ['value'=>'']
+                    ],
+
+
+                ],
+
+            ],
+
+
+        ]
+    ]);?>
+
+    <div id="message-senha-errada">
+
+
+    </div>
+    
     <!--   Busca de Usuário     -->
     <?php
     Modal::begin([
@@ -113,12 +140,14 @@ use kartik\builder\FormGrid;
                         ['disabled' => true]
                     ],
 
+
                 ]
             ],
 
         ]
     ]);
     ?>
+    <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 
     <?= FormGrid::widget([
         'model' => $exemplar,
@@ -269,7 +298,7 @@ use kartik\builder\FormGrid;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                'id'=>'btCreate']) ?>
+                'id'=>'btSave']) ?>
 
 
         <?= Html::resetButton('Limpar',

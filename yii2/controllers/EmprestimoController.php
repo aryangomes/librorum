@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use amnah\yii2\user\models\User;
 use app\models\Acervo;
 
 use app\models\AcervoExemplar;
@@ -71,7 +72,7 @@ class EmprestimoController extends Controller
         $usuario = new Usuario();
         $acervo = new Acervo();
         $exemplar = new AcervoExemplar();
-
+        $user = new User();
         //Definindo a data de Empréstimo
         date_default_timezone_set('America/Sao_Paulo');
         $model->dataemprestimo = date('Y-m-d H:i:s');
@@ -86,7 +87,8 @@ class EmprestimoController extends Controller
                 'model' => $model,
                 'usuario'=>$usuario,
                 'acervo'=>$acervo,
-                'exemplar'=>$exemplar
+                'exemplar'=>$exemplar,
+                'user'=>$user,
             ]);
         }
     }
@@ -103,6 +105,7 @@ class EmprestimoController extends Controller
         $usuario = Usuario::findOne([$model->usuario_idusuario,$model->usuario_rg,$model->usuario_nome]);
         $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
         $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
+        $user = User::findIdentity($usuario->user_id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idemprestimo]);
         } else {
@@ -110,7 +113,8 @@ class EmprestimoController extends Controller
                 'model' => $model,
                 'usuario'=>$usuario,
                 'acervo'=>$acervo,
-                'exemplar'=>$exemplar
+                'user'=>$user,
+                'exemplar'=>$exemplar,
             ]);
         }
     }
@@ -182,16 +186,30 @@ class EmprestimoController extends Controller
      */
     public function actionGetUsuario($rg)
     {
-        /* $modelSearch = new UsuariosSearch();
-         $usuario = $modelSearch->searchUsuario($matricula);*/
+         $modelSearch = new UsuarioSearch();
+         $usuario = $modelSearch->searchUsuario($rg);
 
-        $usuario = Usuario::find()->where(['rg'=>$rg])->one();
-
+     /*   var_dump(User::findIdentity($usuario->user_id)->validatePassword($password));
+var_dump(User::findIdentity($usuario->user_id)->password);*/
         echo Json::encode($usuario);
 
     }
 
 
+
+    public function actionValidarSenha($user_id,$senha)
+    {
+        $user = User::findIdentity($user_id);
+        if($user->validatePassword($senha)){
+            echo Json::encode(true);
+        }else{
+            echo Json::encode(false);
+        }
+
+
+    }
+    
+    
     /**
      * Retorna JSON com os dados do Usuário de acordo com o Nome do Usuário passado
      * @param $login
