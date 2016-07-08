@@ -52,7 +52,8 @@ class UsuarioController extends Controller
      * @return mixed
      */
     public function actionView($idusuario, $nome, $rg)
-    {
+        {
+
         return $this->render('view', [
             'model' => $this->findModel($idusuario, $nome, $rg),
         ]);
@@ -107,9 +108,15 @@ class UsuarioController extends Controller
      */
     public function actionDelete($idusuario, $nome, $rg)
     {
-        $this->findModel($idusuario, $nome, $rg)->delete();
+        $model =  $this->findModel($idusuario, $nome, $rg);
 
-        return $this->redirect(['index']);
+        if($model->delete()){
+        $this->findModel($idusuario, $nome, $rg)->deleteFoto();
+
+            return $this->redirect(['index']);
+        }
+
+
     }
 
     /**

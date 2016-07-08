@@ -12,6 +12,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 /**
@@ -103,14 +104,14 @@ class AdminController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($user, $profile);
         }
-
+   
         if ($userLoaded && $user->validate() && $profile->validate()) {
+
             $user->username= $post['Usuario']['nome'];
             $user->email  = $post['Usuario']['rg'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
-//            return $this->redirect(['view', 'id' => $user->id]);
            $usuario->nome = $post['Usuario']['nome'];
             $usuario->rg = $post['Usuario']['rg'];
             $usuario->cpf = $post['Usuario']['cpf'];
@@ -120,9 +121,17 @@ class AdminController extends Controller
             $usuario->telefone = $post['Usuario']['telefone'];
             $usuario->email = $post['Usuario']['email'];
             $usuario->user_id = $user->id;
+            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+            if($usuario->imageFile != null){
+
+            $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
+            }
+
 
             if ($usuario->save()) {
-                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+                $usuario->upload($usuario->nome) ;
+                return $this->redirect(['view', 'id' => $user->id]);
+//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
             }
 
         }
@@ -162,7 +171,8 @@ class AdminController extends Controller
             $user->username = $post['Usuario']['nome'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
-//            return $this->redirect(['view', 'id' => $user->id]);
+
+            if($usuario != null){
             $usuario->nome = $post['Usuario']['nome'];
             $usuario->rg = $post['Usuario']['rg'];
             $usuario->cpf = $post['Usuario']['cpf'];
@@ -171,10 +181,18 @@ class AdminController extends Controller
             $usuario->endereco = $post['Usuario']['endereco'];
             $usuario->telefone = $post['Usuario']['telefone'];
             $usuario->email = $post['Usuario']['email'];
+            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+            if($usuario->imageFile != null){
+                $usuario->deleteFoto();
+                $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
+            }
 
 
             if ($usuario->save()) {
-                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+                $usuario->upload($usuario->nome) ;
+                return $this->redirect(['view', 'id' => $user->id]);
+//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+            }
             }
         }
 
@@ -190,6 +208,11 @@ class AdminController extends Controller
      */
     public function actionDelete($id)
     {
+
+        $usuario =  Usuario::find()->where(['user_id'=>$id])->one();
+        if($usuario !=null) {
+            $usuario->deleteFoto();
+        }
         // delete profile and userTokens first to handle foreign key constraint
         $user = $this->findModel($id);
         $profile = $user->profile;
