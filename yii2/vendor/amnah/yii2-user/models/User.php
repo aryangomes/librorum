@@ -2,6 +2,7 @@
 
 namespace amnah\yii2\user\models;
 
+use app\models\Usuario;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -239,6 +240,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserAuths()
     {
         return $this->hasMany(UserAuth::className(), ['user_id' => 'id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsuario()
+    {
+        return $this->hasOne(Usuario::className(), ['user_id' => 'id']);
     }
 
     /**

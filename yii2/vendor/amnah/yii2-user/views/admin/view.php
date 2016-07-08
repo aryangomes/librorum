@@ -46,6 +46,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'banned_at',
             'banned_reason',
+            [
+                'attribute' => 'usuario.foto',
+//                'label' => Yii::t('user', 'FullName'),
+                'format' => 'raw',
+                'value' => isset($user->usuario->foto) ? Html::img($user->usuario->foto) : 'Não há foto'
+                ,
+            ],
         ],
     ]) ?>
 

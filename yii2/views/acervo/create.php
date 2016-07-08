@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
-$this->title = Yii::t('app', 'Create Acervo');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Catalog {model}', ['model'=> Yii::t('app', 'Collection')]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-create">

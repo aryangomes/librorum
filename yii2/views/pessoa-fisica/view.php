@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\PessoaFisica */
 
-$this->title = $model->pessoa_idpessoa;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pessoa Fisicas'), 'url' => ['index']];
+$this->title = $model->cpf;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Physical Person'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pessoa-fisica-view">

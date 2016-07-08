@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoMaterial */
 
-$this->title = Yii::t('app', 'Create Tipo Material');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tipo Materials'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Type Material')]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Type Materials'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tipo-material-create">

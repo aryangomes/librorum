@@ -18,12 +18,15 @@ use Yii;
  * @property string $email
  * @property integer $user_id
  * @property string $foto
+ *  * @property string $imageFile
  *
  * @property Emprestimo[] $emprestimos
  * @property User $user
  */
 class Usuario extends \yii\db\ActiveRecord
 {
+    public $imageFile;
+
     /**
      * @inheritdoc
      */
@@ -48,6 +51,8 @@ class Usuario extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 150],
             [['foto'], 'string', 'max' => 300],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+
+            [['imageFile'], 'file','skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -85,5 +90,43 @@ class Usuario extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+
+    public function upload($nomeUsuario)
+    {
+
+        if ($this->imageFile != null) {
+            $this->imageFile->saveAs($this->getPathLocal($nomeUsuario));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getPathWeb($nomeUsuario)
+    {
+
+        $nomeUsuario = strtolower(preg_replace('/\s+/', '',  $nomeUsuario));
+        return \Yii::getAlias("@web").'/uploads/imgs/fotos-usuarios/' . $this->imageFile->baseName . $nomeUsuario . '.' . $this->imageFile->extension;
+
+
+    }
+
+    public function getPathLocal($nomeUsuario)
+    {
+        $nomeUsuario = strtolower(preg_replace('/\s+/', '',  $nomeUsuario));
+        return \Yii::getAlias("@webroot").'/uploads/imgs/fotos-usuarios/' . $this->imageFile->baseName . $nomeUsuario . '.' . $this->imageFile->extension;
+
+
+    }
+
+    public function deleteFoto()
+    {
+        $path = \Yii::getAlias("@webroot") . substr($this->foto,strpos($this->foto,'/uploads/'));
+     
+        if (file_exists($path)) {
+            @unlink($path);
+        }
     }
 }

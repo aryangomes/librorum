@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Aquisicao */
 
-$this->title = Yii::t('app', 'Create Aquisicao');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Aquisicaos'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Acquisition')]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acquisitions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="aquisicao-create">

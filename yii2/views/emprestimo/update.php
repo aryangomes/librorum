@@ -5,10 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Emprestimo',
-]) . ' ' . $model->idemprestimo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Emprestimos'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Update {modelClass}: ',
+	['modelClass' => Yii::t('app', 'Loan')]) . ' ' . $model->idemprestimo;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->idemprestimo, 'url' => ['view', 'id' => $model->idemprestimo]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>

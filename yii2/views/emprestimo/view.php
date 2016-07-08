@@ -9,7 +9,7 @@ use yii\bootstrap\Modal;
 /* @var $model app\models\Emprestimo */
 
 $this->title = $model->idemprestimo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Emprestimos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="emprestimo-view">

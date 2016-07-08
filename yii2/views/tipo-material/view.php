@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoMaterial */
 
-$this->title = $model->idtipo_material;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tipo Materials'), 'url' => ['index']];
+$this->title = $model->nome;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Type Materials'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tipo-material-view">

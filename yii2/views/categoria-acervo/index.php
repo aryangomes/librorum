@@ -4,35 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\AquisicaoSearch */
+/* @var $searchModel app\models\CategoriaAcervoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Acquisitions');
+$this->title = Yii::t('app', 'Category Collection');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="aquisicao-index">
+<div class="categoria-acervo-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Acquisition')]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Category Collection')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idaquisicao',
-            'preco',
-            'quantidade',
-            'tipo_aquisicao_idtipo_aquisicao',
-            'pessoa_idpessoa',
+            'idcategoria_acervo',
+            'categoria',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
 </div>

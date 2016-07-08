@@ -5,11 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Acervo',
-]) . ' ' . $model->idacervo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idacervo, 'url' => ['view', 'id' => $model->idacervo]];
+$this->title = Yii::t('app', 'Update {modelClass}: ',
+	['modelClass' => Yii::t('app', 'Collection')]) . ' ' . $model->titulo;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->titulo, 'url' => ['view', 'id' => $model->idacervo]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="acervo-update">
