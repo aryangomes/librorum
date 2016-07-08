@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\CategoriaAcervo */
 
-$this->title = $model->idcategoria_acervo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categoria Acervos'), 'url' => ['index']];
+$this->title = $model->categoria;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Category Collection'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-acervo-view">
