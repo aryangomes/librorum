@@ -81,6 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public $password_repeat;
     public function init()
     {
         if (!$this->module) {
