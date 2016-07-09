@@ -42,16 +42,14 @@ $role = $module->model("Role");
             ],
             ],
             ],
-
-    ?>
-    <?= $form->field($usuario, 'rg')->textInput(['placeholder'=>'Digite o Rg do Usuário'])?>
-
+            'rg'=>['type'=>Form::INPUT_TEXT,
+                'options'=>['placeholder' => 'Digite o RG do Usuário']],
+            'cpf'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => MaskedInput::className(),
+                'options'=>['mask' => ['999.999.999-99']]],
         ],
+    ])
+    ?>
 
-
-
-
-    ]); ?>
 
 
 
