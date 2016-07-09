@@ -130,7 +130,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'usuario_nome',
             'usuario_rg',
             'acervo_exemplar_idacervo_exemplar',
+            
         ],
     ]) ?>
+
+    <?php
+    if($model->diasDiferenca > 0){
+        ?>
+        <div class="alert alert-info">
+           O exemplar já está emprestado a <strong><?= $model->diasDiferenca?></strong> dia(s) .
+        </div>
+    <?php
+    }
+    ?>
 
 </div>

@@ -19,7 +19,7 @@ class EmprestimoSearch extends Emprestimo
     {
         return [
             [['idemprestimo', 'usuario_idusuario', 'acervo_exemplar_idacervo_exemplar'], 'integer'],
-            [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao', 'usuario_nome', 'usuario_rg'], 'safe'],
+            [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao', 'usuario_nome', 'usuario_rg','diasDiferenca'], 'safe'],
         ];
     }
 
