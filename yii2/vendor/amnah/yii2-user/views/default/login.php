@@ -26,13 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ]); ?>
 
-    <?= $form->field($model, 'email')->widget(MaskedInput::className(), [
-        'mask' => ['99.999.999-9'],
-    ])->label('Rg'); ?>
-    <?= $form->field($model, 'password')->passwordInput()->label('Senha') ?>
-    <?= $form->field($model, 'rememberMe', [
+    <?= $form->field($model, 'email')->textInput([
+        'placeholder' => 'Digite o RG',
+    ]); ?>
+    <?= $form->field($model, 'password')->passwordInput([ 'placeholder' => 'Digite a senha',])->label('Senha') ?>
+<!--    --><?/*= $form->field($model, 'rememberMe', [
         'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-    ])->checkbox() ?>
+    ])->checkbox() */?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
