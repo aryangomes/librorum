@@ -200,7 +200,7 @@ var_dump(User::findIdentity($usuario->user_id)->password);*/
     public function actionValidarSenha($user_id,$senha)
     {
         $user = User::findIdentity($user_id);
-        if($user->validatePassword($senha)){
+        if( $user!=null && $user->validatePassword($senha)){
             echo Json::encode(true);
         }else{
             echo Json::encode(false);
@@ -221,11 +221,15 @@ var_dump(User::findIdentity($usuario->user_id)->password);*/
           $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);
 
 
+        if($usuarios != null){
         $usuario = [];
         foreach ($usuarios as $u){
             array_push($usuario , $u);
         }
         echo Json::encode($usuario);
+        }else{
+            echo Json::encode(null);
+        }
     }
 
     /**

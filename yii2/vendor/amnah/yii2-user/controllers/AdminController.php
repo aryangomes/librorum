@@ -169,6 +169,7 @@ class AdminController extends Controller
         // load post data and validate
         if ($userLoaded && $user->validate() && $profile->validate()) {
             $user->username = $post['Usuario']['nome'];
+            $user->email  = $post['Usuario']['rg'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 

@@ -17,8 +17,14 @@ use kartik\builder\FormGrid;
 
     <?php
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);
+    ?>
 
-    echo FormGrid::widget([
+    <?php
+
+
+    use kartik\tabs\TabsX;
+
+    $tabUsuario = FormGrid::widget([
         'model' => $model,
         'form' => $form,
         'autoGenerateColumns' => true,
@@ -27,9 +33,7 @@ use kartik\builder\FormGrid;
                 'contentBefore' => '<legend class="text-info"><small>Usuário</small></legend>',
                 'attributes' => [
 
-                    'usuario_rg' => ['type' => Form::INPUT_WIDGET,'widgetClass' => '\yii\widgets\MaskedInput', 'options' =>
-                        [ 'mask' => ['99.999.999-9']]
-                    ],
+                    'usuario_rg' => ['type' => Form::INPUT_TEXT,],
                     'usuario_nome' => ['type' => Form::INPUT_TEXT, 'options' =>
                         ['disabled' => true]
                     ],
@@ -42,85 +46,30 @@ use kartik\builder\FormGrid;
 
         ]
     ]);
-    ?>
 
-    <?= FormGrid::widget([
-        'model' => $user,
-        'form' => $form,
-        'autoGenerateColumns' => true,
-        'rows' => [
-            [
-                'contentBefore' => '<legend class="text-info"><small>Senha do Usuário</small></legend>',
-                'attributes' => [
+    $tabSenhadoUsuario = FormGrid::widget([
+            'model' => $user,
+            'form' => $form,
+            'autoGenerateColumns' => true,
+            'rows' => [
+                [
+                    'contentBefore' => '<legend class="text-info"><small>Senha do Usuário</small></legend>',
+                    'attributes' => [
 
-                    'password' => ['type' => Form::INPUT_PASSWORD, 'options'=>
-                    ['value'=>'']
+                        'password' => ['type' => Form::INPUT_PASSWORD, 'options' =>
+                            ['value' => '']
+                        ],
+
+
                     ],
-
 
                 ],
 
-            ],
 
+            ]
+        ]) . "  <div id=\"message-senha-errada\"></div>";
 
-        ]
-    ]);?>
-
-    <div id="message-senha-errada">
-
-
-    </div>
-    
-    <!--   Busca de Usuário     -->
-    <?php
-    Modal::begin([
-        'header' => '<h2>Buscar Usuário</h2>',
-        'toggleButton' => ['label' => 'Buscar Usuário', 'class' => 'btn btn-primary btn-block',],
-
-    ]);
-
-    ?>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-4">
-                <?= Html::label('Nome do usuário', 'busca-usuario') ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <?= Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
-                    'placeholder' => 'Digite o nome do usuário']) ?>
-            </div>
-            <div class="col-md-2">
-                <?= Html::button('Pesquisar', ['id'=>'btPesquisar','class' => 'btn btn-primary']) ?>
-            </div>
-        </div>
-    </div>
-
-    <div id="result-messagem-busca-usuario">
-    </div>
-    <table id="tableresult" class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>RG</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody id="tbody-result">
-
-        </tbody>
-    </table>
-
-
-    <?php
-
-
-    Modal::end();
-    ?>
-    <!--    Busca de Usuário      -->
-
-    <?= FormGrid::widget([
+    $tabDadosusuario = FormGrid::widget([
         'model' => $usuario,
         'form' => $form,
         'autoGenerateColumns' => true,
@@ -146,86 +95,99 @@ use kartik\builder\FormGrid;
 
         ]
     ]);
-    ?>
-    <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 
-    <?= FormGrid::widget([
-        'model' => $exemplar,
-        'form' => $form,
-        'autoGenerateColumns' => true,
-        'rows' => [
-
-            [
-                'contentBefore' => '<legend class="text-info"><small>Código Exemplar</small></legend>',
-                'attributes' => [
-
-                    'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
-                        ['placeholder' => 'Digite o código do exemplar']
-                    ],
-
-
-                ]
-            ],
-
-        ]
-    ]);
-    ?>
-
-    <!--   Busca de Exemplar     -->
-    <?php
-    Modal::begin([
-        'header' => '<h2>Buscar Usuário</h2>',
-        'toggleButton' => ['label' => 'Buscar Exemplar', 'class' => 'btn btn-primary btn-block',],
-
-    ]);
-
-    ?>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-4">
-                <?= Html::label('Nome do usuário', 'busca-exemplar') ?>
+    $tabBuscarUsuario = "  <div class=\"form-group\">
+            <div class=\"row\">
+                <div class=\"col-md-4\">
+                    " . Html::label('Nome do usuário', 'busca-usuario') . "
+                </div>
+            </div>
+            <div class=\"row\">
+                <div class=\"col-md-8\">
+                   " . Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
+            'placeholder' => 'Digite o nome do usuário']) . "
+                </div>
+                <div class=\"col-md-2\">
+                   " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary']) . "
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <?= Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
-                    'placeholder' => 'Digite o título do exemplar']) ?>
+
+        <div id=\"result-messagem-busca-usuario\">
+        </div>
+        <table id=\"tableresult\" class=\"table table-bordered\">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>RG</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id=\"tbody-result\">
+
+            </tbody>
+        </table>";
+
+
+    $tabExemplar = FormGrid::widget([
+            'model' => $exemplar,
+            'form' => $form,
+            'autoGenerateColumns' => true,
+            'rows' => [
+
+                [
+                    'contentBefore' => '<legend class="text-info"><small>Código Exemplar</small></legend>',
+                    'attributes' => [
+
+                        'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
+                            ['placeholder' => 'Digite o código do exemplar']
+                        ],
+
+
+                    ]
+                ],
+
+            ]
+        ]) . "  <div id=\"message-indisponivel-exemaplar\"> </div>";
+
+    $tabBuscaExemplar = " <div class=\"form-group\">
+            <div class=\"row\">
+                <div class=\"col-md-4\">
+                  " . Html::label('Nome do usuário', 'busca-exemplar') . "
+                </div>
             </div>
-            <div class="col-md-2">
-                <?= Html::button('Pesquisar', ['id'=>'btPesquisarExemplar','class' => 'btn btn-primary']) ?>
+            <div class=\"row\">
+                <div class=\"col-md-8\">
+                    " . Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
+            'placeholder' => 'Digite o título do exemplar']) . "
+                </div>
+                <div class=\"col-md-2\">
+                    " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary']) . "
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="result-messagem-busca-exemplar">
-    </div>
-    <table id="tableresult-exemplar" class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Código Exemplar</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody id="tbody-result-exemplar">
+        <div id=\"result-messagem-busca-exemplar\">
+        </div>
+        <table id=\"tableresult-exemplar\" class=\"table table-bordered\">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Código Exemplar</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id=\"tbody-result-exemplar\">
 
-        </tbody>
-    </table>
-
-
-    <?php
+            </tbody>
+        </table> <div id=\"message-indisponivel-exemaplar\">
 
 
-    Modal::end();
-    ?>
-    <!--    Busca de Exemplar      -->
+        </div>
+";
 
-    <div id="message-indisponivel-exemaplar">
-
-
-    </div>
-    <?= FormGrid::widget([
+    $tabAcervo = FormGrid::widget([
         'model' => $acervo,
         'form' => $form,
         'autoGenerateColumns' => true,
@@ -248,9 +210,9 @@ use kartik\builder\FormGrid;
 
         ]
     ]);
-    ?>
 
-    <?= FormGrid::widget([
+
+    $tabEmprestimo = FormGrid::widget([
         'model' => $model,
         'form' => $form,
         'autoGenerateColumns' => true,
@@ -266,7 +228,7 @@ use kartik\builder\FormGrid;
                     ],
 
                     'dataprevisaodevolucao' => ['type' => Form::INPUT_TEXT, 'options' =>
-                        ['disabled' => true,"id" => "lb-dataprevisaodevolucao",
+                        ['disabled' => true, "id" => "lb-dataprevisaodevolucao",
                         ]
                     ],
 
@@ -275,30 +237,72 @@ use kartik\builder\FormGrid;
 
         ]
     ]);
+
+    $items = [
+        [
+            'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Usuário',
+            'content' => $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
+            'active' => true,
+            'options'=>['id'=>'tab-usuario']
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Exemplar',
+            'content' => $tabExemplar.$tabAcervo,
+            'options'=>['id'=>'tab-exemplar']
+
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Empréstimo',
+            'content' => $tabEmprestimo,
+            'options'=>['id'=>'tab-emprestimo']
+        ],
+        [
+            'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Realizar busca',
+            'items'=>[
+                [
+                    'label'=>'Buscar Usuário',
+                    'encode'=>false,
+                    'content'=>$tabBuscarUsuario,
+                    'options'=>['id'=>'tab-busca-usuario']
+                ],
+                [
+                    'label'=>'Buscar Exemplar',
+                    'encode'=>false,
+                    'content'=>$tabBuscaExemplar,
+                    'options'=>['id'=>'tab-busca-exemplar']
+                ],
+            ],
+        ],
+
+    ];
+    // Above
+    echo TabsX::widget([
+        'items' => $items,
+        'position' => TabsX::POS_ABOVE,
+        'encodeLabels' => false
+    ]);
     ?>
 
-
-    <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
-
-    <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
-
-    <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
-
-    <?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
-
-    <div id="message-indisponivel-exemaplar">
+        <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 
 
+        <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
+
+        <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
+
+        <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
+
+        <?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
+
+
+
+        <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
     </div>
-
-    <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
-
-
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                'id'=>'btSave']) ?>
+                'id' => 'btSave']) ?>
 
 
         <?= Html::resetButton('Limpar',
@@ -307,7 +311,7 @@ use kartik\builder\FormGrid;
 
     <?php ActiveForm::end(); ?>
     <?php
-    $this->registerJsFile(\Yii::getAlias("@web").'/js/js-emprestimo-form.js',
+    $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js',
         ['depends' => [\yii\web\JqueryAsset::className()]]);
     ?>
 </div>
@@ -328,7 +332,12 @@ use kartik\builder\FormGrid;
             $('#usuario-reparticao').val(usuario.reparticao);
             $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
             $('#usuario_idusuario').val(usuario.idusuario);
-            console.log('usuario.idusuario.:'+usuario.idusuario);
+            $('#usuario-user_id').val(usuario.user_id);
+            $('#w14 li:eq(0)').removeClass();
+            $('#w13 li:eq(0)').addClass("active");
+            $("#w13-dd3-tab0").removeClass();
+            $("#w13-dd3-tab0").addClass("tab-pane fade");
+            $("#tab-usuario").addClass("tab-pane fade in active");
 
         });
 
@@ -345,11 +354,14 @@ use kartik\builder\FormGrid;
             $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(exemplar[0].idacervo_exemplar);
             $('#acervo-titulo').val(exemplar[1].titulo);
             $('#acervo-autor').val(exemplar[1].autor);
-
+            $('#w14 li:eq(1)').removeClass();
+            $('#w13 li:eq(1)').addClass("active");
+            $("#w13-dd3-tab1").removeClass();
+            $("#w13-dd3-tab1").addClass("tab-pane fade");
+            $("#tab-exemplar").addClass("tab-pane fade in active");
         });
 
     }
-
 
 
 </script>
