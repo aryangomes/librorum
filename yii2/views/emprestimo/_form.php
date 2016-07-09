@@ -67,7 +67,7 @@ use kartik\builder\FormGrid;
 
 
             ]
-        ]) . "  <div id=\"message-senha-errada\"></div>";
+        ]) . " <div id=\"message-senha-errada\"></div>";
 
     $tabDadosusuario = FormGrid::widget([
         'model' => $usuario,
@@ -286,6 +286,31 @@ use kartik\builder\FormGrid;
         'encodeLabels' => false
     ]);
     ?>
+
+    <!--   Alterar Senha     -->
+    <?php
+    Modal::begin([
+        'header' => '<h2>Cadastrar Nova Senha</h2>',
+        'id' => 'modalalterarsenha',
+    ]);
+     ?>
+
+    <?= Html::passwordInput('user-password','',['maxlength' => true,'class' => 'form-control',
+        'placeholder' => 'Digite a nova senha','id'=>'user-newpassword'])
+  ?>
+
+
+    <div class="form-group">
+        <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+    </div>
+
+
+    <div id="message-resetar-senha"></div>
+
+    <?php
+    Modal::end();
+    ?>
+    <!--    Alterar Senha     -->
 
         <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 

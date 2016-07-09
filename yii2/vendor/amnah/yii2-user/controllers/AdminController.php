@@ -7,6 +7,7 @@ use Yii;
 use amnah\yii2\user\models\User;
 use amnah\yii2\user\models\UserToken;
 use amnah\yii2\user\models\UserAuth;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -242,5 +243,19 @@ class AdminController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionResetarSenha($id,$novaSenha){
+            $user = $this->findModel($id);
+            if($user !=null){
+                $user->newPassword = $novaSenha;
+                if($user->save(false)){
+                    echo Json::encode(true);
+                }else{
+                    echo Json::encode(false);
+                }
+            }else{
+                echo Json::encode(false);
+            }
     }
 }
