@@ -5,6 +5,8 @@
 
 $('#tableresult').hide();
 $('#tableresult-exemplar').hide();
+$('#form-exemplar').hide();
+$('#form-emprestimo').hide();
 $('#btSave').prop('disabled',true);
 
 $('#emprestimo-usuario_rg').blur(function () {
@@ -27,10 +29,7 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#usuario-reparticao').val(data.reparticao);
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
                 $('#usuario-user_id').val(data.user_id);
-                /*$.get('get-user', {user_id: data.user_id}, function (data) {
-                    var data = $.parseJSON(data);
-                    console.log('password.:'+data.password);
-                });*/
+                $('#btSave').prop('disabled',true);
             }
         });
     }
@@ -38,9 +37,8 @@ $('#emprestimo-usuario_rg').blur(function () {
 
 
 $('#acervoexemplar-codigo_livro').blur(function () {
-    var
-        codigoExemplar = $(this).val();
-    if (codigoExemplar != ' ') {
+    var codigoExemplar = $(this).val();
+    if (codigoExemplar != ' ' && codigoExemplar.length >0) {
 
 
         $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
@@ -57,14 +55,24 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                         "<strong>Alerta!</strong> Exemplar indisponível no momento." +
                         "</div>");
                     $('button[type="submit"]').prop('disabled', true);
+                    $('#form-exemplar').show();
+                    $('#form-emprestimo').hide();
 
                 } else {
                     $("#message-indisponivel-exemaplar").html("");
                     $('button[type="submit"]').prop('disabled', false);
+                    $('#form-exemplar').hide();
+                    $('#form-emprestimo').show();
+                    $('#btSave').prop('disabled',true);
                 }
+                $('#btSave').prop('disabled',false);
+            } else {
+                $('#btSave').prop('disabled',true);
             }
 
         });
+    }else {
+        $('#btSave').prop('disabled',true);
     }
 });
 
@@ -89,13 +97,13 @@ $('#busca-usuario').blur(function () {
 
             var data = $.parseJSON(data);
             console.log(data);
-            if (data.length > 0) {
+            if (data != null) {
                 $('#tableresult').show();
                 $('#tbody-result').html('');
 
                 $('#usuario-rg').val(data.rg);
                 $('#result-messagem-busca-usuario').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-usuario').html('</b>Matrículas encontradas</b>');
+                $('#result-messagem-busca-usuario').html('</b>RG encontrado(s)</b>');
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
                     $('#tbody-result').append(
@@ -107,7 +115,7 @@ $('#busca-usuario').blur(function () {
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
                 $('#result-messagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-usuario').html('Nenhuma matrícula encontrada');
+                $('#result-messagem-busca-usuario').html('Nenhumo RG encontrado');
             }
         });
     }
@@ -129,7 +137,8 @@ $('#btPesquisar').click(function () {
 
                 $('#usuario-rg').val(data.rg);
                 $('#result-messagem-busca-usuario').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-usuario').html('</b>Matrículas encontradas</b>');
+                $('#result-messagem-busca-usuario').html('</b>RG encontrado(s)</b>');
+
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
                     $('#tbody-result').append(
@@ -141,7 +150,7 @@ $('#btPesquisar').click(function () {
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
                 $('#result-messagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-usuario').html('Nenhuma matrícula encontrada');
+                $('#result-messagem-busca-usuario').html('Nenhumo RG encontrado');
             }
         });
     }
@@ -161,7 +170,7 @@ $('#busca-exemplar').blur(function () {
                 $('#tableresult-exemplar').show();
                 $('#tbody-result-exemplar').html('');
                 $('#result-messagem-busca-exemplar').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-exemplar').html('</b>Exemplares encontrados</b>');
+                $('#result-messagem-busca-exemplar').html('</b>Exemplares encontrado(s)</b>');
                 var codigoslivro = [];
                 var titulos = [];
                 var autores = [];
@@ -251,19 +260,23 @@ $('#user-password').blur(function () {
 
 
         $.get('validar-senha', {user_id: user_id, senha:senha}, function (data) {
-
+            console.log(data);
             var data = $.parseJSON(data);
             if(data){
                 $('#message-senha-errada').hide();
                 $('#btSave').prop('disabled',false);
-
+                $('#form-usuario').hide();
+                $('#form-exemplar').show();
             }else{
                 $('#message-senha-errada').attr('class', 'alert alert-danger');
                 $('#message-senha-errada').html('Senha incorreta');
                 $('#message-senha-errada').show();
                 $('#btSave').prop('disabled',true);
-            }
+                $('#form-usuario').show();
+                $('#form-exemplar').hide();
 
+            }
+            $('#btSave').prop('disabled',true);
         });
     }
 });
