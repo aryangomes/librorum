@@ -72,7 +72,7 @@ class Usuario extends \yii\db\ActiveRecord
             'telefone' => Yii::t('app', 'Telefone'),
             'email' => Yii::t('app', 'Email'),
             'user_id' => Yii::t('app', 'User ID'),
-            'foto' => Yii::t('app', 'Foto'),
+            'imageFile' => Yii::t('app', 'Foto'),
         ];
     }
 

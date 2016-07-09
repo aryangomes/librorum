@@ -1,9 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use \yii\widgets\MaskedInput;
 use kartik\form\ActiveForm;
-
+use kartik\builder\Form;
+use yii\widgets\MaskedInput;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\Module $module
@@ -12,6 +12,7 @@ use kartik\form\ActiveForm;
  * @var amnah\yii2\user\models\Role $role
  * @var yii\widgets\ActiveForm $form
  */
+use kartik\widgets\FileInput;
 
 $module = $this->context->module;
 $role = $module->model("Role");
@@ -19,62 +20,118 @@ $role = $module->model("Role");
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin([
-        'options' => ['enctype' => 'multipart/form-data'],
-        'enableAjaxValidation' => true,
+
+
+    <?php $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL,
+        'enableAjaxValidation' => true,'options' => ['enctype' => 'multipart/form-data'],
     ]); ?>
 
-    <?= $form->field($usuario, 'nome', [
-        'feedbackIcon' => [
-            //'prefix' => 'fa fa-',
-            'default' => 'user',
-            'success' => 'user-plus',
-            'error' => 'user-times',
-            'defaultOptions' => ['class'=>'text-warning']
-        ]
-    ])->textInput(['placeholder'=>'Enter username...']);
+    <?php echo Form::widget([
+        'model'=>$usuario,
+        'form'=>$form,
+        'autoGenerateColumns' => true,
+        'contentBefore' => '<legend class="text-info"><small>Dados Pessoais</small></legend>',
+        'attributes'=>[
+            // 2 column layout
+            'nome'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Nome Para o Usuário'),'feedbackIcon' => [
+                //'prefix' => 'fa fa-',
+                'default' => 'user',
+                'success' => 'user-plus',
+                'error' => 'user-times',
+                'defaultOptions' => ['class'=>'text-warning'],
+            ],
+            ],
+            ],
 
     ?>
     <?= $form->field($usuario, 'rg')->textInput(['placeholder'=>'Digite o Rg do Usuário'])?>
 
-    <?=  $form->field($usuario, 'cpf')->widget(MaskedInput::className(), [
-        'mask' => ['999.999.999-99'],
+        ],
+
+
+
+
     ]); ?>
 
-    <?= $form->field($usuario, 'cargo')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'reparticao')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'endereco')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'telefone', [
-        'feedbackIcon' => [
-            //'prefix' => 'fa fa-',
-            'default' => 'phone',
-            'success' => 'check-circle',
-            'error' => 'exclamation-circle',
-        ]
-    ])->widget(MaskedInput::className(), [
-        'mask' => '(99)99999-9999'
-    ]);?>
-
-    <?= $form->field($usuario, 'email', [
-        'feedbackIcon' => [
-            'default' => 'envelope',
-            'success' => 'ok',
-            'error' => 'exclamation-sign',
-            'defaultOptions' => ['class'=>'text-primary']
-        ]
-    ])->textInput(['placeholder'=>yii::t('app','Enter a valid email address...')]);
-    ?>
 
 
+    <?php echo Form::widget([
+        'model'=>$usuario,
+        'form'=>$form,
+        'columns'=>2,
+        'contentBefore' => '<legend class="text-info"><small>Contatos</small></legend>',
+        'attributes'=>[
+            // 2 column layout
+            'telefone'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => MaskedInput::className(), 'options'=>[
+                'mask' => '(99)99999-9999'],
+            ],
 
- <!--   --><?/*= $form->field($user, 'newPassword')->passwordInput() */?>
+            'email'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Enter a valid email address...'),'feedbackIcon' => [
+                //'prefix' => 'fa fa-',
+                'feedbackIcon' => [
+                    'default' => 'envelope',
+                    'success' => 'ok',
+                    'error' => 'exclamation-sign',
+                    'defaultOptions' => ['class'=>'text-primary']
 
-    <?= $form->field($user, 'password')->passwordInput() ?>
+                ],
+            ],
+            ],
+            ],
+        ],
 
-    <?= $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
+    ]); ?>
+
+
+    <?php echo Form::widget([
+        'model'=>$usuario,
+        'form'=>$form,
+        'columns'=>3,
+        'contentBefore' => '<legend class="text-info"><small>Dados Diversos</small></legend>',
+        'attributes'=>[
+            'cargo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Cargo do Usuário'),'maxlength' => true]],
+            'reparticao'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Repartição do Usuário'),'maxlength' => true]],
+            'endereco'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Endereço do Usuário'),'maxlength' => true]],
+
+
+        ],
+
+
+
+    ]); ?>
+
+
+    <?php echo Form::widget([
+        'model'=>$user,
+        'form'=>$form,
+        'columns'=>3,
+        'contentBefore' => '<legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>',
+        'attributes'=>[
+            // 2 column layout
+            //'newPassword'=>['type'=>Form::INPUT_PASSWORD],
+
+            'password'=>['type'=>Form::INPUT_PASSWORD],
+            'role_id'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $role::dropdown()]],
+            'status'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $user::statusDropdown()]],
+
+
+        ],
+
+
+
+    ]); ?>
+
+
+
+
+
+
+    
+
+
+
+
+    <?php  $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
 
     <?php
 
@@ -85,25 +142,35 @@ $role = $module->model("Role");
     ");
     ?>
 
-    <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
-
-    <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
 
 
 
 
-    <?php // use checkbox for banned_at ?>
-    <?php // convert `banned_at` to int so that the checkbox gets set properly ?>
-    <?php $user->banned_at = $user->banned_at ? 1 : 0 ?>
-    <?= Html::activeLabel($user, 'banned_at', ['label' => Yii::t('user', 'Banned')]); ?>
-    <?= Html::activeCheckbox($user, 'banned_at'); ?>
-    <?= Html::error($user, 'banned_at'); ?>
-
-    <?= $form->field($user, 'banned_reason'); ?>
 
 
-    <?= $form->field($usuario, 'imageFile')->fileInput() ?>
-    
+
+
+    <?=  $form->field($usuario, 'imageFile')->widget(FileInput::classname(), [
+
+        'pluginOptions' => [
+            //'uploadUrl' => url::to(['@web/upload/imagens']),
+
+
+            // permite habilitar ou desabilitar o botão de upload
+            'showUpload' => false,
+            //'minImageWidth' => 900,
+            //'minImageHeight' => 300,
+            //'maxImageWidth' =>900,
+            //'maxImageHeight' => 300
+
+        ],
+
+
+        'options' => ['accept' => 'image/jpeg, image/png'],
+
+    ]);
+    ?>
+
     <div class="form-group">
         <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
