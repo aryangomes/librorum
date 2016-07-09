@@ -35,9 +35,7 @@ $role = $module->model("Role");
     ])->textInput(['placeholder'=>'Enter username...']);
 
     ?>
-    <?= $form->field($usuario, 'rg')->widget(MaskedInput::className(), [
-        'mask' => ['99.999.999-9'],
-    ]);?>
+    <?= $form->field($usuario, 'rg')->textInput(['placeholder'=>'Digite o Rg do Usuário'])?>
 
     <?=  $form->field($usuario, 'cpf')->widget(MaskedInput::className(), [
         'mask' => ['999.999.999-99'],

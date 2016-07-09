@@ -46,7 +46,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
 
             var
                 data = $.parseJSON((data));
-            if (data != null) {
+            if (data != null) { 
                 $('#acervo-titulo').val(data[1].titulo);
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
@@ -66,6 +66,11 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                     $('#btSave').prop('disabled',true);
                 }
                 $('#btSave').prop('disabled',false);
+                $('#w13 li:eq(1)').removeClass();
+                $('#w13 li:eq(2)').addClass("active");
+                $("#tab-exemplar").removeClass();
+                $("#tab-exemplar").addClass("tab-pane fade");
+                $("#tab-emprestimo").addClass("tab-pane fade in active");
             } else {
                 $('#btSave').prop('disabled',true);
             }
@@ -109,7 +114,7 @@ $('#busca-usuario').blur(function () {
                     $('#tbody-result').append(
                         '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
-
+           
             } else {
                 data = null;
                 $('#tableresult').hide();
@@ -267,6 +272,11 @@ $('#user-password').blur(function () {
                 $('#btSave').prop('disabled',false);
                 $('#form-usuario').hide();
                 $('#form-exemplar').show();
+                $('#w13 li:eq(0)').removeClass();
+                $('#w13 li:eq(1)').addClass("active");
+                $("#tab-usuario").removeClass();
+                $("#tab-usuario").addClass("tab-pane fade");
+                $("#tab-exemplar").addClass("tab-pane fade in active");
             }else{
                 $('#message-senha-errada').attr('class', 'alert alert-danger');
                 $('#message-senha-errada').html('Senha incorreta');

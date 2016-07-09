@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "amnah/yii2-user": "^5.0",
         "kartik-v/yii2-widgets": "^3.4",
-        "kartik-v/yii2-builder": "^1.6"
+        "kartik-v/yii2-builder": "^1.6",
+        "kartik-v/yii2-tabs-x": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
