@@ -29,6 +29,7 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#usuario-reparticao').val(data.reparticao);
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
                 $('#usuario-user_id').val(data.user_id);
+                $('#foto-usuario').attr("src",data.foto);
                 $('#btSave').prop('disabled',true);
             }
         });

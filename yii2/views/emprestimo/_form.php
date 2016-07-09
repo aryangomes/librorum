@@ -78,7 +78,11 @@ use kartik\builder\FormGrid;
             [
                 'contentBefore' => '<legend class="text-info"><small>Informações do Usuário</small></legend>',
                 'attributes' => [
-
+                   
+                    'foto' => ['type' => Form::INPUT_RAW,'value'=>Html::img('#',['id' => 'foto-usuario',
+                        'class'=>"img-thumbnail img-responsive",'width'=>"304" ,'height'=>"236",
+                    ]),
+                    ],
                     'cpf' => ['type' => Form::INPUT_TEXT, 'options' =>
                         ['disabled' => true]
                     ],
@@ -333,6 +337,7 @@ use kartik\builder\FormGrid;
             $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
             $('#usuario_idusuario').val(usuario.idusuario);
             $('#usuario-user_id').val(usuario.user_id);
+            $('#foto-usuario').attr("src",data.foto);
             $('#w14 li:eq(0)').removeClass();
             $('#w13 li:eq(0)').addClass("active");
             $("#w13-dd3-tab0").removeClass();
