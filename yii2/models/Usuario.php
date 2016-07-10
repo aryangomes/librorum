@@ -51,7 +51,7 @@ class Usuario extends \yii\db\ActiveRecord
             [['email'], 'string', 'max' => 150],
             [['foto'], 'string', 'max' => 300],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-
+            [['situacaoUsuarioIdsituacaoUsuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
             [['imageFile'], 'file','skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
@@ -73,6 +73,7 @@ class Usuario extends \yii\db\ActiveRecord
             'email' => Yii::t('app', 'Email'),
             'user_id' => Yii::t('app', 'User ID'),
             'imageFile' => Yii::t('app', 'Foto'),
+            'situacaoUsuarioIdsituacaoUsuario' => yii::t('app','Situação Do Usuário'),
         ];
     }
 
@@ -92,6 +93,10 @@ class Usuario extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function getSituacaoUsuarioIdsituacaoUsuario()
+    {
+        return $this->hasOne(SituacaoUsuario::className(), ['idsituacao_usuario' => 'situacao_usuario_idsituacao_usuario']);
+    }
 
     public function upload($nomeUsuario)
     {

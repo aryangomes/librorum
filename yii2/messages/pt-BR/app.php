@@ -30,5 +30,6 @@
 		'Type Materials' => 'Tipos de Materiais',
 		'User' => 'Usuário',
 		'Users' => 'Usuários',
+		'situacaoUsuarioIdsituacaoUsuario' => 'Situação Do Usuário',
 	];
 ?>
