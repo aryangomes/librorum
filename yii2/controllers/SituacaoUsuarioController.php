@@ -44,6 +44,8 @@ class SituacaoUsuarioController extends Controller
         ]);
     }
 
+    
+
     /**
      * Displays a single SituacaoUsuario model.
      * @param integer $id

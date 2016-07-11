@@ -15,6 +15,8 @@ use yii\filters\VerbFilter;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
+use app\models\SituacaoUsuario;
+use yii\db\Query;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -225,6 +227,28 @@ class AdminController extends Controller
 
         return $this->redirect(['index']);
     }
+
+
+    public function actionListaSituacao($q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query->select('idsituacao_usuario AS id, situacao AS text')
+                ->from('situacao_usuario')
+                ->where(['like', 'situacao', $q])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => SituacaoUsuario::find($id)->situacao];
+        }
+        return $out;
+    }
+    
+    
 
     /**
      * Find the User model based on its primary key value.

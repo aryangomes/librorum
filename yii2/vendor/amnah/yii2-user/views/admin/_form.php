@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\form\ActiveForm;
 use kartik\builder\Form;
 use yii\widgets\MaskedInput;
+use yii\web\JsExpression;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\Module $module
@@ -13,7 +14,7 @@ use yii\widgets\MaskedInput;
  * @var yii\widgets\ActiveForm $form
  */
 use kartik\widgets\FileInput;
-
+$url = \yii\helpers\Url::to(['lista-situacao']);
 $module = $this->context->module;
 $role = $module->model("Role");
 ?>
@@ -84,12 +85,32 @@ $role = $module->model("Role");
     <?php echo Form::widget([
         'model'=>$usuario,
         'form'=>$form,
-        'columns'=>3,
+        'columns'=>4,
         'contentBefore' => '<legend class="text-info"><small>Dados Diversos</small></legend>',
         'attributes'=>[
             'cargo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Cargo do Usuário'),'maxlength' => true]],
             'reparticao'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Repartição do Usuário'),'maxlength' => true]],
             'endereco'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Endereço do Usuário'),'maxlength' => true]],
+
+            'situacaoUsuarioIdsituacaoUsuario'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => 'kartik\widgets\Select2','options' => ['pluginOptions' => [
+                'placeholder' => Yii::t('app','Search for a Situação do usuário ...'),
+                'allowClear' => true,
+                'minimumInputLength' => 3,
+                'language' => [
+                    'errorLoading' => new JsExpression("function () { return '".Yii::t('app','Waiting for results...')."'; }"),
+                ],
+                'ajax' => [
+                    'url' => $url,
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(situacao) { return situacao.text; }'),
+                'templateSelection' => new JsExpression('function (situacao) { return situacao.text; }'),
+            ],
+            ],
+            ],
+
 
 
         ],
@@ -124,7 +145,7 @@ $role = $module->model("Role");
 
 
 
-    
+
 
 
 
