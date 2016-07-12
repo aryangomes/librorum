@@ -41,15 +41,17 @@ AppAsset::register($this);
                 ['label' => 'Acervo', 'url' => ['/acervo']],
                 ['label' => 'Exemplares', 'url' => ['/acervo-exemplar']],
                 ['label' => 'Categoria do Acervo', 'url' => ['/categoria-acervo']],
+                ['label' => 'Tipo de Material', 'url' => ['/tipo-material']],
             ]
             ]   : '',
             Yii::$app->user->can("admin") ?    ['label'=>'Aquisição', 'items' => [
                 ['label' => 'Aquisição', 'url' => ['/aquisicao']],
                 ['label' => 'Tipo de Aquisição', 'url' => ['/tipo-aquisicao']],
+                ['label' => 'Pessoa', 'url' => ['/pessoa']],
 
             ]
             ]   : '',
-            
+
             Yii::$app->user->can("admin") ?    ['label' => 'Empréstimo', 'url' => ['/emprestimo']]: '',
             Yii::$app->user->can("admin") ?
                ['label'=>'Usuário', 'items' => [
@@ -82,7 +84,7 @@ AppAsset::register($this);
     <div class="container">
 
         <p class="pull-left">&copy; Librorum <?= date('Y') ?></p>
-        <p class="pull-right"><a href="http://portal.ifrn.edu.br/" target="_blank"><?= Html::img('./uploads/imgs/logo_ifrn.png',['width'=>100,'class'=>"img-responsive"])?>
+        <p class="pull-right"><a href="http://portal.ifrn.edu.br/" target="_blank"><?= Html::img(\Yii::getAlias("@web").'/uploads/imgs/logo_ifrn.png',['width'=>100,'class'=>"img-responsive"])?>
             </a> </p>
     </div>
 </footer>
