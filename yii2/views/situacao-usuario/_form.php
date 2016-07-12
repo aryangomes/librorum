@@ -14,9 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'situacao')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'pode_emprestar')->textInput() ?>
 
-    <?= $form->field($model, 'pode_emprestar')->dropDownList([1 => 'Pode Emprestar',0 => 'Não Pode Emprestar']) ?>
+
+    <?= $form->field($model, 'pode_emprestar')->dropDownList([1 => 'Pode Emprestar',0 => 'Não Pode Emprestar'],
+        ['prompt'=>'Selecione se o usuário poderá ou não']) ?>
 
 
     <div class="form-group">

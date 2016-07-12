@@ -123,6 +123,7 @@ class AdminController extends Controller
             $usuario->endereco = $post['Usuario']['endereco'];
             $usuario->telefone = $post['Usuario']['telefone'];
             $usuario->email = $post['Usuario']['email'];
+            $usuario->situacao_usuario_idsituacao_usuario =$post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
             $usuario->user_id = $user->id;
             $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
             if($usuario->imageFile != null){
