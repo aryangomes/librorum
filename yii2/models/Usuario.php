@@ -50,6 +50,7 @@ class Usuario extends \yii\db\ActiveRecord
             [['endereco'], 'string', 'max' => 200],
             [['email'], 'string', 'max' => 150],
             [['foto'], 'string', 'max' => 300],
+            [['email'],'email'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['situacaoUsuarioIdsituacaoUsuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
             [['imageFile'], 'file','skipOnEmpty' => true, 'extensions' => 'png, jpg'],
