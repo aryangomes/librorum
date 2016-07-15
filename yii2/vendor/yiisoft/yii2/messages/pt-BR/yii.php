@@ -118,4 +118,5 @@ return [
     '{attribute} should contain at most {max, number} {max, plural, one{character} other{characters}}.' => '"{attribute}" deve conter no máximo {max, number} {max, plural, one{caractere} other{caracteres}}.',
     '{attribute} should contain {length, number} {length, plural, one{character} other{characters}}.' => '"{attribute}" deve conter {length, number} {length, plural, one{caractere} other{caracteres}}.',
 	'{attribute} must be equal to "{compareValueOrAttribute}".' => '{attribute} deve ser igual a "{compareValueOrAttribute}".',
+	'Powered by {yii}'=>'Desenvolvido utilizando {yii}',
 ];

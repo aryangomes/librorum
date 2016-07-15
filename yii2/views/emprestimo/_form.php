@@ -67,7 +67,7 @@ use kartik\builder\FormGrid;
 
 
             ]
-        ]) . "  <div id=\"message-senha-errada\"></div>";
+        ]) . " <div id=\"message-senha-errada\"></div>";
 
     $tabDadosusuario = FormGrid::widget([
         'model' => $usuario,
@@ -79,6 +79,10 @@ use kartik\builder\FormGrid;
                 'contentBefore' => '<legend class="text-info"><small>Informações do Usuário</small></legend>',
                 'attributes' => [
 
+                    'foto' => ['type' => Form::INPUT_RAW, 'value' => Html::img('#', ['id' => 'foto-usuario',
+                        'class' => "img-thumbnail img-responsive", 'width' => "304", 'height' => "236",
+                    ]),
+                    ],
                     'cpf' => ['type' => Form::INPUT_TEXT, 'options' =>
                         ['disabled' => true]
                     ],
@@ -96,23 +100,15 @@ use kartik\builder\FormGrid;
         ]
     ]);
 
-    $tabBuscarUsuario = "  <div class=\"form-group\">
-            <div class=\"row\">
-                <div class=\"col-md-4\">
-                    " . Html::label('Nome do usuário', 'busca-usuario') . "
-                </div>
-            </div>
-            <div class=\"row\">
-                <div class=\"col-md-8\">
-                   " . Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
+    $tabBuscarUsuario = "<div class=\"row\">
+  <div class=\"col-lg-6\"> <div class=\"form-group\">
+ <div class=\"input-group\">" .
+        Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
             'placeholder' => 'Digite o nome do usuário']) . "
-                </div>
-                <div class=\"col-md-2\">
-                   " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary']) . "
-                </div>
-            </div>
-        </div>
-
+ <span class=\"input-group-btn\"> 
+  " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary']) . "
+ </span> </div> 
+</div> </div> </div>
         <div id=\"result-messagem-busca-usuario\">
         </div>
         <table id=\"tableresult\" class=\"table table-bordered\">
@@ -150,22 +146,15 @@ use kartik\builder\FormGrid;
             ]
         ]) . "  <div id=\"message-indisponivel-exemaplar\"> </div>";
 
-    $tabBuscaExemplar = " <div class=\"form-group\">
-            <div class=\"row\">
-                <div class=\"col-md-4\">
-                  " . Html::label('Nome do usuário', 'busca-exemplar') . "
-                </div>
-            </div>
-            <div class=\"row\">
-                <div class=\"col-md-8\">
-                    " . Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
+    $tabBuscaExemplar = " <div class=\"row\">
+  <div class=\"col-lg-6\"> <div class=\"form-group\">
+ <div class=\"input-group\">" .
+        Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
             'placeholder' => 'Digite o título do exemplar']) . "
-                </div>
-                <div class=\"col-md-2\">
-                    " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary']) . "
-                </div>
-            </div>
-        </div>
+ <span class=\"input-group-btn\"> 
+  " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary']) . "
+ </span> </div></div></div></div>
+         
 
         <div id=\"result-messagem-busca-exemplar\">
         </div>
@@ -243,33 +232,33 @@ use kartik\builder\FormGrid;
             'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Usuário',
             'content' => $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
             'active' => true,
-            'options'=>['id'=>'tab-usuario']
+            'options' => ['id' => 'tab-usuario']
         ],
         [
             'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Exemplar',
-            'content' => $tabExemplar.$tabAcervo,
-            'options'=>['id'=>'tab-exemplar']
+            'content' => $tabExemplar . $tabAcervo,
+            'options' => ['id' => 'tab-exemplar']
 
         ],
         [
             'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Empréstimo',
             'content' => $tabEmprestimo,
-            'options'=>['id'=>'tab-emprestimo']
+            'options' => ['id' => 'tab-emprestimo']
         ],
         [
-            'label'=>'<i class="glyphicon glyphicon-list-alt"></i> Realizar busca',
-            'items'=>[
+            'label' => '<i class="glyphicon glyphicon-list-alt"></i> Realizar busca',
+            'items' => [
                 [
-                    'label'=>'Buscar Usuário',
-                    'encode'=>false,
-                    'content'=>$tabBuscarUsuario,
-                    'options'=>['id'=>'tab-busca-usuario']
+                    'label' => 'Buscar Usuário',
+                    'encode' => false,
+                    'content' => $tabBuscarUsuario,
+                    'options' => ['id' => 'tab-busca-usuario']
                 ],
                 [
-                    'label'=>'Buscar Exemplar',
-                    'encode'=>false,
-                    'content'=>$tabBuscaExemplar,
-                    'options'=>['id'=>'tab-busca-exemplar']
+                    'label' => 'Buscar Exemplar',
+                    'encode' => false,
+                    'content' => $tabBuscaExemplar,
+                    'options' => ['id' => 'tab-busca-exemplar']
                 ],
             ],
         ],
@@ -283,37 +272,64 @@ use kartik\builder\FormGrid;
     ]);
     ?>
 
-        <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
-
-
-        <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
-
-        <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
-
-        <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
-
-        <?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
-
-
-
-        <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
-    </div>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
-            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                'id' => 'btSave']) ?>
-
-
-        <?= Html::resetButton('Limpar',
-            ['class' => 'btn btn-warning']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
+    <!--   Alterar Senha     -->
     <?php
-    $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js',
-        ['depends' => [\yii\web\JqueryAsset::className()]]);
+    Modal::begin([
+        'header' => '<h2>Cadastrar Nova Senha</h2>',
+        'id' => 'modalalterarsenha',
+    ]);
     ?>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+
+                <?= Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
+                    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword']) ?>
+                <span class="input-group-btn">
+        <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+      </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="message-resetar-senha"></div>
+
+    <?php
+    Modal::end();
+    ?>
+    <!--    Alterar Senha     -->
+
+    <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
+
+
+    <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
+
+    <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
+
+    <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
+
+    <?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
+
+
+    <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
+</div>
+
+<div class="form-group">
+    <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
+        ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+            'id' => 'btSave']) ?>
+
+
+    <?= Html::resetButton('Limpar',
+        ['class' => 'btn btn-warning']) ?>
+</div>
+
+<?php ActiveForm::end(); ?>
+<?php
+$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
 </div>
 
 <script type="application/javascript">
@@ -333,6 +349,7 @@ use kartik\builder\FormGrid;
             $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
             $('#usuario_idusuario').val(usuario.idusuario);
             $('#usuario-user_id').val(usuario.user_id);
+            $('#foto-usuario').attr("src", data.foto);
             $('#w14 li:eq(0)').removeClass();
             $('#w13 li:eq(0)').addClass("active");
             $("#w13-dd3-tab0").removeClass();

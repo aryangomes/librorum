@@ -25,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idemprestimo',
+//            'idemprestimo',
+        [
+            'label'=>'Empréstimo',
+            'format'=>'raw',
+            'value'=> function ($model){
+                return Html::a('Visualizar Empréstimo',['view','id'=>$model->idemprestimo]);
+            }
+        ],
             'dataemprestimo',
             'dataprevisaodevolucao',
             'datadevolucao',
@@ -34,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'usuario_rg',
             // 'acervo_exemplar_idacervo_exemplar',
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

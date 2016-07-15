@@ -40,10 +40,10 @@ return [
     'Expired At' => 'Tempo de Expiração',
 
     // models/forms
-    'Email not found' => 'E-mail não encontrado',
-    'Email / Username' => 'E-mail / Usuário',
-    'Email / Username not found' => 'E-mail / Usuário não encontrado',
-    'Username not found' => 'Usuário não encontrado',
+    'Email not found' => 'Rg não encontrado',
+    'Email / Username' => 'Rg',
+    'Email / Username not found' => 'Rg não encontrado',
+    'Username not found' => 'Rg não encontrado',
     'User is banned - {banReason}' => 'Usuário banido - {banReason}',
     'Incorrect password' => 'Senha Incorreta',
     'Remember Me' => 'Lembrar-me',

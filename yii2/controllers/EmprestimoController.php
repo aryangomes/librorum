@@ -56,8 +56,11 @@ class EmprestimoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        ($model->calcularDiasDeEmprestimo());
+        var_dump($model->diasDiferenca);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 

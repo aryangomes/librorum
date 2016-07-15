@@ -29,7 +29,10 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#usuario-reparticao').val(data.reparticao);
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
                 $('#usuario-user_id').val(data.user_id);
+                $('#usuario_idusuario').val(data.idusuario);
+                $('#foto-usuario').attr("src",data.foto);
                 $('#btSave').prop('disabled',true);
+                $('#message-senha-errada').hide();
             }
         });
     }
@@ -260,15 +263,15 @@ $('#btPesquisarExemplar').blur(function () {
 $('#user-password').blur(function () {
     var senha = $(this).val();
     var user_id = $('#usuario-user_id').val();
-
-    if (senha != ' ' && senha.length > 0) {
-
+    console.log('user_id.:'+$('#emprestimo-usuario_rg').val().length);
+    if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length>0) {
+        $('#message-senha-errada').hide();
 
         $.get('validar-senha', {user_id: user_id, senha:senha}, function (data) {
             console.log(data);
             var data = $.parseJSON(data);
             if(data){
-                $('#message-senha-errada').hide();
+
                 $('#btSave').prop('disabled',false);
                 $('#form-usuario').hide();
                 $('#form-exemplar').show();
@@ -279,7 +282,9 @@ $('#user-password').blur(function () {
                 $("#tab-exemplar").addClass("tab-pane fade in active");
             }else{
                 $('#message-senha-errada').attr('class', 'alert alert-danger');
-                $('#message-senha-errada').html('Senha incorreta');
+                $('#message-senha-errada').html('<strong>Senha incorreta!</strong>' +
+                    'Caso queira alterar a senha,' +
+                    ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
                 $('#message-senha-errada').show();
                 $('#btSave').prop('disabled',true);
                 $('#form-usuario').show();
@@ -288,5 +293,47 @@ $('#user-password').blur(function () {
             }
             $('#btSave').prop('disabled',true);
         });
+    }else{
+        if($('#emprestimo-usuario_rg').val().length <= 0){
+            $('#message-senha-errada').attr('class', 'alert alert-danger');
+            $('#message-senha-errada').html('<strong>Digite o RG do usuário!</strong>');
+        }
+    }
+});
+
+
+
+
+$('#btAlterarSenha') . click(function () {
+    $('#message-resetar-senha').html('');
+    $('#message-resetar-senha').removeClass();
+        var  novaSenha =  $('#user-newpassword').val();
+        var  user_id =  $('#usuario-user_id').val();
+
+
+    if(user_id.length != ' '  && novaSenha.length >0){
+
+
+        $.get('../user/admin/resetar-senha',{id : user_id,novaSenha:novaSenha
+        }, function (data){
+
+            var data = $.parseJSON(data);
+            console.log(data);
+            if(data){
+                $('#message-resetar-senha').attr('class', 'alert alert-success');
+                $('#message-resetar-senha').html('Senha alterada com sucesso');
+
+                $('#user-newpassword').val('');
+                $('#user-password').val('');
+                $('#message-senha-errada').hide();
+            }else{
+                $('#message-resetar-senha').attr('class', 'alert alert-danger');
+                $('#message-resetar-senha').html('Não foi possível alterar a senha');
+
+            }
+
+        });
+    }else{
+        alert('Preencha o campo \'RG\'');
     }
 });

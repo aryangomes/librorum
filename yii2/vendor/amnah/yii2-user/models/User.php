@@ -544,4 +544,15 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $dropdown;
     }
+
+
+    /**
+     * @return string
+     */
+    public function resetarSenha()
+    {
+        if ($this->newPassword) {
+            $this->password = Yii::$app->security->generatePasswordHash($this->newPassword);
+        }
+    }
 }
