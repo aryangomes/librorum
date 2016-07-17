@@ -7,19 +7,19 @@ $('#tableresult').hide();
 $('#tableresult-exemplar').hide();
 $('#form-exemplar').hide();
 $('#form-emprestimo').hide();
-$('#btSave').prop('disabled',true);
+$('#btSave').prop('disabled', true);
 
 $('#emprestimo-usuario_rg').blur(function () {
     var
-        rg = $(this).val();
+            rg = $(this).val();
     if (rg != ' ') {
 
 
         $.get('get-usuario', {rg: rg}, function (data) {
 
             var
-                data = $.parseJSON(data);
-
+                    data = $.parseJSON(data);
+            console.log('get-usuario.: ' + data);
             if (data != null) {
                 $('#rgusuario').val(rg);
                 $('#usuario-cpf').val(data.cpf);
@@ -30,9 +30,19 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
                 $('#usuario-user_id').val(data.user_id);
                 $('#usuario_idusuario').val(data.idusuario);
-                $('#foto-usuario').attr("src",data.foto);
-                $('#btSave').prop('disabled',true);
+                $('#foto-usuario').attr("src", data.foto);
+                $('#btSave').prop('disabled', true);
                 $('#message-senha-errada').hide();
+                $('#result-get-usuario').html('');
+                $('#user-password').prop('disabled', false);
+                $('#result-get-usuario').hide();
+            } else {
+                $('#result-get-usuario').show();
+                $('#result-get-usuario').attr('class', 'alert alert-danger');
+                $('#result-get-usuario').html('Usuário não encontrado. Para cadastrar\n\
+um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
+ data-target=\"#modalcadastrarusuario\">Clique aqui</a>');
+                $('#user-password').prop('disabled', true);
             }
         });
     }
@@ -41,22 +51,22 @@ $('#emprestimo-usuario_rg').blur(function () {
 
 $('#acervoexemplar-codigo_livro').blur(function () {
     var codigoExemplar = $(this).val();
-    if (codigoExemplar != ' ' && codigoExemplar.length >0) {
+    if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
 
 
         $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
 
 
             var
-                data = $.parseJSON((data));
-            if (data != null) { 
+                    data = $.parseJSON((data));
+            if (data != null) {
                 $('#acervo-titulo').val(data[1].titulo);
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
                     $("#message-indisponivel-exemaplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
-                        "<strong>Alerta!</strong> Exemplar indisponível no momento." +
-                        "</div>");
+                            "<strong>Alerta!</strong> Exemplar indisponível no momento." +
+                            "</div>");
                     $('button[type="submit"]').prop('disabled', true);
                     $('#form-exemplar').show();
                     $('#form-emprestimo').hide();
@@ -66,21 +76,21 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                     $('button[type="submit"]').prop('disabled', false);
                     $('#form-exemplar').hide();
                     $('#form-emprestimo').show();
-                    $('#btSave').prop('disabled',true);
+                    $('#btSave').prop('disabled', true);
                 }
-                $('#btSave').prop('disabled',false);
+                $('#btSave').prop('disabled', false);
                 $('#w13 li:eq(1)').removeClass();
                 $('#w13 li:eq(2)').addClass("active");
                 $("#tab-exemplar").removeClass();
                 $("#tab-exemplar").addClass("tab-pane fade");
                 $("#tab-emprestimo").addClass("tab-pane fade in active");
             } else {
-                $('#btSave').prop('disabled',true);
+                $('#btSave').prop('disabled', true);
             }
 
         });
-    }else {
-        $('#btSave').prop('disabled',true);
+    } else {
+        $('#btSave').prop('disabled', true);
     }
 });
 
@@ -88,7 +98,7 @@ $.get('get-data-previsao-devolucao', function (data) {
     console.log('previsao.: ' + data);
 
     var
-        data = $.parseJSON((data));
+            data = $.parseJSON((data));
     $('#emprestimo-dataprevisaodevolucao').val(data[0]);
     $('#lb-dataprevisaodevolucao').val(data[1]);
 
@@ -104,7 +114,7 @@ $('#busca-usuario').blur(function () {
         $.get('get-busca-usuario', {nomeUsuario: buscausuario}, function (data) {
 
             var data = $.parseJSON(data);
-            console.log(data);
+            console.log('get-busca-usuario.: ' + data);
             if (data != null) {
                 $('#tableresult').show();
                 $('#tbody-result').html('');
@@ -115,15 +125,15 @@ $('#busca-usuario').blur(function () {
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
                     $('#tbody-result').append(
-                        '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
+                            '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
-           
+
             } else {
                 data = null;
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
                 $('#result-messagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-usuario').html('Nenhumo RG encontrado');
+                $('#result-messagem-busca-usuario').html('Nenhum RG encontrado');
             }
         });
     }
@@ -150,7 +160,7 @@ $('#btPesquisar').click(function () {
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
                     $('#tbody-result').append(
-                        '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
+                            '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
 
             } else {
@@ -184,7 +194,7 @@ $('#busca-exemplar').blur(function () {
                 var autores = [];
                 data[0].forEach(function (item) {
                     console.log(item);
-                   
+
                     codigoslivro.push(item.codigo_livro);
 
                 });
@@ -195,9 +205,9 @@ $('#busca-exemplar').blur(function () {
                     autores.push(item.autor);
 
                 });
-                codigoslivro.forEach(function (item,index) {
-                    $('#tbody-result-exemplar') . append(
-                        '<tr><td>'+titulos[index]+'</td><td>'+autores[index]+'</td><td>'+codigoslivro[index]+'</td><td><a href=\'#\' onclick=\'actionSelecionarExemplar(\"'+codigoslivro[index]+'\")\' class=\'btn btn-success\' id=\'actionbuscarexemplar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
+                codigoslivro.forEach(function (item, index) {
+                    $('#tbody-result-exemplar').append(
+                            '<tr><td>' + titulos[index] + '</td><td>' + autores[index] + '</td><td>' + codigoslivro[index] + '</td><td><a href=\'#\' onclick=\'actionSelecionarExemplar(\"' + codigoslivro[index] + '\")\' class=\'btn btn-success\' id=\'actionbuscarexemplar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
 
 
@@ -243,9 +253,9 @@ $('#btPesquisarExemplar').blur(function () {
                     autores.push(item.autor);
 
                 });
-                codigoslivro.forEach(function (item,index) {
-                    $('#tbody-result-exemplar') . append(
-                        '<tr><td>'+titulos[index]+'</td><td>'+autores[index]+'</td><td>'+codigoslivro[index]+'</td><td><a href=\'#\' onclick=\'actionSelecionarExemplar(\"'+codigoslivro[index]+'\")\' class=\'btn btn-success\' id=\'actionbuscarexemplar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
+                codigoslivro.forEach(function (item, index) {
+                    $('#tbody-result-exemplar').append(
+                            '<tr><td>' + titulos[index] + '</td><td>' + autores[index] + '</td><td>' + codigoslivro[index] + '</td><td><a href=\'#\' onclick=\'actionSelecionarExemplar(\"' + codigoslivro[index] + '\")\' class=\'btn btn-success\' id=\'actionbuscarexemplar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
 
 
@@ -263,16 +273,16 @@ $('#btPesquisarExemplar').blur(function () {
 $('#user-password').blur(function () {
     var senha = $(this).val();
     var user_id = $('#usuario-user_id').val();
-    console.log('user_id.:'+$('#emprestimo-usuario_rg').val().length);
-    if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length>0) {
+    console.log('user_id.:' + $('#emprestimo-usuario_rg').val().length);
+    if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length > 0) {
         $('#message-senha-errada').hide();
 
-        $.get('validar-senha', {user_id: user_id, senha:senha}, function (data) {
+        $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
             console.log(data);
             var data = $.parseJSON(data);
-            if(data){
+            if (data) {
 
-                $('#btSave').prop('disabled',false);
+                $('#btSave').prop('disabled', false);
                 $('#form-usuario').hide();
                 $('#form-exemplar').show();
                 $('#w13 li:eq(0)').removeClass();
@@ -280,21 +290,21 @@ $('#user-password').blur(function () {
                 $("#tab-usuario").removeClass();
                 $("#tab-usuario").addClass("tab-pane fade");
                 $("#tab-exemplar").addClass("tab-pane fade in active");
-            }else{
+            } else {
                 $('#message-senha-errada').attr('class', 'alert alert-danger');
                 $('#message-senha-errada').html('<strong>Senha incorreta!</strong>' +
-                    'Caso queira alterar a senha,' +
-                    ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
+                        'Caso queira alterar a senha,' +
+                        ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
                 $('#message-senha-errada').show();
-                $('#btSave').prop('disabled',true);
+                $('#btSave').prop('disabled', true);
                 $('#form-usuario').show();
                 $('#form-exemplar').hide();
 
             }
-            $('#btSave').prop('disabled',true);
+            $('#btSave').prop('disabled', true);
         });
-    }else{
-        if($('#emprestimo-usuario_rg').val().length <= 0){
+    } else {
+        if ($('#emprestimo-usuario_rg').val().length <= 0) {
             $('#message-senha-errada').attr('class', 'alert alert-danger');
             $('#message-senha-errada').html('<strong>Digite o RG do usuário!</strong>');
         }
@@ -304,36 +314,98 @@ $('#user-password').blur(function () {
 
 
 
-$('#btAlterarSenha') . click(function () {
+$('#btAlterarSenha').click(function () {
     $('#message-resetar-senha').html('');
     $('#message-resetar-senha').removeClass();
-        var  novaSenha =  $('#user-newpassword').val();
-        var  user_id =  $('#usuario-user_id').val();
+    var novaSenha = $('#user-newpassword').val();
+    var user_id = $('#usuario-user_id').val();
 
 
-    if(user_id.length != ' '  && novaSenha.length >0){
+    if (user_id.length != ' ' && novaSenha.length > 0) {
 
 
-        $.get('../user/admin/resetar-senha',{id : user_id,novaSenha:novaSenha
-        }, function (data){
+        $.get('../user/admin/resetar-senha', {id: user_id, novaSenha: novaSenha
+        }, function (data) {
 
             var data = $.parseJSON(data);
             console.log(data);
-            if(data){
+            if (data) {
                 $('#message-resetar-senha').attr('class', 'alert alert-success');
                 $('#message-resetar-senha').html('Senha alterada com sucesso');
 
                 $('#user-newpassword').val('');
                 $('#user-password').val('');
                 $('#message-senha-errada').hide();
-            }else{
+            } else {
                 $('#message-resetar-senha').attr('class', 'alert alert-danger');
                 $('#message-resetar-senha').html('Não foi possível alterar a senha');
 
             }
 
         });
-    }else{
+    } else {
+        alert('Preencha o campo \'RG\'');
+    }
+});
+
+
+$('#btCadastrarUsuario').click(function () {
+
+
+    var usuarioPost = new Array();
+    var nome = $('#usuario-nome-post').val();
+    var rg = $('#usuario-rg-post').val();
+    var cpf = $('#usuario-cpf-post').val();
+    var telefone = $('#usuario-telefone-post').val();
+    var email = $('#usuario-email-post').val();
+    var cargo = $('#usuario-cargo-post').val();
+    var reparticao = $('#usuario-reparticao-post').val();
+    var endereco = $('#usuario-endereco-post').val();
+    var situacaousuario = $('#usuario-situacaousuario-post').val();
+    var foto = $('#usuario-foto-post').val();
+
+    usuarioPost.push(nome, rg, cpf, telefone, email, cargo, reparticao, endereco,
+            situacaousuario, foto);
+
+    var userPost = [];
+    var password = $('#user-password-post').val();
+    var roleid = $('#user-roleid-post').val();
+    var status = $('#user-status-post').val();
+    userPost.push(password, roleid, status);
+    console.log('userpost.: ' + userPost);
+    $('#message-resetar-senha').html('');
+    $('#message-resetar-senha').removeClass();
+
+
+
+    if (usuarioPost.length > 0 && userPost.length > 0) {
+
+
+        $.get('../user/admin/create-ajax', {nome: nome, rg: rg,
+            cpf: cpf, telefone: telefone, email: email, cargo: cargo,
+            reparticao: reparticao, endereco: endereco,
+            situacaousuario: situacaousuario,
+            foto: foto, password: password, roleid: roleid, status: status
+
+        }, function (data) {
+            /*
+             var data = $.parseJSON(data);
+             console.log(data);
+             if (data) {
+             $('#message-resetar-senha').attr('class', 'alert alert-success');
+             $('#message-resetar-senha').html('Senha alterada com sucesso');
+             
+             $('#user-newpassword').val('');
+             $('#user-password').val('');
+             $('#message-senha-errada').hide();
+             } else {
+             $('#message-resetar-senha').attr('class', 'alert alert-danger');
+             $('#message-resetar-senha').html('Não foi possível alterar a senha');
+             
+             }*/
+
+        });
+    } else {
         alert('Preencha o campo \'RG\'');
     }
 });

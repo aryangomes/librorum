@@ -284,4 +284,69 @@ class AdminController extends Controller
                 echo Json::encode(false);
             }
     }
+    
+    
+    public function actionCreateAjax($nome,$rg,$cpf,$telefone,
+            $email,$cargo,$reparticao,$endereco,
+    $situacaousuario,$foto,$password,$roleid,$status)
+    {
+        
+   
+        /** @var \amnah\yii2\user\models\User $user */
+        /** @var \amnah\yii2\user\models\Profile $profile */
+        $usuario = new Usuario();
+        $user = $this->module->model("User");
+        $user->setScenario("admin");
+        $profile = $this->module->model("Profile");
+     
+       
+        $user->password = $password;
+        $user->role_id = $roleid;
+        $user->status = $status;
+      
+        // validate for ajax request
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($user, $profile);
+        }
+   
+        if ($user->validate()) {
+
+            $user->username= $nome;
+            $user->email  = $rg;
+            $user->save(false);
+            $profile->setUser($user->id)->save(false);
+
+           $usuario->nome = $nome;
+            $usuario->rg = $rg;
+            $usuario->cpf = $cpf;
+            $usuario->cargo = $cargo;
+            $usuario->reparticao = $reparticao;
+            $usuario->endereco = $endereco;
+            $usuario->telefone = $telefone;
+            $usuario->email = $email;
+            $usuario->situacao_usuario_idsituacao_usuario =$situacaousuario;
+            $usuario->user_id = $user->id;
+            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]'  );
+            if($usuario->imageFile != null){
+
+            $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
+            }
+
+
+            if ($usuario->save()) {
+                $usuario->upload($usuario->nome) ;
+              Json::encode(true);
+//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+            }
+
+        }else{
+              Json::encode(false);
+        }
+
+        // render
+      
+         
+         
+    }
 }
