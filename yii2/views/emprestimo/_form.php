@@ -40,7 +40,7 @@ $tabUsuario = FormGrid::widget([
     ]);
     ?> 
     <div id="result-get-usuario"></div>
-
+ <div id="result-get-usuario"></div>
     <!-- ------------------ BEGIN Cadastro de Usuário ------------------ -->
     <?php
     Modal::begin([
@@ -203,12 +203,6 @@ echo Form::widget([
 
 
 
-
-<?=
-$formCadastrarUsuario->field($usuario, 'imageFile')->widget(FileInput::classname(), [
-    'options' => [ 'id'=>'usuario-foto-post','accept' => 'image/jpeg, image/png'],
-]);
-?>
 
         <div class="form-group">
 <?=

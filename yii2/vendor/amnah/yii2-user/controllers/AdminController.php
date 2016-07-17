@@ -21,8 +21,8 @@ use yii\db\Query;
 /**
  * AdminController implements the CRUD actions for User model.
  */
-class AdminController extends Controller
-{
+class AdminController extends Controller {
+
     /**
      * @var \amnah\yii2\user\Module
      * @inheritdoc
@@ -32,8 +32,7 @@ class AdminController extends Controller
     /**
      * @inheritdoc
      */
-    public function init()
-    {
+    public function init() {
         // check for admin permission (`tbl_role.can_admin`)
         // note: check for Yii::$app->user first because it doesn't exist in console commands (throws exception)
         if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
@@ -46,8 +45,7 @@ class AdminController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -62,8 +60,7 @@ class AdminController extends Controller
      * List all User models
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         /** @var \amnah\yii2\user\models\search\UserSearch $searchModel */
         $searchModel = $this->module->model("UserSearch");
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
@@ -76,10 +73,9 @@ class AdminController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'user' => $this->findModel($id),
+                    'user' => $this->findModel($id),
         ]);
     }
 
@@ -88,8 +84,7 @@ class AdminController extends Controller
      * be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
@@ -107,15 +102,15 @@ class AdminController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($user, $profile);
         }
-   
+
         if ($userLoaded && $user->validate() && $profile->validate()) {
 
-            $user->username= $post['Usuario']['nome'];
-            $user->email  = $post['Usuario']['rg'];
+            $user->username = $post['Usuario']['nome'];
+            $user->email = $post['Usuario']['rg'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
-           $usuario->nome = $post['Usuario']['nome'];
+            $usuario->nome = $post['Usuario']['nome'];
             $usuario->rg = $post['Usuario']['rg'];
             $usuario->cpf = $post['Usuario']['cpf'];
             $usuario->cargo = $post['Usuario']['cargo'];
@@ -123,21 +118,20 @@ class AdminController extends Controller
             $usuario->endereco = $post['Usuario']['endereco'];
             $usuario->telefone = $post['Usuario']['telefone'];
             $usuario->email = $post['Usuario']['email'];
-            $usuario->situacao_usuario_idsituacao_usuario =$post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+            $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
             $usuario->user_id = $user->id;
             $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-            if($usuario->imageFile != null){
+            if ($usuario->imageFile != null) {
 
-            $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
+                $usuario->foto = $usuario->getPathWeb($usuario->nome);
             }
 
 
             if ($usuario->save()) {
-                $usuario->upload($usuario->nome) ;
+                $usuario->upload($usuario->nome);
                 return $this->redirect(['view', 'id' => $user->id]);
 //                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
             }
-
         }
 
         // render
@@ -150,15 +144,14 @@ class AdminController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         // set up user and profile
 
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
 
-        $usuario = Usuario::find()->where(['user_id'=>$id])->one();
+        $usuario = Usuario::find()->where(['user_id' => $id])->one();
 
         $post = Yii::$app->request->post();
         $userLoaded = $user->load($post);
@@ -173,37 +166,37 @@ class AdminController extends Controller
         // load post data and validate
         if ($userLoaded && $user->validate() && $profile->validate()) {
             $user->username = $post['Usuario']['nome'];
-            $user->email  = $post['Usuario']['rg'];
+            $user->email = $post['Usuario']['rg'];
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
-            if($usuario != null){
-            $usuario->nome = $post['Usuario']['nome'];
-            $usuario->rg = $post['Usuario']['rg'];
-            $usuario->cpf = $post['Usuario']['cpf'];
-            $usuario->cargo = $post['Usuario']['cargo'];
-            $usuario->reparticao = $post['Usuario']['reparticao'];
-            $usuario->endereco = $post['Usuario']['endereco'];
-            $usuario->telefone = $post['Usuario']['telefone'];
-            $usuario->email = $post['Usuario']['email'];
-                $usuario->situacao_usuario_idsituacao_usuario =$post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
-            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-            if($usuario->imageFile != null){
-                $usuario->deleteFoto();
-                $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
-            }
+            if ($usuario != null) {
+                $usuario->nome = $post['Usuario']['nome'];
+                $usuario->rg = $post['Usuario']['rg'];
+                $usuario->cpf = $post['Usuario']['cpf'];
+                $usuario->cargo = $post['Usuario']['cargo'];
+                $usuario->reparticao = $post['Usuario']['reparticao'];
+                $usuario->endereco = $post['Usuario']['endereco'];
+                $usuario->telefone = $post['Usuario']['telefone'];
+                $usuario->email = $post['Usuario']['email'];
+                $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+                $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+                if ($usuario->imageFile != null) {
+                    $usuario->deleteFoto();
+                    $usuario->foto = $usuario->getPathWeb($usuario->nome);
+                }
 
 
-            if ($usuario->save()) {
-                $usuario->upload($usuario->nome) ;
-                return $this->redirect(['view', 'id' => $user->id]);
+                if ($usuario->save()) {
+                    $usuario->upload($usuario->nome);
+                    return $this->redirect(['view', 'id' => $user->id]);
 //                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
-            }
+                }
             }
         }
 
         // render
-        return $this->render('update', compact('user', 'profile','usuario'));
+        return $this->render('update', compact('user', 'profile', 'usuario'));
     }
 
     /**
@@ -212,11 +205,10 @@ class AdminController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
 
-        $usuario =  Usuario::find()->where(['user_id'=>$id])->one();
-        if($usuario !=null) {
+        $usuario = Usuario::find()->where(['user_id' => $id])->one();
+        if ($usuario != null) {
             $usuario->deleteFoto();
         }
         // delete profile and userTokens first to handle foreign key constraint
@@ -230,27 +222,23 @@ class AdminController extends Controller
         return $this->redirect(['index']);
     }
 
-
     public function actionListaSituacao($q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = new Query;
             $query->select('idsituacao_usuario AS id, situacao AS text')
-                ->from('situacao_usuario')
-                ->where(['like', 'situacao', $q])
-                ->limit(20);
+                    ->from('situacao_usuario')
+                    ->where(['like', 'situacao', $q])
+                    ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);
-        }
-        elseif ($id > 0) {
+        } elseif ($id > 0) {
             $out['results'] = ['id' => $id, 'text' => SituacaoUsuario::find($id)->situacao];
         }
         return $out;
     }
-    
-    
 
     /**
      * Find the User model based on its primary key value.
@@ -259,8 +247,7 @@ class AdminController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         /** @var \amnah\yii2\user\models\User $user */
         $user = $this->module->model("User");
         $user = $user::findOne($id);
@@ -271,53 +258,41 @@ class AdminController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionResetarSenha($id,$novaSenha){
-            $user = $this->findModel($id);
-            if($user !=null){
-                $user->newPassword = $novaSenha;
-                if($user->save(false)){
-                    echo Json::encode(true);
-                }else{
-                    echo Json::encode(false);
-                }
-            }else{
+    public function actionResetarSenha($id, $novaSenha) {
+        $user = $this->findModel($id);
+        if ($user != null) {
+            $user->newPassword = $novaSenha;
+            if ($user->save(false)) {
+                echo Json::encode(true);
+            } else {
                 echo Json::encode(false);
             }
+        } else {
+            echo Json::encode(false);
+        }
     }
-    
-    
-    public function actionCreateAjax($nome,$rg,$cpf,$telefone,
-            $email,$cargo,$reparticao,$endereco,
-    $situacaousuario,$foto,$password,$roleid,$status)
-    {
-        
-   
+
+    public function actionCreateAjax($nome, $rg, $cpf, $telefone,
+            $email, $cargo, $reparticao, $endereco, $situacaousuario, 
+            $password, $roleid, $status) {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
         $user = $this->module->model("User");
         $user->setScenario("admin");
         $profile = $this->module->model("Profile");
-     
-       
         $user->password = $password;
         $user->role_id = $roleid;
         $user->status = $status;
-      
-        // validate for ajax request
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($user, $profile);
-        }
-   
-        if ($user->validate()) {
 
-            $user->username= $nome;
-            $user->email  = $rg;
+
+        if ($user->validate()) {
+            $user->username = $nome;
+            $user->email = $rg;
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
-           $usuario->nome = $nome;
+            $usuario->nome = $nome;
             $usuario->rg = $rg;
             $usuario->cpf = $cpf;
             $usuario->cargo = $cargo;
@@ -325,28 +300,19 @@ class AdminController extends Controller
             $usuario->endereco = $endereco;
             $usuario->telefone = $telefone;
             $usuario->email = $email;
-            $usuario->situacao_usuario_idsituacao_usuario =$situacaousuario;
+            $usuario->situacao_usuario_idsituacao_usuario = $situacaousuario;
             $usuario->user_id = $user->id;
-            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]'  );
-            if($usuario->imageFile != null){
-
-            $usuario->foto = $usuario->getPathWeb($usuario->nome) ;
+            if ($usuario->save(false)) {
+                $usuarioCadastrado = [$rg,$nome,$cpf,$cargo,$reparticao,
+                    $usuario->idusuario,$usuario->user_id];
+                echo Json::encode($usuarioCadastrado);
+            } else {
+                echo Json::encode(false);
             }
-
-
-            if ($usuario->save()) {
-                $usuario->upload($usuario->nome) ;
-              Json::encode(true);
-//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
-            }
-
-        }else{
-              Json::encode(false);
+        } else {
+            echo Json::encode(false);
         }
 
-        // render
-      
-         
-         
     }
+
 }

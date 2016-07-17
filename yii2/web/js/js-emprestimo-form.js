@@ -36,6 +36,7 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#result-get-usuario').html('');
                 $('#user-password').prop('disabled', false);
                 $('#result-get-usuario').hide();
+                $('#mensagem-cadastro-usuario').hide();
             } else {
                 $('#result-get-usuario').show();
                 $('#result-get-usuario').attr('class', 'alert alert-danger');
@@ -362,47 +363,53 @@ $('#btCadastrarUsuario').click(function () {
     var reparticao = $('#usuario-reparticao-post').val();
     var endereco = $('#usuario-endereco-post').val();
     var situacaousuario = $('#usuario-situacaousuario-post').val();
-    var foto = $('#usuario-foto-post').val();
 
     usuarioPost.push(nome, rg, cpf, telefone, email, cargo, reparticao, endereco,
-            situacaousuario, foto);
+            situacaousuario);
 
-    var userPost = [];
     var password = $('#user-password-post').val();
     var roleid = $('#user-roleid-post').val();
     var status = $('#user-status-post').val();
-    userPost.push(password, roleid, status);
-    console.log('userpost.: ' + userPost);
-    $('#message-resetar-senha').html('');
-    $('#message-resetar-senha').removeClass();
 
 
 
-    if (usuarioPost.length > 0 && userPost.length > 0) {
+
+    if (nome.length > 0 && rg.length > 0) {
 
 
         $.get('../user/admin/create-ajax', {nome: nome, rg: rg,
             cpf: cpf, telefone: telefone, email: email, cargo: cargo,
             reparticao: reparticao, endereco: endereco,
             situacaousuario: situacaousuario,
-            foto: foto, password: password, roleid: roleid, status: status
+            password: password, roleid: roleid, status: status
 
         }, function (data) {
-            /*
-             var data = $.parseJSON(data);
-             console.log(data);
-             if (data) {
-             $('#message-resetar-senha').attr('class', 'alert alert-success');
-             $('#message-resetar-senha').html('Senha alterada com sucesso');
-             
-             $('#user-newpassword').val('');
-             $('#user-password').val('');
-             $('#message-senha-errada').hide();
-             } else {
-             $('#message-resetar-senha').attr('class', 'alert alert-danger');
-             $('#message-resetar-senha').html('Não foi possível alterar a senha');
-             
-             }*/
+            console.log('bdata: ' + data);
+            var data = $.parseJSON(data);
+            console.log('adata: ' + data);
+
+            $('#mensagem-cadastro-usuario').show();
+            if (data != null && data != false) {
+                $('#emprestimo-usuario_rg').val(data[0]);
+                $('#usuario-rg-post').val(data[0]);
+                $('#emprestimo-usuario_nome').val(data[1]);
+                $('#nomeusuario').val(data[1]);
+                $('#usuario-cpf').val(data[2]);
+                $('#usuario-cargo').val(data[3]);
+                $('#usuario-reparticao').val(data[4]);
+                $('#emprestimo-usuario_idusuario').val(data[5]);
+                $('#usuario_idusuario').val(data[5]);
+                $('#usuario-user_id').val(data[6]);
+                $('#mensagem-cadastro-usuario').attr('class', 'alert alert-success');
+                $('#mensagem-cadastro-usuario').html('Usuário cadastrado com sucesso');
+                $('#modalcadastrarusuario').modal('hide');
+                $('#result-get-usuario').hide();
+            } else {
+                $('#mensagem-cadastro-usuario').attr('class', 'alert alert-danger');
+                $('#mensagem-cadastro-usuario').html('Não foi possível alterar cadastrar\n\
+ usuário');
+
+            }
 
         });
     } else {
