@@ -5,6 +5,7 @@ use kartik\widgets\ActiveForm;
 use yii\bootstrap\Modal;
 use kartik\builder\Form;
 use kartik\builder\FormGrid;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimos */
@@ -40,7 +41,7 @@ $tabUsuario = FormGrid::widget([
     ]);
     ?> 
     <div id="result-get-usuario"></div>
- <div id="result-get-usuario"></div>
+    <div id="result-get-usuario"></div>
     <!-- ------------------ BEGIN Cadastro de Usuário ------------------ -->
     <?php
     Modal::begin([
@@ -50,8 +51,6 @@ $tabUsuario = FormGrid::widget([
     ]);
     ?>
     <?php
-
-    use yii\widgets\MaskedInput;
     /**
      * @var yii\web\View $this
      * @var amnah\yii2\user\Module $module
@@ -60,165 +59,132 @@ $tabUsuario = FormGrid::widget([
      * @var amnah\yii2\user\models\Role $role
      * @var yii\widgets\ActiveForm $form
      */
-    use kartik\widgets\FileInput;
     ?>
 
-    <div class="user-form">
+
+    <legend class="text-info"><small>Usuário</small></legend>   
+    <div class="row">
+        <div class="col-sm-4">
+            <?= Html::label('Nome') ?>
+            <?=
+            Html::input('text', 'Usuario[nome]', '', ['id' => 'usuario-nome-post',
+                'class' => 'form-control'])
+            ?>
+
+        </div>
 
 
+        <div class="col-sm-4">
+            <?= Html::label('RG') ?>
+            <?=
+            Html::input('text', 'Usuario[rg]', '', ['id' => 'usuario-rg-post',
+                'class' => 'form-control'])
+            ?>
 
-        <?php
-        $formCadastrarUsuario = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL,
-                    'enableAjaxValidation' => true,
-                    'action' => ['user/admin/create'],
-                    'options' => ['enctype' => 'multipart/form-data',
-                        'method' => 'post',
-                       ],
-        ]);
-        ?>
+        </div>
 
-        <?php
-        echo Form::widget([
-            'model' => $usuario,
-            'form' => $formCadastrarUsuario,
-            'autoGenerateColumns' => true,
-            'contentBefore' => '<legend class="text-info"><small>Dados Pessoais</small></legend>',
-            'attributes' => [
-                // 2 column layout
-                'nome' => ['type' => Form::INPUT_TEXT, 'options' => [
-                    'id'=>'usuario-nome-post',
-                    'placeholder' => yii::t('app', 'Nome Para o Usuário'), 'feedbackIcon' => [
-                            //'prefix' => 'fa fa-',
-                            'default' => 'user',
-                            'success' => 'user-plus',
-                            'error' => 'user-times',
-                            'defaultOptions' => ['class' => 'text-warning'],
-                        ],
-                    ],
-                ],
-                'rg' => ['type' => Form::INPUT_TEXT,
-                    'options' => [  'id'=>'usuario-rg-post',
-                        'placeholder' => 'Digite o RG do Usuário']],
-                'cpf' => [ 
-                    'type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(),
-                    'options' => [ 'options'=>['id'=>'usuario-cpf-post','class'=>'form-control'], 'mask' => ['999.999.999-99']]],
-            ],
-        ])
-        ?>
+        <div class="col-sm-4">
+            <?= Html::label('CPF') ?>
+            <?=
+            MaskedInput::widget([
+                'name' => 'Usuario[cpf]',
+                'mask' => '999.999.999-99',
+                'options' => ['id' => 'usuario-cpf-post',
+                    'class' => 'form-control'],
+            ]);
+            ?>
 
+        </div>
+    </div>
+    <legend class="text-info"><small>Contatos</small></legend>   
+    <div class="row">
 
+        <div class="col-sm-6">
+            <?= Html::label('Telefone') ?>
+            <?=
+            MaskedInput::widget([
+                'name' => 'Usuario[telefone]',
+                'mask' => '(99)99999-9999',
+                'options' => ['id' => 'usuario-telefone-post',
+                    'class' => 'form-control'],
+            ]);
+            ?>
 
+        </div>
 
-        <?php
-        echo Form::widget([
-            'model' => $usuario,
-            'form' => $formCadastrarUsuario,
-            'columns' => 2,
-            'contentBefore' => '<legend class="text-info"><small>Contatos</small></legend>',
-            'attributes' => [
-                // 2 column layout
-                'telefone' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(), 'options' => [
-                       'options'=>['id'=>'usuario-telefone-post','class'=>'form-control'],  'mask' => '(99)99999-9999'],
-                ],
-                'email' => ['type' => Form::INPUT_TEXT, 'options' => [
-                      'id'=>'usuario-email-post',
-                    'placeholder' => yii::t('app', 'Enter a valid email address...'), 'feedbackIcon' => [
-                            //'prefix' => 'fa fa-',
-                            'feedbackIcon' => [
-                                'default' => 'envelope',
-                                'success' => 'ok',
-                                'error' => 'exclamation-sign',
-                                'defaultOptions' => ['class' => 'text-primary']
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-        ?>
+        <div class="col-sm-6">
+<?= Html::label('Email') ?>
+            <?=
+            Html::input('email', 'Usuario[email]', '', ['id' => 'usuario-email-post',
+                'class' => 'form-control'])
+            ?>
 
+        </div>
 
-        <?php
-        echo Form::widget([
-            'model' => $usuario,
-            'form' => $formCadastrarUsuario,
-            'columns' => 4,
-            'contentBefore' => '<legend class="text-info"><small>Dados Diversos</small></legend>',
-            'attributes' => [
-                'cargo' => ['type' => Form::INPUT_TEXT, 'options' => [
-                      'id'=>'usuario-cargo-post','placeholder' => yii::t('app', 'Cargo do Usuário'), 'maxlength' => true]],
-                'reparticao' => [
-                    
-                    'type' => Form::INPUT_TEXT, 'options' => [
-                          'id'=>'usuario-reparticao-post','placeholder' => yii::t('app', 'Repartição do Usuário'), 'maxlength' => true]],
-                'endereco' => ['type' => Form::INPUT_TEXT, 'options' => [
-                      'id'=>'usuario-endereco-post',
-                    'placeholder' => yii::t('app', 'Endereço do Usuário'), 'maxlength' => true]],
-                'situacaoUsuarioIdsituacaoUsuario' =>
-                ['type' => Form::INPUT_DROPDOWN_LIST,
-                    'items' => $situacoesusuario,
-                    'options' => [ 
-                          'id'=>'usuario-situacaousuario-post',
-                        'prompt' => Yii::t('app', 'Selecione a situação do usuário ...'),
-                    ],
-                ],
-            ],
-        ]);
-        ?>
+    </div>
 
+    <legend class="text-info"><small>Dados Diversos</small></legend>   
+    <div class="row">
+        <div class="col-sm-3">
+<?= Html::label('Cargo') ?>
+            <?=
+            Html::input('text', 'Usuario[cargo]', '', ['id' => 'usuario-cargo-post',
+                'class' => 'form-control'])
+            ?>
 
-<?php
-echo Form::widget([
-    'model' => $user,
-    'form' => $formCadastrarUsuario,
-    'columns' => 3,
-    'contentBefore' => '<legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>',
-    'attributes' => [
-    
-        'password' => ['type' => Form::INPUT_PASSWORD, 'options' => [
-              'id'=>'user-password-post',
-            'value' => '']],
-        'role_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['data' => $role::dropdown()],
-        'options'=>[  'id'=>'user-roleid-post',]],
-        'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['data' => $user::statusDropdown()],
-             'options'=>[  'id'=>'user-status-post',],],
-    ],
-]);
-?>
+        </div>
 
-        <?php $formCadastrarUsuario->field($profile, 'full_name')->hiddenInput()->label(false); ?>
+        <div class="col-sm-3">
+<?= Html::label('Repartição') ?>
+            <?=
+            Html::input('text', 'Usuario[reparticao]', '', ['id' => 'usuario-reparticao-post',
+                'class' => 'form-control'])
+            ?>
 
-        <?php
-        $this->registerJs("
-        $('#usuario-nome').blur(function(){
-            $('#profile-full_name').val($(this).val());
-        });
-    ");
-        ?>
+        </div>
 
+        <div class="col-sm-3">
+<?= Html::label('Endereço') ?>
+            <?=
+            Html::input('text', 'Usuario[endereco]', '', ['id' => 'usuario-endereco-post',
+                'class' => 'form-control'])
+            ?>
 
+        </div>
 
+        <div class="col-sm-3">
+<?= Html::label('Situação Do Usuário') ?>
 
+            <?=
+            Html::dropDownList('Usuario[situacaoUsuarioIdsituacaoUsuario]', null, $situacoesusuario, ['id' => 'usuario-situacaousuario-post',
+                'class' => 'form-control', 'prompt' => 'Selecione a Situação do Usuário'])
+            ?>
+        </div>
+    </div>
 
+    <legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>   
+    <div class="row">
+        <div class="col-sm-12">
+<?= Html::label('Senha') ?>
+            <?=
+            Html::input('password', 'User[password]', '', ['id' => 'user-password-post',
+                'class' => 'form-control'])
+            ?>
 
+        </div>
 
-
-
-        <div class="form-group">
+    </div>
+    <p> 
+    <div class="form-group">
 <?=
 Html::Button(Yii::t('user', 'Create'), ['class' => 'btn btn-success',
     'id' => 'btCadastrarUsuario'])
 ?>
-        </div>
-
-<?php ActiveForm::end(); ?>
-
-    </div>
-
-<?php
-Modal::end();
-?>
-    <!-- ------------------ END Cadastro de Usuário ------------------ -->
+    </div>  </p>    
+        <?php
+        Modal::end();
+        ?>
+<!-- ------------------ END Cadastro de Usuário ------------------ -->
 
 <?php
 $tabSenhadoUsuario = FormGrid::widget([
@@ -427,46 +393,46 @@ echo TabsX::widget([
 ]);
 ?>
 
-    <!--   Alterar Senha     -->
+<!--   Alterar Senha     -->
 <?php
 Modal::begin([
     'header' => '<h2>Cadastrar Nova Senha</h2>',
     'id' => 'modalalterarsenha',
 ]);
 ?>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="input-group">
+<div class="row">
+    <div class="col-lg-6">
+        <div class="input-group">
 
 <?=
 Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
     'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
 ?>
-                <span class="input-group-btn">
-                <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
-                </span>
-            </div>
+            <span class="input-group-btn">
+            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+            </span>
         </div>
     </div>
+</div>
 
 
-    <div id="message-resetar-senha"></div>
+<div id="message-resetar-senha"></div>
 
 <?php
 Modal::end();
 ?>
-    <!--    Alterar Senha     -->
+<!--    Alterar Senha     -->
 
 <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 
 
 <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
+<?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
 
-    <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
+<?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
 
-    <?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
+<?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
 
 
 <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>

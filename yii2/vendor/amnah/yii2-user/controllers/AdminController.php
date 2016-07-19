@@ -274,7 +274,7 @@ class AdminController extends Controller {
 
     public function actionCreateAjax($nome, $rg, $cpf, $telefone,
             $email, $cargo, $reparticao, $endereco, $situacaousuario, 
-            $password, $roleid, $status) {
+            $password) {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
@@ -282,8 +282,8 @@ class AdminController extends Controller {
         $user->setScenario("admin");
         $profile = $this->module->model("Profile");
         $user->password = $password;
-        $user->role_id = $roleid;
-        $user->status = $status;
+      $user->role_id = 2;
+        $user->status = 1;
 
 
         if ($user->validate()) {

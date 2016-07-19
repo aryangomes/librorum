@@ -364,24 +364,18 @@ $('#btCadastrarUsuario').click(function () {
     var endereco = $('#usuario-endereco-post').val();
     var situacaousuario = $('#usuario-situacaousuario-post').val();
 
-    usuarioPost.push(nome, rg, cpf, telefone, email, cargo, reparticao, endereco,
-            situacaousuario);
+
 
     var password = $('#user-password-post').val();
-    var roleid = $('#user-roleid-post').val();
-    var status = $('#user-status-post').val();
 
-
-
-
-    if (nome.length > 0 && rg.length > 0) {
+    if (nome.length > 0 && rg.length > 0 && isEmail(email)) {
 
 
         $.get('../user/admin/create-ajax', {nome: nome, rg: rg,
             cpf: cpf, telefone: telefone, email: email, cargo: cargo,
             reparticao: reparticao, endereco: endereco,
             situacaousuario: situacaousuario,
-            password: password, roleid: roleid, status: status
+            password: password
 
         }, function (data) {
             console.log('bdata: ' + data);
@@ -413,6 +407,15 @@ $('#btCadastrarUsuario').click(function () {
 
         });
     } else {
-        alert('Preencha o campo \'RG\'');
+        if (rg.length <= 0){
+            alert('Preencha o campo \'RG\'');
+        }else if(!isEmail(email)){
+             alert('Email inválido');
+        }
     }
 });
+
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
+}
