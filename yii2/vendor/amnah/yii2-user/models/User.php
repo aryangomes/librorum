@@ -51,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @var int Unconfirmed email status
      */
-    const STATUS_UNCONFIRMED_EMAIL = 2;
+//    const STATUS_UNCONFIRMED_EMAIL = 2;
 
     /**
      * @var string Current password - for account page updates
@@ -102,8 +102,8 @@ class User extends ActiveRecord implements IdentityInterface
 
             [['password'], 'required'],
 
-       //     [['email', 'username'], 'unique'],
-        //    [['email', 'username'], 'filter', 'filter' => 'trim'],
+            [['email', 'username'], 'unique'],
+            [['email', 'username'], 'filter', 'filter' => 'trim'],
 //            [['email'], 'email'],
          //   [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
@@ -118,7 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin crud rules
-            [['role_id', 'status'], 'required', 'on' => ['admin']],
+            [['role_id'], 'required', 'on' => ['admin']],
             [['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['banned_at'], 'integer', 'on' => ['admin']],
             [['banned_reason'], 'string', 'max' => 255, 'on' => 'admin'],

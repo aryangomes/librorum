@@ -73,8 +73,7 @@ class EmprestimoController extends Controller {
         $user = new User();
 
         $situacoesusuario = \yii\helpers\ArrayHelper::map(
-        \app\models\SituacaoUsuario::find()->all(),
-        'idsituacao_usuario', 'situacao');
+                        \app\models\SituacaoUsuario::find()->all(), 'idsituacao_usuario', 'situacao');
 
         $user->setScenario("admin");
         $profile = new \amnah\yii2\user\models\Profile();
@@ -292,6 +291,22 @@ class EmprestimoController extends Controller {
             return $this->redirect(['view', 'id' => $id]);
         } else {
             return $this->redirect(['index']);
+        }
+    }
+
+    public function actionVerificaPodeEmprestar($idusuario) {
+        $usuario = Usuario::findOne($idusuario);
+        if ($usuario != null) {
+            $pode_emprestar = $usuario->verificarPodeEmprestar();
+          
+            if ($pode_emprestar) {
+                
+                echo Json::encode(true);
+            } else {
+                echo Json::encode(false);
+            }
+        } else {
+            echo Json::encode(false);
         }
     }
 

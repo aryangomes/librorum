@@ -131,7 +131,6 @@ $role = $module->model("Role");
 
             'password'=>['type'=>Form::INPUT_PASSWORD, 'options'=>['value'=>'']],
             'role_id'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $role::dropdown()]],
-            'status'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $user::statusDropdown()]],
 
 
         ],

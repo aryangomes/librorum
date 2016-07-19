@@ -13,7 +13,7 @@ return [
     'Can Admin' => 'Permite Administrar',
 
     'Role' => 'Cargo',
-    'Role ID' => 'Código do cargo',
+    'Role ID' => 'Tipo de Usuário',
     'Status' => 'Situação',
     'Email' => 'E-mail',
     'New Email' => 'Novo E-mail',

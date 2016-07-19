@@ -19,12 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'User')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'idusuario',
             'nome',
             'rg',
@@ -34,9 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'endereco',
             // 'telefone',
             // 'email:email',
-
+           
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    ?>
 
 </div>

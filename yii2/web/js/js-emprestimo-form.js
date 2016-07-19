@@ -37,6 +37,20 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#user-password').prop('disabled', false);
                 $('#result-get-usuario').hide();
                 $('#mensagem-cadastro-usuario').hide();
+                $.get('verifica-pode-emprestar', {idusuario: data.idusuario}, function (resultado) {
+                    console.log('pode emprestar.:' + resultado);
+                    if (resultado == 'false') {
+
+                        $('#user-password').prop('disabled', true);
+                        $('#result-get-usuario').attr('class', 'alert alert-danger');
+                        $('#result-get-usuario').html('Usuário não tem permissão para realizar empréstimo');
+                  
+                        $('#result-get-usuario').show();
+                          } else {
+                        $('#user-password').prop('disabled', false);
+                        $('#result-get-usuario').hide();
+                    }
+                });
             } else {
                 $('#result-get-usuario').show();
                 $('#result-get-usuario').attr('class', 'alert alert-danger');
@@ -407,10 +421,10 @@ $('#btCadastrarUsuario').click(function () {
 
         });
     } else {
-        if (rg.length <= 0){
+        if (rg.length <= 0) {
             alert('Preencha o campo \'RG\'');
-        }else if(!isEmail(email)){
-             alert('Email inválido');
+        } else if (!isEmail(email)) {
+            alert('Email inválido');
         }
     }
 });

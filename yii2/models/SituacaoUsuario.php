@@ -54,4 +54,11 @@ class SituacaoUsuario extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Usuario::className(), ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']);
     }
+    
+      public static function situacaoUsuarioDropDown(){
+        $situacoesUsuario = self::find()->all();
+        if($situacoesUsuario != null){
+            return \yii\helpers\ArrayHelper::map($situacoesUsuario, 'idsituacao_usuario', 'pode_emprestar');
+        }
+    }
 }

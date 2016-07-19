@@ -66,6 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $statusDropdown[$model->status];
                 },
             ],
+                        
             'email:email',
 
 
