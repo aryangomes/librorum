@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
                         
-            'email:email',
+            'email',
 
 
             'profile.full_name',

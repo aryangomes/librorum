@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'role_id',
             'status',
-            'email:email',
+            'email',
             'username',
             'profile.full_name',
             'password',

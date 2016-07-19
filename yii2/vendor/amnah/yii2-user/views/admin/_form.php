@@ -129,7 +129,10 @@ $role = $module->model("Role");
             // 2 column layout
             //'newPassword'=>['type'=>Form::INPUT_PASSWORD],
 
-            'password'=>['type'=>Form::INPUT_PASSWORD, 'options'=>['value'=>'']],
+            'password'=>['type'=>Form::INPUT_PASSWORD, 'options'=>[
+                'value'=>!$user->isNewRecord ? $user->password: '',
+                'disabled'=>!$user->isNewRecord ? true :false]
+                ],
             'role_id'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $role::dropdown()]],
 
 
@@ -191,8 +194,28 @@ $role = $module->model("Role");
 
     <div class="form-group">
         <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?= Html::Button('Alterar Senha do Usuário', ['class' =>  'btn btn-warning' ,
+              'id'=>'btAlterarSenhaDoUsuário',
+              'disabled'=>$user->isNewRecord ? true : false]) ?>
     </div>
-
+    
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php 
+    $this->registerJs("$(document).ready(function (){
+ 
+    if($('#user-password').val().length >0){
+            $('#btAlterarSenhaDoUsuário').show();
+    }else{
+         $('#btAlterarSenhaDoUsuário').hide();
+    }
+    
+$('#btAlterarSenhaDoUsuário').click(function (){
+$('#user-password').prop('disabled',false);
+$('#user-password').val('');
+});
+    
+});
+");
+    ?>

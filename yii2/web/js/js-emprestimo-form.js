@@ -231,7 +231,7 @@ $('#busca-exemplar').blur(function () {
                 $('#tableresult-exemplar').hide();
                 $('#tbody-result-exemplar').html('');
                 $('#result-messagem-busca-exemplar').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-exemplar').html('Nenhum exemplar encontrado');
+                $('#result-messagem-busca-exemplar').html('Nenhum exemplar disponível encontrado');
             }
         });
     }
