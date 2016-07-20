@@ -113,7 +113,7 @@ $tabUsuario = FormGrid::widget([
         </div>
 
         <div class="col-sm-6">
-<?= Html::label('Email') ?>
+            <?= Html::label('Email') ?>
             <?=
             Html::input('email', 'Usuario[email]', '', ['id' => 'usuario-email-post',
                 'class' => 'form-control'])
@@ -126,7 +126,7 @@ $tabUsuario = FormGrid::widget([
     <legend class="text-info"><small>Dados Diversos</small></legend>   
     <div class="row">
         <div class="col-sm-3">
-<?= Html::label('Cargo') ?>
+            <?= Html::label('Cargo') ?>
             <?=
             Html::input('text', 'Usuario[cargo]', '', ['id' => 'usuario-cargo-post',
                 'class' => 'form-control'])
@@ -135,7 +135,7 @@ $tabUsuario = FormGrid::widget([
         </div>
 
         <div class="col-sm-3">
-<?= Html::label('Repartição') ?>
+            <?= Html::label('Repartição') ?>
             <?=
             Html::input('text', 'Usuario[reparticao]', '', ['id' => 'usuario-reparticao-post',
                 'class' => 'form-control'])
@@ -144,7 +144,7 @@ $tabUsuario = FormGrid::widget([
         </div>
 
         <div class="col-sm-3">
-<?= Html::label('Endereço') ?>
+            <?= Html::label('Endereço') ?>
             <?=
             Html::input('text', 'Usuario[endereco]', '', ['id' => 'usuario-endereco-post',
                 'class' => 'form-control'])
@@ -153,7 +153,7 @@ $tabUsuario = FormGrid::widget([
         </div>
 
         <div class="col-sm-3">
-<?= Html::label('Situação Do Usuário') ?>
+            <?= Html::label('Situação Do Usuário') ?>
 
             <?=
             Html::dropDownList('Usuario[situacaoUsuarioIdsituacaoUsuario]', null, $situacoesusuario, ['id' => 'usuario-situacaousuario-post',
@@ -165,7 +165,7 @@ $tabUsuario = FormGrid::widget([
     <legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>   
     <div class="row">
         <div class="col-sm-12">
-<?= Html::label('Senha') ?>
+            <?= Html::label('Senha') ?>
             <?=
             Html::input('password', 'User[password]', '', ['id' => 'user-password-post',
                 'class' => 'form-control'])
@@ -176,14 +176,14 @@ $tabUsuario = FormGrid::widget([
     </div>
     <p> 
     <div class="form-group">
-<?=
-Html::Button(Yii::t('user', 'Create'), ['class' => 'btn btn-success',
-    'id' => 'btCadastrarUsuario'])
-?>
-    </div>  </p>    
-        <?php
-        Modal::end();
+        <?=
+        Html::Button(Yii::t('user', 'Create'), ['class' => 'btn btn-success',
+            'id' => 'btCadastrarUsuario'])
         ?>
+    </div>  </p>    
+<?php
+Modal::end();
+?>
 <!-- ------------------ END Cadastro de Usuário ------------------ -->
 
 <?php
@@ -202,7 +202,7 @@ $tabSenhadoUsuario = FormGrid::widget([
                     ],
                 ],
             ]
-        ]) . " <div id=\"message-senha-errada\"></div>";
+        ]) . " <div id=\"mensagem-senha-errada\"></div>";
 
 $tabDadosusuario = FormGrid::widget([
             'model' => $usuario,
@@ -241,7 +241,7 @@ $tabBuscarUsuario = "<div class=\"row\">
   " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary']) . "
  </span> </div> 
 </div> </div> </div>
-        <div id=\"result-messagem-busca-usuario\">
+        <div id=\"result-mensagem-busca-usuario\">
         </div>
         <table id=\"tableresult\" class=\"table table-bordered\">
             <thead>
@@ -273,7 +273,8 @@ $tabExemplar = FormGrid::widget([
                     ]
                 ],
             ]
-        ]) . "  <div id=\"message-indisponivel-exemaplar\"> </div>";
+        ]) . "  <div id=\"mensagem-indisponivel-exemplar\"> </div>"
+        . "<div id=\"mensagem-get-acervo-exemplar\"></div>";
 
 $tabBuscaExemplar = " <div class=\"row\">
   <div class=\"col-lg-6\"> <div class=\"form-group\">
@@ -285,7 +286,7 @@ $tabBuscaExemplar = " <div class=\"row\">
  </span> </div></div></div></div>
          
 
-        <div id=\"result-messagem-busca-exemplar\">
+        <div id=\"result-mensagem-busca-exemplar\">
         </div>
         <table id=\"tableresult-exemplar\" class=\"table table-bordered\">
             <thead>
@@ -299,7 +300,7 @@ $tabBuscaExemplar = " <div class=\"row\">
             <tbody id=\"tbody-result-exemplar\">
 
             </tbody>
-        </table> <div id=\"message-indisponivel-exemaplar\">
+        </table> <div id=\"mensagem-indisponivel-exemplar\">
 
 
         </div>
@@ -326,6 +327,10 @@ $tabAcervo = FormGrid::widget([
             ]
         ]);
 
+?>
+
+
+<?php 
 
 $tabEmprestimo = FormGrid::widget([
             'model' => $model,
@@ -349,7 +354,39 @@ $tabEmprestimo = FormGrid::widget([
                 ],
             ]
         ]);
+?>
 
+<!--   ---------------------------   BEGIN Configurar Dias Empréstimo  ---------------------------  -->
+<?php
+Modal::begin([
+    'header' => '<h2>Configurar Dias de Empréstimo</h2>',
+    'id' => 'modalconfigurardiasemprestimo',
+]);
+?>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="input-group">
+
+            <?=
+            Html::input('number','Config[valor]', '', ['min' => 1, 'class' => 'form-control',
+                'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
+            ?>
+            <span class="input-group-btn">
+                <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 
+                    'id' => 'btConfigurarDiasEmprestimo']) ?>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<?php
+Modal::end();
+?>
+
+<!--   ---------------------------   END Configurar Dias Empréstimo  ---------------------------  -->
+<div id="mensagem-get-data-previsao"></div>
+<?php
 $items = [
     [
         'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Usuário',
@@ -404,19 +441,19 @@ Modal::begin([
     <div class="col-lg-6">
         <div class="input-group">
 
-<?=
-Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
-    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
-?>
+            <?=
+            Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
+                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
+            ?>
             <span class="input-group-btn">
-            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+                <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
             </span>
         </div>
     </div>
 </div>
 
 
-<div id="message-resetar-senha"></div>
+<div id="mensagem-resetar-senha"></div>
 
 <?php
 Modal::end();
@@ -439,14 +476,14 @@ Modal::end();
 </div>
 
 <div class="form-group">
-<?=
-Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-    'id' => 'btSave'])
-?>
+    <?=
+    Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+        'id' => 'btSave'])
+    ?>
 
 
-<?= Html::resetButton('Limpar', ['class' => 'btn btn-warning'])
-?>
+    <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning'])
+    ?>
 </div>
 
 <?php ActiveForm::end(); ?>

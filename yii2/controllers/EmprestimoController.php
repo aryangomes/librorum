@@ -15,6 +15,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \app\models\Config;
 
 /**
  * EmprestimoController implements the CRUD actions for Emprestimo model.
@@ -238,19 +239,25 @@ class EmprestimoController extends Controller {
                         ->joinWith('acervoIdacervo')
                         ->where(['codigo_livro' => $codigoExemplar])->one();
 
-
-        echo Json::encode([$exemplar, $exemplar['acervoIdacervo']]);
+        if ($exemplar != null) {
+            echo Json::encode([$exemplar, $exemplar['acervoIdacervo']]);
+        } else {
+            echo Json::encode(null);
+        }
     }
 
     public function actionGetDataPrevisaoDevolucao() {
         //Definindo zona de tempo para o horário brasileiro
         date_default_timezone_set('America/Sao_Paulo');
 
-        $dataprevisao = date('Y-m-d H:i:s', strtotime("+10 days"));
-        $dataprevisaoformatado = date('d/m/Y H:i:s', strtotime("+10 days"));
-
-
-        echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+        $dias_emprestimo = \app\models\Config::findOne('dias_emprestimo');
+        if ($dias_emprestimo != null) {
+            $dataprevisao = date('Y-m-d H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+            $dataprevisaoformatado = date('d/m/Y H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+            echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+        } else {
+            echo Json::encode(null);
+        }
     }
 
     public function actionGetBuscaExemplar($tituloExemplar) {
@@ -298,9 +305,25 @@ class EmprestimoController extends Controller {
         $usuario = Usuario::findOne($idusuario);
         if ($usuario != null) {
             $pode_emprestar = $usuario->verificarPodeEmprestar();
-          
+
             if ($pode_emprestar) {
-                
+
+                echo Json::encode(true);
+            } else {
+                echo Json::encode(false);
+            }
+        } else {
+            echo Json::encode(false);
+        }
+    }
+
+    public function actionConfigurarDiasEmprestimo($diasEmprestimo) {
+        $config = new Config();
+        if ($diasEmprestimo != null && intval($diasEmprestimo) > 0) {
+            $config->chave = 'dias_emprestimo';
+            $config->valor = $diasEmprestimo;
+            if ($config->save()) {
+
                 echo Json::encode(true);
             } else {
                 echo Json::encode(false);

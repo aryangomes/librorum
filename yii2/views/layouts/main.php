@@ -60,6 +60,7 @@ AppAsset::register($this);
                ]
                ]
                 : '',
+               Yii::$app->user->can("admin") ?   ['label' => 'Configurações do Sistema', 'url' => ['/config/']] : '',
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/user/login']] :
                 [
@@ -67,6 +68,7 @@ AppAsset::register($this);
                     'url' => ['/user/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
+            
         ],
     ]);
     NavBar::end();

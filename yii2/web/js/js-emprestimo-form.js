@@ -32,7 +32,7 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#usuario_idusuario').val(data.idusuario);
                 $('#foto-usuario').attr("src", data.foto);
                 $('#btSave').prop('disabled', true);
-                $('#message-senha-errada').hide();
+                $('#mensagem-senha-errada').hide();
                 $('#result-get-usuario').html('');
                 $('#user-password').prop('disabled', false);
                 $('#result-get-usuario').hide();
@@ -44,9 +44,9 @@ $('#emprestimo-usuario_rg').blur(function () {
                         $('#user-password').prop('disabled', true);
                         $('#result-get-usuario').attr('class', 'alert alert-danger');
                         $('#result-get-usuario').html('Usuário não tem permissão para realizar empréstimo');
-                  
+
                         $('#result-get-usuario').show();
-                          } else {
+                    } else {
                         $('#user-password').prop('disabled', false);
                         $('#result-get-usuario').hide();
                     }
@@ -72,34 +72,43 @@ $('#acervoexemplar-codigo_livro').blur(function () {
         $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
 
 
-            var
-                    data = $.parseJSON((data));
+            var data = $.parseJSON((data));
+            console.log('exemplar.: '+data);
             if (data != null) {
+                $("#mensagem-get-acervo-exemplar").hide();
                 $('#acervo-titulo').val(data[1].titulo);
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
-                    $("#message-indisponivel-exemaplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
+                    $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
                             "<strong>Alerta!</strong> Exemplar indisponível no momento." +
                             "</div>");
                     $('button[type="submit"]').prop('disabled', true);
                     $('#form-exemplar').show();
                     $('#form-emprestimo').hide();
+                    $('#btSave').prop('disabled', true);
 
                 } else {
-                    $("#message-indisponivel-exemaplar").html("");
+                    $("#mensagem-indisponivel-exemplar").html("");
                     $('button[type="submit"]').prop('disabled', false);
                     $('#form-exemplar').hide();
                     $('#form-emprestimo').show();
-                    $('#btSave').prop('disabled', true);
+
+                    $('#btSave').prop('disabled', false);
+                    $('#w13 li:eq(1)').removeClass();
+                    $('#w13 li:eq(2)').addClass("active");
+                    $("#tab-exemplar").removeClass();
+                    $("#tab-exemplar").addClass("tab-pane fade");
+                    $("#tab-emprestimo").addClass("tab-pane fade in active");
+                    previsaoDevolucao();
                 }
-                $('#btSave').prop('disabled', false);
-                $('#w13 li:eq(1)').removeClass();
-                $('#w13 li:eq(2)').addClass("active");
-                $("#tab-exemplar").removeClass();
-                $("#tab-exemplar").addClass("tab-pane fade");
-                $("#tab-emprestimo").addClass("tab-pane fade in active");
+
             } else {
+
+                $("#mensagem-get-acervo-exemplar").html("<div class=\"alert alert-danger\" role=\"alert\">" +
+                        "<strong>Alerta!</strong> Exemplar não encontrado." +
+                        "</div>");
+                $("#mensagem-get-acervo-exemplar").show();
                 $('#btSave').prop('disabled', true);
             }
 
@@ -109,16 +118,31 @@ $('#acervoexemplar-codigo_livro').blur(function () {
     }
 });
 
-$.get('get-data-previsao-devolucao', function (data) {
-    console.log('previsao.: ' + data);
 
-    var
-            data = $.parseJSON((data));
-    $('#emprestimo-dataprevisaodevolucao').val(data[0]);
-    $('#lb-dataprevisaodevolucao').val(data[1]);
+var previsaoDevolucao = function () {
+    $.get('get-data-previsao-devolucao', function (data) {
+        console.log('previsao.: ' + data);
+        var data = $.parseJSON((data));
+        if (data != null) {
 
+//            $('#mensagem-get-data-previsao').hide();
+//            $('#mensagem-get-data-previsao').html('');
+            $('#emprestimo-dataprevisaodevolucao').val(data[0]);
+            $('#lb-dataprevisaodevolucao').val(data[1]);
+            $('#btSave').prop('disabled', false);
 
-});
+        } else {
+            $('#btSave').prop('disabled', true);
+            $('#mensagem-get-data-previsao').show();
+            $('#mensagem-get-data-previsao').html("<div class=\"alert alert-danger\" role=\"alert\">" +
+                    "<strong>Alerta!</strong> Configuração de dias de empréstimo ainda não" +
+                    " configurada. Para fazer isso,\n\
+            <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalconfigurardiasemprestimo\n\
+\">Clique aqui</a></div>");
+        }
+
+    });
+};
 
 $('#busca-usuario').blur(function () {
     var buscausuario = $(this).val();
@@ -135,8 +159,8 @@ $('#busca-usuario').blur(function () {
                 $('#tbody-result').html('');
 
                 $('#usuario-rg').val(data.rg);
-                $('#result-messagem-busca-usuario').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-usuario').html('</b>RG encontrado(s)</b>');
+                $('#result-mensagem-busca-usuario').attr('class', 'alert alert-success');
+                $('#result-mensagem-busca-usuario').html('</b>RG encontrado(s)</b>');
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
                     $('#tbody-result').append(
@@ -147,8 +171,8 @@ $('#busca-usuario').blur(function () {
                 data = null;
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
-                $('#result-messagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-usuario').html('Nenhum RG encontrado');
+                $('#result-mensagem-busca-usuario').attr('class', 'alert alert-danger');
+                $('#result-mensagem-busca-usuario').html('Nenhum RG encontrado');
             }
         });
     }
@@ -169,8 +193,8 @@ $('#btPesquisar').click(function () {
                 $('#tbody-result').html('');
 
                 $('#usuario-rg').val(data.rg);
-                $('#result-messagem-busca-usuario').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-usuario').html('</b>RG encontrado(s)</b>');
+                $('#result-mensagem-busca-usuario').attr('class', 'alert alert-success');
+                $('#result-mensagem-busca-usuario').html('</b>RG encontrado(s)</b>');
 
                 data.forEach(function (item) {
                     console.log('rg.:' + item.rg);
@@ -182,8 +206,8 @@ $('#btPesquisar').click(function () {
                 data = null;
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
-                $('#result-messagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-usuario').html('Nenhumo RG encontrado');
+                $('#result-mensagem-busca-usuario').attr('class', 'alert alert-danger');
+                $('#result-mensagem-busca-usuario').html('Nenhumo RG encontrado');
             }
         });
     }
@@ -202,8 +226,8 @@ $('#busca-exemplar').blur(function () {
             if (data.length > 0) {
                 $('#tableresult-exemplar').show();
                 $('#tbody-result-exemplar').html('');
-                $('#result-messagem-busca-exemplar').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-exemplar').html('</b>Exemplares encontrado(s)</b>');
+                $('#result-mensagem-busca-exemplar').attr('class', 'alert alert-success');
+                $('#result-mensagem-busca-exemplar').html('</b>Exemplares encontrado(s)</b>');
                 var codigoslivro = [];
                 var titulos = [];
                 var autores = [];
@@ -230,8 +254,8 @@ $('#busca-exemplar').blur(function () {
                 data = null;
                 $('#tableresult-exemplar').hide();
                 $('#tbody-result-exemplar').html('');
-                $('#result-messagem-busca-exemplar').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-exemplar').html('Nenhum exemplar disponível encontrado');
+                $('#result-mensagem-busca-exemplar').attr('class', 'alert alert-danger');
+                $('#result-mensagem-busca-exemplar').html('Nenhum exemplar disponível encontrado');
             }
         });
     }
@@ -250,8 +274,8 @@ $('#btPesquisarExemplar').blur(function () {
             if (data.length > 0) {
                 $('#tableresult-exemplar').show();
                 $('#tbody-result-exemplar').html('');
-                $('#result-messagem-busca-exemplar').attr('class', 'alert alert-success');
-                $('#result-messagem-busca-exemplar').html('</b>Exemplares encontrados</b>');
+                $('#result-mensagem-busca-exemplar').attr('class', 'alert alert-success');
+                $('#result-mensagem-busca-exemplar').html('</b>Exemplares encontrados</b>');
                 var codigoslivro = [];
                 var titulos = [];
                 var autores = [];
@@ -278,8 +302,8 @@ $('#btPesquisarExemplar').blur(function () {
                 data = null;
                 $('#tableresult-exemplar').hide();
                 $('#tbody-result-exemplar').html('');
-                $('#result-messagem-busca-exemplar').attr('class', 'alert alert-danger');
-                $('#result-messagem-busca-exemplar').html('Nenhum exemplar encontrado');
+                $('#result-mensagem-busca-exemplar').attr('class', 'alert alert-danger');
+                $('#result-mensagem-busca-exemplar').html('Nenhum exemplar encontrado');
             }
         });
     }
@@ -290,7 +314,7 @@ $('#user-password').blur(function () {
     var user_id = $('#usuario-user_id').val();
     console.log('user_id.:' + $('#emprestimo-usuario_rg').val().length);
     if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length > 0) {
-        $('#message-senha-errada').hide();
+        $('#mensagem-senha-errada').hide();
 
         $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
             console.log(data);
@@ -306,11 +330,11 @@ $('#user-password').blur(function () {
                 $("#tab-usuario").addClass("tab-pane fade");
                 $("#tab-exemplar").addClass("tab-pane fade in active");
             } else {
-                $('#message-senha-errada').attr('class', 'alert alert-danger');
-                $('#message-senha-errada').html('<strong>Senha incorreta!</strong>' +
+                $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
+                $('#mensagem-senha-errada').html('<strong>Senha incorreta!</strong>' +
                         'Caso queira alterar a senha,' +
                         ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
-                $('#message-senha-errada').show();
+                $('#mensagem-senha-errada').show();
                 $('#btSave').prop('disabled', true);
                 $('#form-usuario').show();
                 $('#form-exemplar').hide();
@@ -320,8 +344,8 @@ $('#user-password').blur(function () {
         });
     } else {
         if ($('#emprestimo-usuario_rg').val().length <= 0) {
-            $('#message-senha-errada').attr('class', 'alert alert-danger');
-            $('#message-senha-errada').html('<strong>Digite o RG do usuário!</strong>');
+            $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
+            $('#mensagem-senha-errada').html('<strong>Digite o RG do usuário!</strong>');
         }
     }
 });
@@ -330,8 +354,8 @@ $('#user-password').blur(function () {
 
 
 $('#btAlterarSenha').click(function () {
-    $('#message-resetar-senha').html('');
-    $('#message-resetar-senha').removeClass();
+    $('#mensagem-resetar-senha').html('');
+    $('#mensagem-resetar-senha').removeClass();
     var novaSenha = $('#user-newpassword').val();
     var user_id = $('#usuario-user_id').val();
 
@@ -345,15 +369,15 @@ $('#btAlterarSenha').click(function () {
             var data = $.parseJSON(data);
             console.log(data);
             if (data) {
-                $('#message-resetar-senha').attr('class', 'alert alert-success');
-                $('#message-resetar-senha').html('Senha alterada com sucesso');
+                $('#mensagem-resetar-senha').attr('class', 'alert alert-success');
+                $('#mensagem-resetar-senha').html('Senha alterada com sucesso');
 
                 $('#user-newpassword').val('');
                 $('#user-password').val('');
-                $('#message-senha-errada').hide();
+                $('#mensagem-senha-errada').hide();
             } else {
-                $('#message-resetar-senha').attr('class', 'alert alert-danger');
-                $('#message-resetar-senha').html('Não foi possível alterar a senha');
+                $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
+                $('#mensagem-resetar-senha').html('Não foi possível alterar a senha');
 
             }
 
@@ -433,3 +457,42 @@ function isEmail(email) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
 }
+
+
+$('#btConfigurarDiasEmprestimo').click(function () {
+
+    var diasEmprestimo = $('#config-valor').val();
+
+
+
+    if (diasEmprestimo.length != ' ' && diasEmprestimo.length > 0) {
+
+
+        $.get('configurar-dias-emprestimo', {diasEmprestimo: diasEmprestimo
+        }, function (data) {
+
+            var data = $.parseJSON(data);
+            console.log(data);
+            if (data) {
+
+                $('#mensagem-get-data-previsao').html("<div class=\"alert alert-success\" role=\"alert\">" +
+                        "<strong>Sucesso!</strong> Configuração de dias de empréstimo realizado com sucesso. </div>");
+                $('#mensagem-get-data-previsao').show();
+                $('#modalconfigurardiasemprestimo').modal('hide');
+                previsaoDevolucao();
+
+            } else {
+                $('#mensagem-get-data-previsao').show();
+                $('#mensagem-get-data-previsao').html("<div class=\"alert alert-danger\" role=\"alert\">" +
+                        "<strong>Alerta!</strong> Não foi possível fazer a configuração de dias de empréstimo.\n\
+     Tente novamente,\n\
+            <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalconfigurardiasemprestimo\n\
+\">Clicando aqui</a></div>");
+
+            }
+
+        });
+    } else {
+        alert('Digite a quantidade de dias');
+    }
+}); 
