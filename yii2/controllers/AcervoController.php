@@ -165,12 +165,12 @@ class AcervoController extends Controller
     {
         $pessoa = Pessoa::find()->where(['nome' => $nome])->one();
         if($pessoa != null) {
-            if(PessoaFisica::findOne($pessoa->id) != null) {
-                $pessoaFisica = PessoaFisica::findOne($pessoa->id);
-                echo Json::encode([$pessoaFisica->cpf, $pessoa]);
-            } else if(PessoaJuridica::findOne($pessoa->id) != null) {
-                $pessoaJuridica = PessoaJuridica::findOne($pessoa->id);
-                echo Json::encode([$pessoaJuridica->cnpj, $pessoa]);
+            if(PessoaFisica::findOne($pessoa->idpessoa) != null) {
+                $pessoaFisica = PessoaFisica::findOne($pessoa->idpessoa);
+                echo Json::encode([$pessoaFisica->cpf, $pessoa,1]);
+            } else if(PessoaJuridica::findOne($pessoa->idpessoa) != null) {
+                $pessoaJuridica = PessoaJuridica::findOne($pessoa->idpessoa);
+                echo Json::encode([$pessoaJuridica->cnpj, $pessoa,2]);
             } else {
                 echo Json::encode(null);
             }

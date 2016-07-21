@@ -43,6 +43,8 @@ class AcervoSearch extends Acervo
     {
         $query = Acervo::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,6 +57,7 @@ class AcervoSearch extends Acervo
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'idacervo' => $this->idacervo,
             'aquisicao_idaquisicao' => $this->aquisicao_idaquisicao,
