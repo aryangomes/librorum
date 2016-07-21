@@ -314,5 +314,14 @@ class AdminController extends Controller {
         }
 
     }
+    
+    public function actionUploadAjax($nomeUsuario) {
+        $usuario = new Usuario();
+          $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+            if ($usuario->imageFile != null) {
+
+                $usuario->foto = $usuario->getPathWeb($nomeUsuario);
+            }   
+    }
 
 }

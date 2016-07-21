@@ -141,6 +141,12 @@ $this->params['breadcrumbs'][] = $this->title;
            O exemplar já está emprestado a <strong><?= $model->diasDiferenca?></strong> dia(s) .
         </div>
     <?php
+    }else if($model->diasDiferenca == 0){
+        ?>
+    <div class="alert alert-info">
+           O exemplar foi emprestado hoje.
+        </div>
+    <?php
     }
     ?>
 

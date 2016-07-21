@@ -160,6 +160,27 @@ $tabUsuario = FormGrid::widget([
                 'class' => 'form-control', 'prompt' => 'Selecione a Situação do Usuário'])
             ?>
         </div>
+        
+        <?php /*
+$form->field($usuario, 'imageFile')->widget(\kartik\file\FileInput::classname(), [
+
+    'pluginOptions' => [
+        'uploadUrl' => yii\helpers\Url::to(['./user/admin/upload-ajax',
+         
+            'uploadExtraData'=>[
+               ['nomeUsuario'=>'teste']
+            ],
+           ]),
+        // permite habilitar ou desabilitar o botão de upload
+        'showUpload' => false,
+    //'minImageWidth' => 900,
+    //'minImageHeight' => 300,
+    //'maxImageWidth' =>900,
+    //'maxImageHeight' => 300
+    ],
+    'options' => ['accept' => 'image/jpeg, image/png'],
+]);*/
+?>
     </div>
 
     <legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>   
