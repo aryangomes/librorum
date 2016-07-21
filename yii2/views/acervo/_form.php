@@ -4,9 +4,13 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 use kartik\builder\FormGrid;
+use yii\bootstrap\Modal;
+use yii\widgets\MaskedInput;
+
 use yii\web\JsExpression;
 use app\models\TipoMaterial;
 use app\models\CategoriaAcervo;
+use app\models\Pessoa;
 
 $urltipomaterial = \yii\helpers\Url::to(['tipo-material/tipo-material-list']);
 $urltipoaquisicao = \yii\helpers\Url::to(['tipo-aquisicao/tipo-aquisicao-list']);
@@ -20,13 +24,185 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
 <div class="acervo-form">
 
     <?php
-    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
 
+    //Formulário para a Pessoa
     echo FormGrid::widget([
-        'model' => $model,
-        'form' => $form,
-        'autoGenerateColumns' => true,
-        'rows' => [
+        'model'=>$pessoa,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Pessoa</small></legend>',
+                'attributes'=>[  
+                'nome'=>['type'=>Form::INPUT_TEXT,'options' => ['id' => 'busca-pessoa',]],
+                ]
+            ],
+        ]
+    ]);
+    ?>
+
+    <?php
+    Modal::begin([
+        'header' => '<h2>Cadastrar Pessoa</h2>',
+        'id' => 'modalcadastrarpessoa'
+    ]);
+    ?>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                <?= Html::label('Nome', 'pessoa-nome') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <?= Html::input('text', 'pessoa-nome', null, ['class' => 'form-control', 'id' => 'pessoa-nome',
+                    'placeholder' => 'Digite o nome da pessoa']) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <?= Html::label('Tipo de Pessoa', 'pessoa-tipo') ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <?= Html::dropDownList('pessoa-tipo', '', [1 => 'Pessoa Física', 2 => 'Pessoa Jurídica'], ['class' => 'form-control', 'id' => 'pessoa-tipo',
+                    'prompt' => 'Selecione o tipo de pessoa']) ?>
+            </div>
+        </div>
+        
+        <div id="pessoa-cpf-post">
+            <div class="row">
+                <div class="col-md-4">
+                    <?= Html::label('Cpf', 'pessoa-cpf') ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <?= MaskedInput::widget([
+                        'name' => 'pessoa-cpf',
+                        'mask' => '999.999.999-99',
+                        'options' => ['class' => 'form-control'],
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="pessoa-cnpj-post">
+            <div class="row">
+                <div class="col-md-4">
+                    <?= Html::label('Cnpj', 'pessoa-cnpj') ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <?= MaskedInput::widget([
+                        'name' => 'pessoa-cnpj',
+                        'mask' => '99.999.999/9999-99',
+                        'options' => ['class' => 'form-control'],
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <?= Html::button('Cadastrar', ['id'=>'btCadastrarPessoa','class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
+    </div>
+
+    <?php
+    Modal::end();
+    ?>
+
+    <div id="mensagem-busca-pessoa">
+        
+    </div>
+
+    <?php
+    //Formulário para a Aquisição do Material
+    echo FormGrid::widget([
+        'model'=>$aquisicao,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Aquisição</small></legend>',
+                'attributes'=>[       // 2 column layout
+                    'tipo_aquisicao_idtipo_aquisicao' => ['type' => Form::INPUT_WIDGET,
+                    'widgetClass' => 'kartik\widgets\Select2',
+                    'options' => [
+                         'initValueText' => isset($aquisicao->tipo_aquisicao_idtipo_aquisicao) ?  app\models\TipoAquisicao::findOne
+                                    ($aquisicao->tipo_aquisicao_idtipo_aquisicao)->tipoaquisicao : '',
+                        'pluginOptions' => [
+                            'placeholder' => Yii::t('app', 'Digite o tipo de aquisiçãoo. Ex: Compra, Doação ...'),
+                            'allowClear' => true,
+                           
+                            'minimumInputLength' => 3,
+                            'language' => [
+                                'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                            ],
+                            'ajax' => [
+                                'url' => $urltipoaquisicao,
+                                'dataType' => 'json',
+                                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                            ],
+                            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                            'templateResult' => new JsExpression('function(situacao) { return situacao.text; }'),
+                            'templateSelection' => new JsExpression('function (situacao) { return situacao.text; }'),
+                        ],
+                    ],
+                    ],
+                    'pessoa_idpessoa'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items' => $tiposPessoa,'options'=>[
+
+                    'prompt'=>'Selecione']],
+                    'preco'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder' => 'Ex: Valor']],
+                ]
+            ],
+        ]
+    ]);
+
+    //Formulário para a Pessoa Física
+    echo FormGrid::widget([
+        'model'=>$pessoaFisica,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Pessoa Física</small></legend>',
+                'attributes'=>[  
+                'cpf'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => '\yii\widgets\MaskedInput','options' => ['mask' => ['999.999.999-99'],]],
+                ]
+            ],
+        ]
+    ]);
+
+    //Formulário para a Pessoa Jurídica
+    echo FormGrid::widget([
+        'model'=>$pessoaJuridica,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
+            [
+                'contentBefore'=>'<legend class="text-info"><small>Pessoa Jurídica</small></legend>',
+                'attributes'=>[  
+                'cnpj'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => '\yii\widgets\MaskedInput','options' => ['mask' => ['99.999.999/9999-99'],]],
+                ]
+            ],
+        ]
+    ]);
+
+    //Formulário de Acervo
+    echo FormGrid::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'autoGenerateColumns'=>true,
+        'rows'=>[
             [
                 'contentBefore' => '<legend class="text-info"><small>Material</small></legend>',
                 'attributes' => [       // 2 column layout
@@ -86,38 +262,40 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                 ],
             ],
             [
-                'contentBefore' => '<legend class="text-info"><small>Aquisição</small></legend>',
-                'attributes' => [
-                    'aquisicao_idaquisicao' => ['type' => Form::INPUT_WIDGET, 
-                        'widgetClass' => 'kartik\widgets\Select2', 
-                        'options' => [
-                            'pluginOptions' => [
-
-                                'placeholder' => 'Digite o Tipo de Aquisição. Ex: Doação, Compra ...',
-                                'allowClear' => true,
-                                'minimumInputLength' => 2,
-                                'language' => [
-                                    'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
-                                ],
-                                'ajax' => [
-                                    'url' => $urltipoaquisicao,
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                                ],
-                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                'templateResult' => new JsExpression('function(tipo) { return tipo.text; }'),
-                                'templateSelection' => new JsExpression('function (tipo) { return tipo.text; }'),
-                            ]]],
+                'contentBefore'=>'<legend class="text-info"><small>Exemplar</small></legend>',
+                'attributes'=>[      // 1 column layout
+                    'quantidadeExemplar'=>['type'=>Form::INPUT_HTML5, 'html5type' => 'number', 'options'=>['placeholder' => 'Digite a Quantitade de Exemplares.', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
                 ],
             ],
         ]
     ]);
-    ?>
+
+
+$this->RegisterJs("
+        $('#w8').hide();
+        $('#w10').hide();
+
+        $('#aquisicao-pessoa_idpessoa').change(function(){
+                var tipopessoa = $(this).val();
+                if(tipopessoa == 1){
+                    $('#w8').show();
+                            $('#10').hide();                    
+                }else if(tipopessoa == 2){
+                        $('#w10').show();
+                                $('#w8').hide();
+                }
+        });
+    ");
+?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Catalog') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
+
+    <?php
+    $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-acervo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+    ?>
 
 </div>
