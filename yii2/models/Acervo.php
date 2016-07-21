@@ -24,6 +24,7 @@ use Yii;
  */
 class Acervo extends \yii\db\ActiveRecord
 {
+    public $quantidadeExemplar;
     /**
      * @inheritdoc
      */

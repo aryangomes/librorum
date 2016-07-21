@@ -8,7 +8,12 @@ use app\models\AcervoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\models\AcervoExemplar;
+use app\models\Aquisicao;
+use app\models\Pessoa;
+use app\models\PessoaFisica;
+use app\models\PessoaJuridica;
+use yii\helpers\Json;
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
@@ -61,12 +66,55 @@ class AcervoController extends Controller
     public function actionCreate()
     {
         $model = new Acervo();
+        $aquisicao = new Aquisicao();
+        $pessoa = new Pessoa();
+        $pessoaFisica = new PessoaFisica();
+        $pessoaJuridica = new PessoaJuridica();
+        $tiposPessoa = ['1'=>'Pessoa Fisica','2'=>'Pessoa Juridica'];
+/*        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->idacervo]);*/
+        
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idacervo]);
+
+        if ((Yii::$app->request->post())){
+            
+            $post = Yii::$app->request->post();
+            $dadosAquisicao = $post['Aquisicao'];
+            $aquisicao->tipo_aquisicao_idtipo_aquisicao = $dadosAquisicao['tipo_aquisicao_idtipo_aquisicao'];
+            $aquisicao->pessoa_idpessoa = $dadosAquisicao['pessoa_idpessoa'];
+            $aquisicao->quantidade = $post['Acervo']['quantidadeExemplar'];
+            $aquisicao->preco = $dadosAquisicao['preco'];
+            
+            $aquisicao->load($dadosAquisicao);
+
+            if($aquisicao->save()){
+            $model->load(Yii::$app->request->post());
+            $model->aquisicao_idaquisicao =$aquisicao->idaquisicao;
+            if($model->save()) {
+                $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
+                if($quantidadeExemplares > 0){
+                    for($i = 1; $i <= $quantidadeExemplares; $i++){
+                        $exemplar = new AcervoExemplar();
+                        $exemplar->esta_disponivel = 1;
+                        $exemplar->acervo_idacervo = $model->idacervo;
+                        $exemplar->codigo_livro = $model->idacervo.''.$i;
+                        
+                        $exemplar->save(false);
+                        if ($i == $quantidadeExemplares) {
+                            return $this->redirect(['view', 'id' => $model->idacervo]);
+                        }
+                    }
+                }
+            }
+        }
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'aquisicao' => $aquisicao,
+                'pessoa' => $pessoa,
+                'pessoaFisica' => $pessoaFisica,
+                'pessoaJuridica' => $pessoaJuridica,
+                'tiposPessoa'=>$tiposPessoa,
             ]);
         }
     }
@@ -80,12 +128,22 @@ class AcervoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $aquisicao = new Aquisicao();
+        $pessoa = new Pessoa();
+        $pessoaFisica = new PessoaFisica();
+        $pessoaJuridica = new PessoaJuridica();
+        $tiposPessoa = ['1'=>'Pessoa Fisica','2'=>'Pessoa Juridica'];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idacervo]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'aquisicao' => $aquisicao,
+                'pessoa' => $pessoa,
+                'pessoaFisica' => $pessoaFisica,
+                'pessoaJuridica' => $pessoaJuridica,
+                'tiposPessoa'=>$tiposPessoa,
             ]);
         }
     }
@@ -101,6 +159,24 @@ class AcervoController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionGetBuscaPessoa($nome)
+    {
+        $pessoa = Pessoa::find()->where(['nome' => $nome])->one();
+        if($pessoa != null) {
+            if(PessoaFisica::findOne($pessoa->id) != null) {
+                $pessoaFisica = PessoaFisica::findOne($pessoa->id);
+                echo Json::encode([$pessoaFisica->cpf, $pessoa]);
+            } else if(PessoaJuridica::findOne($pessoa->id) != null) {
+                $pessoaJuridica = PessoaJuridica::findOne($pessoa->id);
+                echo Json::encode([$pessoaJuridica->cnpj, $pessoa]);
+            } else {
+                echo Json::encode(null);
+            }
+        }else{
+             echo Json::encode(null);
+        }
     }
 
     /**
