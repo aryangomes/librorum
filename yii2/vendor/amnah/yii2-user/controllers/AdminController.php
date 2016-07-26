@@ -315,13 +315,21 @@ class AdminController extends Controller {
 
     }
     
-    public function actionUploadAjax($nomeUsuario) {
+   /* public function actionUploadAjax($nomeUsuario) {
         $usuario = new Usuario();
           $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
             if ($usuario->imageFile != null) {
 
                 $usuario->foto = $usuario->getPathWeb($nomeUsuario);
-            }   
-    }
+                 if ($usuario->save()) {
+                $usuario->upload($usuario->nome);
+                return $this->redirect(['view', 'id' => $user->id]);
+//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+            }
+                 echo Json::encode(true);
+            }   else{
+                 echo Json::encode(false);
+            }
+    }*/
 
 }

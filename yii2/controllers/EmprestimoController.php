@@ -332,5 +332,50 @@ class EmprestimoController extends Controller {
             echo Json::encode(false);
         }
     }
+    
+     public function actionGetBuscaEmprestimoRg($rg) {
+        $modelSearch = new EmprestimoSearch();
+        $emprestimos = $modelSearch->searchEmprestimoByRg($rg);
+        if ($emprestimos != null) {
+           
+           $emprestimoExemplares = [];
+            $emprestimoUsuario = [];
+            foreach ($emprestimos as $e) {
+                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+            }
+            foreach ($emprestimos as $e) {
+                array_push($emprestimoUsuario, $e['usuarioIdusuario']);
+            }
+            if ($emprestimos != null) {
+                echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares]);
+            } else {
+                echo Json::encode(null);
+            }
+        } else {
+            echo Json::encode(null);
+        }
+    }
+    
+    public function actionGetBuscaEmprestimoCodigoExemplar($codigoExemplar) {
+        $modelSearch = new EmprestimoSearch();
+        $emprestimo = $modelSearch->searchEmprestimoByCodigoExemplar($codigoExemplar);
+        if ($emprestimo != null) {
+            $emprestimoExemplares = [];
+            $emprestimoUsuario = [];
+            foreach ($emprestimo as $e) {
+                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+            }
+            foreach ($emprestimo as $e) {
+                array_push($emprestimoUsuario, $e['usuarioIdusuario']);
+            }
+            if ($emprestimo != null) {
+                echo Json::encode([$emprestimo, $emprestimoUsuario, $emprestimoExemplares]);
+            } else {
+                echo Json::encode(null);
+            }
+        } else {
+            echo Json::encode(null);
+        }
+    }
 
 }

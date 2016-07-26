@@ -135,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?php
-    if($model->diasDiferenca > 0){
+    if($model->diasDiferenca > 0 && $model->datadevolucao == null){
         ?>
         <div class="alert alert-info">
            O exemplar já está emprestado a <strong><?= $model->diasDiferenca?></strong> dia(s) .
