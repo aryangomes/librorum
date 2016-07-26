@@ -112,5 +112,27 @@ class EmprestimoSearch extends Emprestimo {
 
         return $query;
     }
+    
+     public function searchDadosEmprestimo($idEmprestimo) {
+       
+        if ($idEmprestimo != null) {
+
+            $query = Emprestimo::find()
+                    ->joinWith('usuarioIdusuario')
+                    ->joinWith('acervoExemplarIdacervoExemplar')
+                    ->joinWith('acervoExemplarIdacervoExemplar.acervoIdacervo')
+                    ->where(['idemprestimo' => $idEmprestimo])
+                    ->one();
+
+            if (count($query) <= 0) {
+                $query = null;
+            }
+        } else {
+            $query = null;
+        }
+
+
+        return $query;
+    }
 
 }

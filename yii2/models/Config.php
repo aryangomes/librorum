@@ -9,9 +9,16 @@ use Yii;
  *
  * @property string $chave
  * @property string $valor
+ *  * @property array $configuracoes
  */
 class Config extends \yii\db\ActiveRecord
 {
+    
+     private $configuracoes =[
+         'dias_emprestimo'=>'Dias de Empréstimo',
+            'nome_biblioteca'=>'Nome da Biblioteca'
+     ];
+    
     /**
      * @inheritdoc
      */
@@ -19,6 +26,24 @@ class Config extends \yii\db\ActiveRecord
     {
         return 'config';
     }
+    
+    /**
+     * Retorna uma instância única de uma classe.
+     *
+     * @staticvar Singleton $instance A instância única dessa classe.
+     *
+     * @return Singleton A Instância única.
+     */
+    public static function getInstance()
+    {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
+    }
+
 
     /**
      * @inheritdoc
@@ -42,5 +67,9 @@ class Config extends \yii\db\ActiveRecord
             'chave' => Yii::t('app', 'Nome da Configuração'),
             'valor' => Yii::t('app', 'Valor'),
         ];
+    }
+    
+    public function getConfiguracoes() {
+        return $this->configuracoes;
     }
 }

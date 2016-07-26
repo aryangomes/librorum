@@ -30,7 +30,7 @@ $('#btPesquisarPorRG').click(function () {
                 $('#result-messagem-busca-emprestimo-rg').attr('class', 'alert alert-success');
                 $('#result-messagem-busca-emprestimo-rg').html('</b>Empréstimo(s) encontrado(s)</b>');
                 data.forEach(function (item, index) {
-
+                        console.log('item '+item);
                     $('#tbody-result-rg').append(
                             '<tr><td>' + data[1][index].nome + '</td>' +
                             '<td>' + data[1][index].rg + '</td>' +

@@ -29,6 +29,7 @@ return array(
     'kartik\\plugins\\tabs\\' => array($vendorDir . '/kartik-v/bootstrap-tabs-x'),
     'kartik\\plugins\\fileinput\\' => array($vendorDir . '/kartik-v/bootstrap-fileinput'),
     'kartik\\plugins\\depdrop\\' => array($vendorDir . '/kartik-v/dependent-dropdown'),
+    'kartik\\mpdf\\' => array($vendorDir . '/kartik-v/yii2-mpdf'),
     'kartik\\growl\\' => array($vendorDir . '/kartik-v/yii2-widget-growl'),
     'kartik\\grid\\' => array($vendorDir . '/kartik-v/yii2-grid'),
     'kartik\\form\\' => array($vendorDir . '/kartik-v/yii2-widget-activeform'),

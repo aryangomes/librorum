@@ -62,4 +62,13 @@ class ConfigSearch extends Config
 
         return $dataProvider;
     }
+    
+    public function searchConfig($chave)
+    {
+        $query = Config::find()->where(['chave'=>$chave])
+                ->one();
+
+     
+        return $query;
+    }
 }

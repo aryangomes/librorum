@@ -16,6 +16,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \app\models\Config;
+use kartik\mpdf\Pdf;
 
 /**
  * EmprestimoController implements the CRUD actions for Emprestimo model.
@@ -55,7 +56,7 @@ class EmprestimoController extends Controller {
     public function actionView($id) {
         $model = $this->findModel($id);
         ($model->calcularDiasDeEmprestimo());
-        var_dump($model->diasDiferenca);
+
         return $this->render('view', [
                     'model' => $model,
         ]);
@@ -332,13 +333,13 @@ class EmprestimoController extends Controller {
             echo Json::encode(false);
         }
     }
-    
-     public function actionGetBuscaEmprestimoRg($rg) {
+
+    public function actionGetBuscaEmprestimoRg($rg) {
         $modelSearch = new EmprestimoSearch();
         $emprestimos = $modelSearch->searchEmprestimoByRg($rg);
         if ($emprestimos != null) {
-           
-           $emprestimoExemplares = [];
+
+            $emprestimoExemplares = [];
             $emprestimoUsuario = [];
             foreach ($emprestimos as $e) {
                 array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
@@ -355,7 +356,7 @@ class EmprestimoController extends Controller {
             echo Json::encode(null);
         }
     }
-    
+
     public function actionGetBuscaEmprestimoCodigoExemplar($codigoExemplar) {
         $modelSearch = new EmprestimoSearch();
         $emprestimo = $modelSearch->searchEmprestimoByCodigoExemplar($codigoExemplar);
@@ -376,6 +377,36 @@ class EmprestimoController extends Controller {
         } else {
             echo Json::encode(null);
         }
+    }
+
+    public function actionGerarComprovanteEmprestimo($id) {
+
+       
+        $emprestimoSearch = new EmprestimoSearch();
+        $dadosEmprestimo = $emprestimoSearch->searchDadosEmprestimo($id);
+       
+        $configSearch = new \app\models\ConfigSearch();
+        $config = $configSearch->searchConfig('nome_biblioteca');
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'content' => $this->renderPartial('comprovante', [
+                'dadosEmprestimo' => $dadosEmprestimo,
+                'config'=>$config
+            ]),
+            'filename'=>'comprovanteemprestimo'.
+           date("d-m-Y_H-i-s", strtotime
+                            ( $dadosEmprestimo->dataemprestimo)).'.pdf',
+            'options' => [
+                'title' => 'Comprovante de Empréstimo',
+//                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'methods' => [
+                'SetHeader' => ['Gerado por: Krajee Pdf Component||Gerado em: ' .
+                    date("d/m/Y H:i:s")],
+                'SetFooter' => ['|Página{PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
     }
 
 }
