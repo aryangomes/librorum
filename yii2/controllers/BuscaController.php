@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Acervo;
+use app\models\AcervoExemplar;
 
 class BuscaController extends Controller
 {
@@ -29,10 +30,14 @@ class BuscaController extends Controller
     }
 
     public function actionBuscaAcervo($acervo){
-        $query = Acervo::find()->joinWith('tipoMaterialIdtipoMaterial')
-        /*->joinWith('acervoAutores')*/
-        ->where(['LIKE','titulo',$acervo])->all();
+        $acervo = Acervo::find()
+        ->joinWith('tipoMaterialIdtipoMaterial')
+        ->joinWith('categoriaAcervoIdcategoriaAcervo')
+        ->where(['LIKE','titulo',$acervo])->one();
 
-        return $this->render('index',['query'=>$query]);
-    }    
+        $exemplares = AcervoExemplar::find()
+        ->where(['acervo_idacervo'=>$acervo->idacervo])->all();
+
+        return $this->render('index',['acervo'=>$acervo, 'exemplares'=>$exemplares]);
+    }
 }
