@@ -98,6 +98,7 @@ return [
     'Profile' => 'Perfil',
     'Resend' => 'Re-enviar',
     'Password has been reset' => 'A senha foi reiniciada',
+    'Passwords do not match'=> "As Senhas São Diferentes",
 //    'Login link sent - Please check your email' => '',
 //    'Registration link sent - Please check your email' => '',
 ];

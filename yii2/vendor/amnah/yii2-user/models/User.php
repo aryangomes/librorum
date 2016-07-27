@@ -82,6 +82,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public $password_repeat;
+
     public function init()
     {
         if (!$this->module) {
@@ -111,8 +112,8 @@ class User extends ActiveRecord implements IdentityInterface
             [['newPassword'], 'string', 'min' => 3],
             [['newPassword'], 'filter', 'filter' => 'trim'],
             [['newPassword'], 'required', 'on' => ['register', 'reset']],
-            [['newPasswordConfirm'], 'required', 'on' => ['reset']],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user', 'Passwords do not match')],
+            [['password_repeat'], 'required', 'on' => ['reset']],
+            [['password_repeat'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', 'Passwords do not match')],
 
             // account page
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
@@ -178,7 +179,7 @@ class User extends ActiveRecord implements IdentityInterface
             // virtual attributes set above
             'currentPassword' => Yii::t('user', 'Current Password'),
             'newPassword' => $this->isNewRecord ? Yii::t('user', 'Password') : Yii::t('user', 'New Password'),
-            'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
+            'password_repeat' => Yii::t('user', 'Confirme Sua Senha'),
         ];
     }
 
