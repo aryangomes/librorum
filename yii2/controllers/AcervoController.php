@@ -53,8 +53,11 @@ class AcervoController extends Controller
      */
     public function actionView($id)
     {
+        $acervoSearch = new AcervoSearch();
+        $acervoExemplares = $acervoSearch->searchExemplares($id);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'acervoExemplares'=>$acervoExemplares
         ]);
     }
 
