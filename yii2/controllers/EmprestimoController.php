@@ -381,21 +381,23 @@ class EmprestimoController extends Controller {
 
     public function actionGerarComprovanteEmprestimo($id) {
 
-       
+        //         Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Sao_Paulo');
+
         $emprestimoSearch = new EmprestimoSearch();
         $dadosEmprestimo = $emprestimoSearch->searchDadosEmprestimo($id);
-       
+
         $configSearch = new \app\models\ConfigSearch();
         $config = $configSearch->searchConfig('nome_biblioteca');
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'content' => $this->renderPartial('comprovante', [
                 'dadosEmprestimo' => $dadosEmprestimo,
-                'config'=>$config
+                'config' => $config
             ]),
-            'filename'=>'comprovanteemprestimo'.
-           date("d-m-Y_H-i-s", strtotime
-                            ( $dadosEmprestimo->dataemprestimo)).'.pdf',
+            'filename' => 'comprovanteemprestimo' .
+            date("d-m-Y_H-i-s", strtotime
+                            ($dadosEmprestimo->dataemprestimo)) . '.pdf',
             'options' => [
                 'title' => 'Comprovante de Empréstimo',
 //                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'

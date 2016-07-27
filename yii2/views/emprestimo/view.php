@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-
         <?=
         !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
                     'class' => 'btn btn-danger',
@@ -33,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         Modal::begin([
             'header' => '<h2>Devolução</h2>',
             'toggleButton' => ['label' => isset($model->datadevolucao) ? 'Devolvido' : 'Fazer Devolução',
-                'class' => 'btn btn-info',
+                'class' => 'btn btn-success',
                 'disabled' => isset($model->datadevolucao) ? true : false],
         ]);
 
@@ -79,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::begin([
         'header' => '<h2>Renovar empréstimo</h2>',
         'toggleButton' => ['label' => 'Fazer Renovação de Empréstimo',
-            'class' => 'btn btn-info',
+            'class' => 'btn btn-warning',
             'disabled' => isset($model->datadevolucao) ? true : false],
     ]);
 
@@ -105,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
     <div class="form-group">
-<?= Html::submitButton(Yii::t('app', 'Confirmar renovação de empréstimo'), ['class' => 'btn-lg btn-block btn-info']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Confirmar renovação de empréstimo'), ['class' => 'btn-lg btn-block btn-info']) ?>
     </div>
     <div id="result-messagem-busca-usuario">
 
@@ -121,14 +119,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Gerar Comprovante Empréstimo-->
     <?php
-     echo isset($model->datadevolucao) ? '':
-     Html::a('<i class="fa glyphicon glyphicon-export"></i> Gerar Boletim', ['gerar-comprovante-emprestimo',
-        'id' => $model->idemprestimo], [
-        'class' => 'btn btn-danger',
-        'target' => '_blank',
-        'data-toggle' => 'tooltip',
-        'title' => 'Clique aqui para gerar o comprovante do empréstimo',
-       
+    echo isset($model->datadevolucao) ? '' :
+            Html::a('<i class="fa glyphicon glyphicon-export"></i> Gerar Boletim', ['gerar-comprovante-emprestimo',
+                'id' => $model->idemprestimo], [
+                'class' => 'btn btn-primary',
+                'target' => '_blank',
+                'data-toggle' => 'tooltip',
+                'title' => 'Clique aqui para gerar o comprovante do empréstimo',
     ]);
     ?>
     <!-- Gerar Comprovante Empréstimo-->

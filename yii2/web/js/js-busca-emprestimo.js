@@ -37,7 +37,7 @@ $('#btPesquisarPorRG').click(function () {
                             '<td>' + data[2][index].titulo + '</td>' +
                             '<td>' + data[0][index].dataemprestimo + '</td>' +
                             '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
-                            '<td><a href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
+                            '<td><a target=\'_blank\' href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
                             'class=\'btn btn-success\' id=\'actionbuscar\' > <span class=\'glyphicon glyphicon-ok\'>' +
                             '</span></a ></td></tr>');
 
@@ -88,7 +88,7 @@ $('#btPesquisarExemplar').click(function () {
                             '<td>' + data[2][index].titulo + '</td>' +
                             '<td>' + data[0][index].dataemprestimo + '</td>' +
                             '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
-                            '<td><a href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
+                            '<td><a target=\'_blank\' href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
                             'class=\'btn btn-success\' id=\'actionbuscar\' > <span class=\'glyphicon glyphicon-ok\'>' +
                             '</span></a ></td></tr>');
 
