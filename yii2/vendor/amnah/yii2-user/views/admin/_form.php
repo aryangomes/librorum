@@ -123,13 +123,15 @@ $role = $module->model("Role");
     <?php echo Form::widget([
         'model'=>$user,
         'form'=>$form,
-        'columns'=>3,
+        'columns'=>4,
         'contentBefore' => '<legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>',
         'attributes'=>[
             // 2 column layout
             //'newPassword'=>['type'=>Form::INPUT_PASSWORD],
 
-            'password'=>['type'=>Form::INPUT_PASSWORD, 'options'=>['value'=>'']],
+
+            'password'=>['type'=>Form::INPUT_PASSWORD],
+            'password_repeat'=>['type'=>Form::INPUT_PASSWORD],
             'role_id'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $role::dropdown()]],
             'status'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $user::statusDropdown()]],
 
