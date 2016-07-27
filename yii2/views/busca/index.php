@@ -31,6 +31,8 @@ $this->title = 'My Yii Application';
     <table class="table table-striped table-bordered table-responsive"> 
         <tr>
             <th>Título</th>
+            <th>Autor</th>
+            <th>Editora</th>
             <th>Material</th>
             <th>Categoria</th>
             <th>Chamada</th>
@@ -44,6 +46,8 @@ $this->title = 'My Yii Application';
 ?>
         <tr>
             <td><?= $acervo->titulo ?></td>
+            <td><?= $acervo->autor ?></td>
+            <td><?= $acervo->editora ?></td>
             <td><?= $acervo->tipoMaterialIdtipoMaterial->nome ?></td>
             <td><?= $acervo->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
             <td><?= $acervo->chamada ?></td>
