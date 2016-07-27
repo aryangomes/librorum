@@ -139,9 +139,9 @@ class EmprestimoController extends Controller {
     public function actionDevolucao($id) {
         $model = $this->findModel($id);
         $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
-        if ($model->load(Yii::$app->request->post())) {
-            $model->datadevolucao = date("Y-m-d H:i:s", strtotime(Yii::$app->request->post()['Emprestimo']['datadevolucao']));
-
+        if ((Yii::$app->request->post())) {
+            $model->datadevolucao = date('Y-m-d H:i:s');
+          
             if ($model->save()) {
                 $acervoExemplar->esta_disponivel = 1;
                 $acervoExemplar->save();

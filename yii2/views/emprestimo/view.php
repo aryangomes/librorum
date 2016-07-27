@@ -49,12 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => isset($model->datadevolucao) ? date('d/m/Y H:i:s', strtotime($model->datadevolucao)) : date('d/m/Y H:i:s')])
         ?>
 
-        <?=
-        $form->field($model, 'datadevolucao')->hiddenInput(
-                [ 'value' => isset($model->datadevolucao) ? date('d/m/Y H:i:s', strtotime($model->datadevolucao)) : date('d/m/Y H:i:s')]
-        )->label(false)
-        ?>
-
 
 
     </div>
@@ -136,13 +130,13 @@ DetailView::widget([
     'model' => $model,
     'attributes' => [
         'idemprestimo',
-        'dataemprestimo',
-        'dataprevisaodevolucao',
-        'datadevolucao',
-        'usuario_idusuario',
+        'dataemprestimo:datetime',
+        'dataprevisaodevolucao:date',
+        'datadevolucao:datetime',
+      
         'usuario_nome',
         'usuario_rg',
-        'acervo_exemplar_idacervo_exemplar',
+        'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
     ],
 ])
 ?>
