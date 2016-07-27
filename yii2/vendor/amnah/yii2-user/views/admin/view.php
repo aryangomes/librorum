@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
  * @var amnah\yii2\user\models\User $user
  */
 
-$this->title = $user->id;
+$this->title = "Informações Sobre o Usuário: ".$user->username;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'banned_at',
             'banned_reason',
+            'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
             [
                 'attribute' => 'usuario.foto',
 //                'label' => Yii::t('user', 'FullName'),
