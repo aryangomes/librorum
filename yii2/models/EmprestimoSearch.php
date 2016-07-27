@@ -42,6 +42,9 @@ class EmprestimoSearch extends Emprestimo {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -97,7 +100,7 @@ class EmprestimoSearch extends Emprestimo {
                     ->joinWith('usuarioIdusuario')
                     ->joinWith('acervoExemplarIdacervoExemplar')
                     ->joinWith('acervoExemplarIdacervoExemplar.acervoIdacervo')
-                    ->where(['acervo_exemplar_idacervo_exemplar' => 
+                    ->where(['acervo_exemplar_idacervo_exemplar' =>
                         $exemplar->idacervo_exemplar,
                         'datadevolucao' => null])
                     ->all();
@@ -112,9 +115,9 @@ class EmprestimoSearch extends Emprestimo {
 
         return $query;
     }
-    
-     public function searchDadosEmprestimo($idEmprestimo) {
-       
+
+    public function searchDadosEmprestimo($idEmprestimo) {
+
         if ($idEmprestimo != null) {
 
             $query = Emprestimo::find()

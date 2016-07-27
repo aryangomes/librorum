@@ -73,4 +73,13 @@ class AcervoSearch extends Acervo
 
         return $dataProvider;
     }
+    
+     public function searchExemplares($idAcervo)
+    {
+        $query = AcervoExemplar::find()->where([
+            'acervo_idacervo'=>$idAcervo
+        ])->all();
+
+        return $query;
+    }
 }
