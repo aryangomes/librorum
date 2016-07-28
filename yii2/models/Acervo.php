@@ -86,7 +86,7 @@ class Acervo extends \yii\db\ActiveRecord
     /** 
      * @return \yii\db\ActiveQuery 
      */ 
-    public function getCategoriaAcervoIdcategorialAcervo() 
+    public function getCategoriaAcervoIdcategoriaAcervo() 
     { 
         return $this->hasOne(CategoriaAcervo::className(), ['idcategoria_acervo' => 'categoria_acervo_idcategoria_acervo']);
     } 
