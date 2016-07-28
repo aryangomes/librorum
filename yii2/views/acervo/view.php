@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                'label'=>'Tipo de Material',
            ],
             
-            'categoriaAcervoIdcategorialAcervo.categoria',
+            'categoriaAcervoIdcategoriaAcervo.categoria',
         ],
     ])
     ?>
