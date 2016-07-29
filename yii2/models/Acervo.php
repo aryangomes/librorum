@@ -25,6 +25,10 @@ use Yii;
 class Acervo extends \yii\db\ActiveRecord
 {
     public $quantidadeExemplar;
+    public $catalogarAcervoExistente;
+    
+    public $codigoInicio;
+    public $codigoFim;
     /**
      * @inheritdoc
      */

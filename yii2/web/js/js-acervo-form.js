@@ -36,6 +36,7 @@ $('#busca-pessoa').blur(function () {
                     $('#pessoafisica-cpf').val(data[0]);
                     $('#pessoafisica-cpf').show();
                     $('#aquisicao-pessoa_idpessoa').val("1");
+                    
                 } else {
 
                     $('#w10').show();
@@ -130,5 +131,22 @@ $('#btCadastrarPessoa').click(function () {
         } else if (pessoaTipo.length <= 0) {
             alert('Escolha o tipo de Pessoa');
         }
+    }
+});
+
+$('#w18').hide();
+
+$('#w20').hide();
+
+
+$('#acervo-catalogaracervoexistente').change(function () {
+    var catalogaracervoexistente = $(this).val();
+    
+    if (catalogaracervoexistente == 1) {
+        $('#w18').show();
+        $('#w20').hide();
+    } else if (catalogaracervoexistente == 0) {
+        $('#w20').show();
+        $('#w18').hide();
     }
 });
