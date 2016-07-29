@@ -47,6 +47,9 @@ class SituacaoUsuarioSearch extends SituacaoUsuario
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+              'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);

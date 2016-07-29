@@ -24,12 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idacervo',
+//            'idacervo',
+              'chamada',
             'cdd',
             'autor',
             'titulo',
             'editora',
-            // 'chamada',
+           
             // 'aquisicao_idaquisicao',
             // 'tipo_material_idtipo_material',
             // 'categoria_acervo_idcategorial_acervo',

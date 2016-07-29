@@ -8,7 +8,7 @@ use yii\bootstrap\Alert;
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Busca no Acervo';
 ?>
 <div class="busca-index">
 
@@ -28,54 +28,57 @@ $this->title = 'My Yii Application';
     </div>
 
     <?php
-    if ($session->hasFlash('buscaAcervo')) {
+    if (Yii::$app->session->hasFlash('buscaAcervo')) {
         echo Alert::widget([
             'options' => [
                 'class' => 'alert-danger',
             ],
-            'body' => $session->getFlash('buscaAcervo'),
+            'body' => Yii::$app->session->getFlash('buscaAcervo'),
         ]);
     } else {
         ?>
-        <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
-        <div class="container">
-            <h3 class="row">Resultados da Pesquisa</h3>
-        </div>
-
-        <table class="table table-striped table-bordered table-responsive"> 
-            <tr>
-                <th>Título</th>
-                <th>Autor</th>
-                <th>Editora</th>
-                <th>Material</th>
-                <th>Categoria</th>
-                <th>Chamada</th>
-                <th>Código do Livro</th>
-                <th>Disponibilidade</th>
-            </tr>
-
-            <?php
-                   
-            if (isset($exemplares)) {
-                foreach ($exemplares as $result) {
-                    ?>
-                    <tr>
-                        <td><?= $acervo->titulo ?></td>
-                        <td><?= $acervo->autor ?></td>
-                        <td><?= $acervo->editora ?></td>
-                        <td><?= $acervo->tipoMaterialIdtipoMaterial->nome ?></td>
-                        <td><?= $acervo->categoriaAcervoIdcategoriaAcervo->categoria?></td>
-                        <td><?= $acervo->chamada ?></td>
-                        <td><?= $result->codigo_livro ?></td>
-                        <td><?= $result->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
-                        <?php
-                    }
-                }
-                ?>
-            </tr>
-        </table>
-        <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
         <?php
+        if (isset($exemplares)) {
+            ?>
+            <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
+            <div class="container">
+                <h3 class="row">Resultados da Pesquisa</h3>
+            </div>
+
+            <table class="table table-striped table-bordered table-responsive"> 
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Editora</th>
+                    <th>Material</th>
+                    <th>Categoria</th>
+                    <th>Chamada</th>
+                    <th>Código do Livro</th>
+                    <th>Disponibilidade</th>
+                </tr>
+
+                <?php
+                if (isset($exemplares)) {
+                    foreach ($exemplares as $result) {
+                        ?>
+                        <tr>
+                            <td><?= $acervo->titulo ?></td>
+                            <td><?= $acervo->autor ?></td>
+                            <td><?= $acervo->editora ?></td>
+                            <td><?= $acervo->tipoMaterialIdtipoMaterial->nome ?></td>
+                            <td><?= $acervo->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
+                            <td><?= $acervo->chamada ?></td>
+                            <td><?= $result->codigo_livro ?></td>
+                            <td><?= $result->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
+                            <?php
+                        }
+                    }
+                    ?>
+                </tr>
+            </table>
+            <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
+            <?php
+        }
     }
     ?>
 </div>

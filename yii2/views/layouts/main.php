@@ -36,21 +36,26 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/']],
+        
+                ['label' => 'Busca no Acervo', 'url' => ['/busca']],
             Yii::$app->user->can("admin") ?    ['label'=>'Acervo', 'items' => [
                 ['label' => 'Acervo', 'url' => ['/acervo']],
                 ['label' => 'Exemplares', 'url' => ['/acervo-exemplar']],
                 ['label' => 'Categoria do Acervo', 'url' => ['/categoria-acervo']],
                 ['label' => 'Tipo de Material', 'url' => ['/tipo-material']],
+                 '<li class="divider"></li>',
+                  ['label' => 'Aquisição', 'url' => ['/aquisicao']],
+                ['label' => 'Tipo de Aquisição', 'url' => ['/tipo-aquisicao']],
+                ['label' => 'Pessoa Aquisição', 'url' => ['/pessoa']],
             ]
             ]   : '',
-            Yii::$app->user->can("admin") ?    ['label'=>'Aquisição', 'items' => [
+         /*   Yii::$app->user->can("admin") ?    ['label'=>'Aquisição', 'items' => [
                 ['label' => 'Aquisição', 'url' => ['/aquisicao']],
                 ['label' => 'Tipo de Aquisição', 'url' => ['/tipo-aquisicao']],
                 ['label' => 'Pessoa', 'url' => ['/pessoa']],
 
             ]
-            ]   : '',
+            ]   : '',*/
 
             Yii::$app->user->can("admin") ?    ['label' => 'Empréstimo', 'url' => ['/emprestimo']]: '',
             Yii::$app->user->can("admin") ?
@@ -60,7 +65,7 @@ AppAsset::register($this);
                ]
                ]
                 : '',
-               Yii::$app->user->can("admin") ?   ['label' => 'Configurações do Sistema', 'url' => ['/config/']] : '',
+               Yii::$app->user->can("admin") ?   ['label' => 'Configurações', 'url' => ['/config/']] : '',
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/user/login']] :
                 [
