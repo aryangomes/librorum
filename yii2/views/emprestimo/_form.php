@@ -160,8 +160,8 @@ $tabUsuario = FormGrid::widget([
                 'class' => 'form-control', 'prompt' => 'Selecione a Situação do Usuário'])
             ?>
         </div>
-        
-        
+
+
     </div>
 
     <legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>   
@@ -201,6 +201,15 @@ $tabSenhadoUsuario = FormGrid::widget([
                         'password' => ['type' => Form::INPUT_PASSWORD, 'options' =>
                             ['value' => '']
                         ],
+                        'actions' => [
+                            'type' => Form::INPUT_RAW,
+                            'value' => '<div class="col-sm-6"><div class="form-group ">
+                            <label class="control-label" for="confirmar-usuario">Confirmar Usuário</label>
+                            <input type="button" id="confirmar-usuario" class="btn btn-primary" value="Confirmar">
+
+
+	</div>'
+                        ],
                     ],
                 ],
             ]
@@ -234,7 +243,7 @@ $tabDadosusuario = FormGrid::widget([
             ]
         ]);
 
-$tabBuscarUsuario = "<div class=\"row\">
+$tabBuscarUsuario = "<legend class=\"text-info\"><small>Pesquisar por Usuário</small></legend><div class=\"row\">
   <div class=\"col-lg-6\"> <div class=\"form-group\">
  <div class=\"input-group\">" .
         Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
@@ -272,13 +281,20 @@ $tabExemplar = FormGrid::widget([
                         'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
                             ['placeholder' => 'Digite o código do exemplar']
                         ],
+                         'actions'=>[
+            'type'=>Form::INPUT_RAW, 
+            'value'=>'<div class="col-sm-6">
+                <div class="form-group ">
+                <label class="control-label" for="confirmar-usuario">Confirmar Exemplar</label>
+                <input type="button" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar"></div>'
+        ],
                     ]
                 ],
             ]
         ]) . "  <div id=\"mensagem-indisponivel-exemplar\"> </div>"
         . "<div id=\"mensagem-get-acervo-exemplar\"></div>";
 
-$tabBuscaExemplar = " <div class=\"row\">
+$tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</small></legend> <div class=\"row\">
   <div class=\"col-lg-6\"> <div class=\"form-group\">
  <div class=\"input-group\">" .
         Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
@@ -328,12 +344,10 @@ $tabAcervo = FormGrid::widget([
                 ],
             ]
         ]);
-
 ?>
 
 
-<?php 
-
+<?php
 $tabEmprestimo = FormGrid::widget([
             'model' => $model,
             'form' => $form,
@@ -352,7 +366,7 @@ $tabEmprestimo = FormGrid::widget([
                             ['disabled' => true, "id" => "lb-dataprevisaodevolucao",
                             ]
                         ],
-                    ]
+                    ],
                 ],
             ]
         ]);
@@ -369,13 +383,14 @@ Modal::begin([
     <div class="col-lg-6">
         <div class="input-group">
 
-            <?=
-            Html::input('number','Config[valor]', '', ['min' => 1, 'class' => 'form-control',
-                'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
-            ?>
+<?=
+Html::input('number', 'Config[valor]', '', ['min' => 1, 'class' => 'form-control',
+    'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
+?>
             <span class="input-group-btn">
-                <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 
-                    'id' => 'btConfigurarDiasEmprestimo']) ?>
+            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary',
+                'id' => 'btConfigurarDiasEmprestimo'])
+            ?>
             </span>
         </div>
     </div>
@@ -391,37 +406,20 @@ Modal::end();
 <?php
 $items = [
     [
-        'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Usuário',
-        'content' => $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
+        'label' => '<i class="glyphicon glyphicon-user"></i> Dados do Usuário',
+        'content' => $tabBuscarUsuario . $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
         'active' => true,
         'options' => ['id' => 'tab-usuario']
     ],
     [
-        'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Exemplar',
-        'content' => $tabExemplar . $tabAcervo,
+        'label' => '<i class="glyphicon glyphicon-book"></i> Dados do Exemplar',
+        'content' => $tabBuscaExemplar . $tabExemplar,
         'options' => ['id' => 'tab-exemplar']
     ],
     [
-        'label' => '<i class="glyphicon glyphicon-home"></i> Dados do Empréstimo',
-        'content' => $tabEmprestimo,
+        'label' => '<i class="glyphicon glyphicon-edit"></i> Dados do Empréstimo',
+        'content' => $tabAcervo . $tabEmprestimo,
         'options' => ['id' => 'tab-emprestimo']
-    ],
-    [
-        'label' => '<i class="glyphicon glyphicon-list-alt"></i> Realizar busca',
-        'items' => [
-            [
-                'label' => 'Buscar Usuário',
-                'encode' => false,
-                'content' => $tabBuscarUsuario,
-                'options' => ['id' => 'tab-busca-usuario']
-            ],
-            [
-                'label' => 'Buscar Exemplar',
-                'encode' => false,
-                'content' => $tabBuscaExemplar,
-                'options' => ['id' => 'tab-busca-exemplar']
-            ],
-        ],
     ],
 ];
 // Above
@@ -443,12 +441,12 @@ Modal::begin([
     <div class="col-lg-6">
         <div class="input-group">
 
-            <?=
-            Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
-                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
-            ?>
+<?=
+Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
+    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
+?>
             <span class="input-group-btn">
-                <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
             </span>
         </div>
     </div>
@@ -478,20 +476,20 @@ Modal::end();
 </div>
 
 <div class="form-group">
-    <?=
-    Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-        'id' => 'btSave'])
-    ?>
+<?=
+Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+    'id' => 'btSave'])
+?>
 
 
     <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning'])
     ?>
 </div>
 
-<?php ActiveForm::end(); ?>
-<?php
-$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-?>
+    <?php ActiveForm::end(); ?>
+    <?php
+    $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+    ?>
 </div>
 
 <script type="application/javascript">
@@ -511,13 +509,14 @@ $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['de
     $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
     $('#usuario_idusuario').val(usuario.idusuario);
     $('#usuario-user_id').val(usuario.user_id);
-    $('#foto-usuario').attr("src", data.foto);
+    $('#foto-usuario').attr("src", usuario.foto);
     $('#w14 li:eq(0)').removeClass();
     $('#w13 li:eq(0)').addClass("active");
     $("#w13-dd3-tab0").removeClass();
     $("#w13-dd3-tab0").addClass("tab-pane fade");
     $("#tab-usuario").addClass("tab-pane fade in active");
-
+    $("#result-mensagem-busca-usuario").hide();
+     $("#tableresult").hide();
     });
 
     }
