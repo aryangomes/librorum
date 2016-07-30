@@ -29,17 +29,18 @@ class AcervoController extends Controller {
                     'delete' => ['post'],
                 ],
             ],
-                /*  'autorizacao' => [
-                  'class' => AccessFilter::className(),
-                  'actions' => [
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
 
-                  'index' => 'acervo',
-                  'update' => 'acervo',
-                  'delete' => 'acervo',
-                  'create' => 'acervo',
-                  'view' => 'acervo',
-                  ],
-                  ], */
+                    'index' => 'acervo',
+                    'update' => 'acervo',
+                    'delete' => 'acervo',
+                    'create' => 'acervo',
+                    'view' => 'acervo',
+                    'get-busca-pessoa' => 'acervo',
+                ],
+            ],
         ];
     }
 
@@ -109,36 +110,77 @@ class AcervoController extends Controller {
 
                 $model->load(Yii::$app->request->post());
                 $model->aquisicao_idaquisicao = $aquisicao->idaquisicao;
-                if ($model->save()) {
+              if ($model->save()) { 
                     if ($catalogarAcervoExistente) {
                         $codigoInicio = Yii::$app->request->post()['Acervo']['codigoInicio'];
                         $codigoFim = Yii::$app->request->post()['Acervo']['codigoFim'];
                         if ($codigoInicio > 0 && $codigoFim > 0) {
-                            for ($i = $codigoInicio; $i <= $codigoFim; $i++) {
-                                $exemplar = new AcervoExemplar();
-                                $exemplar->esta_disponivel = 1;
-                                $exemplar->acervo_idacervo = $model->idacervo;
-                                $exemplar->codigo_livro = $i;
-
-                                $exemplar->save(false);
-                                if ($i == $codigoFim) {
-                                    return $this->redirect(['view', 'id' => $model->idacervo]);
+                            $count = 0;
+                            $i = $codigoInicio;
+                            while ($count <= ($codigoFim - $codigoInicio)) {
+                                $codigo =  $i;
+                                if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+                                    $exemplar = new AcervoExemplar();
+                                    $exemplar->esta_disponivel = 1;
+                                    $exemplar->acervo_idacervo = $model->idacervo;
+                                    $exemplar->codigo_livro =  $codigo;
+                                                                      
+                                    $exemplar->save(false);
+                                    if ($count == ($codigoFim - $codigoInicio)) {
+                                        return $this->redirect(['view', 'id' => $model->idacervo]);
+                                    }
+                                    $i++;
+                                    $count++;
+                                } else {
+                                    $i++;
                                 }
+                              
                             }
+                            /* for ($i = $codigoInicio; $i <= $codigoFim; $i++) {
+                              $exemplar = new AcervoExemplar();
+                              $exemplar->esta_disponivel = 1;
+                              $exemplar->acervo_idacervo = $model->idacervo;
+                              $exemplar->codigo_livro = $i;
+
+                              $exemplar->save(false);
+                              if ($i == $codigoFim) {
+                              return $this->redirect(['view', 'id' => $model->idacervo]);
+                              }
+                              } */
                         }
                     } else {
                         $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
                         if ($quantidadeExemplares > 0) {
-                            for ($i = 1; $i <= $quantidadeExemplares; $i++) {
-                                $exemplar = new AcervoExemplar();
-                                $exemplar->esta_disponivel = 1;
-                                $exemplar->acervo_idacervo = $model->idacervo;
-                                $exemplar->codigo_livro = $model->idacervo . '' . $i;
 
-                                $exemplar->save(false);
-                                if ($i == $quantidadeExemplares) {
-                                    return $this->redirect(['view', 'id' => $model->idacervo]);
+                            $count = 1;
+                            $i = 1;
+                            while ($count <= $quantidadeExemplares) {
+                                $codigo = $model->idacervo . '' . $i;
+                                if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+                                    $exemplar = new AcervoExemplar();
+                                    $exemplar->esta_disponivel = 1;
+                                    $exemplar->acervo_idacervo = $model->idacervo;
+                                    $exemplar->codigo_livro = $model->idacervo . '' . $i;
+
+                                    $exemplar->save(false);
+                                    if ($count == $quantidadeExemplares) {
+                                        return $this->redirect(['view', 'id' => $model->idacervo]);
+                                    }
+                                    $i++;
+                                    $count++;
+                                } else {
+                                    $i++;
                                 }
+                                /* for ($i = 1; $i <= $quantidadeExemplares; $i++) {
+                                  $exemplar = new AcervoExemplar();
+                                  $exemplar->esta_disponivel = 1;
+                                  $exemplar->acervo_idacervo = $model->idacervo;
+                                  $exemplar->codigo_livro = $model->idacervo . '' . $i;
+
+                                  $exemplar->save(false);
+                                  if ($i == $quantidadeExemplares) {
+                                  return $this->redirect(['view', 'id' => $model->idacervo]);
+                                  } */
                             }
                         }
                     }

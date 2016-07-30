@@ -24,10 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idacervo_exemplar',
-            'acervo_idacervo',
+        
+            'acervoIdacervo.titulo',
             'codigo_livro',
-            'esta_disponivel',
+           [
+               'attribute'=>  'esta_disponivel',
+              
+               'value'=>  function ($model){
+                return $model->esta_disponivel?
+                        'Disponível':'Não disponível';
+               }
+           ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

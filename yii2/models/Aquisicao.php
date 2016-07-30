@@ -46,10 +46,10 @@ class Aquisicao extends \yii\db\ActiveRecord
     {
         return [
             'idaquisicao' => Yii::t('app', 'Idaquisicao'),
-            'preco' => Yii::t('app', 'Preco'),
+            'preco' => Yii::t('app', 'Preço'),
             'quantidade' => Yii::t('app', 'Quantidade'),
-            'tipo_aquisicao_idtipo_aquisicao' => Yii::t('app', 'Tipo Aquisicao Idtipo Aquisicao'),
-            'pessoa_idpessoa' => Yii::t('app', 'Pessoa Idpessoa'),
+            'tipo_aquisicao_idtipo_aquisicao' => Yii::t('app', 'Tipo de Aquisição'),
+            'pessoa_idpessoa' => Yii::t('app', 'Pessoa Origem'),
         ];
     }
 

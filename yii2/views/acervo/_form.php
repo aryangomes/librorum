@@ -32,7 +32,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
         'autoGenerateColumns' => true,
         'rows' => [
             [
-                'contentBefore' => '<legend class="text-info"><small>Pessoa</small></legend>',
+                'contentBefore' => '<legend class="text-info"><small>Origem do Acervo</small></legend>',
                 'attributes' => [
                     'nome' => ['type' => Form::INPUT_TEXT,
                         'options' => ['id' => 'busca-pessoa',]],
@@ -51,7 +51,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
     <div class="form-group">
         <div class="row">
             <div class="col-md-4">
-                <?= Html::label('Nome', 'pessoa-nome') ?>
+                <?= Html::label('Nome da Pessoa/Empresa/Orgão de origem do Material', 'pessoa-nome') ?>
             </div>
         </div>
         <div class="row">
