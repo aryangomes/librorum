@@ -10,13 +10,12 @@ use app\models\Pessoa;
 /**
  * PessoaSearch represents the model behind the search form about `app\models\Pessoa`.
  */
-class PessoaSearch extends Pessoa
-{
+class PessoaSearch extends Pessoa {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['idpessoa'], 'integer'],
             [['nome'], 'safe'],
@@ -26,8 +25,7 @@ class PessoaSearch extends Pessoa
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class PessoaSearch extends Pessoa
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Pessoa::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -63,4 +63,5 @@ class PessoaSearch extends Pessoa
 
         return $dataProvider;
     }
+
 }

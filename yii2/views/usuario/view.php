@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuario */
 
-$this->title = $model->nome;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'User'), 'url' => ['index']];
+$this->title = $model->idusuario;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarios'), 'url' => ['user/admin/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuario-view">
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'idusuario' => $model->idusuario, 'nome' => $model->nome, 'rg' => $model->rg], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'idusuario' => $model->idusuario, 'nome' => $model->nome, 'rg' => $model->rg], [
+        <?= Html::a(Yii::t('app', 'Update'), ['user/admin/update', 'id' => $model->user_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['user/admin/delete', 'id' => $model->user_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),

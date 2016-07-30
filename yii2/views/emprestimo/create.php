@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
 
@@ -14,12 +13,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?=
+    $this->render('_form', [
         'model' => $model,
-        'usuario'=>$usuario,
-        'acervo'=>$acervo,
-        'user'=>$user,
-        'exemplar'=>$exemplar
-    ]) ?>
+        'usuario' => $usuario,
+        'acervo' => $acervo,
+        'user' => $user,
+        'exemplar' => $exemplar,
+        'user' => $user,
+        'profile' => $profile,
+        'role' => $role,
+         'situacoesusuario' => $situacoesusuario,
+    ])
+    ?>
 
 </div>

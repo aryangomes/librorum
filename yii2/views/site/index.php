@@ -1,54 +1,133 @@
 <?php
-
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\bootstrap\Modal;
+
+$this->title = 'Librorum';
 ?>
 <div class="site-index">
 
-    
+
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>SISTEMA DE AUTOMAÇÃO DE BIBLIOTECA <strong>LIBRORUM</strong></h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>
+
 
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <h3><p class="text-center">Desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte
+                </p></h3>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
         </div>
+        <div class="row">
+            <hr>
+        </div>
+        <div class="row">
+            <p class="row">
+                <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
+            <div class="row">
+                <h4>Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
 
+
+            <div class="input-group">
+
+
+                <?=
+                Html::input('text', 'rgusuario', null, ['class' => 'form-control',
+                    'id' => 'rgusuario',
+                    'placeholder' => 'Digite o RG do Usuário'])
+                ?>
+
+
+                <span class="input-group-btn">
+                    <?=
+                    Html::button('Pesquisar', ['class' => 'btn btn-primary',
+                        'id' => 'btPesquisarPorRG'])
+                    ?>
+                </span>
+            </div>
+
+            <div id="result-messagem-busca-emprestimo-rg">
+            </div>
+            <table id="tableresult-rg" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>Título</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Data de previsão da devolução</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-result-rg">
+
+                </tbody>
+            </table>
+
+
+
+            <!-- -------  END  Busca de Empréstimo por RG -------------  -->
+            </p>
+            <?php
+            $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-busca-emprestimo.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+            ?>
+
+
+
+            <p class="row">
+                <!-- -------  BEGIN  Busca de Empréstimo por código exemplar -------------  -->
+            <div class="row">
+                <h4>Pesquisa de Empréstimo pelo Código do Exemplar</h4></div>
+
+            <div class="input-group">
+
+
+                <?=
+                Html::input('text', 'codigoexemplar', null, ['class' => 'form-control',
+                    'id' => 'codigoexemplar',
+                    'placeholder' => 'Digite o código do exemplar'])
+                ?>
+
+
+                <span class="input-group-btn">
+                    <?= Html::button('Pesquisar', ['class' => 'btn btn-primary', 'id' => 'btPesquisarExemplar']) ?>
+                </span>
+            </div>
+            <div id="result-messagem-busca-emprestimo-exemplar">
+            </div>
+            <table id="tableresult-emprestimo-exemplar" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>Título</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Data de previsão da devolução</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-result-emprestimo-exemplar">
+
+                </tbody>
+            </table>
+
+
+
+
+
+            <!-- -------  END  de Empréstimo por código exemplar -------------  -->
+            </p>
+
+
+        </div>
     </div>
 </div>

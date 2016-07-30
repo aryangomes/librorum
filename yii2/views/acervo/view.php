@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Acervo */
 
 $this->title = $model->titulo;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collections'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view">
@@ -16,28 +16,66 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idacervo], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idacervo], [
+        <?=
+        Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idacervo], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
 
-    <?= DetailView::widget([
+    <?=
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idacervo',
-            'titulo',
-            'autor',
-            'editora',
+//            'idacervo',
             'cdd',
+            'autor',
+            'titulo',
+            'editora',
             'chamada',
-            'categoria_acervo_idcategoria_acervo',
-            'tipo_material_idtipo_material',
-            'aquisicao_idaquisicao',
+//            'aquisicaoIdaquisicao.tipoAquisicaoIdtipoAquisicao.nome',
+           [
+               'attribute'=> 'tipoMaterialIdtipoMaterial.nome',
+               'label'=>'Tipo de Material',
+           ],
+            
+            'categoriaAcervoIdcategoriaAcervo.categoria',
         ],
-    ]) ?>
+    ])
+    ?>
 
 </div>
+
+<?php
+if (count($acervoExemplares) > 0) {
+    ?>
+<p class="row"><h1>Exemplares</h1></p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Código do Exemplar</th>
+                <th>Disponibilidade</th>
+
+            </tr>
+        </thead>
+        <tbody id="tbody-result-rg">
+            <?php
+            foreach ($acervoExemplares as $exemplar) {
+                ?>
+            <tr>
+                <td><?= $exemplar->codigo_livro ?></td>
+                <td><?= $exemplar->esta_disponivel ? 'Disponível':'Não Disponível' ?></td>
+            </tr>
+        <?php
+    }
+    ?>
+        </tbody>
+    </table>
+
+    <?php
+}
+?>

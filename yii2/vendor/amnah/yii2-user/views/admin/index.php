@@ -38,7 +38,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
+            [
+                'attribute' => 'profile.full_name',
+                'label' => Yii::t('user', 'FullName'),
+                'format' => 'raw',
+                'value' => function($model) {
+
+                    return Html::a($model->username, ['view', 'id'=>$model->id]);
+                },
+            ],
             [
                 'attribute' => 'role_id',
                 'label' => Yii::t('user', 'Role'),
@@ -57,7 +66,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $statusDropdown[$model->status];
                 },
             ],
-            'email:email',
+                        
+            'email',
+
+
             'profile.full_name',
             'profile.timezone',
             'created_at',
@@ -72,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'banned_at',
             // 'banned_reason',
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php \yii\widgets\Pjax::end(); ?>

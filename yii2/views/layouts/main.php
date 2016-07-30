@@ -36,10 +36,36 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            Yii::$app->user->can("admin") ?    ['label' => 'Acervo', 'url' => ['/acervo']] : '',
+        
+                ['label' => 'Busca no Acervo', 'url' => ['/busca']],
+            Yii::$app->user->can("admin") ?    ['label'=>'Acervo', 'items' => [
+                ['label' => 'Acervo', 'url' => ['/acervo']],
+                ['label' => 'Exemplares', 'url' => ['/acervo-exemplar']],
+                ['label' => 'Categoria do Acervo', 'url' => ['/categoria-acervo']],
+                ['label' => 'Tipo de Material', 'url' => ['/tipo-material']],
+                 '<li class="divider"></li>',
+                  ['label' => 'Aquisição', 'url' => ['/aquisicao']],
+                ['label' => 'Tipo de Aquisição', 'url' => ['/tipo-aquisicao']],
+                ['label' => 'Pessoa Aquisição', 'url' => ['/pessoa']],
+            ]
+            ]   : '',
+         /*   Yii::$app->user->can("admin") ?    ['label'=>'Aquisição', 'items' => [
+                ['label' => 'Aquisição', 'url' => ['/aquisicao']],
+                ['label' => 'Tipo de Aquisição', 'url' => ['/tipo-aquisicao']],
+                ['label' => 'Pessoa', 'url' => ['/pessoa']],
+
+            ]
+            ]   : '',*/
+
             Yii::$app->user->can("admin") ?    ['label' => 'Empréstimo', 'url' => ['/emprestimo']]: '',
-            Yii::$app->user->can("admin") ?   ['label' => 'Usuário', 'url' => ['/user/admin']] : '',
+            Yii::$app->user->can("admin") ?
+               ['label'=>'Usuário', 'items' => [
+                   ['label' => 'Usuário', 'url' => ['/user/admin']],
+                   ['label' => 'Situação do Usuário', 'url' => ['/situacao-usuario']],
+               ]
+               ]
+                : '',
+               Yii::$app->user->can("admin") ?   ['label' => 'Configurações', 'url' => ['/config/']] : '',
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/user/login']] :
                 [
@@ -47,6 +73,7 @@ AppAsset::register($this);
                     'url' => ['/user/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ],
+            
         ],
     ]);
     NavBar::end();
@@ -62,9 +89,10 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; Librorum <?= date('Y') ?></p>
+        <p class="pull-right"><a href="http://portal.ifrn.edu.br/" target="_blank"><?= Html::img(\Yii::getAlias("@web").'/uploads/imgs/logo_ifrn.png',['width'=>100,'class'=>"img-responsive"])?>
+            </a> </p>
     </div>
 </footer>
 

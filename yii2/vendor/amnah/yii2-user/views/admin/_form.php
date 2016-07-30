@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use \yii\widgets\MaskedInput;
 use kartik\form\ActiveForm;
-
+use kartik\builder\Form;
+use yii\widgets\MaskedInput;
+use yii\web\JsExpression;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\Module $module
@@ -12,98 +13,215 @@ use kartik\form\ActiveForm;
  * @var amnah\yii2\user\models\Role $role
  * @var yii\widgets\ActiveForm $form
  */
+use kartik\widgets\FileInput;
 
+$url = \yii\helpers\Url::to(['lista-situacao']);
 $module = $this->context->module;
 $role = $module->model("Role");
 ?>
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin([
-        'enableAjaxValidation' => true,
-    ]); ?>
 
-    <?= $form->field($usuario, 'nome', [
-        'feedbackIcon' => [
-            //'prefix' => 'fa fa-',
-            'default' => 'user',
-            'success' => 'user-plus',
-            'error' => 'user-times',
-            'defaultOptions' => ['class'=>'text-warning']
-        ]
-    ])->textInput(['placeholder'=>'Enter username...']);
-
-    ?>
-    <?= $form->field($usuario, 'rg')->widget(MaskedInput::className(), [
-        'mask' => ['99.999.999-9'],
-    ]);?>
-
-    <?=  $form->field($usuario, 'cpf')->widget(MaskedInput::className(), [
-        'mask' => ['999.999.999-99'],
-    ]); ?>
-
-    <?= $form->field($usuario, 'cargo')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'reparticao')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'endereco')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($usuario, 'telefone', [
-        'feedbackIcon' => [
-            //'prefix' => 'fa fa-',
-            'default' => 'phone',
-            'success' => 'check-circle',
-            'error' => 'exclamation-circle',
-        ]
-    ])->widget(MaskedInput::className(), [
-        'mask' => '(99)99999-9999'
-    ]);?>
-
-    <?= $form->field($usuario, 'email', [
-        'feedbackIcon' => [
-            'default' => 'envelope',
-            'success' => 'ok',
-            'error' => 'exclamation-sign',
-            'defaultOptions' => ['class'=>'text-primary']
-        ]
-    ])->textInput(['placeholder'=>yii::t('app','Enter a valid email address...')]);
-    ?>
-
-
-
-    <?= $form->field($user, 'newPassword')->passwordInput() ?>
-
-    <?= $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
 
     <?php
+    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL,
+                'enableAjaxValidation' => true, 'options' => ['enctype' => 'multipart/form-data'],
+    ]);
+    ?>
 
-    $this->registerJs("
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'contentBefore' => '<legend class="text-info"><small>Dados Pessoais</small></legend>',
+        'attributes' => [
+            // 2 column layout
+            'nome' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Nome Para o Usuário'), 'feedbackIcon' => [
+                        //'prefix' => 'fa fa-',
+                        'default' => 'user',
+                        'success' => 'user-plus',
+                        'error' => 'user-times',
+                        'defaultOptions' => ['class' => 'text-warning'],
+                    ],
+                ],
+            ],
+            'rg' => ['type' => Form::INPUT_TEXT,
+                'options' => ['placeholder' => 'Digite o RG do Usuário']],
+            'cpf' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(),
+                'options' => ['mask' => ['999.999.999-99']]],
+        ],
+    ])
+    ?>
+
+
+
+
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'columns' => 2,
+        'contentBefore' => '<legend class="text-info"><small>Contatos</small></legend>',
+        'attributes' => [
+            // 2 column layout
+            'telefone' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(), 'options' => [
+                    'mask' => '(99)99999-9999'],
+            ],
+            'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Enter a valid email address...'), 'feedbackIcon' => [
+                        //'prefix' => 'fa fa-',
+                        'feedbackIcon' => [
+                            'default' => 'envelope',
+                            'success' => 'ok',
+                            'error' => 'exclamation-sign',
+                            'defaultOptions' => ['class' => 'text-primary']
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]);
+    ?>
+
+
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'columns' => 4,
+        'contentBefore' => '<legend class="text-info"><small>Dados Diversos</small></legend>',
+        'attributes' => [
+            'cargo' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Cargo do Usuário'), 'maxlength' => true]],
+            'reparticao' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Repartição do Usuário'), 'maxlength' => true]],
+            'endereco' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Endereço do Usuário'), 'maxlength' => true]],
+            'situacaoUsuarioIdsituacaoUsuario' => ['type' => Form::INPUT_WIDGET,
+                'widgetClass' => 'kartik\widgets\Select2',
+                
+                'options' => [
+                     'initValueText' => isset($usuario->situacao_usuario_idsituacao_usuario) ?  app\models\SituacaoUsuario::findOne
+                                ($usuario->situacao_usuario_idsituacao_usuario)->situacao : '',
+                    'pluginOptions' => [
+                        'placeholder' => Yii::t('app', 'Search for a Situação do usuário ...'),
+                        'allowClear' => true,
+                       
+                        'minimumInputLength' => 3,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => $url,
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(situacao) { return situacao.text; }'),
+                        'templateSelection' => new JsExpression('function (situacao) { return situacao.text; }'),
+                    ],
+                ],
+            ],
+        ],
+
+
+    ]); ?>
+
+
+    <?php echo Form::widget([
+        'model'=>$user,
+        'form'=>$form,
+        'columns'=>3,
+        'contentBefore' => '<legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>',
+        'attributes' => [
+            // 2 column layout
+            //'newPassword'=>['type'=>Form::INPUT_PASSWORD],
+
+
+           'password' => ['type' => Form::INPUT_PASSWORD, 'options' => [
+                    'value' => !$user->isNewRecord ? $user->password : '',
+                    'disabled' => !$user->isNewRecord ? true : false]
+            ],
+            'password_repeat'=>['type'=>Form::INPUT_PASSWORD, 'options' => [
+                    'value' => !$user->isNewRecord ? $user->password : '',
+                    'disabled' => !$user->isNewRecord ? true : false]],
+             'role_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['data' => $role::dropdown()]],
+
+
+        ],
+    ]);
+    ?>
+
+
+
+
+
+
+
+
+
+
+
+<?php $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
+
+<?php
+$this->registerJs("
         $('#usuario-nome').blur(function(){
             $('#profile-full_name').val($(this).val());
         });
     ");
-    ?>
-
-    <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
-
-    <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
+?>
 
 
 
 
-    <?php // use checkbox for banned_at ?>
-    <?php // convert `banned_at` to int so that the checkbox gets set properly ?>
-    <?php $user->banned_at = $user->banned_at ? 1 : 0 ?>
-    <?= Html::activeLabel($user, 'banned_at', ['label' => Yii::t('user', 'Banned')]); ?>
-    <?= Html::activeCheckbox($user, 'banned_at'); ?>
-    <?= Html::error($user, 'banned_at'); ?>
 
-    <?= $form->field($user, 'banned_reason'); ?>
+
+
+
+
+<?=
+$form->field($usuario, 'imageFile')->widget(FileInput::classname(), [
+
+    'pluginOptions' => [
+        //'uploadUrl' => url::to(['@web/upload/imagens']),
+        // permite habilitar ou desabilitar o botão de upload
+        'showUpload' => false,
+    //'minImageWidth' => 900,
+    //'minImageHeight' => 300,
+    //'maxImageWidth' =>900,
+    //'maxImageHeight' => 300
+    ],
+    'options' => ['accept' => 'image/jpeg, image/png'],
+]);
+?>
 
     <div class="form-group">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?=
+    Html::Button('Alterar Senha do Usuário', ['class' => 'btn btn-warning',
+        'id' => 'btAlterarSenhaDoUsuário',
+        'disabled' => $user->isNewRecord ? true : false])
+    ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
+        <?php
+        $this->registerJs("$(document).ready(function (){
+ 
+    if($('#user-password').val().length >0){
+            $('#btAlterarSenhaDoUsuário').show();
+    }else{
+         $('#btAlterarSenhaDoUsuário').hide();
+    }
+    
+$('#btAlterarSenhaDoUsuário').click(function (){
+$('#user-password').prop('disabled',false);
+$('#user-password').val('');
+$('#user-password_repeat').prop('disabled',false);
+$('#user-password_repeat').val('');
+});
+    
+});
+");
+        ?>

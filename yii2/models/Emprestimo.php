@@ -19,21 +19,21 @@ use Yii;
  * @property AcervoExemplar $acervoExemplarIdacervoExemplar
  * @property Usuario $usuarioIdusuario
  */
-class Emprestimo extends \yii\db\ActiveRecord
-{
+class Emprestimo extends \yii\db\ActiveRecord {
+
+    public $diasDiferenca;
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'emprestimo';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao'], 'safe'],
             [['dataprevisaodevolucao', 'usuario_idusuario', 'usuario_nome', 'usuario_rg', 'acervo_exemplar_idacervo_exemplar'], 'required'],
@@ -46,8 +46,7 @@ class Emprestimo extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'idemprestimo' => Yii::t('app', 'Idemprestimo'),
             'usuario_nome' => Yii::t('app', 'Nome do Usuário'),
@@ -63,16 +62,38 @@ class Emprestimo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAcervoExemplarIdacervoExemplar()
-    {
+    public function getAcervoExemplarIdacervoExemplar() {
         return $this->hasOne(AcervoExemplar::className(), ['idacervo_exemplar' => 'acervo_exemplar_idacervo_exemplar']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsuarioIdusuario()
-    {
+    public function getUsuarioIdusuario() {
         return $this->hasOne(Usuario::className(), ['idusuario' => 'usuario_idusuario', 'nome' => 'usuario_nome', 'rg' => 'usuario_rg']);
     }
+
+    /**
+     * Retorna a quantidade de dias que um exemplar está emprestado
+     */
+    public function calcularDiasDeEmprestimo() {
+        date_default_timezone_set('America/Sao_Paulo');
+        $this->diasDiferenca = 0;
+        $dataDeEmprestimo = $this->dataemprestimo;
+        if ($dataDeEmprestimo != null) {
+            $dataDeEmprestimo = date('Y-m-d', strtotime($dataDeEmprestimo));
+            $dataAtual = date('Y-m-d');
+            $diasDiferenca = strtotime($dataAtual) - strtotime($dataDeEmprestimo);
+            var_dump($dataAtual);
+            var_dump($dataDeEmprestimo);
+            if ($diasDiferenca > 0) {
+                $this->diasDiferenca = ($diasDiferenca / (60 * 60 * 24));
+            } else {
+                $this->diasDiferenca = 0;
+            }
+        }
+
+//        return $this->diasDiferenca;
+    }
+
 }
