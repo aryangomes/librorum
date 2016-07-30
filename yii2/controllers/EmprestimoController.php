@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \app\models\Config;
 use kartik\mpdf\Pdf;
+use app\components\AccessFilter;
 
 /**
  * EmprestimoController implements the CRUD actions for Emprestimo model.
@@ -29,6 +30,30 @@ class EmprestimoController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'emprestimo',
+                    'update' => 'emprestimo',
+                    'delete' => 'emprestimo',
+                    'create' => 'emprestimo',
+                    'view' => 'emprestimo',
+                    'validar-senha' => 'emprestimo',
+                    'get-usuario' => 'emprestimo',
+                    'devolucao' => 'emprestimo',
+                    'get-busca-usuario' => 'emprestimo',
+                    'get-exemplar' => 'emprestimo',
+                    'get-data-previsao-devolucao' => 'emprestimo',
+                    'get-busca-exemplar' => 'emprestimo',
+                    'renovar' => 'emprestimo',
+                    'verifica-pode-emprestar' => 'emprestimo',
+                    'configurar-dias-emprestimo' => 'emprestimo',
+                    'get-busca-emprestimo-rg' => 'emprestimo',
+                    'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
+                    'gerar-comprovante-emprestimo' => 'emprestimo',
                 ],
             ],
         ];
@@ -141,7 +166,7 @@ class EmprestimoController extends Controller {
         $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
         if ((Yii::$app->request->post())) {
             $model->datadevolucao = date('Y-m-d H:i:s');
-          
+
             if ($model->save()) {
                 $acervoExemplar->esta_disponivel = 1;
                 $acervoExemplar->save();

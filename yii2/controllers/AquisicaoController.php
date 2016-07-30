@@ -8,7 +8,7 @@ use app\models\AquisicaoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\components\AccessFilter;
 /**
  * AquisicaoController implements the CRUD actions for Aquisicao model.
  */
@@ -21,6 +21,17 @@ class AquisicaoController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+                   'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'aquisicao',
+                    'update' => 'aquisicao',
+                    'delete' => 'aquisicao',
+                    'create' => 'aquisicao',
+                    'view' => 'aquisicao',
                 ],
             ],
         ];

@@ -42,7 +42,7 @@ class Pessoa extends \yii\db\ActiveRecord
     {
         return [
             'idpessoa' => Yii::t('app', 'Idpessoa'),
-            'nome' => Yii::t('app', 'Nome'),
+            'nome' => Yii::t('app', 'Nome da Pessoa/Empresa/Orgão de origem do Material'),
         ];
     }
 

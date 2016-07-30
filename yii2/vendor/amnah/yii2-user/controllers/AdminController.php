@@ -17,6 +17,7 @@ use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 use app\models\SituacaoUsuario;
 use yii\db\Query;
+use app\components\AccessFilter;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -51,6 +52,20 @@ class AdminController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'usuario',
+                    'update' => 'usuario',
+                    'delete' => 'usuario',
+                    'create' => 'usuario',
+                    'view' => 'usuario',
+                    'lista-situacao' => 'usuario',
+                    'resetar-senha' => 'usuario',
+                    'create-ajax' => 'usuario',
                 ],
             ],
         ];
@@ -272,9 +287,7 @@ class AdminController extends Controller {
         }
     }
 
-    public function actionCreateAjax($nome, $rg, $cpf, $telefone,
-            $email, $cargo, $reparticao, $endereco, $situacaousuario, 
-            $password) {
+    public function actionCreateAjax($nome, $rg, $cpf, $telefone, $email, $cargo, $reparticao, $endereco, $situacaousuario, $password) {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
@@ -282,7 +295,7 @@ class AdminController extends Controller {
         $user->setScenario("admin");
         $profile = $this->module->model("Profile");
         $user->password = $password;
-      $user->role_id = 2;
+        $user->role_id = 2;
         $user->status = 1;
 
 
@@ -303,8 +316,8 @@ class AdminController extends Controller {
             $usuario->situacao_usuario_idsituacao_usuario = $situacaousuario;
             $usuario->user_id = $user->id;
             if ($usuario->save(false)) {
-                $usuarioCadastrado = [$rg,$nome,$cpf,$cargo,$reparticao,
-                    $usuario->idusuario,$usuario->user_id];
+                $usuarioCadastrado = [$rg, $nome, $cpf, $cargo, $reparticao,
+                    $usuario->idusuario, $usuario->user_id];
                 echo Json::encode($usuarioCadastrado);
             } else {
                 echo Json::encode(false);
@@ -312,24 +325,22 @@ class AdminController extends Controller {
         } else {
             echo Json::encode(false);
         }
-
     }
-    
-   /* public function actionUploadAjax($nomeUsuario) {
-        $usuario = new Usuario();
-          $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-            if ($usuario->imageFile != null) {
 
-                $usuario->foto = $usuario->getPathWeb($nomeUsuario);
-                 if ($usuario->save()) {
-                $usuario->upload($usuario->nome);
-                return $this->redirect(['view', 'id' => $user->id]);
-//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
-            }
-                 echo Json::encode(true);
-            }   else{
-                 echo Json::encode(false);
-            }
-    }*/
+    /* public function actionUploadAjax($nomeUsuario) {
+      $usuario = new Usuario();
+      $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+      if ($usuario->imageFile != null) {
 
+      $usuario->foto = $usuario->getPathWeb($nomeUsuario);
+      if ($usuario->save()) {
+      $usuario->upload($usuario->nome);
+      return $this->redirect(['view', 'id' => $user->id]);
+      //                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+      }
+      echo Json::encode(true);
+      }   else{
+      echo Json::encode(false);
+      }
+      } */
 }

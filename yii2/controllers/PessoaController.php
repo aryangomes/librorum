@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use app\components\AccessFilter;
 /**
  * PessoaController implements the CRUD actions for Pessoa model.
  */
@@ -20,6 +21,19 @@ class PessoaController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+              'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'pessoa',
+                    'update' => 'pessoa',
+                    'delete' => 'pessoa',
+                    'create' => 'pessoa',
+                      'view' => 'pessoa',
+                    'create-ajax' => 'pessoa',
+                   
                 ],
             ],
         ];

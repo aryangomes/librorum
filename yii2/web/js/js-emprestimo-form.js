@@ -8,7 +8,7 @@ $('#tableresult-exemplar').hide();
 $('#form-exemplar').hide();
 $('#form-emprestimo').hide();
 $('#btSave').prop('disabled', true);
-
+var senhaValidada= false;
 $('#emprestimo-usuario_rg').blur(function () {
     var
             rg = $(this).val();
@@ -153,17 +153,6 @@ var previsaoDevolucao = function () {
 \">Clique aqui</a></div>");
         }
 
-        if ($('#emprestimo-usuario_rg').val().length > 0 &&
-                $('#user-password').val().length > 0) {
-
-            $('#btSave').prop('disabled', false);
-            $('button[type="submit"]').prop('disabled', false);
-        } else {
-            console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
-
-            $('#btSave').prop('disabled', true);
-            $('button[type="submit"]').prop('disabled', true);
-        }
 
     });
 };
@@ -497,11 +486,10 @@ $('#btConfigurarDiasEmprestimo').click(function () {
 });
 
 $('#confirmar-usuario').click(function () {
-
+ 
     if ($('#emprestimo-usuario_rg').val().length > 0 &&
-            $('#user-password').val().length > 0 &&
-             validarSenha($('#usuario-user_id').val(),
-        $('#user-password').val())) {
+            $('#user-password').val().length > 0 && 
+            senhaValidada) {
        
 
         $('#btSave').prop('disabled', false);
@@ -524,19 +512,34 @@ $('#confirmar-usuario').click(function () {
 
 $('#confirmar-exemplar').click(function () {
 
+   
     if ($('#emprestimo-usuario_rg').val().length > 0 &&
             $('#user-password').val().length > 0 &&
-            $('#acervoexemplar-codigo_livro').val().length > 0 &&
-             validarSenha($('#usuario-user_id').val(), 
-        $('#user-password').val())) {
-       
-       
-        $('#w13 li:eq(1)').removeClass();
-        $('#w13 li:eq(2)').addClass("active");
-        $("#tab-exemplar").removeClass();
-        $("#tab-exemplar").addClass("tab-pane fade");
-        $("#tab-emprestimo").addClass("tab-pane fade in active");
-        previsaoDevolucao();
+            $('#acervoexemplar-codigo_livro').val().length > 0 && 
+            senhaValidada) {
+     
+       $("#mensagem-indisponivel-exemplar").html("");
+                    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+                            $('#user-password').val().length > 0) {
+
+                        $('#btSave').prop('disabled', false);
+                        $('button[type="submit"]').prop('disabled', false);
+                    } else {
+                        console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
+
+                        $('#btSave').prop('disabled', true);
+                        $('button[type="submit"]').prop('disabled', true);
+                    }
+                    $('#form-exemplar').hide();
+                    $('#form-emprestimo').show();
+
+
+                    $('#w13 li:eq(1)').removeClass();
+                    $('#w13 li:eq(2)').addClass("active");
+                    $("#tab-exemplar").removeClass();
+                    $("#tab-exemplar").addClass("tab-pane fade");
+                    $("#tab-emprestimo").addClass("tab-pane fade in active");
+                    previsaoDevolucao();
     } else {
 
         $('#btSave').prop('disabled', true);
@@ -548,7 +551,7 @@ $('#confirmar-exemplar').click(function () {
 
 function validarSenha(user_id, senha) {
     $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
-        console.log(data);
+        console.log('val.:'+data);
         var data = $.parseJSON(data);
         if (data) {
 
@@ -560,7 +563,7 @@ function validarSenha(user_id, senha) {
             $("#tab-usuario").removeClass();
             $("#tab-usuario").addClass("tab-pane fade");
             $("#tab-exemplar").addClass("tab-pane fade in active");
-            return true;
+           senhaValidada = true;
         } else {
             $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
             $('#mensagem-senha-errada').html('<strong>Senha incorreta!</strong>' +
@@ -570,8 +573,9 @@ function validarSenha(user_id, senha) {
             $('#btSave').prop('disabled', true);
             $('#form-usuario').show();
             $('#form-exemplar').hide();
-               return false;
+                senhaValidada = false;
         }
+        
         $('#btSave').prop('disabled', true);
     });
 }

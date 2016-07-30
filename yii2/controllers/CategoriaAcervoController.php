@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
-
+use app\components\AccessFilter;
 /**
  * CategoriaAcervoController implements the CRUD actions for CategoriaAcervo model.
  */
@@ -25,6 +25,18 @@ class CategoriaAcervoController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+                   'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'categoria-acervo',
+                    'update' => 'categoria-acervo',
+                    'delete' => 'categoria-acervo',
+                    'create' => 'categoria-acervo',
+                    'view' => 'categoria-acervo',
+                    'categoria-acervo-list' => 'categoria-acervo',
                 ],
             ],
         ];
