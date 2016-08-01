@@ -281,13 +281,13 @@ $tabExemplar = FormGrid::widget([
                         'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
                             ['placeholder' => 'Digite o código do exemplar']
                         ],
-                         'actions'=>[
-            'type'=>Form::INPUT_RAW, 
-            'value'=>'<div class="col-sm-6">
+                        'actions' => [
+                            'type' => Form::INPUT_RAW,
+                            'value' => '<div class="col-sm-6">
                 <div class="form-group ">
                 <label class="control-label" for="confirmar-usuario">Confirmar Exemplar</label>
                 <input type="button" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar"></div>'
-        ],
+                        ],
                     ]
                 ],
             ]
@@ -383,14 +383,15 @@ Modal::begin([
     <div class="col-lg-6">
         <div class="input-group">
 
-<?=
-Html::input('number', 'Config[valor]', '', ['min' => 1, 'class' => 'form-control',
-    'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
-?>
-            <span class="input-group-btn">
-            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary',
-                'id' => 'btConfigurarDiasEmprestimo'])
+            <?=
+            Html::input('number', 'Config[valor]', '', ['min' => 1, 'class' => 'form-control',
+                'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
             ?>
+            <span class="input-group-btn">
+                <?=
+                Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary',
+                    'id' => 'btConfigurarDiasEmprestimo'])
+                ?>
             </span>
         </div>
     </div>
@@ -439,15 +440,25 @@ Modal::begin([
 ?>
 <div class="row">
     <div class="col-lg-6">
-        <div class="input-group">
 
-<?=
-Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
-    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
-?>
-            <span class="input-group-btn">
-            <?= Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
-            </span>
+        <div class="form-group">
+            <?= Html::label("Senha") ?>
+            <?=
+            Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
+                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
+            ?>
+        </div>   
+        <div class="form-group">
+              <?= Html::label("Confirmar Senha") ?>
+            <?=
+            Html::passwordInput('user-newpassword-confirm', '', ['maxlength' => true, 'class' => 'form-control',
+                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword-confirm'])
+            ?> 
+        </div>
+        <div class="form-group">
+            
+<?= Html::Button(Yii::t('app', 'Alterar Senha'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+            
         </div>
     </div>
 </div>
@@ -476,20 +487,20 @@ Modal::end();
 </div>
 
 <div class="form-group">
-<?=
-Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-    'id' => 'btSave'])
-?>
+    <?=
+    Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+        'id' => 'btSave'])
+    ?>
 
 
     <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning'])
     ?>
 </div>
 
-    <?php ActiveForm::end(); ?>
-    <?php
-    $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-    ?>
+<?php ActiveForm::end(); ?>
+<?php
+$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
 </div>
 
 <script type="application/javascript">
@@ -516,7 +527,7 @@ Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app',
     $("#w13-dd3-tab0").addClass("tab-pane fade");
     $("#tab-usuario").addClass("tab-pane fade in active");
     $("#result-mensagem-busca-usuario").hide();
-     $("#tableresult").hide();
+    $("#tableresult").hide();
     });
 
     }
