@@ -66,6 +66,9 @@ class AdminController extends Controller {
                     'lista-situacao' => 'usuario',
                     'resetar-senha' => 'usuario',
                     'create-ajax' => 'usuario',
+                    'verifica-nome' => 'usuario',
+                    'verifica-rg' => 'usuario',
+                    'verifica-cpf' => 'usuario',
                 ],
             ],
         ];
@@ -322,6 +325,33 @@ class AdminController extends Controller {
             } else {
                 echo Json::encode(false);
             }
+        } else {
+            echo Json::encode(false);
+        }
+    }
+
+    public function actionVerificaNome($nome) {
+        $usuario = Usuario::find()->where(['nome' => $nome])->one();
+        if ($usuario == null) {
+            echo Json::encode(true);
+        } else {
+            echo Json::encode(false);
+        }
+    }
+    
+     public function actionVerificaRg($rg) {
+        $usuario = Usuario::find()->where(['rg' => $rg])->one();
+        if ($usuario == null) {
+            echo Json::encode(true);
+        } else {
+            echo Json::encode(false);
+        }
+    }
+    
+     public function actionVerificaCpf($cpf) {
+        $usuario = Usuario::find()->where(['cpf' => $cpf])->one();
+        if ($usuario == null) {
+            echo Json::encode(true);
         } else {
             echo Json::encode(false);
         }

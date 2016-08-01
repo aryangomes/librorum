@@ -65,6 +65,7 @@ return [
     'Please use this link to reset your password:' => 'Por favor utilize este enderenço para reiniciar a sua senha:',
 
     // admin views
+    'User' => 'Usuário',
     'Users' => 'Usuários',
     'Banned' => 'Banido',
     'Create' => 'Novo',
