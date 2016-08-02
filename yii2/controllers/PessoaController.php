@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use app\components\AccessFilter;
+use app\models\AquisicaoSearch;
 /**
  * PessoaController implements the CRUD actions for Pessoa model.
  */
@@ -59,8 +60,14 @@ class PessoaController extends Controller {
      * @return mixed
      */
     public function actionView($id) {
+        $aquisicaoSearch = new AquisicaoSearch();
+       
+        $aquisicoes = $aquisicaoSearch->searchAquisicoes($id);
+
         return $this->render('view', [
                     'model' => $this->findModel($id),
+            'aquisicoes' => $aquisicoes,
+                 
         ]);
     }
 
