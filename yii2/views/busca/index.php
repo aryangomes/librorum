@@ -44,8 +44,8 @@ $this->title = 'Busca no Acervo';
             <div class="container">
                 <h3 class="row">Resultados da Pesquisa</h3>
             </div>
-
-            <table class="table table-striped table-bordered table-responsive"> 
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered "> 
                 <tr>
                     <th>Título</th>
                     <th>Autor</th>
@@ -76,6 +76,7 @@ $this->title = 'Busca no Acervo';
                     ?>
                 </tr>
             </table>
+            </div>
             <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
             <?php
         }

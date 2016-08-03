@@ -138,6 +138,7 @@ DetailView::widget([
         'usuario_nome',
         'usuario_rg',
         'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
+        'acervoExemplarIdacervoExemplar.codigo_livro',
     ],
 ])
 ?>

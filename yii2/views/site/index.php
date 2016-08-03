@@ -19,7 +19,7 @@ $this->title = 'Librorum';
 
     <div class="body-content">
 
-        <div class="row">
+        <div class="container">
 
 
             <h3><p class="text-center">Desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte
@@ -27,14 +27,14 @@ $this->title = 'Librorum';
 
 
         </div>
-        <div class="row">
+        <div class="container">
             <hr>
         </div>
-        <div class="row">
+        <div class="container">
             <p class="row">
                 <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
-            <div class="row">
-                <h4>Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
+            <div class="container">
+                <h4 >Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
 
 
             <div class="input-group">
@@ -85,7 +85,7 @@ $this->title = 'Librorum';
 
             <p class="row">
                 <!-- -------  BEGIN  Busca de Empréstimo por código exemplar -------------  -->
-            <div class="row">
+            <div class="container">
                 <h4>Pesquisa de Empréstimo pelo Código do Exemplar</h4></div>
 
             <div class="input-group">
