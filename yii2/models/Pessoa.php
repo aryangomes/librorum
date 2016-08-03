@@ -41,7 +41,7 @@ class Pessoa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idpessoa' => Yii::t('app', 'Idpessoa'),
+            'idpessoa' => Yii::t('app', 'Id Pessoa'),
             'nome' => Yii::t('app', 'Nome da Pessoa/Empresa/Orgão de origem do Material'),
         ];
     }

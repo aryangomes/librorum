@@ -45,7 +45,7 @@ class Aquisicao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idaquisicao' => Yii::t('app', 'Idaquisicao'),
+            'idaquisicao' => Yii::t('app', 'Id Aquisição'),
             'preco' => Yii::t('app', 'Preço'),
             'quantidade' => Yii::t('app', 'Quantidade'),
             'tipo_aquisicao_idtipo_aquisicao' => Yii::t('app', 'Tipo de Aquisição'),

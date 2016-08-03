@@ -8,7 +8,8 @@ use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
 
-$this->title = $model->idemprestimo;
+$this->title = "Empréstimo da data: " .
+        date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

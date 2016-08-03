@@ -63,7 +63,7 @@ um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
     }
 });
 
-
+var exemplarDisponivel = false;
 $('#acervoexemplar-codigo_livro').blur(function () {
     var codigoExemplar = $(this).val();
     if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
@@ -80,6 +80,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
+                    exemplarDisponivel =false;
                     $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
                             "<strong>Alerta!</strong> Exemplar indisponível no momento." +
                             "</div>");
@@ -89,6 +90,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                     $('#btSave').prop('disabled', true);
 
                 } else {
+                    exemplarDisponivel =true;
                     $("#mensagem-indisponivel-exemplar").html("");
                     if ($('#emprestimo-usuario_rg').val().length > 0 &&
                             $('#user-password').val().length > 0) {
@@ -352,7 +354,7 @@ $('#btAlterarSenha').click(function () {
 
 
         if (novaSenha == confirmarSenha) {
-            
+
             $.get('../user/admin/resetar-senha', {id: user_id, novaSenha: novaSenha
             }, function (data) {
 
@@ -374,12 +376,12 @@ $('#btAlterarSenha').click(function () {
                 }
 
             });
-        }else{
-            
-             $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
-        $('#mensagem-resetar-senha').html
-                ('Campos Senha e Confirmar Senha não correspondem');
-                
+        } else {
+
+            $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
+            $('#mensagem-resetar-senha').html
+                    ('Campos Senha e Confirmar Senha não correspondem');
+
         }
     } else {
         $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
@@ -501,10 +503,13 @@ $('#btConfigurarDiasEmprestimo').click(function () {
 
 $('#confirmar-usuario').click(function () {
 
+    var senha = $('#user-password').val();
+    var user_id = $('#usuario-user_id').val();
+    validarSenha(user_id, senha);
+    console.log('[confirmar-usuario]senhaValidada.: ' + senhaValidada);
     if ($('#emprestimo-usuario_rg').val().length > 0 &&
             $('#user-password').val().length > 0 &&
             senhaValidada) {
-
 
         $('#btSave').prop('disabled', false);
         $('#form-usuario').hide();
@@ -530,7 +535,7 @@ $('#confirmar-exemplar').click(function () {
     if ($('#emprestimo-usuario_rg').val().length > 0 &&
             $('#user-password').val().length > 0 &&
             $('#acervoexemplar-codigo_livro').val().length > 0 &&
-            senhaValidada) {
+            senhaValidada && exemplarDisponivel) {
 
         $("#mensagem-indisponivel-exemplar").html("");
         if ($('#emprestimo-usuario_rg').val().length > 0 &&
@@ -581,7 +586,7 @@ function validarSenha(user_id, senha) {
         } else {
             $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
             $('#mensagem-senha-errada').html('<strong>Senha incorreta!</strong>' +
-                    'Caso queira alterar a senha,' +
+                    ' Caso queira alterar a senha,' +
                     ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
             $('#mensagem-senha-errada').show();
             $('#btSave').prop('disabled', true);
@@ -589,7 +594,7 @@ function validarSenha(user_id, senha) {
             $('#form-exemplar').hide();
             senhaValidada = false;
         }
-
+        console.log('senhaValidada.: ' + senhaValidada);
         $('#btSave').prop('disabled', true);
     });
 }

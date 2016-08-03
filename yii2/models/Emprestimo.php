@@ -48,7 +48,7 @@ class Emprestimo extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'idemprestimo' => Yii::t('app', 'Idemprestimo'),
+            'idemprestimo' => Yii::t('app', 'Código do Empréstimo'),
             'usuario_nome' => Yii::t('app', 'Nome do Usuário'),
             'usuario_rg' => Yii::t('app', 'Rg do Usuário'),
             'acervo_exemplar_idacervo_exemplar' => Yii::t('app', 'Acervo Exemplar Idacervo Exemplar'),

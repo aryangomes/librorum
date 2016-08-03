@@ -213,7 +213,7 @@ $tabSenhadoUsuario = FormGrid::widget([
                     ],
                 ],
             ]
-        ]) . " <div id=\"mensagem-senha-errada\"></div>";
+        ]) ;
 
 $tabDadosusuario = FormGrid::widget([
             'model' => $usuario,
@@ -291,7 +291,7 @@ $tabExemplar = FormGrid::widget([
                     ]
                 ],
             ]
-        ]) . "  <div id=\"mensagem-indisponivel-exemplar\"> </div>"
+        ]) 
         . "<div id=\"mensagem-get-acervo-exemplar\"></div>";
 
 $tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</small></legend> <div class=\"row\">
@@ -318,10 +318,7 @@ $tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</
             <tbody id=\"tbody-result-exemplar\">
 
             </tbody>
-        </table> <div id=\"mensagem-indisponivel-exemplar\">
-
-
-        </div>
+        </table> 
 ";
 
 $tabAcervo = FormGrid::widget([
@@ -498,6 +495,8 @@ Modal::end();
 </div>
 
 <?php ActiveForm::end(); ?>
+ <div id="mensagem-senha-errada"></div>
+  <div id="mensagem-indisponivel-exemplar"> </div>
 <?php
 $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
