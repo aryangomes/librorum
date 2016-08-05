@@ -75,6 +75,9 @@ class UserSearch extends User
         // create data provider
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+              'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         // enable sorting for the related columns

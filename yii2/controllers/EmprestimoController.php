@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use amnah\yii2\user\models\User;
 use app\models\Acervo;
-
 use app\models\AcervoExemplar;
 use app\models\AcervoExemplarSearch;
 use app\models\Usuario;
@@ -16,19 +15,45 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use \app\models\Config;
+use kartik\mpdf\Pdf;
+use app\components\AccessFilter;
 
 /**
  * EmprestimoController implements the CRUD actions for Emprestimo model.
  */
-class EmprestimoController extends Controller
-{
-    public function behaviors()
-    {
+class EmprestimoController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'emprestimo',
+                    'update' => 'emprestimo',
+                    'delete' => 'emprestimo',
+                    'create' => 'emprestimo',
+                    'view' => 'emprestimo',
+                    'validar-senha' => 'emprestimo',
+                    'get-usuario' => 'emprestimo',
+                    'devolucao' => 'emprestimo',
+                    'get-busca-usuario' => 'emprestimo',
+                    'get-exemplar' => 'emprestimo',
+                    'get-data-previsao-devolucao' => 'emprestimo',
+                    'get-busca-exemplar' => 'emprestimo',
+                    'renovar' => 'emprestimo',
+                    'verifica-pode-emprestar' => 'emprestimo',
+                    'configurar-dias-emprestimo' => 'emprestimo',
+                    'get-busca-emprestimo-rg' => 'emprestimo',
+                    'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
+                    'gerar-comprovante-emprestimo' => 'emprestimo',
                 ],
             ],
         ];
@@ -38,14 +63,13 @@ class EmprestimoController extends Controller
      * Lists all Emprestimo models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new EmprestimoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -54,13 +78,12 @@ class EmprestimoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $model = $this->findModel($id);
         ($model->calcularDiasDeEmprestimo());
-        var_dump($model->diasDiferenca);
+
         return $this->render('view', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -69,13 +92,22 @@ class EmprestimoController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Emprestimo();
         $usuario = new Usuario();
         $acervo = new Acervo();
         $exemplar = new AcervoExemplar();
         $user = new User();
+
+        $situacoesusuario = \yii\helpers\ArrayHelper::map(
+                        \app\models\SituacaoUsuario::find()->all(), 'idsituacao_usuario', 'situacao');
+
+        $user->setScenario("admin");
+        $profile = new \amnah\yii2\user\models\Profile();
+        $user->role_id = 2;
+        $user->status = 1;
+        $role = new \amnah\yii2\user\models\Role();
+
         //Definindo a data de Empréstimo
         date_default_timezone_set('America/Sao_Paulo');
         $model->dataemprestimo = date('Y-m-d H:i:s');
@@ -87,11 +119,14 @@ class EmprestimoController extends Controller
             return $this->redirect(['view', 'id' => $model->idemprestimo]);
         } else {
             return $this->render('create', [
-                'model' => $model,
-                'usuario'=>$usuario,
-                'acervo'=>$acervo,
-                'exemplar'=>$exemplar,
-                'user'=>$user,
+                        'model' => $model,
+                        'usuario' => $usuario,
+                        'acervo' => $acervo,
+                        'exemplar' => $exemplar,
+                        'user' => $user,
+                        'profile' => $profile,
+                        'role' => $role,
+                        'situacoesusuario' => $situacoesusuario,
             ]);
         }
     }
@@ -102,10 +137,9 @@ class EmprestimoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-        $usuario = Usuario::findOne([$model->usuario_idusuario,$model->usuario_rg,$model->usuario_nome]);
+        $usuario = Usuario::findOne([$model->usuario_idusuario, $model->usuario_rg, $model->usuario_nome]);
         $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
         $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
         $user = User::findIdentity($usuario->user_id);
@@ -113,11 +147,11 @@ class EmprestimoController extends Controller
             return $this->redirect(['view', 'id' => $model->idemprestimo]);
         } else {
             return $this->render('update', [
-                'model' => $model,
-                'usuario'=>$usuario,
-                'acervo'=>$acervo,
-                'user'=>$user,
-                'exemplar'=>$exemplar,
+                        'model' => $model,
+                        'usuario' => $usuario,
+                        'acervo' => $acervo,
+                        'user' => $user,
+                        'exemplar' => $exemplar,
             ]);
         }
     }
@@ -127,21 +161,18 @@ class EmprestimoController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionDevolucao($id)
-    {
+    public function actionDevolucao($id) {
         $model = $this->findModel($id);
         $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
-        if ($model->load(Yii::$app->request->post())) {
-            $model->datadevolucao =date("Y-m-d H:i:s",
-                strtotime(Yii::$app->request->post()['Emprestimo']['datadevolucao']));
+        if ((Yii::$app->request->post())) {
+            $model->datadevolucao = date('Y-m-d H:i:s');
 
-            if( $model->save()){
+            if ($model->save()) {
                 $acervoExemplar->esta_disponivel = 1;
                 $acervoExemplar->save();
                 return $this->redirect(['view', 'id' => $id]);
             }
             return $this->redirect(['view', 'id' => $id]);
-
         } else {
             return $this->redirect(['index']);
         }
@@ -153,12 +184,11 @@ class EmprestimoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $model = $this->findModel($id);
         $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
         $acervoExemplar->esta_disponivel = 1;
-        if($acervoExemplar->save()){
+        if ($acervoExemplar->save()) {
             $model->delete();
         }
         return $this->redirect(['index']);
@@ -171,8 +201,7 @@ class EmprestimoController extends Controller
      * @return Emprestimo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Emprestimo::findOne($id)) !== null) {
             return $model;
         } else {
@@ -180,57 +209,46 @@ class EmprestimoController extends Controller
         }
     }
 
-
-
     /**
      * Retorna JSON com os dados do Usuário de acordo com o Login passado
      * @param $login
      * Return Json
      */
-    public function actionGetUsuario($rg)
-    {
-         $modelSearch = new UsuarioSearch();
-         $usuario = $modelSearch->searchUsuario($rg);
+    public function actionGetUsuario($rg) {
+        $modelSearch = new UsuarioSearch();
+        $usuario = $modelSearch->searchUsuario($rg);
 
-     /*   var_dump(User::findIdentity($usuario->user_id)->validatePassword($password));
-var_dump(User::findIdentity($usuario->user_id)->password);*/
+        /*   var_dump(User::findIdentity($usuario->user_id)->validatePassword($password));
+          var_dump(User::findIdentity($usuario->user_id)->password); */
         echo Json::encode($usuario);
-
     }
 
-
-
-    public function actionValidarSenha($user_id,$senha)
-    {
+    public function actionValidarSenha($user_id, $senha) {
         $user = User::findIdentity($user_id);
-        if( $user!=null && $user->validatePassword($senha)){
+        if ($user != null && $user->validatePassword($senha)) {
             echo Json::encode(true);
-        }else{
+        } else {
             echo Json::encode(false);
         }
-
-
     }
-    
-    
+
     /**
      * Retorna JSON com os dados do Usuário de acordo com o Nome do Usuário passado
      * @param $login
      * Return Json
      */
-    public function actionGetBuscaUsuario($nomeUsuario)
-    {
-          $modelSearch = new UsuarioSearch();
-          $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);
+    public function actionGetBuscaUsuario($nomeUsuario) {
+        $modelSearch = new UsuarioSearch();
+        $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);
 
 
-        if($usuarios != null){
-        $usuario = [];
-        foreach ($usuarios as $u){
-            array_push($usuario , $u);
-        }
-        echo Json::encode($usuario);
-        }else{
+        if ($usuarios != null) {
+            $usuario = [];
+            foreach ($usuarios as $u) {
+                array_push($usuario, $u);
+            }
+            echo Json::encode($usuario);
+        } else {
             echo Json::encode(null);
         }
     }
@@ -240,51 +258,49 @@ var_dump(User::findIdentity($usuario->user_id)->password);*/
      * @param $idExemplar
      * Return Json
      */
-    public function actionGetExemplar($codigoExemplar)
-    {
-       
+    public function actionGetExemplar($codigoExemplar) {
+
 
         $exemplar = AcervoExemplar::find()
-            ->joinWith('acervoIdacervo')
-            ->where(['codigo_livro'=>$codigoExemplar])->one();
+                        ->joinWith('acervoIdacervo')
+                        ->where(['codigo_livro' => $codigoExemplar])->one();
 
-
-        echo Json::encode([$exemplar,$exemplar['acervoIdacervo']]);
-
+        if ($exemplar != null) {
+            echo Json::encode([$exemplar, $exemplar['acervoIdacervo']]);
+        } else {
+            echo Json::encode(null);
+        }
     }
 
-
-    public function actionGetDataPrevisaoDevolucao()
-    {
+    public function actionGetDataPrevisaoDevolucao() {
         //Definindo zona de tempo para o horário brasileiro
         date_default_timezone_set('America/Sao_Paulo');
 
-        $dataprevisao = date('Y-m-d H:i:s',
-            strtotime("+10 days"));
-        $dataprevisaoformatado = date('d/m/Y H:i:s',
-            strtotime("+10 days"));
-
-
-        echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+        $dias_emprestimo = \app\models\Config::findOne('dias_emprestimo');
+        if ($dias_emprestimo != null) {
+            $dataprevisao = date('Y-m-d H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+            $dataprevisaoformatado = date('d/m/Y H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+            echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
+        } else {
+            echo Json::encode(null);
+        }
     }
 
-    public function actionGetBuscaExemplar($tituloExemplar)
-    {
+    public function actionGetBuscaExemplar($tituloExemplar) {
         $modelSearch = new AcervoExemplarSearch();
-       $exemplares = $modelSearch->searchExemplarByTitulo($tituloExemplar);
+        $exemplares = $modelSearch->searchExemplarByTitulo($tituloExemplar);
 
 
         $exemplar = [];
 
         $auxexemplar = [];
-        foreach ($exemplares as $e){
-            array_push($exemplar , $e);
-            array_push($auxexemplar,$e['acervoIdacervo']);
-
+        foreach ($exemplares as $e) {
+            array_push($exemplar, $e);
+            array_push($auxexemplar, $e['acervoIdacervo']);
         }
-        if(count($exemplar) <= 0){
+        if (count($exemplar) <= 0) {
             echo Json::encode(0);
-    }else {
+        } else {
 
             echo Json::encode([$exemplar, $auxexemplar]);
         }
@@ -295,23 +311,129 @@ var_dump(User::findIdentity($usuario->user_id)->password);*/
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionRenovar($id)
-    {
+    public function actionRenovar($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->dataprevisaodevolucao =date("Y-m-d H:i:s",
-                strtotime(Yii::$app->request->post()['Emprestimo']['dataprevisaodevolucao']));
+            $model->dataprevisaodevolucao = date("Y-m-d H:i:s", strtotime(Yii::$app->request->post()['Emprestimo']['dataprevisaodevolucao']));
 
-            if( $model->save()){
+            if ($model->save()) {
 
                 return $this->redirect(['view', 'id' => $id]);
             }
             return $this->redirect(['view', 'id' => $id]);
-
         } else {
             return $this->redirect(['index']);
         }
+    }
+
+    public function actionVerificaPodeEmprestar($idusuario) {
+        $usuario = Usuario::findOne($idusuario);
+        if ($usuario != null) {
+            $pode_emprestar = $usuario->verificarPodeEmprestar();
+
+            if ($pode_emprestar) {
+
+                echo Json::encode(true);
+            } else {
+                echo Json::encode(false);
+            }
+        } else {
+            echo Json::encode(false);
+        }
+    }
+
+    public function actionConfigurarDiasEmprestimo($diasEmprestimo) {
+        $config = new Config();
+        if ($diasEmprestimo != null && intval($diasEmprestimo) > 0) {
+            $config->chave = 'dias_emprestimo';
+            $config->valor = $diasEmprestimo;
+            if ($config->save()) {
+
+                echo Json::encode(true);
+            } else {
+                echo Json::encode(false);
+            }
+        } else {
+            echo Json::encode(false);
+        }
+    }
+
+    public function actionGetBuscaEmprestimoRg($rg) {
+        $modelSearch = new EmprestimoSearch();
+        $emprestimos = $modelSearch->searchEmprestimoByRg($rg);
+        if ($emprestimos != null) {
+
+            $emprestimoExemplares = [];
+            $emprestimoUsuario = [];
+            foreach ($emprestimos as $e) {
+                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+            }
+            foreach ($emprestimos as $e) {
+                array_push($emprestimoUsuario, $e['usuarioIdusuario']);
+            }
+            if ($emprestimos != null) {
+                echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares]);
+            } else {
+                echo Json::encode(null);
+            }
+        } else {
+            echo Json::encode(null);
+        }
+    }
+
+    public function actionGetBuscaEmprestimoCodigoExemplar($codigoExemplar) {
+        $modelSearch = new EmprestimoSearch();
+        $emprestimo = $modelSearch->searchEmprestimoByCodigoExemplar($codigoExemplar);
+        if ($emprestimo != null) {
+            $emprestimoExemplares = [];
+            $emprestimoUsuario = [];
+            foreach ($emprestimo as $e) {
+                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+            }
+            foreach ($emprestimo as $e) {
+                array_push($emprestimoUsuario, $e['usuarioIdusuario']);
+            }
+            if ($emprestimo != null) {
+                echo Json::encode([$emprestimo, $emprestimoUsuario, $emprestimoExemplares]);
+            } else {
+                echo Json::encode(null);
+            }
+        } else {
+            echo Json::encode(null);
+        }
+    }
+
+    public function actionGerarComprovanteEmprestimo($id) {
+
+        //         Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Sao_Paulo');
+
+        $emprestimoSearch = new EmprestimoSearch();
+        $dadosEmprestimo = $emprestimoSearch->searchDadosEmprestimo($id);
+
+        $configSearch = new \app\models\ConfigSearch();
+        $config = $configSearch->searchConfig('nome_biblioteca');
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8,
+            'content' => $this->renderPartial('comprovante', [
+                'dadosEmprestimo' => $dadosEmprestimo,
+                'config' => $config
+            ]),
+            'filename' => 'comprovanteemprestimo' .
+            date("d-m-Y_H-i-s", strtotime
+                            ($dadosEmprestimo->dataemprestimo)) . '.pdf',
+            'options' => [
+                'title' => 'Comprovante de Empréstimo',
+//                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'methods' => [
+                'SetHeader' => ['Gerado por: Krajee Pdf Component||Gerado em: ' .
+                    date("d/m/Y H:i:s")],
+                'SetFooter' => ['|Página{PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
     }
 
 }

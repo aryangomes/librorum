@@ -28,7 +28,7 @@ class PessoaFisica extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cpf', 'pessoa_idpessoa'], 'required'],
+            [['pessoa_idpessoa'], 'required'],
             [['pessoa_idpessoa'], 'integer'],
             [['cpf'], 'string', 'max' => 14]
         ];

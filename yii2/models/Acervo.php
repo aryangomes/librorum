@@ -24,6 +24,11 @@ use Yii;
  */
 class Acervo extends \yii\db\ActiveRecord
 {
+    public $quantidadeExemplar;
+    public $catalogarAcervoExistente;
+    
+    public $codigoInicio;
+    public $codigoFim;
     /**
      * @inheritdoc
      */
@@ -44,7 +49,7 @@ class Acervo extends \yii\db\ActiveRecord
             [['autor', 'titulo', 'editora'], 'string', 'max' => 100],
             [['aquisicao_idaquisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Aquisicao::className(), 'targetAttribute' => ['aquisicao_idaquisicao' => 'idaquisicao']],
             [['tipo_material_idtipo_material'], 'exist', 'skipOnError' => true, 'targetClass' => TipoMaterial::className(), 'targetAttribute' => ['tipo_material_idtipo_material' => 'idtipo_material']],
-            [['categoria_acervo_idcategoria_acervo'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaAcervo::className(), 'targetAttribute' => ['categoria_acervo_idcategoria_acervo' => 'idcategorial_acervo']],
+            [['categoria_acervo_idcategoria_acervo'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaAcervo::className(), 'targetAttribute' => ['categoria_acervo_idcategoria_acervo' => 'idcategoria_acervo']],
         ];
     }
 
@@ -56,13 +61,13 @@ class Acervo extends \yii\db\ActiveRecord
         return [
             'idacervo' => Yii::t('app', 'Idacervo'),
             'cdd' => Yii::t('app', 'Cdd'),
-            'autor' => Yii::t('app', 'Autor'),
-            'titulo' => Yii::t('app', 'Titulo'),
+            'autor' => Yii::t('app', 'Autor(es)'),
+            'titulo' => Yii::t('app', 'Título'),
             'editora' => Yii::t('app', 'Editora'),
             'chamada' => Yii::t('app', 'Chamada'),
-            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisicao Idaquisicao'),
-            'tipo_material_idtipo_material' => Yii::t('app', 'Tipo Material Idtipo Material'),
-            'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria Acervo Idcategoria Acervo'),
+            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisição'),
+            'tipo_material_idtipo_material' => Yii::t('app', 'Tipo do Material'),
+            'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria'),
         ];
     }
 
@@ -85,9 +90,9 @@ class Acervo extends \yii\db\ActiveRecord
     /** 
      * @return \yii\db\ActiveQuery 
      */ 
-    public function getCategoriaAcervoIdcategorialAcervo() 
+    public function getCategoriaAcervoIdcategoriaAcervo() 
     { 
-        return $this->hasOne(CategoriaAcervo::className(), ['idcategorial_acervo' => 'categoria_acervo_idcategoria_acervo']);
+        return $this->hasOne(CategoriaAcervo::className(), ['idcategoria_acervo' => 'categoria_acervo_idcategoria_acervo']);
     } 
 
     /**

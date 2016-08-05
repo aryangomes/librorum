@@ -14,6 +14,7 @@ use yii\web\JsExpression;
  * @var yii\widgets\ActiveForm $form
  */
 use kartik\widgets\FileInput;
+
 $url = \yii\helpers\Url::to(['lista-situacao']);
 $module = $this->context->module;
 $role = $module->model("Role");
@@ -23,98 +24,103 @@ $role = $module->model("Role");
 
 
 
-    <?php $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL,
-        'enableAjaxValidation' => true,'options' => ['enctype' => 'multipart/form-data'],
-    ]); ?>
+    <?php
+    $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL,
+                'enableAjaxValidation' => true, 'options' => ['enctype' => 'multipart/form-data'],
+    ]);
+    ?>
 
-    <?php echo Form::widget([
-        'model'=>$usuario,
-        'form'=>$form,
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
         'autoGenerateColumns' => true,
         'contentBefore' => '<legend class="text-info"><small>Dados Pessoais</small></legend>',
-        'attributes'=>[
+        'attributes' => [
             // 2 column layout
-            'nome'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Nome Para o Usuário'),'feedbackIcon' => [
-                //'prefix' => 'fa fa-',
-                'default' => 'user',
-                'success' => 'user-plus',
-                'error' => 'user-times',
-                'defaultOptions' => ['class'=>'text-warning'],
+            'nome' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Nome Para o Usuário'), 'feedbackIcon' => [
+                        //'prefix' => 'fa fa-',
+                        'default' => 'user',
+                        'success' => 'user-plus',
+                        'error' => 'user-times',
+                        'defaultOptions' => ['class' => 'text-warning'],
+                    ],
+                ],
             ],
-            ],
-            ],
-            'rg'=>['type'=>Form::INPUT_TEXT,
-                'options'=>['placeholder' => 'Digite o RG do Usuário']],
-            'cpf'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => MaskedInput::className(),
-                'options'=>['mask' => ['999.999.999-99']]],
+            'rg' => ['type' => Form::INPUT_TEXT,
+                'options' => ['placeholder' => 'Digite o RG do Usuário']],
+            'cpf' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(),
+                'options' => ['mask' => ['999.999.999-99']]],
         ],
     ])
     ?>
 
+    <div id="validacao-usuario"></div>
 
 
-
-    <?php echo Form::widget([
-        'model'=>$usuario,
-        'form'=>$form,
-        'columns'=>2,
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'columns' => 2,
         'contentBefore' => '<legend class="text-info"><small>Contatos</small></legend>',
-        'attributes'=>[
+        'attributes' => [
             // 2 column layout
-            'telefone'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => MaskedInput::className(), 'options'=>[
-                'mask' => '(99)99999-9999'],
+            'telefone' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(), 'options' => [
+                    'mask' => '(99)99999-9999'],
             ],
-
-            'email'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Enter a valid email address...'),'feedbackIcon' => [
-                //'prefix' => 'fa fa-',
-                'feedbackIcon' => [
-                    'default' => 'envelope',
-                    'success' => 'ok',
-                    'error' => 'exclamation-sign',
-                    'defaultOptions' => ['class'=>'text-primary']
-
+            'email' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Enter a valid email address...'), 'feedbackIcon' => [
+                        //'prefix' => 'fa fa-',
+                        'feedbackIcon' => [
+                            'default' => 'envelope',
+                            'success' => 'ok',
+                            'error' => 'exclamation-sign',
+                            'defaultOptions' => ['class' => 'text-primary']
+                        ],
+                    ],
                 ],
             ],
-            ],
-            ],
         ],
+    ]);
+    ?>
 
-    ]); ?>
 
-
-    <?php echo Form::widget([
-        'model'=>$usuario,
-        'form'=>$form,
-        'columns'=>4,
+    <?php
+    echo Form::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'columns' => 4,
         'contentBefore' => '<legend class="text-info"><small>Dados Diversos</small></legend>',
-        'attributes'=>[
-            'cargo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Cargo do Usuário'),'maxlength' => true]],
-            'reparticao'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Repartição do Usuário'),'maxlength' => true]],
-            'endereco'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>yii::t('app','Endereço do Usuário'),'maxlength' => true]],
-
-            'situacaoUsuarioIdsituacaoUsuario'=>['type'=>Form::INPUT_WIDGET,'widgetClass' => 'kartik\widgets\Select2','options' => ['pluginOptions' => [
-                'placeholder' => Yii::t('app','Search for a Situação do usuário ...'),
-                'allowClear' => true,
-                'minimumInputLength' => 3,
-                'language' => [
-                    'errorLoading' => new JsExpression("function () { return '".Yii::t('app','Waiting for results...')."'; }"),
+        'attributes' => [
+            'cargo' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Cargo do Usuário'), 'maxlength' => true]],
+            'reparticao' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Repartição do Usuário'), 'maxlength' => true]],
+            'endereco' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => yii::t('app', 'Endereço do Usuário'), 'maxlength' => true]],
+            'situacaoUsuarioIdsituacaoUsuario' => ['type' => Form::INPUT_WIDGET,
+                'widgetClass' => 'kartik\widgets\Select2',
+                
+                'options' => [
+                     'initValueText' => isset($usuario->situacao_usuario_idsituacao_usuario) ?  app\models\SituacaoUsuario::findOne
+                                ($usuario->situacao_usuario_idsituacao_usuario)->situacao : '',
+                    'pluginOptions' => [
+                        'placeholder' => Yii::t('app', 'Search for a Situação do usuário ...'),
+                        'allowClear' => true,
+                       
+                        'minimumInputLength' => 3,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => $url,
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(situacao) { return situacao.text; }'),
+                        'templateSelection' => new JsExpression('function (situacao) { return situacao.text; }'),
+                    ],
                 ],
-                'ajax' => [
-                    'url' => $url,
-                    'dataType' => 'json',
-                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                ],
-                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                'templateResult' => new JsExpression('function(situacao) { return situacao.text; }'),
-                'templateSelection' => new JsExpression('function (situacao) { return situacao.text; }'),
             ],
-            ],
-            ],
-
-
-
         ],
-
 
 
     ]); ?>
@@ -125,75 +131,74 @@ $role = $module->model("Role");
         'form'=>$form,
         'columns'=>3,
         'contentBefore' => '<legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>',
-        'attributes'=>[
+        'attributes' => [
             // 2 column layout
             //'newPassword'=>['type'=>Form::INPUT_PASSWORD],
 
-            'password'=>['type'=>Form::INPUT_PASSWORD, 'options'=>['value'=>'']],
-            'role_id'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $role::dropdown()]],
-            'status'=>['type'=>Form::INPUT_DROPDOWN_LIST,'items'=>['data' => $user::statusDropdown()]],
+
+           'password' => ['type' => Form::INPUT_PASSWORD, 'options' => [
+                    'value' => !$user->isNewRecord ? $user->password : '',
+                    'disabled' => !$user->isNewRecord ? true : false]
+            ],
+            'password_repeat'=>['type'=>Form::INPUT_PASSWORD, 'options' => [
+                    'value' => !$user->isNewRecord ? $user->password : '',
+                    'disabled' => !$user->isNewRecord ? true : false]],
+             'role_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['data' => $role::dropdown()]],
 
 
         ],
-
-
-
-    ]); ?>
-
-
-
-
-
-
-
-
-
-
-
-    <?php  $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
-
-    <?php
-
-    $this->registerJs("
-        $('#usuario-nome').blur(function(){
-            $('#profile-full_name').val($(this).val());
-        });
-    ");
-    ?>
-
-
-
-
-
-
-
-
-
-    <?=  $form->field($usuario, 'imageFile')->widget(FileInput::classname(), [
-
-        'pluginOptions' => [
-            //'uploadUrl' => url::to(['@web/upload/imagens']),
-
-
-            // permite habilitar ou desabilitar o botão de upload
-            'showUpload' => false,
-            //'minImageWidth' => 900,
-            //'minImageHeight' => 300,
-            //'maxImageWidth' =>900,
-            //'maxImageHeight' => 300
-
-        ],
-
-
-        'options' => ['accept' => 'image/jpeg, image/png'],
-
     ]);
     ?>
 
+
+
+
+
+
+
+
+
+
+
+<?php $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
+
+
+
+
+
+
+
+
+
+
+<?=
+$form->field($usuario, 'imageFile')->widget(FileInput::classname(), [
+
+    'pluginOptions' => [
+        //'uploadUrl' => url::to(['@web/upload/imagens']),
+        // permite habilitar ou desabilitar o botão de upload
+        'showUpload' => false,
+    //'minImageWidth' => 900,
+    //'minImageHeight' => 300,
+    //'maxImageWidth' =>900,
+    //'maxImageHeight' => 300
+    ],
+    'options' => ['accept' => 'image/jpeg, image/png'],
+]);
+?>
+
     <div class="form-group">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?=
+    Html::Button('Alterar Senha do Usuário', ['class' => 'btn btn-warning',
+        'id' => 'btAlterarSenhaDoUsuário',
+        'disabled' => $user->isNewRecord ? true : false])
+    ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
+<?php
+$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-user-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
 </div>
+     

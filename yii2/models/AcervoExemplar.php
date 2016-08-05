@@ -45,9 +45,9 @@ class AcervoExemplar extends \yii\db\ActiveRecord
     {
         return [
             'idacervo_exemplar' => 'Idacervo Exemplar',
-            'acervo_idacervo' => 'Acervo Idacervo',
-            'codigo_livro' => 'Codigo Livro',
-            'esta_disponivel' => 'Esta Disponivel',
+            'acervo_idacervo' => 'Título Exemplar',
+            'codigo_livro' => 'Código Exemplar',
+            'esta_disponivel' => 'Disponibilidade',
         ];
     }
 
@@ -65,5 +65,18 @@ class AcervoExemplar extends \yii\db\ActiveRecord
     public function getEmprestimos()
     {
         return $this->hasMany(Emprestimo::className(), ['acervo_exemplar_idacervo_exemplar' => 'idacervo_exemplar']);
+    }
+    
+    public static function verificaCodigoLivroExiste($codigo) {
+        $exemplar = AcervoExemplar::find()
+                ->where([
+                    'codigo_livro'=>$codigo
+                ])->one();
+        
+        if($exemplar == null){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

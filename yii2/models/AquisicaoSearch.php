@@ -10,13 +10,12 @@ use app\models\Aquisicao;
 /**
  * AquisicaoSearch represents the model behind the search form about `app\models\Aquisicao`.
  */
-class AquisicaoSearch extends Aquisicao
-{
+class AquisicaoSearch extends Aquisicao {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['idaquisicao', 'tipo_aquisicao_idtipo_aquisicao', 'pessoa_idpessoa'], 'integer'],
             [['preco', 'quantidade'], 'safe'],
@@ -26,8 +25,7 @@ class AquisicaoSearch extends Aquisicao
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class AquisicaoSearch extends Aquisicao
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Aquisicao::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -62,8 +62,19 @@ class AquisicaoSearch extends Aquisicao
         ]);
 
         $query->andFilterWhere(['like', 'preco', $this->preco])
-            ->andFilterWhere(['like', 'quantidade', $this->quantidade]);
+                ->andFilterWhere(['like', 'quantidade', $this->quantidade]);
 
         return $dataProvider;
     }
+
+    public function searchAquisicoes($idPessoa) {
+        $query = Aquisicao::find()
+                ->joinWith('acervos')
+                ->where(['pessoa_idpessoa' => $idPessoa])
+                ->all();
+
+        
+        return $query;
+    }
+
 }

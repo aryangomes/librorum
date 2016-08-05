@@ -6,7 +6,7 @@
 		'Create {model}' => 'Cadastrar {model}',
 		'Update' => 'Atualizar',
 		'Update {modelClass}: ' => 'Atualizar {modelClass}: ',
-		'Delete' => 'Excluír',
+		'Delete' => 'Excluir',
 		
 		'Collection' => 'Acervo',
 		'Collections' => 'Acervos',

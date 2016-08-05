@@ -51,7 +51,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @var int Unconfirmed email status
      */
-    const STATUS_UNCONFIRMED_EMAIL = 2;
+//    const STATUS_UNCONFIRMED_EMAIL = 2;
 
     /**
      * @var string Current password - for account page updates
@@ -82,6 +82,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public $password_repeat;
+
     public function init()
     {
         if (!$this->module) {
@@ -102,8 +103,8 @@ class User extends ActiveRecord implements IdentityInterface
 
             [['password'], 'required'],
 
-       //     [['email', 'username'], 'unique'],
-        //    [['email', 'username'], 'filter', 'filter' => 'trim'],
+            [['email', 'username'], 'unique'],
+            [['email'], 'filter', 'filter' => 'trim'],
 //            [['email'], 'email'],
          //   [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
@@ -111,14 +112,14 @@ class User extends ActiveRecord implements IdentityInterface
             [['newPassword'], 'string', 'min' => 3],
             [['newPassword'], 'filter', 'filter' => 'trim'],
             [['newPassword'], 'required', 'on' => ['register', 'reset']],
-            [['newPasswordConfirm'], 'required', 'on' => ['reset']],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user', 'Passwords do not match')],
+            [['password_repeat'], 'required', 'on' => ['reset']],
+            [['password_repeat'], 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('user', 'Passwords do not match')],
 
             // account page
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
 
             // admin crud rules
-            [['role_id', 'status'], 'required', 'on' => ['admin']],
+            [['role_id'], 'required', 'on' => ['admin']],
             [['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['banned_at'], 'integer', 'on' => ['admin']],
             [['banned_reason'], 'string', 'max' => 255, 'on' => 'admin'],
@@ -178,7 +179,7 @@ class User extends ActiveRecord implements IdentityInterface
             // virtual attributes set above
             'currentPassword' => Yii::t('user', 'Current Password'),
             'newPassword' => $this->isNewRecord ? Yii::t('user', 'Password') : Yii::t('user', 'New Password'),
-            'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
+            'password_repeat' => Yii::t('user', 'Confirme Sua Senha'),
         ];
     }
 

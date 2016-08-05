@@ -43,8 +43,13 @@ class AcervoSearch extends Acervo
     {
         $query = Acervo::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+              'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -55,6 +60,7 @@ class AcervoSearch extends Acervo
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'idacervo' => $this->idacervo,
             'aquisicao_idaquisicao' => $this->aquisicao_idaquisicao,
@@ -69,5 +75,14 @@ class AcervoSearch extends Acervo
             ->andFilterWhere(['like', 'chamada', $this->chamada]);
 
         return $dataProvider;
+    }
+    
+     public function searchExemplares($idAcervo)
+    {
+        $query = AcervoExemplar::find()->where([
+            'acervo_idacervo'=>$idAcervo
+        ])->all();
+
+        return $query;
     }
 }

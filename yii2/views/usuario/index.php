@@ -18,25 +18,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'User')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="table-responsive">
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'idusuario',
+                'nome',
+                'rg',
+                'cpf',
+                'cargo',
+                // 'reparticao',
+                // 'endereco',
+                // 'telefone',
+                // 'email:email',
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]);
+        ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'idusuario',
-            'nome',
-            'rg',
-            'cpf',
-            'cargo',
-            // 'reparticao',
-            // 'endereco',
-            // 'telefone',
-            // 'email:email',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+    </div>
 </div>

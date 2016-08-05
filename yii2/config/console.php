@@ -25,6 +25,7 @@ return [
                 ],
             ],
         ],
+     
         'db' => $db,
     ],
     'params' => $params,

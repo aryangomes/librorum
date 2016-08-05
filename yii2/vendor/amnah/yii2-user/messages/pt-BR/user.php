@@ -13,7 +13,7 @@ return [
     'Can Admin' => 'Permite Administrar',
 
     'Role' => 'Cargo',
-    'Role ID' => 'Código do cargo',
+    'Role ID' => 'Tipo de Usuário',
     'Status' => 'Situação',
     'Email' => 'E-mail',
     'New Email' => 'Novo E-mail',
@@ -65,6 +65,7 @@ return [
     'Please use this link to reset your password:' => 'Por favor utilize este enderenço para reiniciar a sua senha:',
 
     // admin views
+    'User' => 'Usuário',
     'Users' => 'Usuários',
     'Banned' => 'Banido',
     'Create' => 'Novo',
@@ -98,6 +99,7 @@ return [
     'Profile' => 'Perfil',
     'Resend' => 'Re-enviar',
     'Password has been reset' => 'A senha foi reiniciada',
+    'Passwords do not match'=> "As Senhas São Diferentes",
 //    'Login link sent - Please check your email' => '',
 //    'Registration link sent - Please check your email' => '',
 ];

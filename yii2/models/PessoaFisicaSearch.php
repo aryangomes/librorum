@@ -45,6 +45,9 @@ class PessoaFisicaSearch extends PessoaFisica
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+              'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);

@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use Yii;
@@ -6,14 +7,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Acervo;
+use app\models\AcervoExemplar;
 
-class BuscaController extends Controller
-{
-    /** 
+class BuscaController extends Controller {
+
+    /**
      * @inheritdoc 
-     */ 
-    public function behaviors()
-    {
+     */
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -24,15 +25,40 @@ class BuscaController extends Controller
         ];
     }
 
-    public function actionIndex(){
-        return $this->render('index');
+    public function actionIndex() {
+
+       return $this->render('index');
     }
 
-    public function actionBuscaAcervo($acervo){
-        $query = Acervo::find()->joinWith('tipoMaterialIdtipoMaterial')
-        /*->joinWith('acervoAutores')*/
-        ->where(['LIKE','titulo',$acervo])->all();
+    public function actionBuscaAcervo($acervo) {
+        $session = Yii::$app->session;
+        if (strlen($acervo) > 0) {
+            $acervo = Acervo::find()
+                            ->joinWith('tipoMaterialIdtipoMaterial')
+                            ->joinWith('categoriaAcervoIdcategoriaAcervo')
+                            ->where(['LIKE', 'titulo', $acervo])->one();
 
-        return $this->render('index',['query'=>$query]);
-    }    
+            
+            if ($acervo != null) {
+                $exemplares = AcervoExemplar::find()
+                                ->where(['acervo_idacervo' => $acervo->idacervo])->all();
+                if (count($exemplares) > 0) {
+                    return $this->render('index', ['acervo' => $acervo, 'exemplares' => $exemplares,
+                               ]);
+                } else {
+                    $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
+                            . 'título.');
+                      return $this->redirect('index');
+                }
+            } else {
+                $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
+                        . 'título.');
+                return $this->redirect('index');
+            }
+        }else{
+            $session->setFlash('buscaAcervo', 'Digite um título.');
+               return $this->redirect('index');
+        }
+    }
+
 }
