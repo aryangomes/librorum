@@ -8,7 +8,7 @@ use app\models\ConfigSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\components\AccessFilter;
 /**
  * ConfigController implements the CRUD actions for Config model.
  */
@@ -23,6 +23,17 @@ class ConfigController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+              'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'config',
+                    'update' => 'config',
+                    'delete' => 'config',
+                    'create' => 'config',
+                    'view' => 'config',
                 ],
             ],
         ];

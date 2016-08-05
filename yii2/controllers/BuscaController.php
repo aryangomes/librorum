@@ -27,7 +27,7 @@ class BuscaController extends Controller {
 
     public function actionIndex() {
 
-        return $this->render('index', ['session' => $session]);
+       return $this->render('index');
     }
 
     public function actionBuscaAcervo($acervo) {
@@ -44,20 +44,20 @@ class BuscaController extends Controller {
                                 ->where(['acervo_idacervo' => $acervo->idacervo])->all();
                 if (count($exemplares) > 0) {
                     return $this->render('index', ['acervo' => $acervo, 'exemplares' => $exemplares,
-                                'session' => $session]);
+                               ]);
                 } else {
                     $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
                             . 'título.');
-                    return $this->render('index', ['session' => $session]);
+                      return $this->redirect('index');
                 }
             } else {
                 $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
                         . 'título.');
-                return $this->render('index', ['session' => $session]);
+                return $this->redirect('index');
             }
         }else{
             $session->setFlash('buscaAcervo', 'Digite um título.');
-             return $this->render('index', ['session' => $session]);
+               return $this->redirect('index');
         }
     }
 

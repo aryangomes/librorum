@@ -46,6 +46,7 @@ class Usuario extends \yii\db\ActiveRecord {
             'situacao_usuario_idsituacao_usuario'], 'required'],
             [['user_id', 'situacao_usuario_idsituacao_usuario'], 'integer'],
             [['nome'], 'string', 'max' => 55],
+           
             [['rg'], 'string', 'max' => 12],
             [['cpf', 'telefone'], 'string', 'max' => 14],
             [['cargo', 'reparticao'], 'string', 'max' => 45],
@@ -53,6 +54,7 @@ class Usuario extends \yii\db\ActiveRecord {
             [['email'], 'string', 'max' => 150],
             [['foto'], 'string', 'max' => 300],
             [['email'], 'email'],
+             [['nome','rg','email'], 'unique'],
             [['situacao_usuario_idsituacao_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['situacaoUsuarioIdsituacaoUsuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
@@ -70,8 +72,8 @@ class Usuario extends \yii\db\ActiveRecord {
             'rg' => Yii::t('app', 'Rg'),
             'cpf' => Yii::t('app', 'Cpf'),
             'cargo' => Yii::t('app', 'Cargo'),
-            'reparticao' => Yii::t('app', 'Reparticao'),
-            'endereco' => Yii::t('app', 'Endereco'),
+            'reparticao' => Yii::t('app', 'Repartição'),
+            'endereco' => Yii::t('app', 'Endereço'),
             'telefone' => Yii::t('app', 'Telefone'),
             'email' => Yii::t('app', 'Email'),
             'user_id' => Yii::t('app', 'User ID'),
@@ -129,7 +131,7 @@ class Usuario extends \yii\db\ActiveRecord {
 
     public function verificarPodeEmprestar() {
         $situacaoUsuario = SituacaoUsuario::findOne($this->situacao_usuario_idsituacao_usuario);
-        if($situacaoUsuario != null ) {
+        if ($situacaoUsuario != null) {
             return $situacaoUsuario->pode_emprestar;
         }
     }

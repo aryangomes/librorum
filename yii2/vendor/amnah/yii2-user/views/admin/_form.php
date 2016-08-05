@@ -55,7 +55,7 @@ $role = $module->model("Role");
     ])
     ?>
 
-
+    <div id="validacao-usuario"></div>
 
 
     <?php
@@ -162,13 +162,6 @@ $role = $module->model("Role");
 
 <?php $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
 
-<?php
-$this->registerJs("
-        $('#usuario-nome').blur(function(){
-            $('#profile-full_name').val($(this).val());
-        });
-    ");
-?>
 
 
 
@@ -204,24 +197,8 @@ $form->field($usuario, 'imageFile')->widget(FileInput::classname(), [
     </div>
 
     <?php ActiveForm::end(); ?>
-
+<?php
+$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-user-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
 </div>
-        <?php
-        $this->registerJs("$(document).ready(function (){
- 
-    if($('#user-password').val().length >0){
-            $('#btAlterarSenhaDoUsuário').show();
-    }else{
-         $('#btAlterarSenhaDoUsuário').hide();
-    }
-    
-$('#btAlterarSenhaDoUsuário').click(function (){
-$('#user-password').prop('disabled',false);
-$('#user-password').val('');
-$('#user-password_repeat').prop('disabled',false);
-$('#user-password_repeat').val('');
-});
-    
-});
-");
-        ?>
+     

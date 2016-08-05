@@ -27,6 +27,18 @@ class TipoMaterialController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'tipo-material',
+                    'update' => 'tipo-material',
+                    'delete' => 'tipo-material',
+                    'create' => 'tipo-material',
+                    'view' => 'tipo-material',
+                    'tipo-material-list' => 'tipo-material',
+                ],
+            ],
         ];
     }
 

@@ -8,7 +8,7 @@ use app\models\AcervoExemplarSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\components\AccessFilter;
 /**
  * AcervoExemplarController implements the CRUD actions for AcervoExemplar model.
  */
@@ -21,6 +21,17 @@ class AcervoExemplarController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'acervo-exemplar',
+                    'update' => 'acervo-exemplar',
+                    'delete' => 'acervo-exemplar',
+                    'create' => 'acervo-exemplar',
+                    'view' => 'acervo-exemplar',
                 ],
             ],
         ];

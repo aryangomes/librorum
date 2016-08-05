@@ -61,13 +61,13 @@ class Acervo extends \yii\db\ActiveRecord
         return [
             'idacervo' => Yii::t('app', 'Idacervo'),
             'cdd' => Yii::t('app', 'Cdd'),
-            'autor' => Yii::t('app', 'Autor'),
-            'titulo' => Yii::t('app', 'Titulo'),
+            'autor' => Yii::t('app', 'Autor(es)'),
+            'titulo' => Yii::t('app', 'Título'),
             'editora' => Yii::t('app', 'Editora'),
             'chamada' => Yii::t('app', 'Chamada'),
-            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisicao Idaquisicao'),
-            'tipo_material_idtipo_material' => Yii::t('app', 'Tipo Material Idtipo Material'),
-            'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria Acervo Idcategoria Acervo'),
+            'aquisicao_idaquisicao' => Yii::t('app', 'Aquisição'),
+            'tipo_material_idtipo_material' => Yii::t('app', 'Tipo do Material'),
+            'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria'),
         ];
     }
 

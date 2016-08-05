@@ -8,7 +8,8 @@ use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
 
-$this->title = $model->idemprestimo;
+$this->title = "Empréstimo da data: " .
+        date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -114,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Gerar Comprovante Empréstimo-->
     <?php
     echo isset($model->datadevolucao) ? '' :
-            Html::a('<i class="fa glyphicon glyphicon-export"></i> Gerar Boletim', ['gerar-comprovante-emprestimo',
+            Html::a('<i class="fa glyphicon glyphicon-export"></i> Gerar Comprovante de Relatório', ['gerar-comprovante-emprestimo',
                 'id' => $model->idemprestimo], [
                 'class' => 'btn btn-primary',
                 'target' => '_blank',
@@ -137,6 +138,7 @@ DetailView::widget([
         'usuario_nome',
         'usuario_rg',
         'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
+        'acervoExemplarIdacervoExemplar.codigo_livro',
     ],
 ])
 ?>

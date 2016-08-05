@@ -8,7 +8,7 @@ use app\models\SituacaoUsuarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use app\components\AccessFilter;
 /**
  * SituacaoUsuarioController implements the CRUD actions for SituacaoUsuario model.
  */
@@ -24,6 +24,18 @@ class SituacaoUsuarioController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+             'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'situacao-usuario',
+                    'update' => 'situacao-usuario',
+                    'delete' => 'situacao-usuario',
+                    'create' => 'situacao-usuario',
+                      'view' => 'situacao-usuario',
+                   
                 ],
             ],
         ];

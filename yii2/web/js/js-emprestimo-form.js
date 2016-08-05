@@ -8,7 +8,7 @@ $('#tableresult-exemplar').hide();
 $('#form-exemplar').hide();
 $('#form-emprestimo').hide();
 $('#btSave').prop('disabled', true);
-
+var senhaValidada = false;
 $('#emprestimo-usuario_rg').blur(function () {
     var
             rg = $(this).val();
@@ -63,7 +63,7 @@ um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
     }
 });
 
-
+var exemplarDisponivel = false;
 $('#acervoexemplar-codigo_livro').blur(function () {
     var codigoExemplar = $(this).val();
     if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
@@ -73,13 +73,14 @@ $('#acervoexemplar-codigo_livro').blur(function () {
 
 
             var data = $.parseJSON((data));
-            console.log('exemplar.: '+data);
+            console.log('exemplar.: ' + data);
             if (data != null) {
                 $("#mensagem-get-acervo-exemplar").hide();
                 $('#acervo-titulo').val(data[1].titulo);
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
+                    exemplarDisponivel =false;
                     $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
                             "<strong>Alerta!</strong> Exemplar indisponível no momento." +
                             "</div>");
@@ -89,18 +90,30 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                     $('#btSave').prop('disabled', true);
 
                 } else {
+                    exemplarDisponivel =true;
                     $("#mensagem-indisponivel-exemplar").html("");
-                    $('button[type="submit"]').prop('disabled', false);
+                    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+                            $('#user-password').val().length > 0) {
+
+                        $('#btSave').prop('disabled', false);
+                        $('button[type="submit"]').prop('disabled', false);
+                    } else {
+                        console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
+
+                        $('#btSave').prop('disabled', true);
+                        $('button[type="submit"]').prop('disabled', true);
+                    }
                     $('#form-exemplar').hide();
                     $('#form-emprestimo').show();
 
-                    $('#btSave').prop('disabled', false);
+
                     $('#w13 li:eq(1)').removeClass();
                     $('#w13 li:eq(2)').addClass("active");
                     $("#tab-exemplar").removeClass();
                     $("#tab-exemplar").addClass("tab-pane fade");
                     $("#tab-emprestimo").addClass("tab-pane fade in active");
                     previsaoDevolucao();
+
                 }
 
             } else {
@@ -123,13 +136,14 @@ var previsaoDevolucao = function () {
     $.get('get-data-previsao-devolucao', function (data) {
         console.log('previsao.: ' + data);
         var data = $.parseJSON((data));
+
         if (data != null) {
 
 //            $('#mensagem-get-data-previsao').hide();
 //            $('#mensagem-get-data-previsao').html('');
             $('#emprestimo-dataprevisaodevolucao').val(data[0]);
             $('#lb-dataprevisaodevolucao').val(data[1]);
-            $('#btSave').prop('disabled', false);
+
 
         } else {
             $('#btSave').prop('disabled', true);
@@ -140,6 +154,7 @@ var previsaoDevolucao = function () {
             <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalconfigurardiasemprestimo\n\
 \">Clique aqui</a></div>");
         }
+
 
     });
 };
@@ -315,33 +330,7 @@ $('#user-password').blur(function () {
     console.log('user_id.:' + $('#emprestimo-usuario_rg').val().length);
     if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length > 0) {
         $('#mensagem-senha-errada').hide();
-
-        $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
-            console.log(data);
-            var data = $.parseJSON(data);
-            if (data) {
-
-                $('#btSave').prop('disabled', false);
-                $('#form-usuario').hide();
-                $('#form-exemplar').show();
-                $('#w13 li:eq(0)').removeClass();
-                $('#w13 li:eq(1)').addClass("active");
-                $("#tab-usuario").removeClass();
-                $("#tab-usuario").addClass("tab-pane fade");
-                $("#tab-exemplar").addClass("tab-pane fade in active");
-            } else {
-                $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
-                $('#mensagem-senha-errada').html('<strong>Senha incorreta!</strong>' +
-                        'Caso queira alterar a senha,' +
-                        ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
-                $('#mensagem-senha-errada').show();
-                $('#btSave').prop('disabled', true);
-                $('#form-usuario').show();
-                $('#form-exemplar').hide();
-
-            }
-            $('#btSave').prop('disabled', true);
-        });
+        validarSenha(user_id, senha);
     } else {
         if ($('#emprestimo-usuario_rg').val().length <= 0) {
             $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
@@ -358,32 +347,47 @@ $('#btAlterarSenha').click(function () {
     $('#mensagem-resetar-senha').removeClass();
     var novaSenha = $('#user-newpassword').val();
     var user_id = $('#usuario-user_id').val();
+    var confirmarSenha = $('#user-newpassword-confirm').val();
+
+    if (user_id.length != ' ' && novaSenha.length > 0
+            && confirmarSenha.length > 0) {
 
 
-    if (user_id.length != ' ' && novaSenha.length > 0) {
+        if (novaSenha == confirmarSenha) {
 
+            $.get('../user/admin/resetar-senha', {id: user_id, novaSenha: novaSenha
+            }, function (data) {
 
-        $.get('../user/admin/resetar-senha', {id: user_id, novaSenha: novaSenha
-        }, function (data) {
+                var data = $.parseJSON(data);
+                console.log(data);
+                if (data) {
+                    $('#mensagem-resetar-senha').attr('class', 'alert alert-success');
+                    $('#mensagem-resetar-senha').html('Senha alterada com sucesso');
 
-            var data = $.parseJSON(data);
-            console.log(data);
-            if (data) {
-                $('#mensagem-resetar-senha').attr('class', 'alert alert-success');
-                $('#mensagem-resetar-senha').html('Senha alterada com sucesso');
+                    $('#user-newpassword').val('');
+                    $('#user-password').val('');
+                    $('#user-newpassword-confirm').val('');
+                    $('#mensagem-senha-errada').hide();
+                    $('#modalalterarsenha').modal('hide');
+                } else {
+                    $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
+                    $('#mensagem-resetar-senha').html('Não foi possível alterar a senha');
 
-                $('#user-newpassword').val('');
-                $('#user-password').val('');
-                $('#mensagem-senha-errada').hide();
-            } else {
-                $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
-                $('#mensagem-resetar-senha').html('Não foi possível alterar a senha');
+                }
 
-            }
+            });
+        } else {
 
-        });
+            $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
+            $('#mensagem-resetar-senha').html
+                    ('Campos Senha e Confirmar Senha não correspondem');
+
+        }
     } else {
-        alert('Preencha o campo \'RG\'');
+        $('#mensagem-resetar-senha').attr('class', 'alert alert-danger');
+        $('#mensagem-resetar-senha').html
+                ('Preencha o campo Senha e Confirmar Senha');
+
     }
 });
 
@@ -495,4 +499,102 @@ $('#btConfigurarDiasEmprestimo').click(function () {
     } else {
         alert('Digite a quantidade de dias');
     }
-}); 
+});
+
+$('#confirmar-usuario').click(function () {
+
+    var senha = $('#user-password').val();
+    var user_id = $('#usuario-user_id').val();
+    validarSenha(user_id, senha);
+    console.log('[confirmar-usuario]senhaValidada.: ' + senhaValidada);
+    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+            $('#user-password').val().length > 0 &&
+            senhaValidada) {
+
+        $('#btSave').prop('disabled', false);
+        $('#form-usuario').hide();
+        $('#form-exemplar').show();
+        $('#w13 li:eq(0)').removeClass();
+        $('#w13 li:eq(1)').addClass("active");
+        $("#tab-usuario").removeClass();
+        $("#tab-usuario").addClass("tab-pane fade");
+        $("#tab-exemplar").addClass("tab-pane fade in active");
+    } else {
+
+        $('#btSave').prop('disabled', true);
+        $('button[type="submit"]').prop('disabled', true);
+    }
+
+});
+
+
+
+$('#confirmar-exemplar').click(function () {
+
+
+    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+            $('#user-password').val().length > 0 &&
+            $('#acervoexemplar-codigo_livro').val().length > 0 &&
+            senhaValidada && exemplarDisponivel) {
+
+        $("#mensagem-indisponivel-exemplar").html("");
+        if ($('#emprestimo-usuario_rg').val().length > 0 &&
+                $('#user-password').val().length > 0) {
+
+            $('#btSave').prop('disabled', false);
+            $('button[type="submit"]').prop('disabled', false);
+        } else {
+            console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
+
+            $('#btSave').prop('disabled', true);
+            $('button[type="submit"]').prop('disabled', true);
+        }
+        $('#form-exemplar').hide();
+        $('#form-emprestimo').show();
+
+
+        $('#w13 li:eq(1)').removeClass();
+        $('#w13 li:eq(2)').addClass("active");
+        $("#tab-exemplar").removeClass();
+        $("#tab-exemplar").addClass("tab-pane fade");
+        $("#tab-emprestimo").addClass("tab-pane fade in active");
+        previsaoDevolucao();
+    } else {
+
+        $('#btSave').prop('disabled', true);
+        $('button[type="submit"]').prop('disabled', true);
+    }
+
+});
+
+
+function validarSenha(user_id, senha) {
+    $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
+        console.log('val.:' + data);
+        var data = $.parseJSON(data);
+        if (data) {
+
+            $('#btSave').prop('disabled', false);
+            $('#form-usuario').hide();
+            $('#form-exemplar').show();
+            $('#w13 li:eq(0)').removeClass();
+            $('#w13 li:eq(1)').addClass("active");
+            $("#tab-usuario").removeClass();
+            $("#tab-usuario").addClass("tab-pane fade");
+            $("#tab-exemplar").addClass("tab-pane fade in active");
+            senhaValidada = true;
+        } else {
+            $('#mensagem-senha-errada').attr('class', 'alert alert-danger');
+            $('#mensagem-senha-errada').html('<strong>Senha incorreta!</strong>' +
+                    ' Caso queira alterar a senha,' +
+                    ' <a href=\"#\" data-toggle=\"modal\" data-target=\"#modalalterarsenha\">Clique aqui</a>');
+            $('#mensagem-senha-errada').show();
+            $('#btSave').prop('disabled', true);
+            $('#form-usuario').show();
+            $('#form-exemplar').hide();
+            senhaValidada = false;
+        }
+        console.log('senhaValidada.: ' + senhaValidada);
+        $('#btSave').prop('disabled', true);
+    });
+}

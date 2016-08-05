@@ -47,6 +47,7 @@ $config = [
                 'charset' => 'UTF-8',
             ]
         ],
+       
         /* 'mailer' => [
           'class' => 'yii\swiftmailer\Mailer',
           // send all mails to a file by default. You have to set
@@ -71,6 +72,9 @@ $config = [
             'destination' => Pdf::DEST_BROWSER,
         // refer settings section for all configuration options
         ],
+             'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'db' => require(__DIR__ . '/db.php'),
     ],
     'modules' => [
@@ -82,7 +86,7 @@ $config = [
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
+/*if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
@@ -93,6 +97,6 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
     ];
-}
+}*/
 
 return $config;
