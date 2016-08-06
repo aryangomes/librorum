@@ -12,7 +12,7 @@ return [
     'Name' => 'Nome',
     'Can Admin' => 'Permite Administrar',
 
-    'Role' => 'Cargo',
+    'Role' => 'Tipo de Usuário',
     'Role ID' => 'Tipo de Usuário',
     'Status' => 'Situação',
     'Email' => 'E-mail',
@@ -102,4 +102,6 @@ return [
     'Passwords do not match'=> "As Senhas São Diferentes",
 //    'Login link sent - Please check your email' => '',
 //    'Registration link sent - Please check your email' => '',
+    
+    'Created At'=>'Cadastrado em'
 ];

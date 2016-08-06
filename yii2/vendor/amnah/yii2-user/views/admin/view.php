@@ -18,13 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
         <?php /*
-        Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $user->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('user', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ])*/
+          Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $user->id], [
+          'class' => 'btn btn-danger',
+          'data' => [
+          'confirm' => Yii::t('user', 'Are you sure you want to delete this item?'),
+          'method' => 'post',
+          ],
+          ]) */
         ?>
     </p>
 
@@ -39,8 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'RG'
             ],
             'username',
-            'created_at:datetime',
-            'updated_at:datetime',
+            'usuario.cpf',
+            'usuario.cargo',
+            'usuario.reparticao',
+            'usuario.endereco',
+            'usuario.telefone',
             [
                 'attribute' => 'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
                 'label' => 'Situação do Usuário'
@@ -50,11 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'label' => Yii::t('user', 'FullName'),
                 'format' => 'raw',
                 'value' => isset($user->usuario->foto) ?
-                Html::img($user->usuario->foto,
-                        ['class'=>'img-responsive img-thumbnail',
-                            'width'=>400]) : 'Não há foto'
+                        Html::img($user->usuario->foto, ['class' => 'img-responsive img-thumbnail',
+                            'width' => 400]) : 'Não há foto'
             ,
             ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ])
     ?>
