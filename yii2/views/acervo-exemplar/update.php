@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\AcervoExemplar */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ',
-	['modelClass' => Yii::t('app', 'Sample')]) . $model->idacervo_exemplar;
+	['modelClass' => Yii::t('app', 'Sample')]) . $model->acervoIdacervo->titulo;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Samples'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idacervo_exemplar, 'url' => ['view', 'id' => $model->idacervo_exemplar]];
+$this->params['breadcrumbs'][] = ['label' => $model->acervoIdacervo->titulo, 'url' => ['view', 'id' => $model->acervoIdacervo->titulo]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="acervo-exemplar-update">
