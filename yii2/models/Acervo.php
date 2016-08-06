@@ -60,7 +60,7 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return [
             'idacervo' => Yii::t('app', 'Idacervo'),
-            'cdd' => Yii::t('app', 'Cdd'),
+            'cdd' => Yii::t('app', 'CDD'),
             'autor' => Yii::t('app', 'Autor(es)'),
             'titulo' => Yii::t('app', 'Título'),
             'editora' => Yii::t('app', 'Editora'),

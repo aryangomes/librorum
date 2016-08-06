@@ -28,10 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idacervo_exemplar',
-            'acervo_idacervo',
+            //'idacervo_exemplar',
+            'acervoIdacervo.titulo',
             'codigo_livro',
-            'esta_disponivel',
+            //'esta_disponivel',
+            [
+                'attribute' => 'esta_disponivel',
+                'value' => $model->esta_disponivel ? 'Disponível' : 'Não disponível'
+            ],
         ],
     ]) ?>
 

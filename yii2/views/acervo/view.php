@@ -32,18 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
 //            'idacervo',
-            'cdd',
-            'autor',
             'titulo',
+            'autor',
             'editora',
-            'chamada',
-//            'aquisicaoIdaquisicao.tipoAquisicaoIdtipoAquisicao.nome',
-           [
+            [
                'attribute'=> 'tipoMaterialIdtipoMaterial.nome',
                'label'=>'Tipo de Material',
-           ],
-            
+            ],
             'categoriaAcervoIdcategoriaAcervo.categoria',
+            'cdd',
+            'chamada',
+//            'aquisicaoIdaquisicao.tipoAquisicaoIdtipoAquisicao.nome',
+            
         ],
     ])
     ?>
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 if (count($acervoExemplares) > 0) {
     ?>
 <p class="row"><h1>Exemplares</h1></p>
-    <table class="table table-bordered">
+    <table class="table table-striped table-bordered detail-view">
         <thead>
             <tr>
                 <th>Código do Exemplar</th>
