@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-<?= Html::a(Yii::t('app', 'Create Situacao Usuario'), ['create'], ['class' => 'btn btn-success']) ?>
+<?= Html::a(Yii::t('app', 'Create {model}',['model'=>Yii::t('app','Situacao Usuarios')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <div class="table-responsive">
         <?php Pjax::begin(); ?>    <?=
@@ -26,11 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
+                
+
                 'idsituacao_usuario',
                 'situacao',
-                'pode_emprestar',
+                [
+                'attribute'=>'pode_emprestar',
+                'value'=> function ($model) {
+                    return $model->pode_emprestar ?
+                        'Pode' : 'Não Pode';
+                }
+        ],
                 ['class' => 'yii\grid\ActionColumn'],
+
             ],
+
+
+            
+
+
         ]);
         ?>
 <?php Pjax::end(); ?>

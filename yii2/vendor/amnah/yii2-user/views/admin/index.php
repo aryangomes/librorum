@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'id',
             [
                 'attribute' => 'profile.full_name',
-                'label' => Yii::t('user', 'FullName'),
+                'label' => Yii::t('user', 'Full Name'),
                 'format' => 'raw',
                 'value' => function($model) {
 
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'email',
 
 
-            'profile.full_name',
+            
             'profile.timezone',
             'created_at',
             // 'username',

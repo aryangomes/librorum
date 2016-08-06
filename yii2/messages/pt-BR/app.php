@@ -31,5 +31,9 @@
 		'User' => 'Usuário',
 		'Users' => 'Usuários',
 		'situacaoUsuarioIdsituacaoUsuario' => 'Situação Do Usuário',
+		'Idsituacao Usuario' => 'Id Situação Usuário',
+		'Situacao' => 'Situação',
+		'Situacao Usuarios' => 'Situação Dos Usuários',
+		
 	];
 ?>
