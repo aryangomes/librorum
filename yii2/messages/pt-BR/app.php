@@ -34,6 +34,7 @@
 		'Idsituacao Usuario' => 'Id Situação Usuário',
 		'Situacao' => 'Situação',
 		'Situacao Usuarios' => 'Situação Dos Usuários',
+		'Idtipo Aquisicao' => 'Id Tipo Aquisição'
 		
 	];
 ?>
