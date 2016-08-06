@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idpessoa',
+            //'idpessoa',
             'nome',
             [
                 'attribute' => 'pessoaFisica.cpf',
@@ -55,31 +55,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if (count($aquisicoes) > 0) {
         ?>
-        <div class="table-responsive table-striped table-bordered">
-            <table class="table">
-                <thead>
-                <th>Título</th>
-                <th>Quantidade</th>
-                  <th>Tipo de Aquisição</th>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($aquisicoes as $aquisicao) {
-                        ?>
-                    <tr>
-                        <td><?php
-                        if(count($aquisicao['acervos']) > 0){
-                        echo $aquisicao['acervos'][0]->titulo;
-                        } ?></td>
-                          <td><?= $aquisicao->quantidade ?></td>
-                           <td><?= $aquisicao['tipoAquisicaoIdtipoAquisicao']->nome ?></td>
-                    </tr>
-                        <?php
-                    }
+        <table class="table table-striped table-bordered detail-view">
+            <thead>
+            <th>Título</th>
+            <th>Quantidade</th>
+              <th>Tipo de Aquisição</th>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($aquisicoes as $aquisicao) {
                     ?>
-                </tbody>
-            </table>
-        </div>
+                <tr>
+                    <td><?php
+                    if(count($aquisicao['acervos']) > 0){
+                    echo $aquisicao['acervos'][0]->titulo;
+                    } ?></td>
+                      <td><?= $aquisicao->quantidade ?></td>
+                       <td><?= $aquisicao['tipoAquisicaoIdtipoAquisicao']->nome ?></td>
+                </tr>
+                    <?php
+                }
+                ?>
+            </tbody>
+        </table>
     <?php
 }
 ?>
