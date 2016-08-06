@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Update {modelClass}: ',
 	['modelClass' => Yii::t('app', 'Category Collection')]) . $model->categoria;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Collection of Categories'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->categoria, 'url' => ['view', 'id' => $model->idcategorial_acervo]];
+$this->params['breadcrumbs'][] = ['label' => $model->categoria, 'url' => ['view', 'id' => $model->idcategoria_acervo]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="categoria-acervo-update">
