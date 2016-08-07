@@ -2519,5 +2519,1318 @@
             "utf8",
             "yii2"
         ]
+    },
+    {
+        "name": "bower-asset/jquery-ui",
+        "version": "1.11.4",
+        "version_normalized": "1.11.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/jqueryui.git",
+            "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/components/jqueryui/zipball/c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+            "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.6"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "jquery-ui.js"
+            ],
+            "bower-asset-ignore": []
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "yiisoft/yii2-jui",
+        "version": "2.0.6",
+        "version_normalized": "2.0.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-jui.git",
+            "reference": "843a2160cfe30f5c8b0cb2e9dbd8ee6bcf97e71d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-jui/zipball/843a2160cfe30f5c8b0cb2e9dbd8ee6bcf97e71d",
+            "reference": "843a2160cfe30f5c8b0cb2e9dbd8ee6bcf97e71d",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery-ui": "1.11.*@stable",
+            "yiisoft/yii2": ">=2.0.4"
+        },
+        "time": "2016-07-22 22:26:59",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            },
+            "asset-installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\jui\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Qiang Xue",
+                "email": "qiang.xue@gmail.com"
+            }
+        ],
+        "description": "The Jquery UI extension for the Yii framework",
+        "keywords": [
+            "jQuery UI",
+            "yii2"
+        ]
+    },
+    {
+        "name": "bower-asset/moment",
+        "version": "2.14.1",
+        "version_normalized": "2.14.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/moment/moment.git",
+            "reference": "227746b29044a4c2160ae7c597c7f24aacac2635"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/moment/moment/zipball/227746b29044a4c2160ae7c597c7f24aacac2635",
+            "reference": "227746b29044a4c2160ae7c597c7f24aacac2635",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "moment.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "benchmarks",
+                "bower_components",
+                "meteor",
+                "node_modules",
+                "scripts",
+                "tasks",
+                "test",
+                "component.json",
+                "composer.json",
+                "CONTRIBUTING.md",
+                "ender.js",
+                "Gruntfile.js",
+                "Moment.js.nuspec",
+                "package.js",
+                "package.json"
+            ]
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "bower-asset/fullcalendar",
+        "version": "v2.9.1",
+        "version_normalized": "2.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fullcalendar/fullcalendar.git",
+            "reference": "07a680b2349cfa7c7f2b05c979295447f04ef426"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fullcalendar/fullcalendar/zipball/07a680b2349cfa7c7f2b05c979295447f04ef426",
+            "reference": "07a680b2349cfa7c7f2b05c979295447f04ef426",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7.1",
+            "bower-asset/moment": ">=2.5.0"
+        },
+        "require-dev": {
+            "bower-asset/bootstrap": "~3.2.0",
+            "bower-asset/jasmine-fixture": "~2.0.0",
+            "bower-asset/jasmine-jquery": "~2.1.1",
+            "bower-asset/jquery-mockjax": "~2.2.0",
+            "bower-asset/jquery-simulate": "~1.0.1",
+            "bower-asset/jquery-ui": ">=1.11.1",
+            "bower-asset/moment-timezone": "~0.2.1"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "dist/fullcalendar.js",
+                "dist/fullcalendar.css"
+            ],
+            "bower-asset-ignore": [
+                "*",
+                "**/.*",
+                "!/dist/**",
+                "!/README.*",
+                "!/LICENSE.*",
+                "!/CHANGELOG.*",
+                "!/CONTRIBUTING.*"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "Full-sized drag & drop event calendar",
+        "keywords": [
+            "calendar",
+            "event",
+            "full-sized",
+            "jquery-plugin"
+        ]
+    },
+    {
+        "name": "philippfrenzel/yii2fullcalendar",
+        "version": "2.5.3",
+        "version_normalized": "2.5.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/philippfrenzel/yii2fullcalendar.git",
+            "reference": "a00862648a8cc81ddd8175b7b6f3ca6f09bde7c3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/philippfrenzel/yii2fullcalendar/zipball/a00862648a8cc81ddd8175b7b6f3ca6f09bde7c3",
+            "reference": "a00862648a8cc81ddd8175b7b6f3ca6f09bde7c3",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/fullcalendar": "2.*",
+            "php": ">=5.4.0",
+            "yiisoft/yii2": "*",
+            "yiisoft/yii2-jui": "*"
+        },
+        "require-dev": {
+            "codeception/codeception": "*"
+        },
+        "time": "2016-04-23 15:30:06",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii2fullcalendar\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Philipp Frenzel",
+                "email": "philipp@frenzel.net",
+                "homepage": "http://www.frenzel.net/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Yii2 fullcalendar Widgets",
+        "homepage": "http://www.frenzel.net/",
+        "keywords": [
+            "fullcalendar",
+            "yii2"
+        ]
+    },
+    {
+        "name": "onokumus/metismenu",
+        "version": "v2.5.2",
+        "version_normalized": "2.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/onokumus/metisMenu.git",
+            "reference": "ba21a8ea77bcecf8d23ec156ae8b2c0ae82167ba"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/onokumus/metisMenu/zipball/ba21a8ea77bcecf8d23ec156ae8b2c0ae82167ba",
+            "reference": "ba21a8ea77bcecf8d23ec156ae8b2c0ae82167ba",
+            "shasum": ""
+        },
+        "suggest": {
+            "components/jquery": ">=1.8"
+        },
+        "time": "2016-05-06 16:26:21",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Osman Nuri Okumus",
+                "email": "onokumus@gmail.com",
+                "homepage": "http://onokumus.com"
+            }
+        ],
+        "description": "A jQuery menu plugin",
+        "homepage": "https://github.com/onokumus/metisMenu",
+        "keywords": [
+            "JS",
+            "bootstrap",
+            "css",
+            "jquery",
+            "menu",
+            "plugin",
+            "web"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v3.1.3",
+        "version_normalized": "3.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/process.git",
+            "reference": "04c2dfaae4ec56a5c677b0c69fac34637d815758"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/process/zipball/04c2dfaae4ec56a5c677b0c69fac34637d815758",
+            "reference": "04c2dfaae4ec56a5c677b0c69fac34637d815758",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "time": "2016-07-28 11:13:48",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Process\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "kriswallsmith/assetic",
+        "version": "v1.3.2",
+        "version_normalized": "1.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kriswallsmith/assetic.git",
+            "reference": "9928f7c4ad98b234e3559d1049abd13387f86db5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/9928f7c4ad98b234e3559d1049abd13387f86db5",
+            "reference": "9928f7c4ad98b234e3559d1049abd13387f86db5",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.1",
+            "symfony/process": "~2.1|~3.0"
+        },
+        "conflict": {
+            "twig/twig": "<1.23"
+        },
+        "require-dev": {
+            "cssmin/cssmin": "3.0.1",
+            "joliclic/javascript-packer": "1.1",
+            "kamicane/packager": "1.0",
+            "leafo/lessphp": "^0.3.7",
+            "leafo/scssphp": "~0.1",
+            "mrclay/minify": "~2.2",
+            "patchwork/jsqueeze": "~1.0|~2.0",
+            "phpunit/phpunit": "~4.8",
+            "psr/log": "~1.0",
+            "ptachoire/cssembed": "~1.0",
+            "symfony/phpunit-bridge": "~2.7|~3.0",
+            "twig/twig": "~1.8|~2.0"
+        },
+        "suggest": {
+            "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
+            "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
+            "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+            "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
+            "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
+            "twig/twig": "Assetic provides the integration with the Twig templating engine"
+        },
+        "time": "2015-11-12 13:51:40",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Assetic": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kris Wallsmith",
+                "email": "kris.wallsmith@gmail.com",
+                "homepage": "http://kriswallsmith.net/"
+            }
+        ],
+        "description": "Asset Management for PHP",
+        "homepage": "https://github.com/kriswallsmith/assetic",
+        "keywords": [
+            "assets",
+            "compression",
+            "minification"
+        ]
+    },
+    {
+        "name": "robloach/component-installer",
+        "version": "0.2.3",
+        "version_normalized": "0.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/RobLoach/component-installer.git",
+            "reference": "908a859aa7c4949ba9ad67091e67bac10b66d3d7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/RobLoach/component-installer/zipball/908a859aa7c4949ba9ad67091e67bac10b66d3d7",
+            "reference": "908a859aa7c4949ba9ad67091e67bac10b66d3d7",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "kriswallsmith/assetic": "1.*",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "composer/composer": "1.*@alpha",
+            "phpunit/phpunit": "4.*"
+        },
+        "time": "2015-08-10 12:35:38",
+        "type": "composer-plugin",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            },
+            "class": "ComponentInstaller\\ComponentInstallerPlugin"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "ComponentInstaller": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Rob Loach",
+                "homepage": "http://robloach.net"
+            }
+        ],
+        "description": "Allows installation of Components via Composer."
+    },
+    {
+        "name": "imsky/holder",
+        "version": "v2.9.3",
+        "version_normalized": "2.9.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/imsky/holder.git",
+            "reference": "325b1053364cc37c74d59efaca83dd3b6389d772"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/imsky/holder/zipball/325b1053364cc37c74d59efaca83dd3b6389d772",
+            "reference": "325b1053364cc37c74d59efaca83dd3b6389d772",
+            "shasum": ""
+        },
+        "require": {
+            "robloach/component-installer": "*"
+        },
+        "time": "2016-02-27 22:21:13",
+        "type": "component",
+        "extra": {
+            "component": {
+                "scripts": [
+                    "holder.js"
+                ],
+                "files": [
+                    "holder.min.js"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ivan Malopinsky",
+                "homepage": "http://imsky.co"
+            }
+        ],
+        "description": "Client-side image placeholders.",
+        "homepage": "http://holderjs.com",
+        "keywords": [
+            "canvas",
+            "client-side",
+            "development",
+            "generation",
+            "images",
+            "placeholders"
+        ]
+    },
+    {
+        "name": "fortawesome/font-awesome",
+        "version": "v4.3.0",
+        "version_normalized": "4.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FortAwesome/Font-Awesome.git",
+            "reference": "41b9ed01103e6820c3cb043ba7ddab30ecd3f4c0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/41b9ed01103e6820c3cb043ba7ddab30ecd3f4c0",
+            "reference": "41b9ed01103e6820c3cb043ba7ddab30ecd3f4c0",
+            "shasum": ""
+        },
+        "require-dev": {
+            "jekyll": "1.0.2",
+            "lessc": "1.4.2"
+        },
+        "time": "2015-01-22 18:09:42",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "OFL-1.1",
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Dave Gandy",
+                "email": "dave@fontawesome.io",
+                "homepage": "http://twitter.com/davegandy",
+                "role": "Developer"
+            }
+        ],
+        "description": "The iconic font and CSS framework",
+        "homepage": "http://fontawesome.io/",
+        "keywords": [
+            "FontAwesome",
+            "awesome",
+            "bootstrap",
+            "font",
+            "icon"
+        ]
+    },
+    {
+        "name": "bower-asset/sweetalert",
+        "version": "v1.1.3",
+        "version_normalized": "1.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/t4t5/sweetalert.git",
+            "reference": "3b9d8eb90268e0b1f8f58b2eba240631df0ad18f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/t4t5/sweetalert/zipball/3b9d8eb90268e0b1f8f58b2eba240631df0ad18f",
+            "reference": "3b9d8eb90268e0b1f8f58b2eba240631df0ad18f",
+            "shasum": ""
+        },
+        "require-dev": {
+            "bower-asset/jquery": "~2.1.4",
+            "bower-asset/qunit": "~1.18.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "dist/sweetalert.min.js",
+                "dist/sweetalert.css"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "A beautiful replacement for JavaScript's alert.",
+        "keywords": [
+            "alert",
+            "modal"
+        ]
+    },
+    {
+        "name": "bower-asset/moment-timezone",
+        "version": "0.5.5",
+        "version_normalized": "0.5.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/moment/moment-timezone.git",
+            "reference": "32ef9eff5781a7fa57f75a84caebedc905d2ab8a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/moment/moment-timezone/zipball/32ef9eff5781a7fa57f75a84caebedc905d2ab8a",
+            "reference": "32ef9eff5781a7fa57f75a84caebedc905d2ab8a",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/moment": ">=2.6.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "builds/moment-timezone-with-data-2010-2020.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "tests",
+                "tasks",
+                "data/*/20*.json",
+                "contributing.md",
+                "Gruntfile.js",
+                "index.js",
+                "package.json"
+            ]
+        },
+        "installation-source": "dist",
+        "description": "Parse and display moments in any timezone."
+    },
+    {
+        "name": "bower-asset/get-size",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/desandro/get-size.git",
+            "reference": "2d64a97712adcaeaa9c3a415559934df20bf8009"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/desandro/get-size/zipball/2d64a97712adcaeaa9c3a415559934df20bf8009",
+            "reference": "2d64a97712adcaeaa9c3a415559934df20bf8009",
+            "shasum": ""
+        },
+        "require-dev": {
+            "bower-asset/qunit": "~1.10"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "get-size.js",
+            "bower-asset-ignore": [
+                "test/",
+                "**/.*",
+                "package.json",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "sandbox.html"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "measures element size",
+        "keywords": [
+            "dom",
+            "height",
+            "size",
+            "width"
+        ]
+    },
+    {
+        "name": "bower-asset/desandro-matches-selector",
+        "version": "v2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/desandro/matches-selector.git",
+            "reference": "94f06d14dc2defafe8b6d6be4d9b999269d70abc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/desandro/matches-selector/zipball/94f06d14dc2defafe8b6d6be4d9b999269d70abc",
+            "reference": "94f06d14dc2defafe8b6d6be4d9b999269d70abc",
+            "shasum": ""
+        },
+        "require-dev": {
+            "bower-asset/qunit": "dev-1.x|1.x"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "matches-selector.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "tests.*",
+                "package.json"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "matches/matchesSelector helper",
+        "keywords": [
+            "DOM",
+            "matches",
+            "matchesSelector"
+        ]
+    },
+    {
+        "name": "bower-asset/fizzy-ui-utils",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/metafizzy/fizzy-ui-utils.git",
+            "reference": "0137276a4541008ffa4fee42e6b3e09c3ed0fb53"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/metafizzy/fizzy-ui-utils/zipball/0137276a4541008ffa4fee42e6b3e09c3ed0fb53",
+            "reference": "0137276a4541008ffa4fee42e6b3e09c3ed0fb53",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/desandro-matches-selector": "~2.0.0"
+        },
+        "require-dev": {
+            "bower-asset/qunit": "~1.20.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "utils.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "package.json"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "UI utilities",
+        "keywords": [
+            "ui",
+            "utility"
+        ]
+    },
+    {
+        "name": "bower-asset/ev-emitter",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/metafizzy/ev-emitter.git",
+            "reference": "1c67f55ea625b87857c2846e9505aee43f45bc6c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/metafizzy/ev-emitter/zipball/1c67f55ea625b87857c2846e9505aee43f45bc6c",
+            "reference": "1c67f55ea625b87857c2846e9505aee43f45bc6c",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "ev-emitter.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "sandbox"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "lil' event emitter",
+        "keywords": [
+            "emitter",
+            "event",
+            "pubsub"
+        ]
+    },
+    {
+        "name": "bower-asset/outlayer",
+        "version": "v2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/metafizzy/outlayer.git",
+            "reference": "910f139591665752a0e779460438a6404eed4977"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/metafizzy/outlayer/zipball/910f139591665752a0e779460438a6404eed4977",
+            "reference": "910f139591665752a0e779460438a6404eed4977",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/ev-emitter": ">=1.0.0,<2.0.0",
+            "bower-asset/fizzy-ui-utils": ">=2.0.0,<3.0.0",
+            "bower-asset/get-size": ">=2.0.2,<3.0.0"
+        },
+        "require-dev": {
+            "bower-asset/jquery": ">=1.4.3,<4",
+            "bower-asset/jquery-bridget": "dev-2.x|2.x",
+            "bower-asset/qunit": ">=1.17.0,<2.0.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "outlayer.js",
+            "bower-asset-ignore": [
+                "test/",
+                "docs/",
+                "sandbox/",
+                ".*",
+                "notes.md",
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "package.json"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "the brains and guts of a layout library",
+        "keywords": [
+            "isotope",
+            "layout",
+            "masonry"
+        ]
+    },
+    {
+        "name": "bower-asset/masonry",
+        "version": "v4.1.0",
+        "version_normalized": "4.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/desandro/masonry.git",
+            "reference": "af5f63c6a393ee97b01fbbbaf6508204e9742edf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/desandro/masonry/zipball/af5f63c6a393ee97b01fbbbaf6508204e9742edf",
+            "reference": "af5f63c6a393ee97b01fbbbaf6508204e9742edf",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/get-size": ">=2.0.2,<3.0.0",
+            "bower-asset/outlayer": ">=2.1.0,<3.0.0"
+        },
+        "require-dev": {
+            "bower-asset/jquery": ">=1.4.3,<4",
+            "bower-asset/jquery-bridget": "~2.0.0",
+            "bower-asset/qunit": ">=1.12.0,<2.0.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "masonry.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests",
+                "sandbox/",
+                "gulpfile.js",
+                "package.json",
+                "composer.json"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "Cascading grid layout library",
+        "keywords": [
+            "layout",
+            "masonry",
+            "outlayer"
+        ]
+    },
+    {
+        "name": "bower-asset/isotope",
+        "version": "v3.0.1",
+        "version_normalized": "3.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/metafizzy/isotope.git",
+            "reference": "98ba374a3d63a7cd3522fa0e5b956b9256ea2441"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/metafizzy/isotope/zipball/98ba374a3d63a7cd3522fa0e5b956b9256ea2441",
+            "reference": "98ba374a3d63a7cd3522fa0e5b956b9256ea2441",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/desandro-matches-selector": ">=2.0.0,<3.0.0",
+            "bower-asset/fizzy-ui-utils": ">=2.0.0,<3.0.0",
+            "bower-asset/get-size": ">=2.0.0,<3.0.0",
+            "bower-asset/masonry": ">=4.1.0,<5.0.0",
+            "bower-asset/outlayer": ">=2.1.0,<3.0.0"
+        },
+        "require-dev": {
+            "bower-asset/jquery": "2,<4",
+            "bower-asset/jquery-bridget": ">=2.0.0,<3.0.0",
+            "bower-asset/qunit": ">=1.15.0,<2.0.0"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "js/isotope.js",
+            "bower-asset-ignore": [
+                "test/",
+                "sandbox/",
+                "**/.*",
+                "package.json",
+                "notes.md",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "GPL-3.0"
+        ],
+        "description": "Filter and sort magical layouts",
+        "keywords": [
+            "filter",
+            "jquery-plugin",
+            "masonry",
+            "sort"
+        ]
+    },
+    {
+        "name": "bower-asset/font-awesome",
+        "version": "v4.6.3",
+        "version_normalized": "4.6.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FortAwesome/Font-Awesome.git",
+            "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+            "reference": "8e241f209faa1dd2182c9fdc9c352d8806504a4e",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "less/font-awesome.less",
+                "scss/font-awesome.scss"
+            ],
+            "bower-asset-ignore": [
+                "*/.*",
+                "*.json",
+                "src",
+                "*.yml",
+                "Gemfile",
+                "Gemfile.lock",
+                "*.md"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "OFL-1.1",
+            "MIT",
+            "CC-BY-3.0"
+        ],
+        "description": "Font Awesome"
+    },
+    {
+        "name": "bower-asset/bootstrap-social",
+        "version": "5.0.0",
+        "version_normalized": "5.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/lipis/bootstrap-social.git",
+            "reference": "90826fa078a9a13a679928a0439fc28cbe2706a6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/lipis/bootstrap-social/zipball/90826fa078a9a13a679928a0439fc28cbe2706a6",
+            "reference": "90826fa078a9a13a679928a0439fc28cbe2706a6",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/bootstrap": "~3",
+            "bower-asset/font-awesome": "~4.5"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "bootstrap-social.css",
+                "bootstrap-social.less",
+                "bootstrap-social.scss"
+            ],
+            "bower-asset-ignore": [
+                "assets",
+                "index.html",
+                "LICENCE"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
+        "name": "bower-asset/animate.css",
+        "version": "3.5.2",
+        "version_normalized": "3.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/daneden/animate.css.git",
+            "reference": "dac3dab7b59cb6072b5d0fe23eae3805e370a58c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/daneden/animate.css/zipball/dac3dab7b59cb6072b5d0fe23eae3805e370a58c",
+            "reference": "dac3dab7b59cb6072b5d0fe23eae3805e370a58c",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "./animate.css",
+            "bower-asset-ignore": [
+                ".*",
+                "*.yml",
+                "Gemfile",
+                "Gemfile.lock",
+                "*.md"
+            ]
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "bower-asset/qunit",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jquery/qunit.git",
+            "reference": "be660ebbfb107cc9e94d619f65a0a19c335b34d3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jquery/qunit/zipball/be660ebbfb107cc9e94d619f65a0a19c335b34d3",
+            "reference": "be660ebbfb107cc9e94d619f65a0a19c335b34d3",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": [
+                "qunit/qunit.js",
+                "qunit/qunit.css"
+            ],
+            "bower-asset-ignore": [
+                "**/.*",
+                "!LICENSE.txt",
+                "package.json",
+                "Gruntfile.js",
+                "node_modules",
+                "test"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "https://github.com/jquery/qunit/blob/master/LICENSE.txt"
+        ]
+    },
+    {
+        "name": "bower-asset/jquery-migrate",
+        "version": "3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/appleboy/jquery-migrate.git",
+            "reference": "ba224c3e6bd8a90f72fddacf34e02bc2472d5a0f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/appleboy/jquery-migrate/zipball/ba224c3e6bd8a90f72fddacf34e02bc2472d5a0f",
+            "reference": "ba224c3e6bd8a90f72fddacf34e02bc2472d5a0f",
+            "shasum": ""
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "jquery-migrate.js"
+        },
+        "installation-source": "dist"
+    },
+    {
+        "name": "bower-asset/bootswatch",
+        "version": "v3.3.5",
+        "version_normalized": "3.3.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thomaspark/bootswatch.git",
+            "reference": "57a25bd6da65fcc034c2029c0390272830572b93"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thomaspark/bootswatch/zipball/57a25bd6da65fcc034c2029c0390272830572b93",
+            "reference": "57a25bd6da65fcc034c2029c0390272830572b93",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/bootstrap": "~3.3.5"
+        },
+        "require-dev": {
+            "bower-asset/bootstrap-sass-official": "~3.3.5",
+            "bower-asset/font-awesome": "~4.0.0",
+            "bower-asset/html5shiv": "~3.7.0",
+            "bower-asset/respond": "~1.4.2"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-ignore": [
+                "2",
+                "api",
+                "assets",
+                "bower_components",
+                "custom",
+                "default",
+                "global",
+                "help",
+                "tests",
+                "_config.yml",
+                ".gitignore",
+                ".travis.yml",
+                "CNAME",
+                "composer.json",
+                "favicon.ico",
+                "Gemfile",
+                "Gruntfile.js",
+                "index.html",
+                "package.json",
+                "*/index.html"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "description": "Bootswatch is a collection of themes for Bootstrap."
+    },
+    {
+        "name": "p2made/yii2-asset-collection",
+        "version": "2.16.4",
+        "version_normalized": "2.16.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/p2made/yii2-asset-collection.git",
+            "reference": "bfeae66e2e855c7aa09b3afc0c2f7b66045459bd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/p2made/yii2-asset-collection/zipball/bfeae66e2e855c7aa09b3afc0c2f7b66045459bd",
+            "reference": "bfeae66e2e855c7aa09b3afc0c2f7b66045459bd",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/animate.css": ">=3.2.6",
+            "bower-asset/bootstrap": ">=3.3.4",
+            "bower-asset/bootstrap-social": ">=4.9.0",
+            "bower-asset/bootswatch": "*",
+            "bower-asset/fullcalendar": ">=2.3.1",
+            "bower-asset/isotope": ">=2.2.0",
+            "bower-asset/jquery": "*",
+            "bower-asset/jquery-migrate": "*",
+            "bower-asset/jquery-ui": "*",
+            "bower-asset/masonry": "*",
+            "bower-asset/moment": ">=2.10.2",
+            "bower-asset/moment-timezone": ">=0.3.1",
+            "bower-asset/qunit": "*",
+            "bower-asset/sweetalert": ">=0.5.0",
+            "fortawesome/font-awesome": "4.3.*",
+            "imsky/holder": "*",
+            "onokumus/metismenu": "2.*",
+            "philippfrenzel/yii2fullcalendar": "*",
+            "yiisoft/yii2": "2.0.*",
+            "yiisoft/yii2-jui": "*"
+        },
+        "time": "2015-05-24 18:03:40",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "p2made\\assets\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Pedro Plowman",
+                "email": "p2opensource@gmail.com",
+                "homepage": "https://github.com/p2made"
+            }
+        ],
+        "description": "A bunch of CSS & JS resources wrapped as Yii 2 AssetBundles.",
+        "keywords": [
+            "Bootstrap Social",
+            "Holder.js",
+            "Morris.js",
+            "Respond.JS",
+            "alerts",
+            "asset",
+            "bundle",
+            "calendar",
+            "charts",
+            "data",
+            "datatables",
+            "excanvas",
+            "extension",
+            "flot",
+            "fullcalendar",
+            "graphics",
+            "html5shiv",
+            "menu",
+            "metisMenu",
+            "moment",
+            "moment-timezone",
+            "moment.js",
+            "morris",
+            "php",
+            "placeholder",
+            "placeholder-image",
+            "raphael",
+            "social",
+            "sweetalert",
+            "tables",
+            "time",
+            "timezone",
+            "vector",
+            "vector graphics",
+            "yii",
+            "yii2"
+        ],
+        "abandoned": true
+    },
+    {
+        "name": "p2made/yii2-sb-admin-theme",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/p2made/yii2-sb-admin-theme.git",
+            "reference": "587f712c602eb4261b6bdeb6404cb4a6bc3740da"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/p2made/yii2-sb-admin-theme/zipball/587f712c602eb4261b6bdeb6404cb4a6bc3740da",
+            "reference": "587f712c602eb4261b6bdeb6404cb4a6bc3740da",
+            "shasum": ""
+        },
+        "require": {
+            "p2made/yii2-asset-collection": "2.*",
+            "yiisoft/yii2": "*"
+        },
+        "time": "2015-05-17 11:01:02",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "p2made\\yii2theme\\sbAdmin\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Pedro Plowman",
+                "email": "p2opensource@gmail.com",
+                "homepage": "https://github.com/p2made"
+            }
+        ],
+        "description": "SB Admin from Start Bootstrap, http://startbootstrap.com/, as a backend UI for Yii 2 Framework.",
+        "keywords": [
+            "Start-Bootstrap",
+            "admin",
+            "asset",
+            "backend",
+            "bundle",
+            "extension",
+            "php",
+            "sb-admin-2",
+            "theme",
+            "ui",
+            "user-interface",
+            "yii",
+            "yii2"
+        ]
     }
 ]

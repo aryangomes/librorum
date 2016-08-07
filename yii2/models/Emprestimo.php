@@ -84,8 +84,7 @@ class Emprestimo extends \yii\db\ActiveRecord {
             $dataDeEmprestimo = date('Y-m-d', strtotime($dataDeEmprestimo));
             $dataAtual = date('Y-m-d');
             $diasDiferenca = strtotime($dataAtual) - strtotime($dataDeEmprestimo);
-            var_dump($dataAtual);
-            var_dump($dataDeEmprestimo);
+          
             if ($diasDiferenca > 0) {
                 $this->diasDiferenca = ($diasDiferenca / (60 * 60 * 24));
             } else {
