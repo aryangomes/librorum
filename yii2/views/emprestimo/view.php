@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Gerar Comprovante Empréstimo-->
     <?php
     echo isset($model->datadevolucao) ? '' :
-            Html::a('<i class="fa glyphicon glyphicon-export"></i> Gerar Comprovante de Relatório', ['gerar-comprovante-emprestimo',
+            Html::a('Gerar Comprovante de Relatório', ['gerar-comprovante-emprestimo',
                 'id' => $model->idemprestimo], [
                 'class' => 'btn btn-primary',
                 'target' => '_blank',

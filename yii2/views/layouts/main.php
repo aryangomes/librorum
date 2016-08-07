@@ -138,9 +138,17 @@ AppAsset::register($this);
 
                                <?php 
                                if(  Yii::$app->user->can("admin")){
-                                   
-                               
+                                ?>
+                             <?php 
+                               if(  Yii::$app->user->can("admin")){
+                           
                                ?>
+                                
+                              <li>
+                                <a href="<?= Url::toRoute('/emprestimo') ?>"><i class="fa fa-bar-chart-o fa-fw"></i> Empréstimo</a>
+
+                            </li>
+                               <?php }?>
                             <li>
                                 <a href="#"><i class="fa fa-sitemap fa-fw"></i> Acervo<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
