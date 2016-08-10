@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
                     'class' => 'btn btn-danger',
                     'data' => [
-                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                        'confirm' => Yii::t('app', 'Você deseja cancelar o empréstimo?'),
                         'method' => 'post',
                     ],
                 ]) : ''
@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Gerar Comprovante Empréstimo-->
     <?php
     echo isset($model->datadevolucao) ? '' :
-            Html::a('Gerar Comprovante de Relatório', ['gerar-comprovante-emprestimo',
+            Html::a('Gerar Comprovante de Empréstimo', ['gerar-comprovante-emprestimo',
                 'id' => $model->idemprestimo], [
                 'class' => 'btn btn-primary',
                 'target' => '_blank',

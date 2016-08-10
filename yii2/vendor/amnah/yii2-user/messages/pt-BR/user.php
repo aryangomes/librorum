@@ -17,7 +17,7 @@ return [
     'Status' => 'Situação',
     'Email' => 'E-mail',
     'New Email' => 'Novo E-mail',
-    'Username' => 'Usuário',
+    'Username' => 'Nome do Usuário',
     'Password' => 'Senha',
     'Auth Key' => 'Chave de Autorização',
     'Access Token' => 'Token de Acceso',

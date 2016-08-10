@@ -33,13 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $user,
         'attributes' => [
             'id',
-            'role.name',
+            
+            'username',
+            
             [
                 'attribute' => 'email',
                 'label' => 'RG'
             ],
-            'username',
+            
             'usuario.cpf',
+            'usuario.email',
             'usuario.cargo',
             'usuario.reparticao',
             'usuario.endereco',
@@ -47,6 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
                 'label' => 'Situação do Usuário'
+            ],
+             [
+                'attribute' => 'role.name',
+                'label' => 'Tipo de Usuário'
             ],
             [
                 'attribute' => 'usuario.foto',

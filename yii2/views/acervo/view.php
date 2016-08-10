@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'categoriaAcervoIdcategoriaAcervo.categoria',
             'cdd',
-            'chamada',
+
 //            'aquisicaoIdaquisicao.tipoAquisicaoIdtipoAquisicao.nome',
             
         ],

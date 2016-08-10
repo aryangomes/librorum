@@ -12,7 +12,7 @@ use Yii;
  * @property string $autor
  * @property string $titulo
  * @property string $editora
- * @property string $chamada
+
  * @property integer $aquisicao_idaquisicao
  * @property integer $tipo_material_idtipo_material
  * @property integer $categoria_acervo_idcategoria_acervo
@@ -43,9 +43,9 @@ class Acervo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cdd', 'autor', 'titulo', 'editora', 'chamada', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategoria_acervo'], 'required'],
+            [['cdd', 'autor', 'titulo', 'editora',  'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategoria_acervo'], 'required'],
             [['aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategoria_acervo'], 'integer'],
-            [['cdd', 'chamada'], 'string', 'max' => 45],
+            [['cdd'],  'string', 'max' => 45],
             [['autor', 'titulo', 'editora'], 'string', 'max' => 100],
             [['aquisicao_idaquisicao'], 'exist', 'skipOnError' => true, 'targetClass' => Aquisicao::className(), 'targetAttribute' => ['aquisicao_idaquisicao' => 'idaquisicao']],
             [['tipo_material_idtipo_material'], 'exist', 'skipOnError' => true, 'targetClass' => TipoMaterial::className(), 'targetAttribute' => ['tipo_material_idtipo_material' => 'idtipo_material']],
@@ -64,7 +64,6 @@ class Acervo extends \yii\db\ActiveRecord
             'autor' => Yii::t('app', 'Autor(es)'),
             'titulo' => Yii::t('app', 'Título'),
             'editora' => Yii::t('app', 'Editora'),
-            'chamada' => Yii::t('app', 'Chamada'),
             'aquisicao_idaquisicao' => Yii::t('app', 'Aquisição'),
             'tipo_material_idtipo_material' => Yii::t('app', 'Tipo do Material'),
             'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria'),
