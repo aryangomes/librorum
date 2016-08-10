@@ -128,6 +128,16 @@ class AdminController extends Controller {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
+            if ($user->role_id == 1) {
+                Yii::$app->db->createCommand(
+                        "INSERT INTO auth_assignment
+            (item_name, user_id ) 
+            VALUES (:item, :iduser)", [
+                    ':item' => 'admin',
+                    ':iduser' => $user->id,
+                ])->execute();
+            }
+
             $usuario->nome = $post['Usuario']['nome'];
             $usuario->rg = $post['Usuario']['rg'];
             $usuario->cpf = $post['Usuario']['cpf'];
@@ -338,8 +348,8 @@ class AdminController extends Controller {
             echo Json::encode(false);
         }
     }
-    
-     public function actionVerificaRg($rg) {
+
+    public function actionVerificaRg($rg) {
         $usuario = Usuario::find()->where(['rg' => $rg])->one();
         if ($usuario == null) {
             echo Json::encode(true);
@@ -347,8 +357,8 @@ class AdminController extends Controller {
             echo Json::encode(false);
         }
     }
-    
-     public function actionVerificaCpf($cpf) {
+
+    public function actionVerificaCpf($cpf) {
         $usuario = Usuario::find()->where(['cpf' => $cpf])->one();
         if ($usuario == null) {
             echo Json::encode(true);

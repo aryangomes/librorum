@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle {
     public $baseUrl = '@web';
     public $css = [
 //        'css/site.css',
-        'sb-admin/bower_components/bootstrap/dist/css/bootstrap.min.css',
+     //   'sb-admin/bower_components/bootstrap/dist/css/bootstrap.min.css',
         'sb-admin/bower_components/metisMenu/dist/metisMenu.min.css',
         'sb-admin/dist/css/timeline.css',
         'sb-admin/dist/css/sb-admin-2.css',
@@ -28,7 +28,7 @@ class AppAsset extends AssetBundle {
         'sb-admin/bower_components/morrisjs/morris.css',
     ];
     public $js = [
-        'sb-admin/bower_components/jquery/dist/jquery.min.js',
+       // 'sb-admin/bower_components/jquery/dist/jquery.min.js',
         'sb-admin/bower_components/bootstrap/dist/js/bootstrap.min.js',
         'sb-admin/bower_components/metisMenu/dist/metisMenu.min.js',
         'sb-admin/bower_components/raphael/raphael-min.js',

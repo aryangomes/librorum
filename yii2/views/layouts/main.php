@@ -119,6 +119,15 @@ AppAsset::register($this);
                                     <!-- /.nav-second-level -->
                                 </li>
                             <?php } ?>
+                            <?php
+                            if (Yii::$app->user->can("admin")) {
+                                ?>
+
+                                <li>
+                                    <a href="<?= Url::toRoute('/config') ?>"><i class="glyphicon glyphicon-cog"></i> Configurações</a>
+
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a href="<?= Url::toRoute('/site/about') ?>"><i class="fa fa-info-circle fa-fw"></i> Sobre</a>
                             </li>
