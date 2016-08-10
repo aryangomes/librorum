@@ -1,5 +1,7 @@
 <?php
+
 use kartik\mpdf\Pdf;
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -47,7 +49,6 @@ $config = [
                 'charset' => 'UTF-8',
             ]
         ],
-       
         /* 'mailer' => [
           'class' => 'yii\swiftmailer\Mailer',
           // send all mails to a file by default. You have to set
@@ -72,10 +73,13 @@ $config = [
             'destination' => Pdf::DEST_BROWSER,
         // refer settings section for all configuration options
         ],
-             'authManager' => [
+        'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'assetManager' => [
+            'assetMap' => ['bootstrap.js' => '/web/assets/1c4554e5/js/bootstrap.js'],
+        ],
     ],
     'modules' => [
         'user' => [
@@ -86,17 +90,17 @@ $config = [
     'params' => $params,
 ];
 
-/*if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-    ];
+/* if (YII_ENV_DEV) {
+  // configuration adjustments for 'dev' environment
+  $config['bootstrap'][] = 'debug';
+  $config['modules']['debug'] = [
+  'class' => 'yii\debug\Module',
+  ];
 
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-    ];
-}*/
+  $config['bootstrap'][] = 'gii';
+  $config['modules']['gii'] = [
+  'class' => 'yii\gii\Module',
+  ];
+  } */
 
 return $config;

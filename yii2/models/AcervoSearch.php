@@ -19,7 +19,7 @@ class AcervoSearch extends Acervo
     {
         return [
             [['idacervo', 'aquisicao_idaquisicao', 'tipo_material_idtipo_material', 'categoria_acervo_idcategoria_acervo'], 'integer'],
-            [['cdd', 'autor', 'titulo', 'editora', 'chamada'], 'safe'],
+            [['cdd', 'autor', 'titulo', 'editora', ], 'safe'],
         ];
     }
 
@@ -71,8 +71,7 @@ class AcervoSearch extends Acervo
         $query->andFilterWhere(['like', 'cdd', $this->cdd])
             ->andFilterWhere(['like', 'autor', $this->autor])
             ->andFilterWhere(['like', 'titulo', $this->titulo])
-            ->andFilterWhere(['like', 'editora', $this->editora])
-            ->andFilterWhere(['like', 'chamada', $this->chamada]);
+            ->andFilterWhere(['like', 'editora', $this->editora]);
 
         return $dataProvider;
     }

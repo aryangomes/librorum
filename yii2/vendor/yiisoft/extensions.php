@@ -291,4 +291,40 @@ return array (
       '@kartik/mpdf' => $vendorDir . '/kartik-v/yii2-mpdf',
     ),
   ),
+  'yiisoft/yii2-jui' => 
+  array (
+    'name' => 'yiisoft/yii2-jui',
+    'version' => '2.0.6.0',
+    'alias' => 
+    array (
+      '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
+    ),
+  ),
+  'philippfrenzel/yii2fullcalendar' => 
+  array (
+    'name' => 'philippfrenzel/yii2fullcalendar',
+    'version' => '2.5.3.0',
+    'alias' => 
+    array (
+      '@yii2fullcalendar' => $vendorDir . '/philippfrenzel/yii2fullcalendar',
+    ),
+  ),
+  'p2made/yii2-asset-collection' => 
+  array (
+    'name' => 'p2made/yii2-asset-collection',
+    'version' => '2.16.4.0',
+    'alias' => 
+    array (
+      '@p2made/assets' => $vendorDir . '/p2made/yii2-asset-collection',
+    ),
+  ),
+  'p2made/yii2-sb-admin-theme' => 
+  array (
+    'name' => 'p2made/yii2-sb-admin-theme',
+    'version' => '1.1.2.0',
+    'alias' => 
+    array (
+      '@p2made/yii2theme/sbAdmin' => $vendorDir . '/p2made/yii2-sb-admin-theme',
+    ),
+  ),
 );

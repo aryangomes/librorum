@@ -293,7 +293,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
             [
                 'attributes' => [       // 1 column layout
                     'cdd' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Ex: 48.194']],
-                    'chamada' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Ex: 48.194.25']],
+                   
                 ],
             ],
         ]
