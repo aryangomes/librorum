@@ -50,6 +50,7 @@ class AcervoExemplarSearch extends AcervoExemplar
               'pagination' => [
                 'pageSize' => 10,
             ],
+               'sort'=> ['defaultOrder' => ['idacervo_exemplar'=>SORT_DESC]],
         ]);
 
         $this->load($params);

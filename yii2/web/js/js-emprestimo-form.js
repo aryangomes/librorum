@@ -80,7 +80,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                 $('#acervo-autor').val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
-                    exemplarDisponivel =false;
+                    exemplarDisponivel = false;
                     $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
                             "<strong>Alerta!</strong> Exemplar indisponível no momento." +
                             "</div>");
@@ -90,7 +90,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
                     $('#btSave').prop('disabled', true);
 
                 } else {
-                    exemplarDisponivel =true;
+                    exemplarDisponivel = true;
                     $("#mensagem-indisponivel-exemplar").html("");
                     if ($('#emprestimo-usuario_rg').val().length > 0 &&
                             $('#user-password').val().length > 0) {
@@ -187,7 +187,9 @@ $('#busca-usuario').blur(function () {
                 $('#tableresult').hide();
                 $('#tbody-result').html('');
                 $('#result-mensagem-busca-usuario').attr('class', 'alert alert-danger');
-                $('#result-mensagem-busca-usuario').html('Nenhum RG encontrado');
+                $('#result-mensagem-busca-usuario').html('Nenhum RG encontrado. Para cadastrar\n\
+um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
+ data-target=\"#modalcadastrarusuario\">Clique aqui</a>');
             }
         });
     }
@@ -410,7 +412,7 @@ $('#btCadastrarUsuario').click(function () {
 
     var password = $('#user-password-post').val();
 
-    if (nome.length > 0 && rg.length > 0 && isEmail(email)) {
+    if (nome.length > 0 && rg.length > 0) {
 
 
         $.get('../user/admin/create-ajax', {nome: nome, rg: rg,
@@ -440,6 +442,8 @@ $('#btCadastrarUsuario').click(function () {
                 $('#mensagem-cadastro-usuario').html('Usuário cadastrado com sucesso');
                 $('#modalcadastrarusuario').modal('hide');
                 $('#result-get-usuario').hide();
+                $('#user-password').prop('disabled', false);
+                $('#emprestimo-usuario_rg').focus();
             } else {
                 $('#mensagem-cadastro-usuario').attr('class', 'alert alert-danger');
                 $('#mensagem-cadastro-usuario').html('Não foi possível alterar cadastrar\n\
@@ -451,16 +455,14 @@ $('#btCadastrarUsuario').click(function () {
     } else {
         if (rg.length <= 0) {
             alert('Preencha o campo \'RG\'');
-        } else if (!isEmail(email)) {
-            alert('Email inválido');
         }
     }
 });
 
-function isEmail(email) {
-    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
-}
+/*function isEmail(email) {
+ var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+ return regex.test(email);
+ }*/
 
 
 $('#btConfigurarDiasEmprestimo').click(function () {
