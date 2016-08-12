@@ -16,9 +16,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'quantidade')->textInput(['maxlength' => true, 'placeholder' => 'Ex: 10']) ?>
 
-    <?= $form->field($model, 'tipo_aquisicao_idtipo_aquisicao')->textInput() ?>
+    <?= $form->field($model, 'tipo_aquisicao_idtipo_aquisicao')->textInput(
+          [
+                'value'=>  isset($model->tipo_aquisicao_idtipo_aquisicao) ?
+                $model->tipoAquisicaoIdtipoAquisicao->nome : ''
+            ]
+            ) ?>
 
-    <?= $form->field($model, 'pessoa_idpessoa')->textInput() ?>
+    <?= $form->field($model, 'pessoa_idpessoa')->textInput( [
+                'value'=>  isset($model->pessoaIdpessoa) ?
+                $model->pessoaIdpessoa->nome : ''
+            ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
