@@ -30,9 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'placeholder' => 'Digite o RG',
     ]); ?>
     <?= $form->field($model, 'password')->passwordInput([ 'placeholder' => 'Digite a senha',])->label('Senha') ?>
-<!--    --><?/*= $form->field($model, 'rememberMe', [
-        'template' => "{label}<div class=\"col-lg-offset-2 col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-    ])->checkbox() */?>
+
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">

@@ -45,6 +45,7 @@ class PessoaSearch extends Pessoa {
             'pagination' => [
                 'pageSize' => 10,
             ],
+              'sort'=> ['defaultOrder' => ['idpessoa'=>SORT_DESC]],
         ]);
 
         $this->load($params);

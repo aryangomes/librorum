@@ -91,7 +91,7 @@ $('#btPesquisarExemplar').click(function () {
                             '<td><a target=\'_blank\' href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
                             'class=\'btn btn-success\' id=\'actionbuscar\' > <span class=\'glyphicon glyphicon-ok\'>' +
                             '</span></a ></td></tr>');
-
+                    
                 });
 
             } else {

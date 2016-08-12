@@ -78,6 +78,7 @@ class UserSearch extends User
               'pagination' => [
                 'pageSize' => 10,
             ],
+              'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]],
         ]);
 
         // enable sorting for the related columns
