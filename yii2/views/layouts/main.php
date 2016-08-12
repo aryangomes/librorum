@@ -17,6 +17,7 @@ AppAsset::register($this);
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortout icon" href="<?=Url::to('@web/css/img/favicon.ico');?>">
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
@@ -34,7 +35,9 @@ AppAsset::register($this);
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?= Url::toRoute('/site') ?>">Librorum</a>
+                    <a class="navbar-brand" href="<?= Url::toRoute('/site') ?>">
+                        <img src="<?=Url::to('@web/css/img/logotipo-librorum.png');?>">
+                    </a>
                 </div>
                 <!-- /.navbar-header -->
 
