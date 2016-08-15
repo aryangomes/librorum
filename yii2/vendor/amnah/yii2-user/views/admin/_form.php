@@ -108,7 +108,9 @@ $role = $module->model("Role");
                         'minimumInputLength' => 3,
                         'language' => [
                             'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
-                        ],
+                            "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                            "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
+                            ],
                         'ajax' => [
                             'url' => $url,
                             'dataType' => 'json',

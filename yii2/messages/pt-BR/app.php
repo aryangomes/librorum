@@ -36,5 +36,8 @@ return [
     'Situacao Usuarios' => 'Situação Dos Usuários',
     'Idtipo Aquisicao' => 'Id Tipo Aquisição',
     'Are you sure you want to delete this item?' => 'Você deseja realmente excluir?',
+    'Waiting for results...'=>'Aguardando por resultados...',
+    'No results...'=>'Não foram encontrados resultados...',
+    'Please enter 3 or more characters...'=>'Digite 3 ou mais letras...',
 ];
 ?>
