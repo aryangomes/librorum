@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'idsituacao_usuario',
             'situacao',
-            'pode_emprestar',
+            [
+                'attribute' => 'pode_emprestar',
+                'value' => $model->pode_emprestar ? 'Pode' : 'Não Pode'
+            ],
         ],
     ]) ?>
 

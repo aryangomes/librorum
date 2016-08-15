@@ -45,6 +45,7 @@ class EmprestimoSearch extends Emprestimo {
             'pagination' => [
                 'pageSize' => 10,
             ],
+            'sort'=> ['defaultOrder' => ['idemprestimo'=>SORT_DESC]],
         ]);
 
         $this->load($params);

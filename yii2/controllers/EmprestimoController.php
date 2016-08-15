@@ -366,6 +366,11 @@ class EmprestimoController extends Controller {
 
             $emprestimoExemplares = [];
             $emprestimoUsuario = [];
+            foreach ($emprestimos as $key => $e) {
+
+                $emprestimos[$key]->dataprevisaodevolucao = ( date("d/m/Y", strtotime($e->dataprevisaodevolucao)));
+                $emprestimos[$key]->dataemprestimo = ( date("d/m/Y H:i", strtotime($e->dataemprestimo)));
+            }
             foreach ($emprestimos as $e) {
                 array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
             }
@@ -388,6 +393,11 @@ class EmprestimoController extends Controller {
         if ($emprestimo != null) {
             $emprestimoExemplares = [];
             $emprestimoUsuario = [];
+            foreach ($emprestimo as $key => $e) {
+
+                $emprestimo[$key]->dataprevisaodevolucao = ( date("d/m/Y", strtotime($e->dataprevisaodevolucao)));
+                $emprestimo[$key]->dataemprestimo = ( date("d/m/Y H:i", strtotime($e->dataemprestimo)));
+            }
             foreach ($emprestimo as $e) {
                 array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
             }
@@ -395,6 +405,7 @@ class EmprestimoController extends Controller {
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);
             }
             if ($emprestimo != null) {
+
                 echo Json::encode([$emprestimo, $emprestimoUsuario, $emprestimoExemplares]);
             } else {
                 echo Json::encode(null);

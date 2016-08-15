@@ -7,19 +7,19 @@ use yii\bootstrap\Modal;
 
 $this->title = 'Librorum';
 ?>
-<div class="site-index">
+<div >
 
 
-    <div class="jumbotron">
+    <div  class="row text-center">
         <h1>SISTEMA DE AUTOMAÇÃO DE BIBLIOTECA <strong>LIBRORUM</strong></h1>
 
 
     </div>
 
 
-    <div class="body-content">
+    <div >
 
-        <div class="container">
+        <div >
 
 
             <h3><p class="text-center">Desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte
@@ -27,10 +27,10 @@ $this->title = 'Librorum';
 
 
         </div>
-        <div class="container">
+        <div>
             <hr>
         </div>
-        <div class="container">
+        <div >
             <p class="row">
                 <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
             <div class="container">

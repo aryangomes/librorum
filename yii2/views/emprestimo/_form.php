@@ -115,7 +115,7 @@ $tabUsuario = FormGrid::widget([
         <div class="col-sm-6">
             <?= Html::label('Email') ?>
             <?=
-            Html::input('email', 'Usuario[email]', '', ['id' => 'usuario-email-post',
+            Html::input('text', 'Usuario[email]', '', ['id' => 'usuario-email-post',
                 'class' => 'form-control'])
             ?>
 
@@ -527,6 +527,7 @@ $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['de
     $("#tab-usuario").addClass("tab-pane fade in active");
     $("#result-mensagem-busca-usuario").hide();
     $("#tableresult").hide();
+     $("#user-password").focus();
     });
 
     }
@@ -547,6 +548,7 @@ $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['de
     $("#w13-dd3-tab1").removeClass();
     $("#w13-dd3-tab1").addClass("tab-pane fade");
     $("#tab-exemplar").addClass("tab-pane fade in active");
+      $('#acervoexemplar-codigo_livro').focus();
     });
 
     }

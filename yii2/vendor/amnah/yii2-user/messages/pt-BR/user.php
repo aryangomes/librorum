@@ -5,19 +5,19 @@ return [
     // models
     'ID' => 'Código',
     'User ID' => 'Código do Usuário',
-    'Created At' => 'Data de Criação',
-    'Updated At' => 'Data de Atualização',
+    'Created At' => 'Cadastrado em',
+    'Updated At' => 'Atualizado em',
     'Full Name' => 'Nome Completo',
 
     'Name' => 'Nome',
     'Can Admin' => 'Permite Administrar',
 
-    'Role' => 'Cargo',
+    'Role' => 'Tipo de Usuário',
     'Role ID' => 'Tipo de Usuário',
     'Status' => 'Situação',
     'Email' => 'E-mail',
     'New Email' => 'Novo E-mail',
-    'Username' => 'Usuário',
+    'Username' => 'Nome do Usuário',
     'Password' => 'Senha',
     'Auth Key' => 'Chave de Autorização',
     'Access Token' => 'Token de Acceso',
@@ -102,4 +102,6 @@ return [
     'Passwords do not match'=> "As Senhas São Diferentes",
 //    'Login link sent - Please check your email' => '',
 //    'Registration link sent - Please check your email' => '',
+    
+    'Created At'=>'Cadastrado em'
 ];

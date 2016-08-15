@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\AcervoExemplar */
 
-$this->title = $model->idacervo_exemplar;
+$this->title = $model->acervoIdacervo->titulo;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Samples'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,10 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idacervo_exemplar',
-            'acervo_idacervo',
+            //'idacervo_exemplar',
+            'acervoIdacervo.titulo',
             'codigo_livro',
-            'esta_disponivel',
+            //'esta_disponivel',
+            [
+                'attribute' => 'esta_disponivel',
+                'value' => $model->esta_disponivel ? 'Disponível' : 'Não disponível'
+            ],
         ],
     ]) ?>
 
