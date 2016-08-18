@@ -39,5 +39,7 @@ return [
     'Waiting for results...'=>'Aguardando por resultados...',
     'No results...'=>'Não foram encontrados resultados...',
     'Please enter 3 or more characters...'=>'Digite 3 ou mais letras...',
+    'Search for a Situação do usuário ...' => 'Pesquisando pela situação do usuário',
+    'Searching'=>'Pesquisando',
 ];
 ?>
