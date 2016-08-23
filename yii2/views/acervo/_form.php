@@ -154,6 +154,8 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                                 'minimumInputLength' => 3,
                                 'language' => [
                                     'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urltipoaquisicao,
@@ -247,7 +249,9 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                                 'allowClear' => true,
                                 'minimumInputLength' => 2,
                                 'language' => [
-                                    'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
+                                    'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urlcategoriaacervo,
@@ -270,7 +274,9 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                                 'allowClear' => true,
                                 'minimumInputLength' => 2,
                                 'language' => [
-                                    'errorLoading' => new JsExpression("function () { return 'Esperando resultados...'; }"),
+                                    'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
+                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urltipomaterial,
