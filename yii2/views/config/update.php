@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Config */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Config',
+    'modelClass' => Yii::t('app', 'Config'),
 ]) . $model->chave;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Configs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->chave, 'url' => ['view', 'id' => $model->chave]];

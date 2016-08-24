@@ -41,5 +41,8 @@ return [
     'Please enter 3 or more characters...'=>'Digite 3 ou mais letras...',
     'Search for a Situação do usuário ...' => 'Pesquisando pela situação do usuário',
     'Searching'=>'Pesquisando',
+    'Config'=>'Configuração',
+    'Configs'=>'Configurações',
+    'Situacao Usuario'=>'Situação do Usuário',
 ];
 ?>

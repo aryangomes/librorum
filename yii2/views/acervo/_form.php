@@ -149,7 +149,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                             'initValueText' => isset($aquisicao->tipo_aquisicao_idtipo_aquisicao) ? app\models\TipoAquisicao::findOne
                                             ($aquisicao->tipo_aquisicao_idtipo_aquisicao)->nome : '',
                             'pluginOptions' => [
-                                'placeholder' => Yii::t('app', 'Digite o tipo de aquisiçãoo. Ex: Compra, Doação ...'),
+                                'placeholder' => Yii::t('app', 'Digite o tipo de aquisição. Ex: Compra, Doação ...'),
                                 'allowClear' => true,
                                 'minimumInputLength' => 3,
                                 'language' => [
