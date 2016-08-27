@@ -527,7 +527,7 @@ $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['de
     $("#tab-usuario").addClass("tab-pane fade in active");
     $("#result-mensagem-busca-usuario").hide();
     $("#tableresult").hide();
-     $("#user-password").focus();
+     $("#emprestimo-usuario_rg").focus();
     });
 
     }
