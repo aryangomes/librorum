@@ -67,7 +67,7 @@ $this->title = 'Busca no Acervo';
                             <td><?= $acervo->editora ?></td>
                             <td><?= $acervo->tipoMaterialIdtipoMaterial->nome ?></td>
                             <td><?= $acervo->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
-                            <td><?= $acervo->chamada ?></td>
+                         
                             <td><?= $result->codigo_livro ?></td>
                             <td><?= $result->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
                             <?php
