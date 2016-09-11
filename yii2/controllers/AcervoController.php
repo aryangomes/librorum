@@ -352,6 +352,11 @@ class AcervoController extends Controller
 
                             }
 
+                        }else{
+                            $transaction->rollBack();
+                            $mensagem = "<b>Erro! </b>Digite os código de inicio e fim.";
+                            $session->setFlash('erro', $mensagem);
+                            return $this->redirect(['view', 'id' => $id]);
                         }
                     } else {
                         $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
@@ -377,7 +382,7 @@ class AcervoController extends Controller
                                     if ($count == $quantidadeExemplares) {
                                         if (!$itensInseridos) {
                                             $transaction->rollBack();
-                                            $mensagem = "Não foi possível gerar novos códigos";
+                                            $mensagem = "Não foi possível gerar novos códigos.";
                                             $session->setFlash('erro', $mensagem);
                                         } else {
                                             $transaction->commit();
@@ -392,6 +397,11 @@ class AcervoController extends Controller
                                 }
 
                             }
+                        }else{
+                            $transaction->rollBack();
+                            $mensagem = " <b>Erro! </b>Digite a quantidade de exemplares";
+                            $session->setFlash('erro', $mensagem);
+                            return $this->redirect(['view', 'id' => $id]);
                         }
                     }
 
