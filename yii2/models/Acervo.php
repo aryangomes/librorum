@@ -67,6 +67,8 @@ class Acervo extends \yii\db\ActiveRecord
             'aquisicao_idaquisicao' => Yii::t('app', 'Aquisição'),
             'tipo_material_idtipo_material' => Yii::t('app', 'Tipo do Material'),
             'categoria_acervo_idcategoria_acervo' => Yii::t('app', 'Categoria'),
+            'codigoInicio' => Yii::t('app', 'Código Inicio'),
+            'codigoFim' => Yii::t('app', 'Código Fim'),
         ];
     }
 

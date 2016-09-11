@@ -150,3 +150,15 @@ $('#acervo-catalogaracervoexistente').change(function () {
         $('#w18').hide();
     }
 });
+
+
+$('#btGerarNovoCodigoExemplar').click(function () {
+    var codigoinicio = $('#acervo-codigoinicio').val();
+    var codigofim = $('#acervo-codigofim').val();
+
+    if(codigoinicio > codigofim){
+        alert('Código Inicio deve ser menor que Código Fim');
+    }else{
+        $("form").submit();
+    }
+});

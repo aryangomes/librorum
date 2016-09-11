@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\bootstrap\Modal;
+use kartik\form\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
@@ -11,6 +12,23 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view">
+
+    <?php
+    if (Yii::$app->session->hasFlash('erro')) {
+        ?>
+        <script>
+alert(<?= Yii::$app->session->getFlash('erro')?>)
+        </script>
+    <?php
+        echo \yii\bootstrap\Alert::widget([
+            'options' => [
+                'class' => 'alert-danger',
+            ],
+            'body' => Yii::$app->session->getFlash('erro'),
+        ]);
+    }
+
+    ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -25,6 +43,64 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ])
         ?>
+
+        <!--   Renovação     -->
+        <?php
+        Modal::begin([
+            'header' => '<h2>Gerar novo código de exemplares</h2>',
+            'toggleButton' => ['label' => 'Gerar novo código de exemplares',
+                'class' => 'btn btn-warning',
+               ],
+        ]);
+
+        $form = ActiveForm::begin([
+            'action' => ['gerar-novo-codigo-exemplares',
+            'id' => $model->idacervo]]);
+
+        $model->catalogarAcervoExistente= 0;
+        ?>
+    <div class="form-group">
+
+        <?=
+        $form->field($model, 'catalogarAcervoExistente')->dropDownList(
+            ['1' => 'Acervo Existente', '0' => 'Novo Acervo'
+            ],
+            ['prompt' =>'Selecione...'])
+        ?>
+
+        <?=
+        $form->field($model, 'codigoInicio')->textInput([
+            'type'=>'number','min'=>0,'step'=>1])
+        ?>
+
+        <?=
+        $form->field($model, 'codigoFim')->textInput([
+            'type'=>'number','min'=>0,'step'=>1])
+        ?>
+
+        <?=
+        $form->field($model, 'quantidadeExemplar')->textInput([
+            'type'=>'number','min'=>0,'step'=>1])
+        ?>
+
+
+
+    </div>
+    <div class="form-group">
+        <?= Html::Button(Yii::t('app', 'Gerar novo código'),
+            ['class' => 'btn-lg btn-block btn-info','id'=>'btGerarNovoCodigoExemplar']) ?>
+    </div>
+    <div id="result-messagem-busca-usuario">
+
+
+    </div>
+    <?php
+    ActiveForm::end();
+
+    Modal::end();
+    ?>
+    <!--   Renovação  -->
+
     </p>
 
     <?=
@@ -49,6 +125,10 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+
+<?php
+$this->registerJsFile(\Yii::getAlias("@web") . '/js/js-acervo-view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+?>
 
 <?php
 if (count($acervoExemplares) > 0) {
@@ -79,3 +159,5 @@ if (count($acervoExemplares) > 0) {
     <?php
 }
 ?>
+
+

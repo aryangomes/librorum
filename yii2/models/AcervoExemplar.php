@@ -72,7 +72,7 @@ class AcervoExemplar extends \yii\db\ActiveRecord
                 ->where([
                     'codigo_livro'=>$codigo
                 ])->one();
-        
+
         if($exemplar == null){
             return false;
         }else{

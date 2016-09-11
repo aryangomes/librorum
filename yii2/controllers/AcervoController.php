@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\AcervoSearch;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,9 +20,11 @@ use app\components\AccessFilter;
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
-class AcervoController extends Controller {
+class AcervoController extends Controller
+{
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -39,6 +42,7 @@ class AcervoController extends Controller {
                     'create' => 'acervo',
                     'view' => 'acervo',
                     'get-busca-pessoa' => 'acervo',
+                    'gerar-novo-codigo-exemplares' => 'acervo',
                 ],
             ],
         ];
@@ -48,13 +52,14 @@ class AcervoController extends Controller {
      * Lists all Acervo models.
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $searchModel = new AcervoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -63,12 +68,13 @@ class AcervoController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $acervoSearch = new AcervoSearch();
         $acervoExemplares = $acervoSearch->searchExemplares($id);
         return $this->render('view', [
-                    'model' => $this->findModel($id),
-                    'acervoExemplares' => $acervoExemplares
+            'model' => $this->findModel($id),
+            'acervoExemplares' => $acervoExemplares
         ]);
     }
 
@@ -77,7 +83,8 @@ class AcervoController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Acervo();
         $aquisicao = new Aquisicao();
         $pessoa = new Pessoa();
@@ -86,7 +93,6 @@ class AcervoController extends Controller {
         $tiposPessoa = ['1' => 'Pessoa Fisica', '2' => 'Pessoa Juridica'];
         /*        if ($model->load(Yii::$app->request->post()) && $model->save()) {
           return $this->redirect(['view', 'id' => $model->idacervo]); */
-
 
 
         if ((Yii::$app->request->post())) {
@@ -105,12 +111,11 @@ class AcervoController extends Controller {
             $aquisicao->preco = $dadosAquisicao['preco'];
 
 
-
             if ($aquisicao->save(false)) {
 
                 $model->load(Yii::$app->request->post());
                 $model->aquisicao_idaquisicao = $aquisicao->idaquisicao;
-              if ($model->save()) { 
+                if ($model->save()) {
                     if ($catalogarAcervoExistente) {
                         $codigoInicio = Yii::$app->request->post()['Acervo']['codigoInicio'];
                         $codigoFim = Yii::$app->request->post()['Acervo']['codigoFim'];
@@ -118,13 +123,13 @@ class AcervoController extends Controller {
                             $count = 0;
                             $i = $codigoInicio;
                             while ($count <= ($codigoFim - $codigoInicio)) {
-                                $codigo =  $i;
+                                $codigo = $i;
                                 if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
                                     $exemplar = new AcervoExemplar();
                                     $exemplar->esta_disponivel = 1;
                                     $exemplar->acervo_idacervo = $model->idacervo;
-                                    $exemplar->codigo_livro =  $codigo;
-                                                                      
+                                    $exemplar->codigo_livro = $codigo;
+
                                     $exemplar->save(false);
                                     if ($count == ($codigoFim - $codigoInicio)) {
                                         return $this->redirect(['view', 'id' => $model->idacervo]);
@@ -134,7 +139,7 @@ class AcervoController extends Controller {
                                 } else {
                                     $i++;
                                 }
-                              
+
                             }
                             /* for ($i = $codigoInicio; $i <= $codigoFim; $i++) {
                               $exemplar = new AcervoExemplar();
@@ -188,12 +193,12 @@ class AcervoController extends Controller {
             }
         } else {
             return $this->render('create', [
-                        'model' => $model,
-                        'aquisicao' => $aquisicao,
-                        'pessoa' => $pessoa,
-                        'pessoaFisica' => $pessoaFisica,
-                        'pessoaJuridica' => $pessoaJuridica,
-                        'tiposPessoa' => $tiposPessoa,
+                'model' => $model,
+                'aquisicao' => $aquisicao,
+                'pessoa' => $pessoa,
+                'pessoaFisica' => $pessoaFisica,
+                'pessoaJuridica' => $pessoaJuridica,
+                'tiposPessoa' => $tiposPessoa,
             ]);
         }
     }
@@ -204,26 +209,27 @@ class AcervoController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
         $aquisicao = Aquisicao::findOne($model->aquisicao_idaquisicao);
         $pessoa = Pessoa::findOne($aquisicao->pessoa_idpessoa);
         $pessoaFisica = PessoaFisica::findOne($pessoa->idpessoa) != null ?
-                PessoaFisica::findOne($pessoa->idpessoa) : new PessoaFisica();
+            PessoaFisica::findOne($pessoa->idpessoa) : new PessoaFisica();
         $pessoaJuridica = PessoaJuridica::findOne($pessoa->idpessoa) != null ?
-                PessoaJuridica::findOne($pessoa->idpessoa) : new PessoaJuridica();
+            PessoaJuridica::findOne($pessoa->idpessoa) : new PessoaJuridica();
         $tiposPessoa = ['1' => 'Pessoa Fisica', '2' => 'Pessoa Juridica'];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idacervo]);
         } else {
             return $this->render('update', [
-                        'model' => $model,
-                        'aquisicao' => $aquisicao,
-                        'pessoa' => $pessoa,
-                        'pessoaFisica' => $pessoaFisica,
-                        'pessoaJuridica' => $pessoaJuridica,
-                        'tiposPessoa' => $tiposPessoa,
+                'model' => $model,
+                'aquisicao' => $aquisicao,
+                'pessoa' => $pessoa,
+                'pessoaFisica' => $pessoaFisica,
+                'pessoaJuridica' => $pessoaJuridica,
+                'tiposPessoa' => $tiposPessoa,
             ]);
         }
     }
@@ -234,13 +240,15 @@ class AcervoController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
-    public function actionGetBuscaPessoa($nome) {
+    public function actionGetBuscaPessoa($nome)
+    {
         $pessoa = Pessoa::find()->where(['nome' => $nome])->one();
         if ($pessoa != null) {
             if (PessoaFisica::findOne($pessoa->idpessoa) != null) {
@@ -264,12 +272,143 @@ class AcervoController extends Controller {
      * @return Acervo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if (($model = Acervo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    /**
+     * Gera novos códigos de exemplares para o acervo
+     * @param $id
+     *
+     */
+    public function actionGerarNovoCodigoExemplares($id)
+    {
+
+        if (Yii::$app->request->post()) {
+
+//            var_dump(Yii::$app->request->post());
+
+            $mensagem = "";
+
+            $session = Yii::$app->session;
+
+            $transaction = \Yii::$app->db->beginTransaction();
+
+
+            try {
+
+                $exemplaresExcluidos = AcervoExemplar::deleteAll(
+                    ['acervo_idacervo' => $id]);
+
+                if ($exemplaresExcluidos > 0) {
+
+
+                    $itensInseridos = true;
+
+                    $catalogarAcervoExistente = Yii::$app->request->post()['Acervo']['catalogarAcervoExistente'];
+
+                    if ($catalogarAcervoExistente) {
+                        $codigoInicio = Yii::$app->request->post()['Acervo']['codigoInicio'];
+                        $codigoFim = Yii::$app->request->post()['Acervo']['codigoFim'];
+                        if ($codigoInicio > 0 && $codigoFim > 0) {
+                            $count = 0;
+                            $i = $codigoInicio;
+                            while ($count <= ($codigoFim - $codigoInicio)) {
+                                $codigo = $i;
+                                if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+                                    $exemplar = new AcervoExemplar();
+                                    $exemplar->esta_disponivel = 1;
+                                    $exemplar->acervo_idacervo = $id;
+                                    $exemplar->codigo_livro = $codigo;
+
+                                    if (!$exemplar->save(false)) {
+                                        $itensInseridos = false;
+                                        $count = ($codigoFim - $codigoInicio);
+                                        break;
+
+                                    }
+                                    if ($count == ($codigoFim - $codigoInicio)) {
+                                        if (!$itensInseridos) {
+                                            $transaction->rollBack();
+                                            $mensagem = "Não foi possível gerar novos códigos";
+                                            $session->setFlash('erro', $mensagem);
+                                        } else {
+                                            $transaction->commit();
+                                        }
+                                        return $this->redirect(['view', 'id' => $id]);
+
+                                    }
+                                    $i++;
+                                    $count++;
+                                } else {
+                                    $i++;
+                                }
+
+                            }
+
+                        }
+                    } else {
+                        $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
+                        if ($quantidadeExemplares > 0) {
+
+                            $count = 1;
+                            $i = 1;
+                            while ($count <= $quantidadeExemplares) {
+                                $codigo = $id . '' . $i;
+                                if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+                                    $exemplar = new AcervoExemplar();
+                                    $exemplar->esta_disponivel = 1;
+                                    $exemplar->acervo_idacervo = $id;
+                                    $exemplar->codigo_livro = $id . '' . $i;
+
+
+                                    if (!$exemplar->save()) {
+                                        $itensInseridos = false;
+                                        $count = $quantidadeExemplares;
+                                        break;
+                                    }
+
+                                    if ($count == $quantidadeExemplares) {
+                                        if (!$itensInseridos) {
+                                            $transaction->rollBack();
+                                            $mensagem = "Não foi possível gerar novos códigos";
+                                            $session->setFlash('erro', $mensagem);
+                                        } else {
+                                            $transaction->commit();
+                                        }
+                                        return $this->redirect(['view', 'id' => $id]);
+
+                                    }
+                                    $i++;
+                                    $count++;
+                                } else {
+                                    $i++;
+                                }
+
+                            }
+                        }
+                    }
+
+                }else{
+                    $transaction->rollBack();
+                    $mensagem = "Não foi possível gerar novos códigos";
+                    $session->setFlash('erro', $mensagem);
+                    return $this->redirect(['view', 'id' => $id]);
+                }
+            } catch (Exception $e) {
+                $transaction->rollBack();
+                $mensagem = "Não foi possível gerar novos códigos";
+                $session->setFlash('erro', $mensagem);
+                return $this->redirect(['view', 'id' => $id]);
+            }
+        }
+
     }
 
 }
