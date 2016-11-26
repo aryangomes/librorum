@@ -52,7 +52,6 @@ $this->title = 'Busca no Acervo';
                     <th>Editora</th>
                     <th>Material</th>
                     <th>Categoria</th>
-                    <th>Chamada</th>
                     <th>Código do Livro</th>
                     <th>Disponibilidade</th>
                 </tr>
