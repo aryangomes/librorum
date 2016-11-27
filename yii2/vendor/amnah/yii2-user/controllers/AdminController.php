@@ -115,6 +115,8 @@ class AdminController extends Controller {
         $userLoaded = $user->load($post);
         $profile->load($post);
 
+        $mensagemSucesso = "Usuário cadastrado com sucesso";
+
         // validate for ajax request
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -157,8 +159,9 @@ class AdminController extends Controller {
 
             if ($usuario->save()) {
                 $usuario->upload($usuario->nome);
-                return $this->redirect(['view', 'id' => $user->id]);
-//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
+//                return $this->redirect(['view', 'id' => $user->id]);
+                Yii::$app->session->setFlash('mensagemSucesso',$mensagemSucesso);
+                return $this->redirect('create');
             }
         }
 

@@ -21,6 +21,17 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
 ?>
 
 <div class="acervo-form">
+    <?php
+    if (Yii::$app->session->has('mensagemSucesso')) {
+        ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagemSucesso') ?>
+        </div>
+        <?php
+    }
+
+
+    ?>
 
     <?php
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);
@@ -117,7 +128,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                 </div>
             </div>
         </div>
-        <br />
+        <br/>
         <div class="row">
             <div class="col-md-2">
                 <?= Html::button('Cadastrar', ['id' => 'btCadastrarPessoa', 'class' => 'btn btn-primary']) ?>
@@ -147,15 +158,15 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                         'widgetClass' => 'kartik\widgets\Select2',
                         'options' => [
                             'initValueText' => isset($aquisicao->tipo_aquisicao_idtipo_aquisicao) ? app\models\TipoAquisicao::findOne
-                                            ($aquisicao->tipo_aquisicao_idtipo_aquisicao)->nome : '',
+                            ($aquisicao->tipo_aquisicao_idtipo_aquisicao)->nome : '',
                             'pluginOptions' => [
                                 'placeholder' => Yii::t('app', 'Digite o tipo de aquisição. Ex: Compra, Doação ...'),
                                 'allowClear' => true,
                                 'minimumInputLength' => 3,
                                 'language' => [
                                     'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
-                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
-                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
+                                    "noResults" => new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort" => new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urltipoaquisicao,
@@ -170,16 +181,16 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                     ],
                     'pessoa_idpessoa' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => $tiposPessoa, 'options' => [
 
-                            'prompt' => 'Selecione',
-                          'disabled' => $model->isNewRecord ? false : true
-                        ]
+                        'prompt' => $model->isNewRecord ? 'Selecione' : $tipoPessoa,
+                        'disabled' => $model->isNewRecord ? false : true
+                    ],
+
                     ],
                     'preco' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Ex: Valor']],
                 ]
             ],
         ]
     ]);
-
 
 
     echo FormGrid::widget([
@@ -192,7 +203,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                 'attributes' => [
                     'pessoa_idpessoa' => ['type' => Form::INPUT_HIDDEN, 'options' => [
 
-                            'id' => 'pessoa-idpessoa']],
+                        'id' => 'pessoa-idpessoa']],
                 ]
             ]
         ]
@@ -242,7 +253,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                         'widgetClass' => 'kartik\widgets\Select2',
                         'options' => [
                             'initValueText' => isset($model->categoria_acervo_idcategoria_acervo) ? app\models\CategoriaAcervo::findOne
-                                            ($model->categoria_acervo_idcategoria_acervo)->categoria : '',
+                            ($model->categoria_acervo_idcategoria_acervo)->categoria : '',
                             'pluginOptions' => [
 
                                 'placeholder' => 'Digite a categoria do material. Ex: Romance, Jornalismo ...',
@@ -250,8 +261,8 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                                 'minimumInputLength' => 2,
                                 'language' => [
                                     'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
-                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
-                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
+                                    "noResults" => new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort" => new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urlcategoriaacervo,
@@ -266,7 +277,7 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                         'widgetClass' => 'kartik\widgets\Select2',
                         'options' => [
                             'initValueText' =>
-                            isset($model->tipo_material_idtipo_material) ?
+                                isset($model->tipo_material_idtipo_material) ?
                                     TipoMaterial::findOne($model->tipo_material_idtipo_material)->nome : '',
                             'pluginOptions' => [
 
@@ -275,8 +286,8 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
                                 'minimumInputLength' => 2,
                                 'language' => [
                                     'errorLoading' => new JsExpression("function () { return '" . Yii::t('app', 'Waiting for results...') . "'; }"),
-                                    "noResults"=> new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
-                                    "inputTooShort"=> new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
+                                    "noResults" => new JsExpression("function () { return '" . Yii::t('app', 'No results...') . "'; }"),
+                                    "inputTooShort" => new JsExpression("function () { return '" . Yii::t('app', 'Please enter 3 or more characters...') . "'; }"),
                                 ],
                                 'ajax' => [
                                     'url' => $urltipomaterial,
@@ -299,77 +310,76 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
             [
                 'attributes' => [       // 1 column layout
                     'cdd' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => 'Ex: 48.194']],
-                   
+
                 ],
             ],
         ]
     ]);
 
     echo $model->isNewRecord ? FormGrid::widget([
-                'model' => $model,
-                'form' => $form,
-                'autoGenerateColumns' => true,
-                'rows' => [
+        'model' => $model,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                    [
-                        'contentBefore' => '<legend class="text-info"><small>Cadastro de Acervo'
-                        . '</small></legend>',
-                        'attributes' => [
-                            'catalogarAcervoExistente' => ['type' => Form::INPUT_DROPDOWN_LIST,
-                                'items' => ['1' => 'Acervo Existente',
-                                    '0' => 'Novo Acervo'],
-                                'options' => ['prompt' =>
-                                    'Selecione...',
-                                    'disabled' => $model->isNewRecord ? false : true],
-                            ],
-                        ],
+            [
+                'contentBefore' => '<legend class="text-info"><small>Cadastro de Acervo'
+                    . '</small></legend>',
+                'attributes' => [
+                    'catalogarAcervoExistente' => ['type' => Form::INPUT_DROPDOWN_LIST,
+                        'items' => ['1' => 'Acervo Existente',
+                            '0' => 'Novo Acervo'],
+                        'options' => ['prompt' =>
+                            'Selecione...',
+                            'disabled' => $model->isNewRecord ? false : true],
                     ],
-                ]
-            ]) : '';
+                ],
+            ],
+        ]
+    ]) : '';
 
 
     echo $model->isNewRecord ? FormGrid::widget([
-                'model' => $model,
-                'form' => $form,
-                'autoGenerateColumns' => true,
-                'rows' => [
+        'model' => $model,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                    [
-                        'contentBefore' => '<legend class="text-info"><small>Exemplar</small></legend>',
-                        'attributes' => [
-                            'codigoInicio' => ['type' => Form::INPUT_HTML5,
-                                'html5type' => 'number', 'options' =>
-                                ['placeholder' => 'Digite o Código de Início', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
-                            'codigoFim' => ['type' => Form::INPUT_HTML5,
-                                'html5type' => 'number', 'options' =>
-                                ['placeholder' => 'Digite o Código de Fim', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
-                        ],
-                    ],
-                ]
-            ]) : '';
-
+            [
+                'contentBefore' => '<legend class="text-info"><small>Exemplar</small></legend>',
+                'attributes' => [
+                    'codigoInicio' => ['type' => Form::INPUT_HTML5,
+                        'html5type' => 'number', 'options' =>
+                            ['placeholder' => 'Digite o Código de Início', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
+                    'codigoFim' => ['type' => Form::INPUT_HTML5,
+                        'html5type' => 'number', 'options' =>
+                            ['placeholder' => 'Digite o Código de Fim', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
+                ],
+            ],
+        ]
+    ]) : '';
 
 
     echo $model->isNewRecord ? FormGrid::widget([
-                'model' => $model,
-                'form' => $form,
-                'autoGenerateColumns' => true,
-                'rows' => [
+        'model' => $model,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                    [
-                        'contentBefore' => '<legend class="text-info"><small>Exemplar</small></legend>',
-                        'attributes' => [
-                            'quantidadeExemplar' => ['type' => Form::INPUT_HTML5, 'html5type' => 'number', 'options' => ['placeholder' => 'Digite a Quantitade de Exemplares.', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
-                        ],
-                    ],
-                ]
-            ]) : '';
+            [
+                'contentBefore' => '<legend class="text-info"><small>Exemplar</small></legend>',
+                'attributes' => [
+                    'quantidadeExemplar' => ['type' => Form::INPUT_HTML5, 'html5type' => 'number', 'options' => ['placeholder' => 'Digite a Quantitade de Exemplares.', 'min' => 1, 'disabled' => $model->isNewRecord ? false : true]],
+                ],
+            ],
+        ]
+    ]) : '';
     ?>
 
     <div class="form-group">
         <?= Html::Button($model->isNewRecord ? Yii::t('app', 'Catalog') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                'id'=>'btGerarNovoCodigoExemplar']) ?>
+                'id' => 'btGerarNovoCodigoExemplar']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -22,7 +22,17 @@ $role = $module->model("Role");
 
 <div class="user-form">
 
+    <?php
+    if (Yii::$app->session->has('mensagemSucesso')) {
+        ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagemSucesso') ?>
+        </div>
+        <?php
+    }
 
+
+    ?>
 
     <?php
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL,

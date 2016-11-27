@@ -17,6 +17,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php
+    if (Yii::$app->session->has('mensagemSucesso')) {
+        ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagemSucesso') ?>
+        </div>
+        <?php
+    }
+
+
+    ?>
         <?=
         !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
                     'class' => 'btn btn-danger',
@@ -147,7 +158,7 @@ DetailView::widget([
 if ($model->diasDiferenca > 0 && $model->datadevolucao == null) {
     ?>
     <div class="alert alert-info">
-        O exemplar já está emprestado a <strong><?= $model->diasDiferenca ?></strong> dia(s) .
+        O exemplar já está emprestado a <strong><?= number_format( $model->diasDiferenca,0) ?></strong> dia(s) .
     </div>
     <?php
 } else if ($model->diasDiferenca == 0) {
