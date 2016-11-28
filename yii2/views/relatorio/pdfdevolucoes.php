@@ -17,12 +17,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </h3></div>
 
     </div>
-    <div >
+    <div>
         <table class="table table-responsive table-bordered">
             <thead>
             <tr>
                 <th>Data</th>
-            <th>Quantidade</th>
+                <th>Quantidade</th>
             </tr>
             </thead>
             <tbody>

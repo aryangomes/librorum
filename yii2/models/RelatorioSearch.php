@@ -109,4 +109,47 @@ class RelatorioSearch extends Relatorio
 
         return [$datas, $qtdEmprestimosPorData];
     }
+
+
+    /**
+     * @param $inicioIntervalo
+     * @param $fimIntervalo
+     * @return array
+     */
+    public function searchRelatorioDevolucoes($inicioIntervalo, $fimIntervalo)
+    {
+        //Procura e guarda as datas que tivem empréstimos de acordo com o intervalo
+        //passado
+        $query = Emprestimo::find()->select("*")
+            ->where(['between', 'dataemprestimo', $inicioIntervalo, $fimIntervalo])
+            ->andFilterWhere(['<>','datadevolucao','is null'])
+            ->orderBy('dataemprestimo ASC')
+            ->groupBy('DATE_FORMAT(dataemprestimo, "%Y-%-%d`")');
+
+        //Guarda as datas num array
+        $datas = [];
+
+        //Guarda a quantidade de devoluções por data num array
+        $qtdDevolucoesPorData = [];
+
+        foreach ($query->all() as $i) {
+
+            $data = (date('Y-m-d',strtotime($i->dataemprestimo)));
+
+
+            //Busca todos os devoluções feitos naquela data
+            $query = Emprestimo::find()
+                ->where(['between', 'dataemprestimo', $data.' 00:00:00',  $data.' 23:59:59'])
+                ->all();
+
+            array_push($qtdDevolucoesPorData, count($query));
+
+            $data = (date('d/m/Y',strtotime($i->dataemprestimo)));
+
+            array_push($datas, $data);
+
+        }
+
+        return [$datas, $qtdDevolucoesPorData];
+    }
 }

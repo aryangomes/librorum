@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Gerar Relatório Empréstimo-->
         <?php
         echo isset($model->datadevolucao) ? '' :
-            Html::a('Gerar Comprovante de Empréstimo', ['gerar-relatorio-emprestimo',
+            Html::a('Gerar Comprovante de Empréstimo', ['gerar-relatorio-'.$model->tipo,
                 'id' => $model->idrelatorio], [
                 'class' => 'btn btn-success',
                 'target' => '_blank',

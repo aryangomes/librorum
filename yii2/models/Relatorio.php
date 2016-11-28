@@ -15,6 +15,12 @@ use Yii;
  */
 class Relatorio extends \yii\db\ActiveRecord
 {
+
+    public static $tiposRelatorio = [
+        'emprestimos'=>'Quantidade de Empréstimo',
+        'devolucoes'=>'Quantidade de Devoluções feitas',
+    ];
+
     /**
      * @inheritdoc
      */

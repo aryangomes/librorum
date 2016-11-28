@@ -51,7 +51,16 @@ class RelatorioController extends Controller
      */
     public function actionView($id)
     {
+        $modelRelatorio =  $this->findModel($id);
 
+
+
+            $searchModel = new RelatorioSearch();
+
+            $dados = $searchModel->searchRelatorioDevolucoes(
+                $modelRelatorio->inicio_intervalo,
+                $modelRelatorio->fim_intervalo
+            );
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -66,7 +75,6 @@ class RelatorioController extends Controller
     {
         $modelRelatorio = new Relatorio();
 
-        $modelRelatorio->tipo = 'emprestimos';
 
         $modelRelatorio->data_geracao = date('Y-m-d');
 
@@ -79,6 +87,7 @@ class RelatorioController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $modelRelatorio,
+                'tiposRelatorio'=>Relatorio::$tiposRelatorio,
             ]);
         }
     }
@@ -98,6 +107,7 @@ class RelatorioController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'tiposRelatorio'=>Relatorio::$tiposRelatorio,
             ]);
         }
     }
@@ -132,7 +142,7 @@ class RelatorioController extends Controller
     }
 
 
-    public function actionGerarRelatorioEmprestimo($id)
+    public function actionGerarRelatorioEmprestimos($id)
     {
 
         //Setando a data para o fuso do Brasil
@@ -156,12 +166,64 @@ class RelatorioController extends Controller
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8,
-                'content' => $this->renderPartial('pdfEmprestimos', [
+                'content' => $this->renderPartial('pdf'.$modelRelatorio->tipo, [
                     'dados' => $dados,
                     'title'=>$title
 
                 ]),
                 'filename' => 'relatorio-emprestimo-de-' .
+                    date("d-m-Y", strtotime
+                    ($modelRelatorio->inicio_intervalo))
+                    .'-ate-'.
+                    date("d-m-Y", strtotime
+                    ($modelRelatorio->fim_intervalo))
+                    . '.pdf',
+                'options' => [
+                    'title' => $title,
+                ],
+                'methods' => [
+                    'SetHeader' => ['Gerado por: Krajee Pdf Component||Gerado em: ' .
+                        date("d/m/Y H:i:s")],
+                    'SetFooter' => ['|Página{PAGENO}|'],
+                ]
+            ]);
+            return $pdf->render();
+        }
+
+        return $this->redirect('index');
+
+    }
+
+    public function actionGerarRelatorioDevolucoes($id)
+    {
+
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Sao_Paulo');
+
+        $modelRelatorio =  $this->findModel($id);
+
+        if($modelRelatorio != null){
+
+            $searchModel = new RelatorioSearch();
+
+            $dados = $searchModel->searchRelatorioDevolucoes(
+                $modelRelatorio->inicio_intervalo,
+                $modelRelatorio->fim_intervalo
+            );
+
+            $title = 'Relatório de Devoluções (de '. date("d/m/Y", strtotime
+                ($modelRelatorio->inicio_intervalo)) . ' até ' . date("d/m/Y", strtotime
+                ($modelRelatorio->fim_intervalo)) .')';
+
+
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8,
+                'content' => $this->renderPartial('pdf'.$modelRelatorio->tipo, [
+                    'dados' => $dados,
+                    'title'=>$title
+
+                ]),
+                'filename' => 'relatorio-devolucoes-de-' .
                     date("d-m-Y", strtotime
                     ($modelRelatorio->inicio_intervalo))
                     .'-ate-'.

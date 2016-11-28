@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatorio */
+/* @var $tiposRelatorio array */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -12,7 +13,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-
+    <?= $form->field($model, 'tipo')->dropDownList($tiposRelatorio, ['prompt'=>'Selecione o tipo de Relatório...',
+    'disabled'=>$model->isNewRecord ? false:true]) ?>
 
     <?= $form->field($model, 'inicio_intervalo')->input('date',['class'=>'form-control']) ?>
 

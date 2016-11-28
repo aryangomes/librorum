@@ -5,8 +5,9 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatorio */
+/* @var $tiposRelatorio array */
 
-$this->title = Yii::t('app', 'Create Relatorio');
+$this->title = Yii::t('app', 'Create {model}', ['model'=> Yii::t('app', 'Relatório')]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Relatorios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'tiposRelatorio'=>$tiposRelatorio,
     ]) ?>
 
 </div>
