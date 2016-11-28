@@ -23,6 +23,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+
+        <!-- Gerar Relatório Empréstimo-->
+        <?php
+        echo isset($model->datadevolucao) ? '' :
+            Html::a('Gerar Comprovante de Empréstimo', ['gerar-relatorio-emprestimo',
+                'id' => $model->idrelatorio], [
+                'class' => 'btn btn-success',
+                'target' => '_blank',
+                'data-toggle' => 'tooltip',
+                'title' => 'Clique aqui para gerar o comprovante do empréstimo',
+            ]);
+        ?>
+        <!-- Gerar Relatório Empréstimo-->
     </p>
 
     <?= DetailView::widget([

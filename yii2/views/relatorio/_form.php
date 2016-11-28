@@ -12,13 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'tipo')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'inicio_intervalo')->textInput() ?>
 
-    <?= $form->field($model, 'fim_intervalo')->textInput() ?>
+    <?= $form->field($model, 'inicio_intervalo')->input('date',['class'=>'form-control']) ?>
 
-    <?= $form->field($model, 'data_geracao')->textInput() ?>
+    <?= $form->field($model, 'fim_intervalo')->input('date',['class'=>'form-control']) ?>
+
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

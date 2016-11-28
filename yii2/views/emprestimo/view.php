@@ -9,7 +9,7 @@ use yii\bootstrap\Modal;
 /* @var $model app\models\Emprestimo */
 
 $this->title = "Empréstimo da data: " .
-        date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
+    date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,35 +21,35 @@ $this->params['breadcrumbs'][] = $this->title;
     if (Yii::$app->session->has('mensagemSucesso')) {
         ?>
         <div class="alert alert-success">
-            <?=   Yii::$app->session->getFlash('mensagemSucesso') ?>
+            <?= Yii::$app->session->getFlash('mensagemSucesso') ?>
         </div>
         <?php
     }
 
 
     ?>
-        <?=
-        !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => Yii::t('app', 'Você deseja cancelar o empréstimo?'),
-                        'method' => 'post',
-                    ],
-                ]) : ''
-        ?>
+    <?=
+    !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => Yii::t('app', 'Você deseja cancelar o empréstimo?'),
+            'method' => 'post',
+        ],
+    ]) : ''
+    ?>
 
 
-        <?php
-        Modal::begin([
-            'header' => '<h2>Devolução</h2>',
-            'toggleButton' => ['label' => isset($model->datadevolucao) ? 'Devolvido' : 'Fazer Devolução',
-                'class' => 'btn btn-success',
-                'disabled' => isset($model->datadevolucao) ? true : false],
-        ]);
+    <?php
+    Modal::begin([
+        'header' => '<h2>Devolução</h2>',
+        'toggleButton' => ['label' => isset($model->datadevolucao) ? 'Devolvido' : 'Fazer Devolução',
+            'class' => 'btn btn-success',
+            'disabled' => isset($model->datadevolucao) ? true : false],
+    ]);
 
-        $form = ActiveForm::begin(['action' => ['devolucao', 'id' => $model->idemprestimo]]);
-        ?>
-        <!--  Devolução -->
+    $form = ActiveForm::begin(['action' => ['devolucao', 'id' => $model->idemprestimo]]);
+    ?>
+    <!--  Devolução -->
 
     <div class="form-group">
         <?php
@@ -60,7 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
         $form->field($model, 'datadevolucao')->textInput(['disabled' => true,
             'value' => isset($model->datadevolucao) ? date('d/m/Y H:i:s', strtotime($model->datadevolucao)) : date('d/m/Y H:i:s')])
         ?>
-
 
 
     </div>
@@ -101,10 +100,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?=
         $form->field($model, 'dataprevisaodevolucao')->hiddenInput(
-                [ 'value' => date('Y-m-d H:i:s', strtotime("+10 days", strtotime(date('Y-m-d H:i:s'))))]
+            ['value' => date('Y-m-d H:i:s', strtotime("+10 days", strtotime(date('Y-m-d H:i:s'))))]
         )->label(false)
         ?>
-
 
 
     </div>
@@ -126,48 +124,51 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Gerar Comprovante Empréstimo-->
     <?php
     echo isset($model->datadevolucao) ? '' :
-            Html::a('Gerar Comprovante de Empréstimo', ['gerar-comprovante-emprestimo',
-                'id' => $model->idemprestimo], [
-                'class' => 'btn btn-primary',
-                'target' => '_blank',
-                'data-toggle' => 'tooltip',
-                'title' => 'Clique aqui para gerar o comprovante do empréstimo',
-    ]);
+        Html::a('Gerar Comprovante de Empréstimo', ['gerar-comprovante-emprestimo',
+            'id' => $model->idemprestimo], [
+            'class' => 'btn btn-primary',
+            'target' => '_blank',
+            'data-toggle' => 'tooltip',
+            'title' => 'Clique aqui para gerar o comprovante do empréstimo',
+        ]);
     ?>
     <!-- Gerar Comprovante Empréstimo-->
-</p>
 
-<?=
-DetailView::widget([
-    'model' => $model,
-    'attributes' => [
-        'idemprestimo',
-        'dataemprestimo:datetime',
-        'dataprevisaodevolucao:date',
-        'datadevolucao:datetime',
-      
-        'usuario_nome',
-        'usuario_rg',
-        'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
-        'acervoExemplarIdacervoExemplar.codigo_livro',
-    ],
-])
-?>
 
-<?php
-if ($model->diasDiferenca > 0 && $model->datadevolucao == null) {
+
+    </p>
+
+    <?=
+    DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'idemprestimo',
+            'dataemprestimo:datetime',
+            'dataprevisaodevolucao:date',
+            'datadevolucao:datetime',
+
+            'usuario_nome',
+            'usuario_rg',
+            'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
+            'acervoExemplarIdacervoExemplar.codigo_livro',
+        ],
+    ])
     ?>
-    <div class="alert alert-info">
-        O exemplar já está emprestado a <strong><?= number_format( $model->diasDiferenca,0) ?></strong> dia(s) .
-    </div>
+
     <?php
-} else if ($model->diasDiferenca == 0) {
+    if ($model->diasDiferenca > 0 && $model->datadevolucao == null) {
+        ?>
+        <div class="alert alert-info">
+            O exemplar já está emprestado a <strong><?= number_format($model->diasDiferenca, 0) ?></strong> dia(s) .
+        </div>
+        <?php
+    } else if ($model->diasDiferenca == 0) {
+        ?>
+        <div class="alert alert-info">
+            O exemplar foi emprestado hoje.
+        </div>
+        <?php
+    }
     ?>
-    <div class="alert alert-info">
-        O exemplar foi emprestado hoje.
-    </div>
-    <?php
-}
-?>
 
 </div>

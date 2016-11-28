@@ -8,7 +8,7 @@ use app\models\RelatorioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use kartik\mpdf\Pdf;
 /**
  * RelatorioController implements the CRUD actions for Relatorio model.
  */
@@ -51,6 +51,7 @@ class RelatorioController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -63,13 +64,21 @@ class RelatorioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Relatorio();
+        $modelRelatorio = new Relatorio();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idrelatorio]);
+        $modelRelatorio->tipo = 'emprestimos';
+
+        $modelRelatorio->data_geracao = date('Y-m-d');
+
+        $modelRelatorio->inicio_intervalo = date('Y-m-d');
+
+        $modelRelatorio->fim_intervalo = date('Y-m-d');
+
+        if ($modelRelatorio->load(Yii::$app->request->post()) && $modelRelatorio->save()) {
+            return $this->redirect(['view', 'id' => $modelRelatorio->idrelatorio]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $modelRelatorio,
             ]);
         }
     }
@@ -120,5 +129,58 @@ class RelatorioController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    public function actionGerarRelatorioEmprestimo($id)
+    {
+
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Sao_Paulo');
+
+        $modelRelatorio =  $this->findModel($id);
+
+        if($modelRelatorio != null){
+
+            $searchModel = new RelatorioSearch();
+
+            $dados = $searchModel->searchRelatorioEmprestimos(
+                $modelRelatorio->inicio_intervalo,
+                $modelRelatorio->fim_intervalo
+            );
+
+            $title = 'Relatório de Empréstimo (de '. date("d/m/Y", strtotime
+                ($modelRelatorio->inicio_intervalo)) . ' até ' . date("d/m/Y", strtotime
+                ($modelRelatorio->fim_intervalo)) .')';
+
+
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8,
+                'content' => $this->renderPartial('pdfEmprestimos', [
+                    'dados' => $dados,
+                    'title'=>$title
+
+                ]),
+                'filename' => 'relatorio-emprestimo-de-' .
+                    date("d-m-Y", strtotime
+                    ($modelRelatorio->inicio_intervalo))
+                    .'-ate-'.
+                    date("d-m-Y", strtotime
+                    ($modelRelatorio->fim_intervalo))
+                    . '.pdf',
+                'options' => [
+                    'title' => $title,
+                ],
+                'methods' => [
+                    'SetHeader' => ['Gerado por: Krajee Pdf Component||Gerado em: ' .
+                        date("d/m/Y H:i:s")],
+                    'SetFooter' => ['|Página{PAGENO}|'],
+                ]
+            ]);
+            return $pdf->render();
+        }
+
+        return $this->redirect('index');
+
     }
 }
