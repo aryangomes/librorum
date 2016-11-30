@@ -15,6 +15,18 @@ use yii\widgets\MaskedInput;
 <div class="emprestimos-form">
 
     <?php
+    if (isset($mensagem) && !empty($mensagem)) {
+
+    ?>
+    <div class="alert alert-danger">
+        <?= $mensagem ?>
+    </div>
+    <?php
+
+    }
+    ?>
+
+    <?php
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);
     ?>
 
@@ -22,24 +34,24 @@ use yii\widgets\MaskedInput;
 
     use kartik\tabs\TabsX;
 
-$tabUsuario = FormGrid::widget([
-                'model' => $model,
-                'form' => $form,
-                'autoGenerateColumns' => true,
-                'rows' => [
-                    [
-                        'contentBefore' => '<legend class="text-info"><small>Usuário</small></legend>',
-                        'attributes' => [
+    $tabUsuario = FormGrid::widget([
+        'model' => $model,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Usuário</small></legend>',
+                'attributes' => [
 
-                            'usuario_rg' => ['type' => Form::INPUT_TEXT,],
-                            'usuario_nome' => ['type' => Form::INPUT_TEXT, 'options' =>
-                                ['disabled' => true]
-                            ],
-                        ],
+                    'usuario_rg' => ['type' => Form::INPUT_TEXT,],
+                    'usuario_nome' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
                     ],
-                ]
+                ],
+            ],
+        ]
     ]);
-    ?> 
+    ?>
     <div id="result-get-usuario"></div>
     <div id="result-get-usuario"></div>
     <!-- ------------------ BEGIN Cadastro de Usuário ------------------ -->
@@ -62,7 +74,9 @@ $tabUsuario = FormGrid::widget([
     ?>
 
 
-    <legend class="text-info"><small>Usuário</small></legend>   
+    <legend class="text-info">
+        <small>Usuário</small>
+    </legend>
     <div class="row">
         <div class="col-sm-4">
             <?= Html::label('Nome') ?>
@@ -96,7 +110,9 @@ $tabUsuario = FormGrid::widget([
 
         </div>
     </div>
-    <legend class="text-info"><small>Contatos</small></legend>   
+    <legend class="text-info">
+        <small>Contatos</small>
+    </legend>
     <div class="row">
 
         <div class="col-sm-6">
@@ -123,7 +139,9 @@ $tabUsuario = FormGrid::widget([
 
     </div>
 
-    <legend class="text-info"><small>Dados Diversos</small></legend>   
+    <legend class="text-info">
+        <small>Dados Diversos</small>
+    </legend>
     <div class="row">
         <div class="col-sm-3">
             <?= Html::label('Cargo') ?>
@@ -164,7 +182,9 @@ $tabUsuario = FormGrid::widget([
 
     </div>
 
-    <legend class="text-info"><small>Dados Para Acesso Ao Sistema</small></legend>   
+    <legend class="text-info">
+        <small>Dados Para Acesso Ao Sistema</small>
+    </legend>
     <div class="row">
         <div class="col-sm-12">
             <?= Html::label('Senha') ?>
@@ -176,74 +196,75 @@ $tabUsuario = FormGrid::widget([
         </div>
 
     </div>
-    <p> 
+    <p>
     <div class="form-group">
         <?=
         Html::Button(Yii::t('user', 'Create'), ['class' => 'btn btn-success',
             'id' => 'btCadastrarUsuario'])
         ?>
-    </div>  </p>    
-<?php
-Modal::end();
-?>
-<!-- ------------------ END Cadastro de Usuário ------------------ -->
+    </div>
+    </p>
+    <?php
+    Modal::end();
+    ?>
+    <!-- ------------------ END Cadastro de Usuário ------------------ -->
 
-<?php
-$tabSenhadoUsuario = FormGrid::widget([
-            'model' => $user,
-            'form' => $form,
-            'autoGenerateColumns' => true,
-            'rows' => [
-                [
-                    'contentBefore' => '<legend class="text-info"><small>Senha do Usuário</small></legend>',
-                    'attributes' => [
+    <?php
+    $tabSenhadoUsuario = FormGrid::widget([
+        'model' => $user,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Senha do Usuário</small></legend>',
+                'attributes' => [
 
-                        'password' => ['type' => Form::INPUT_PASSWORD, 'options' =>
-                            ['value' => '']
-                        ],
-                        'actions' => [
-                            'type' => Form::INPUT_RAW,
-                            'value' => '<div class="col-sm-6"><div class="form-group ">
+                    'password' => ['type' => Form::INPUT_PASSWORD, 'options' =>
+                        ['value' => '']
+                    ],
+                    'actions' => [
+                        'type' => Form::INPUT_RAW,
+                        'value' => '<div class="col-sm-6"><div class="form-group ">
                             <label class="control-label" for="confirmar-usuario">Confirmar Usuário</label>
                             <input type="button" id="confirmar-usuario" class="btn btn-primary" value="Confirmar">
 
 
 	</div>'
-                        ],
                     ],
                 ],
-            ]
-        ]) ;
+            ],
+        ]
+    ]);
 
-$tabDadosusuario = FormGrid::widget([
-            'model' => $usuario,
-            'form' => $form,
-            'autoGenerateColumns' => true,
-            'rows' => [
+    $tabDadosusuario = FormGrid::widget([
+        'model' => $usuario,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                [
-                    'contentBefore' => '<legend class="text-info"><small>Informações do Usuário</small></legend>',
-                    'attributes' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Informações do Usuário</small></legend>',
+                'attributes' => [
 
-                        'foto' => ['type' => Form::INPUT_RAW, 'value' => Html::img('#', ['id' => 'foto-usuario',
-                                'class' => "img-thumbnail img-responsive", 'width' => "304", 'height' => "236",
-                            ]),
-                        ],
-                        'cpf' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true]
-                        ],
-                        'cargo' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true]
-                        ],
-                        'reparticao' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true]
-                        ],
-                    ]
-                ],
-            ]
-        ]);
+                    'foto' => ['type' => Form::INPUT_RAW, 'value' => Html::img('#', ['id' => 'foto-usuario',
+                        'class' => "img-thumbnail img-responsive", 'width' => "304", 'height' => "236",
+                    ]),
+                    ],
+                    'cpf' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
+                    ],
+                    'cargo' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
+                    ],
+                    'reparticao' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
+                    ],
+                ]
+            ],
+        ]
+    ]);
 
-$tabBuscarUsuario = "<legend class=\"text-info\"><small>Pesquisar por Usuário</small></legend><div class=\"row\">
+    $tabBuscarUsuario = "<legend class=\"text-info\"><small>Pesquisar por Usuário</small></legend><div class=\"row\">
   <div class=\"col-lg-6\"> <div class=\"form-group\">
  <div class=\"input-group\">" .
         Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
@@ -268,7 +289,7 @@ $tabBuscarUsuario = "<legend class=\"text-info\"><small>Pesquisar por Usuário</
         </table>";
 
 
-$tabExemplar = FormGrid::widget([
+    $tabExemplar = FormGrid::widget([
             'model' => $exemplar,
             'form' => $form,
             'autoGenerateColumns' => true,
@@ -279,22 +300,30 @@ $tabExemplar = FormGrid::widget([
                     'attributes' => [
 
                         'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['placeholder' => 'Digite o código do exemplar']
+                            ['placeholder' => 'Digite o código do exemplar',
+                            'name'=>'AcervoExemplar[codigo_livro][]']
                         ],
                         'actions' => [
                             'type' => Form::INPUT_RAW,
                             'value' => '<div class="col-sm-6">
                 <div class="form-group ">
                 <label class="control-label" for="confirmar-usuario">Confirmar Exemplar</label>
-                <input type="button" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar"></div>'
+                <input type="button" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar">
+                </div>
+                <div class="form-group ">
+              
+                <input type="button"  class="btn btn-success" 
+                onclick="adicionarInputCodigoExemplar()" value="Adicionar mais um campo de Código Exemplar">
+                </div>
+                '
                         ],
                     ]
                 ],
             ]
-        ]) 
+        ])
         . "<div id=\"mensagem-get-acervo-exemplar\"></div>";
 
-$tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</small></legend> <div class=\"row\">
+    $tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</small></legend> <div class=\"row\">
   <div class=\"col-lg-6\"> <div class=\"form-group\">
  <div class=\"input-group\">" .
         Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
@@ -321,166 +350,164 @@ $tabBuscaExemplar = "<legend class=\"text-info\"><small>Pesquisar por Exemplar</
         </table> 
 ";
 
-$tabAcervo = FormGrid::widget([
-            'model' => $acervo,
-            'form' => $form,
-            'autoGenerateColumns' => true,
-            'rows' => [
+    $tabAcervo = FormGrid::widget([
+        'model' => $acervo,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                [
-                    'contentBefore' => '<legend class="text-info"><small>Informações do Exemplar</small></legend>',
-                    'attributes' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Informações do Exemplar</small></legend>',
+                'attributes' => [
 
-                        'titulo' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true]
-                        ],
-                        'autor' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true]
-                        ],
-                    ]
-                ],
-            ]
-        ]);
-?>
+                    'titulo' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
+                    ],
+                    'autor' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true]
+                    ],
+                ]
+            ],
+        ]
+    ]);
+    ?>
 
 
-<?php
-$tabEmprestimo = FormGrid::widget([
-            'model' => $model,
-            'form' => $form,
-            'autoGenerateColumns' => true,
-            'rows' => [
+    <?php
+    $tabEmprestimo = FormGrid::widget([
+        'model' => $model,
+        'form' => $form,
+        'autoGenerateColumns' => true,
+        'rows' => [
 
-                [
-                    'contentBefore' => '<legend class="text-info"><small>Informações sobre o Empréstimo</small></legend>',
-                    'attributes' => [
+            [
+                'contentBefore' => '<legend class="text-info"><small>Informações sobre o Empréstimo</small></legend>',
+                'attributes' => [
 
-                        'dataemprestimo' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true,
-                                'value' => date('d/m/Y H:i:s', strtotime($model->dataemprestimo))]
-                        ],
-                        'dataprevisaodevolucao' => ['type' => Form::INPUT_TEXT, 'options' =>
-                            ['disabled' => true, "id" => "lb-dataprevisaodevolucao",
-                            ]
-                        ],
+                    'dataemprestimo' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true,
+                            'value' => date('d/m/Y H:i:s', strtotime($model->dataemprestimo))]
+                    ],
+                    'dataprevisaodevolucao' => ['type' => Form::INPUT_TEXT, 'options' =>
+                        ['disabled' => true, "id" => "lb-dataprevisaodevolucao",
+                        ]
                     ],
                 ],
-            ]
-        ]);
-?>
+            ],
+        ]
+    ]);
+    ?>
 
-<!--   ---------------------------   BEGIN Configurar Dias Empréstimo  ---------------------------  -->
-<?php
-Modal::begin([
-    'header' => '<h2>Configurar Dias de Empréstimo</h2>',
-    'id' => 'modalconfigurardiasemprestimo',
-]);
-?>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="input-group">
+    <!--   ---------------------------   BEGIN Configurar Dias Empréstimo  ---------------------------  -->
+    <?php
+    Modal::begin([
+        'header' => '<h2>Configurar Dias de Empréstimo</h2>',
+        'id' => 'modalconfigurardiasemprestimo',
+    ]);
+    ?>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
 
-            <?=
-            Html::input('number', 'Config[valor]', '', ['min' => 1, 'class' => 'form-control',
-                'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
-            ?>
-            <span class="input-group-btn">
+                <?=
+                Html::input('number', 'Config[valor]', '', ['min' => 1, 'class' => 'form-control',
+                    'placeholder' => 'Digite o número de dias', 'id' => 'config-valor'])
+                ?>
+                <span class="input-group-btn">
                 <?=
                 Html::Button(Yii::t('app', 'Update'), ['class' => 'btn btn-primary',
                     'id' => 'btConfigurarDiasEmprestimo'])
                 ?>
             </span>
+            </div>
         </div>
     </div>
-</div>
 
 
-<?php
-Modal::end();
-?>
+    <?php
+    Modal::end();
+    ?>
 
-<!--   ---------------------------   END Configurar Dias Empréstimo  ---------------------------  -->
-<div id="mensagem-get-data-previsao"></div>
-<?php
-$items = [
-    [
-        'label' => '<i class="glyphicon glyphicon-user"></i> Dados do Usuário',
-        'content' => $tabBuscarUsuario . $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
-        'active' => true,
-        'options' => ['id' => 'tab-usuario']
-    ],
-    [
-        'label' => '<i class="glyphicon glyphicon-book"></i> Dados do Exemplar',
-        'content' => $tabBuscaExemplar . $tabExemplar,
-        'options' => ['id' => 'tab-exemplar']
-    ],
-    [
-        'label' => '<i class="glyphicon glyphicon-edit"></i> Dados do Empréstimo',
-        'content' => $tabAcervo . $tabEmprestimo,
-        'options' => ['id' => 'tab-emprestimo']
-    ],
-];
-// Above
-echo TabsX::widget([
-    'items' => $items,
-    'position' => TabsX::POS_ABOVE,
-    'encodeLabels' => false
-]);
-?>
+    <!--   ---------------------------   END Configurar Dias Empréstimo  ---------------------------  -->
+    <div id="mensagem-get-data-previsao"></div>
+    <?php
+    $items = [
+        [
+            'label' => '<i class="glyphicon glyphicon-user"></i> Dados do Usuário',
+            'content' => $tabBuscarUsuario . $tabUsuario . $tabSenhadoUsuario . $tabDadosusuario,
+            'active' => true,
+            'options' => ['id' => 'tab-usuario']
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> Dados do Exemplar',
+            'content' => $tabBuscaExemplar . $tabExemplar,
+            'options' => ['id' => 'tab-exemplar']
+        ],
+        [
+            'label' => '<i class="glyphicon glyphicon-edit"></i> Dados do Empréstimo',
+            'content' => $tabAcervo . $tabEmprestimo,
+            'options' => ['id' => 'tab-emprestimo']
+        ],
+    ];
+    // Above
+    echo TabsX::widget([
+        'items' => $items,
+        'position' => TabsX::POS_ABOVE,
+        'encodeLabels' => false
+    ]);
+    ?>
 
-<!--   Alterar Senha     -->
-<?php
-Modal::begin([
-    'header' => '<h2>Cadastrar Nova Senha</h2>',
-    'id' => 'modalalterarsenha',
-]);
-?>
-<div class="row">
-    <div class="col-lg-6">
+    <!--   Alterar Senha     -->
+    <?php
+    Modal::begin([
+        'header' => '<h2>Cadastrar Nova Senha</h2>',
+        'id' => 'modalalterarsenha',
+    ]);
+    ?>
+    <div class="row">
+        <div class="col-lg-6">
 
-        <div class="form-group">
-            <?= Html::label("Senha") ?>
-            <?=
-            Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
-                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
-            ?>
-        </div>   
-        <div class="form-group">
-              <?= Html::label("Confirmar Senha") ?>
-            <?=
-            Html::passwordInput('user-newpassword-confirm', '', ['maxlength' => true, 'class' => 'form-control',
-                'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword-confirm'])
-            ?> 
-        </div>
-        <div class="form-group">
-            
-<?= Html::Button(Yii::t('app', 'Alterar Senha'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
-            
+            <div class="form-group">
+                <?= Html::label("Senha") ?>
+                <?=
+                Html::passwordInput('user-password', '', ['maxlength' => true, 'class' => 'form-control',
+                    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword'])
+                ?>
+            </div>
+            <div class="form-group">
+                <?= Html::label("Confirmar Senha") ?>
+                <?=
+                Html::passwordInput('user-newpassword-confirm', '', ['maxlength' => true, 'class' => 'form-control',
+                    'placeholder' => 'Digite a nova senha', 'id' => 'user-newpassword-confirm'])
+                ?>
+            </div>
+            <div class="form-group">
+
+                <?= Html::Button(Yii::t('app', 'Alterar Senha'), ['class' => 'btn btn-primary', 'id' => 'btAlterarSenha']) ?>
+
+            </div>
         </div>
     </div>
-</div>
 
 
-<div id="mensagem-resetar-senha"></div>
+    <div id="mensagem-resetar-senha"></div>
 
-<?php
-Modal::end();
-?>
-<!--    Alterar Senha     -->
+    <?php
+    Modal::end();
+    ?>
+    <!--    Alterar Senha     -->
 
-<?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
-
-
-<?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
-
-<?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
-
-<?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
-
-<?= $form->field($model, 'acervo_exemplar_idacervo_exemplar')->hiddenInput()->label(false) ?>
+    <?= $form->field($usuario, 'user_id')->hiddenInput()->label(false) ?>
 
 
-<?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'usuario_idusuario')->hiddenInput()->label(false) ?>
+
+    <?= $form->field($model, 'usuario_rg')->hiddenInput(['id' => 'rgusuario'])->label(false) ?>
+
+    <?= $form->field($model, 'usuario_nome')->hiddenInput(['id' => 'nomeusuario'])->label(false) ?>
+
+
+    <?= $form->field($model, 'dataprevisaodevolucao')->hiddenInput()->label(false) ?>
 </div>
 
 <div class="form-group">
@@ -495,8 +522,8 @@ Modal::end();
 </div>
 
 <?php ActiveForm::end(); ?>
- <div id="mensagem-senha-errada"></div>
-  <div id="mensagem-indisponivel-exemplar"> </div>
+<div id="mensagem-senha-errada"></div>
+<div id="mensagem-indisponivel-exemplar"></div>
 <?php
 $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
@@ -505,51 +532,51 @@ $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['de
 <script type="application/javascript">
     function actionSelecionarUsuario(rg) {
 
-    $('#emprestimo-usuario_rg').val(rg);
-    $.get('get-usuario', {rg: rg}, function (data) {
+        $('#emprestimo-usuario_rg').val(rg);
+        $.get('get-usuario', {rg: rg}, function (data) {
 
-    var usuario = $.parseJSON(data);
-    $('#usuario-rg').val(usuario.rg);
-    $('#rgusuario').val(usuario.rg);
-    $('#emprestimo-usuario_nome').val(usuario.nome);
-    $('#nomeusuario').val(usuario.nome);
-    $('#usuario-cpf').val(usuario.cpf);
-    $('#usuario-cargo').val(usuario.cargo);
-    $('#usuario-reparticao').val(usuario.reparticao);
-    $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
-    $('#usuario_idusuario').val(usuario.idusuario);
-    $('#usuario-user_id').val(usuario.user_id);
-    $('#foto-usuario').attr("src", usuario.foto);
-    $('#w14 li:eq(0)').removeClass();
-    $('#w13 li:eq(0)').addClass("active");
-    $("#w13-dd3-tab0").removeClass();
-    $("#w13-dd3-tab0").addClass("tab-pane fade");
-    $("#tab-usuario").addClass("tab-pane fade in active");
-    $("#result-mensagem-busca-usuario").hide();
-    $("#tableresult").hide();
-     $("#emprestimo-usuario_rg").focus();
-    });
+            var usuario = $.parseJSON(data);
+            $('#usuario-rg').val(usuario.rg);
+            $('#rgusuario').val(usuario.rg);
+            $('#emprestimo-usuario_nome').val(usuario.nome);
+            $('#nomeusuario').val(usuario.nome);
+            $('#usuario-cpf').val(usuario.cpf);
+            $('#usuario-cargo').val(usuario.cargo);
+            $('#usuario-reparticao').val(usuario.reparticao);
+            $('#emprestimo-usuario_idusuario').val(usuario.idusuario);
+            $('#usuario_idusuario').val(usuario.idusuario);
+            $('#usuario-user_id').val(usuario.user_id);
+            $('#foto-usuario').attr("src", usuario.foto);
+            $('#w14 li:eq(0)').removeClass();
+            $('#w13 li:eq(0)').addClass("active");
+            $("#w13-dd3-tab0").removeClass();
+            $("#w13-dd3-tab0").addClass("tab-pane fade");
+            $("#tab-usuario").addClass("tab-pane fade in active");
+            $("#result-mensagem-busca-usuario").hide();
+            $("#tableresult").hide();
+            $("#emprestimo-usuario_rg").focus();
+        });
 
     }
 
     function actionSelecionarExemplar(codigoExemplar) {
 
-    $('#acervoexemplar-codigo_livro').val(codigoExemplar);
-    $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
+        $('#acervoexemplar-codigo_livro').val(codigoExemplar);
+        $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
 
-    var exemplar = $.parseJSON(data);
-    console.log(exemplar);
-    $('#acervoexemplar-codigo_livro').val(codigoExemplar);
-    $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(exemplar[0].idacervo_exemplar);
-    $('#acervo-titulo').val(exemplar[1].titulo);
-    $('#acervo-autor').val(exemplar[1].autor);
-    $('#w14 li:eq(1)').removeClass();
-    $('#w13 li:eq(1)').addClass("active");
-    $("#w13-dd3-tab1").removeClass();
-    $("#w13-dd3-tab1").addClass("tab-pane fade");
-    $("#tab-exemplar").addClass("tab-pane fade in active");
-      $('#acervoexemplar-codigo_livro').focus();
-    });
+            var exemplar = $.parseJSON(data);
+            console.log(exemplar);
+            $('#acervoexemplar-codigo_livro').val(codigoExemplar);
+            //$('#emprestimo-acervo_exemplar_idacervo_exemplar').val(exemplar[0].idacervo_exemplar);
+            $('#acervo-titulo').val(exemplar[1].titulo);
+            $('#acervo-autor').val(exemplar[1].autor);
+            $('#w14 li:eq(1)').removeClass();
+            $('#w13 li:eq(1)').addClass("active");
+            $("#w13-dd3-tab1").removeClass();
+            $("#w13-dd3-tab1").addClass("tab-pane fade");
+            $("#tab-exemplar").addClass("tab-pane fade in active");
+            $('#acervoexemplar-codigo_livro').focus();
+        });
 
     }
 

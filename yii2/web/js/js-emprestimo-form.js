@@ -600,3 +600,13 @@ function validarSenha(user_id, senha) {
         $('#btSave').prop('disabled', true);
     });
 }
+
+var inputCodigoExemplar = '<div class="form-group field-inputCodigoExemplar required">'+
+'<label class="control-label" for="inputCodigoExemplar">Código Exemplar</label>'+
+'<input type="text" id="inputCodigoExemplar" class="form-control" name="AcervoExemplar[codigo_livro][]" placeholder="Digite o código do exemplar">'+
+    '<div class="help-block"></div></div>';
+
+function adicionarInputCodigoExemplar() {
+        console.log('this');
+    $("#acervoexemplar-codigo_livro").parent().parent().append(inputCodigoExemplar);
+}

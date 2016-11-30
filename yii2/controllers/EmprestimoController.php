@@ -6,6 +6,7 @@ use amnah\yii2\user\models\User;
 use app\models\Acervo;
 use app\models\AcervoExemplar;
 use app\models\AcervoExemplarSearch;
+use app\models\EmprestimoHasAcervoExemplar;
 use app\models\Usuario;
 use app\models\UsuarioSearch;
 use Yii;
@@ -99,10 +100,16 @@ class EmprestimoController extends Controller
     public function actionCreate()
     {
         $model = new Emprestimo();
+
         $usuario = new Usuario();
+
         $acervo = new Acervo();
+
         $exemplar = new AcervoExemplar();
+
         $user = new User();
+
+        $mensagem = "";
 
         $situacoesusuario = \yii\helpers\ArrayHelper::map(
             \app\models\SituacaoUsuario::find()->all(), 'idsituacao_usuario', 'situacao');
@@ -115,13 +122,60 @@ class EmprestimoController extends Controller
 
         //Definindo a data de Empréstimo
         date_default_timezone_set('America/Sao_Paulo');
+
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
+        /*if ($model->load(Yii::$app->request->post())){
+            var_dump(Yii::$app->request->post());
+        }*/
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $exemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
-            $exemplar->esta_disponivel = 0;
-            $exemplar->save();
-            return $this->redirect(['view', 'id' => $model->idemprestimo]);
+
+            //Inicia a transação:
+            $transaction = \Yii::$app->db->beginTransaction();
+            try {
+
+                $itensSalvos = true;
+
+                $codigosExemplares = Yii::$app->request->post()['AcervoExemplar']['codigo_livro'];
+
+                foreach ($codigosExemplares as $codExem) {
+
+                    $modelEmprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                    $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codExem])->one();
+
+
+                    if ($exemplar != null) {
+
+                        $exemplar->esta_disponivel = 0;
+
+                        $modelEmprestimoHasAcervoExemplar->emprestimo_idemprestimo = $model->idemprestimo;
+
+                        $modelEmprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar = $exemplar->idacervo_exemplar;
+
+                        if (!($exemplar->save()) || !($modelEmprestimoHasAcervoExemplar->save())) {
+                            $itensSalvos = false;
+                            break;
+                        }
+                    } else {
+                        $itensSalvos = false;
+                        break;
+                    }
+                }
+
+
+                if ($itensSalvos) {
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
+                }
+
+
+            } catch (\Exception $exception) {
+                $transaction->rollBack();
+                $mensagem = "Ocorreu uma falha inesperada ao tentar salvar o Empréstimo";
+            }
+
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -132,6 +186,7 @@ class EmprestimoController extends Controller
                 'profile' => $profile,
                 'role' => $role,
                 'situacoesusuario' => $situacoesusuario,
+                'mensagem' => $mensagem,
             ]);
         }
     }
@@ -173,22 +228,54 @@ class EmprestimoController extends Controller
 
         $mensagemSucesso = "Exemplar devolvido com sucesso";
 
-        $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
 
         if ((Yii::$app->request->post())) {
             $model->datadevolucao = date('Y-m-d H:i:s');
 
-            if ($model->save()) {
-                $acervoExemplar->esta_disponivel = 1;
+            $acervoExemplares = EmprestimoHasAcervoExemplar::find()->
+            where(['emprestimo_idemprestimo' => $id])->all();
 
-                $acervoExemplar->save();
+            //Inicia a transação:
+            $transaction = \Yii::$app->db->beginTransaction();
+            try {
 
-                Yii::$app->session->setFlash('mensagemSucesso',$mensagemSucesso);
+                $itensSalvos = true;
+
+                if ($model->save()) {
+
+                    foreach ($acervoExemplares as $exemplar) {
+                        $exemplar = AcervoExemplar::findOne($exemplar['acervo_exemplar_idacervo_exemplar']);
+
+                        $exemplar->esta_disponivel = 1;
+
+                        if (!($exemplar->save())) {
+                            $itensSalvos = false;
+                            break;
+                        }
+                    }
+
+
+                }
+
+                if ($itensSalvos) {
+                    $transaction->commit();
+
+                    Yii::$app->session->setFlash('mensagemSucesso', $mensagemSucesso);
+
+                    return $this->redirect(['view', 'id' => $id]);
+                }
+
+
+            } catch (\Exception $exception) {
+                $transaction->rollBack();
+                $mensagem = "Ocorreu uma falha inesperada ao tentar salvar o Empréstimo";
+
+                Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
 
                 return $this->redirect(['view', 'id' => $id]);
             }
 
-            return $this->redirect(['view', 'id' => $id]);
+
         } else {
             return $this->redirect(['index']);
         }

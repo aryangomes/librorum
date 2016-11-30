@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if (Yii::$app->session->has('mensagemSucesso')) {
         ?>
-        <div class="alert alert-success">
+        <div class="alert alert-info">
             <?= Yii::$app->session->getFlash('mensagemSucesso') ?>
         </div>
         <?php
@@ -149,8 +149,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'usuario_nome',
             'usuario_rg',
-            'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
-            'acervoExemplarIdacervoExemplar.codigo_livro',
+          /*  'acervoExemplarIdacervoExemplar.acervoIdacervo.titulo',
+            'acervoExemplarIdacervoExemplar.codigo_livro',*/
         ],
     ])
     ?>

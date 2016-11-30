@@ -14,7 +14,6 @@ use Yii;
  * @property integer $usuario_idusuario
  * @property string $usuario_nome
  * @property string $usuario_rg
- * @property integer $acervo_exemplar_idacervo_exemplar
  *
  * @property AcervoExemplar $acervoExemplarIdacervoExemplar
  * @property Usuario $usuarioIdusuario
@@ -36,8 +35,8 @@ class Emprestimo extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao'], 'safe'],
-            [['dataprevisaodevolucao', 'usuario_idusuario', 'usuario_nome', 'usuario_rg', 'acervo_exemplar_idacervo_exemplar'], 'required'],
-            [['usuario_idusuario', 'acervo_exemplar_idacervo_exemplar'], 'integer'],
+            [['dataprevisaodevolucao', 'usuario_idusuario', 'usuario_nome', 'usuario_rg'], 'required'],
+            [['usuario_idusuario'], 'integer'],
             [['usuario_nome'], 'string', 'max' => 55],
             [['usuario_rg'], 'string', 'max' => 12]
         ];
@@ -51,7 +50,7 @@ class Emprestimo extends \yii\db\ActiveRecord {
             'idemprestimo' => Yii::t('app', 'Código do Empréstimo'),
             'usuario_nome' => Yii::t('app', 'Nome do Usuário'),
             'usuario_rg' => Yii::t('app', 'Rg do Usuário'),
-            'acervo_exemplar_idacervo_exemplar' => Yii::t('app', 'Acervo Exemplar Idacervo Exemplar'),
+
             'usuario_idusuario' => Yii::t('app', 'Usuário'),
             'dataemprestimo' => Yii::t('app', 'Data do Empréstimo'),
             'dataprevisaodevolucao' => Yii::t('app', 'Data de previsão da devolução'),
@@ -59,12 +58,7 @@ class Emprestimo extends \yii\db\ActiveRecord {
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAcervoExemplarIdacervoExemplar() {
-        return $this->hasOne(AcervoExemplar::className(), ['idacervo_exemplar' => 'acervo_exemplar_idacervo_exemplar']);
-    }
+
 
     /**
      * @return \yii\db\ActiveQuery

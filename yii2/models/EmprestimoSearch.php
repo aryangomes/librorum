@@ -17,7 +17,7 @@ class EmprestimoSearch extends Emprestimo {
      */
     public function rules() {
         return [
-            [['idemprestimo', 'usuario_idusuario', 'acervo_exemplar_idacervo_exemplar'], 'integer'],
+            [['idemprestimo', 'usuario_idusuario'], 'integer'],
             [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao', 'usuario_nome', 'usuario_rg', 'diasDiferenca'], 'safe'],
         ];
     }
@@ -62,7 +62,7 @@ class EmprestimoSearch extends Emprestimo {
             'dataprevisaodevolucao' => $this->dataprevisaodevolucao,
             'datadevolucao' => $this->datadevolucao,
             'usuario_idusuario' => $this->usuario_idusuario,
-            'acervo_exemplar_idacervo_exemplar' => $this->acervo_exemplar_idacervo_exemplar,
+
         ]);
 
         $query->andFilterWhere(['like', 'usuario_nome', $this->usuario_nome])
