@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\AccessFilter;
 use Yii;
 use app\models\Relatorio;
 use app\models\RelatorioSearch;
@@ -24,6 +25,21 @@ class RelatorioController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+
+            'autorizacao' => [
+                'class' => AccessFilter::className(),
+                'actions' => [
+
+                    'index' => 'relatorio',
+                    'update' => 'relatorio',
+                    'delete' => 'relatorio',
+                    'create' => 'relatorio',
+                    'view' => 'relatorio',
+                   'gerar-relatorio-emprestimos'=> 'relatorio',
+                   'gerar-relatorio-evolucoes'=> 'relatorio',
+
                 ],
             ],
         ];

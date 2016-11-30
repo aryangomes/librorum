@@ -14,11 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="config-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
-    <p>
-<?= Html::a( Yii::t('app', 'Create {model}',['model'=>Yii::t('app', 'Config')]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <div class="table-responsive">
         <?php Pjax::begin(); ?>    <?=
         GridView::widget([
@@ -28,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
                 'chave',
                 'valor',
+                'descricao',
                 ['class' => 'yii\grid\ActionColumn'],
             ],
         ]);

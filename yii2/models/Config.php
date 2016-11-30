@@ -9,16 +9,18 @@ use Yii;
  *
  * @property string $chave
  * @property string $valor
+ *  * @property string $descricao
  *  * @property array $configuracoes
  */
 class Config extends \yii\db\ActiveRecord
 {
-    
-     private $configuracoes =[
-         'dias_emprestimo'=>'Dias de Empréstimo',
-            'nome_biblioteca'=>'Nome da Biblioteca'
-     ];
-    
+
+    private $configuracoes =[
+        'dias_emprestimo'=>'Dias de Empréstimo',
+        'nome_biblioteca'=>'Nome da Biblioteca',
+        'max_qtd_exemplar_emprestimo'=>'Máximo de Exemplares Emprestados por Empréstimo',
+    ];
+
     /**
      * @inheritdoc
      */
@@ -26,7 +28,7 @@ class Config extends \yii\db\ActiveRecord
     {
         return 'config';
     }
-    
+
     /**
      * Retorna uma instância única de uma classe.
      *
@@ -54,6 +56,7 @@ class Config extends \yii\db\ActiveRecord
             [['chave', 'valor'], 'required'],
             [['chave'], 'string', 'max' => 45],
             [['valor'], 'string', 'max' => 255],
+            [['descricao'], 'string',],
             [['chave'], 'unique'],
         ];
     }
@@ -66,9 +69,10 @@ class Config extends \yii\db\ActiveRecord
         return [
             'chave' => Yii::t('app', 'Nome da Configuração'),
             'valor' => Yii::t('app', 'Valor'),
+            'descricao' => Yii::t('app', 'Descrição'),
         ];
     }
-    
+
     public function getConfiguracoes() {
         return $this->configuracoes;
     }

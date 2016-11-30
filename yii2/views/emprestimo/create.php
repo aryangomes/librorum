@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'profile' => $profile,
         'role' => $role,
          'situacoesusuario' => $situacoesusuario,
+        'maxQtdExemplarEmprestimo'=> $maxQtdExemplarEmprestimo,
     ])
     ?>
 

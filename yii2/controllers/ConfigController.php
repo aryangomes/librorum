@@ -68,7 +68,7 @@ class ConfigController extends Controller {
      * Creates a new Config model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
-     */
+
     public function actionCreate() {
         $model = new Config();
         $configuracoes = Config::getInstance()->getConfiguracoes();
@@ -80,7 +80,7 @@ class ConfigController extends Controller {
                         'configuracoes' => $configuracoes,
             ]);
         }
-    }
+    }*/
 
     /**
      * Updates an existing Config model.

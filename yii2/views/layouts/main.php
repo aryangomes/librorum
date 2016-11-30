@@ -130,6 +130,11 @@ AppAsset::register($this);
                                     <a href="<?= Url::toRoute('/config') ?>"><i class="glyphicon glyphicon-cog"></i> Configurações</a>
 
                                 </li>
+
+                                <li>
+                                    <a href="<?= Url::toRoute('/relatorio') ?>"><i class="glyphicon glyphicon-list-alt"></i> Relatórios</a>
+
+                                </li>
                             <?php } ?>
                             <li>
                                 <a href="<?= Url::toRoute('/site/about') ?>"><i class="fa fa-info-circle fa-fw"></i> Sobre</a>

@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap\Modal;
@@ -14,7 +13,15 @@ use yii\widgets\MaskedInput;
 
 <div class="emprestimos-form">
 
+    <script type="text/javascript">
+
+        var maxQtdExemplarEmprestimo = <?= $maxQtdExemplarEmprestimo ?>;
+
+    </script>
+
     <?php
+
+
     if (isset($mensagem) && !empty($mensagem)) {
 
     ?>

@@ -109,6 +109,8 @@ class EmprestimoController extends Controller
 
         $user = new User();
 
+        $maxQtdExemplarEmprestimo =  \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
+
         $mensagem = "";
 
         $situacoesusuario = \yii\helpers\ArrayHelper::map(
@@ -187,6 +189,7 @@ class EmprestimoController extends Controller
                 'role' => $role,
                 'situacoesusuario' => $situacoesusuario,
                 'mensagem' => $mensagem,
+                'maxQtdExemplarEmprestimo'=> $maxQtdExemplarEmprestimo,
             ]);
         }
     }
