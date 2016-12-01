@@ -322,6 +322,12 @@ use yii\widgets\MaskedInput;
                 <input type="button"  class="btn btn-success" 
                 onclick="adicionarInputCodigoExemplar()" value="Adicionar mais um campo de Código Exemplar">
                 </div>
+                
+                 <div class="form-group ">
+              
+                <input type="button" id="btRemoverInputCodigoExemplar"  class="btn btn-danger" 
+                onclick="removerInputCodigoExemplar()" value="Remover um campo de Código Exemplar">
+                </div>
                 '
                         ],
                     ]

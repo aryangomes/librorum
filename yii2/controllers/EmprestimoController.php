@@ -109,7 +109,7 @@ class EmprestimoController extends Controller
 
         $user = new User();
 
-        $maxQtdExemplarEmprestimo =  \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
+        $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
 
         $mensagem = "";
 
@@ -189,7 +189,7 @@ class EmprestimoController extends Controller
                 'role' => $role,
                 'situacoesusuario' => $situacoesusuario,
                 'mensagem' => $mensagem,
-                'maxQtdExemplarEmprestimo'=> $maxQtdExemplarEmprestimo,
+                'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,
             ]);
         }
     }
@@ -293,11 +293,46 @@ class EmprestimoController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $acervoExemplar = AcervoExemplar::findOne($model->acervo_exemplar_idacervo_exemplar);
-        $acervoExemplar->esta_disponivel = 1;
-        if ($acervoExemplar->save()) {
-            $model->delete();
+
+        //Inicia a transação:
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+
+            $exemplaresEmprestimo = EmprestimoHasAcervoExemplar::find()
+                ->where(['emprestimo_idemprestimo'=>$id])
+                ->all();
+
+            $itensDeletados = true;
+
+            foreach ($exemplaresEmprestimo as $exemplar) {
+
+                $exemplar = AcervoExemplar::findOne($exemplar["acervo_exemplar_idacervo_exemplar"]);
+
+                if ($exemplar != null) {
+
+                    $exemplar->esta_disponivel = 1;
+
+                    if (!($exemplar->save())) {
+                        $itensDeletados = false;
+                        break;
+                    }
+                } else {
+                    $itensDeletados = false;
+                    break;
+                }
+
+            }
+
+            if ($itensDeletados && $model->delete()) {
+                $transaction->commit();
+                return $this->redirect(['index']);
+            }
+
+        } catch (\Exception $exception) {
+            $transaction->rollBack();
+            $mensagem = "Ocorreu uma falha inesperada ao tentar salvar o Empréstimo";
         }
+
         return $this->redirect(['index']);
     }
 

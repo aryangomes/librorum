@@ -9,11 +9,15 @@ $('#tableresult').hide();
 
 $('#tableresult-exemplar').hide();
 
+$('#btRemoverInputCodigoExemplar').hide();
+
 $('#form-exemplar').hide();
 
 $('#form-emprestimo').hide();
 
 $('#btSave').prop('disabled', true);
+
+
 
 var senhaValidada = false;
 
@@ -72,7 +76,8 @@ um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
 });
 
 var exemplarDisponivel = false;
-$('#acervoexemplar-codigo_livro').blur(function () {
+
+/*$('#acervoexemplar-codigo_livro').blur(function () {
     var codigoExemplar = $(this).val();
     if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
 
@@ -137,7 +142,7 @@ $('#acervoexemplar-codigo_livro').blur(function () {
     } else {
         $('#btSave').prop('disabled', true);
     }
-});
+});*/
 
 
 var previsaoDevolucao = function () {
@@ -541,8 +546,84 @@ $('#confirmar-usuario').click(function () {
 
 $('#confirmar-exemplar').click(function () {
 
+    // var codigoExemplar = $('#acervoexemplar-codigo_livro').val();
 
-    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+    var codigoExemplares = [];
+    $("input[name='AcervoExemplar[codigo_livro][]']").each(function() {
+       codigoExemplares.push($(this).val());
+    });
+
+
+    $.each(codigoExemplares, function(index,codigoExemplar) {
+
+
+
+    if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
+
+
+        $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
+
+
+            var data = $.parseJSON((data));
+            console.log('exemplar.: ' + data);
+            if (data != null) {
+                $("#mensagem-get-acervo-exemplar").hide();
+                $('#acervo-titulo').val(data[1].titulo);
+                $('#acervo-autor').val(data[1].autor);
+                $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
+                if (!(data[0].esta_disponivel)) {
+                    exemplarDisponivel = false;
+                    $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
+                        "<strong>Alerta!</strong> Exemplar indisponível no momento." +
+                        "</div>");
+                    $('button[type="submit"]').prop('disabled', true);
+                    $('#form-exemplar').show();
+                    $('#form-emprestimo').hide();
+                    $('#btSave').prop('disabled', true);
+
+                } else {
+                    exemplarDisponivel = true;
+                    $("#mensagem-indisponivel-exemplar").html("");
+                    if ($('#emprestimo-usuario_rg').val().length > 0 &&
+                        $('#user-password').val().length > 0) {
+
+                        $('#btSave').prop('disabled', false);
+                        $('button[type="submit"]').prop('disabled', false);
+                    } else {
+                        console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
+
+                        $('#btSave').prop('disabled', true);
+                        $('button[type="submit"]').prop('disabled', true);
+                    }
+                    $('#form-exemplar').hide();
+                    $('#form-emprestimo').show();
+
+
+                    $('#w13 li:eq(1)').removeClass();
+                    $('#w13 li:eq(2)').addClass("active");
+                    $("#tab-exemplar").removeClass();
+                    $("#tab-exemplar").addClass("tab-pane fade");
+                    $("#tab-emprestimo").addClass("tab-pane fade in active");
+                    previsaoDevolucao();
+
+                }
+
+            } else {
+
+                $("#mensagem-get-acervo-exemplar").html("<div class=\"alert alert-danger\" role=\"alert\">" +
+                    "<strong>Alerta!</strong> Exemplar não encontrado." +
+                    "</div>");
+                $("#mensagem-get-acervo-exemplar").show();
+                $('#btSave').prop('disabled', true);
+            }
+
+        });
+    } else {
+        $('#btSave').prop('disabled', true);
+    }
+    });
+
+   /* if ($('#emprestimo-usuario_rg').val().length > 0 &&
             $('#user-password').val().length > 0 &&
             $('#acervoexemplar-codigo_livro').val().length > 0 &&
             senhaValidada && exemplarDisponivel) {
@@ -573,7 +654,7 @@ $('#confirmar-exemplar').click(function () {
 
         $('#btSave').prop('disabled', true);
         $('button[type="submit"]').prop('disabled', true);
-    }
+    }*/
 
 });
 
@@ -615,11 +696,22 @@ var inputCodigoExemplar = '<div class="form-group field-inputCodigoExemplar requ
     '<div class="help-block"></div></div>';
 
 function adicionarInputCodigoExemplar() {
+
+
        if(qtdExemplarEmprestimo < maxQtdExemplarEmprestimo){
            $("#acervoexemplar-codigo_livro").parent().parent().append(inputCodigoExemplar);
             qtdExemplarEmprestimo++;
+           $('#btRemoverInputCodigoExemplar').show();
        }else{
            alert('A quantidade máxima de exemplares por empréstimo chegou ao máximo');
        }
     console.log(qtdExemplarEmprestimo);
+}
+
+function removerInputCodigoExemplar() {
+
+    if(qtdExemplarEmprestimo > 1) {
+        $("input[name='AcervoExemplar[codigo_livro][]']").last().parent().remove();
+        qtdExemplarEmprestimo--;
+    }
 }

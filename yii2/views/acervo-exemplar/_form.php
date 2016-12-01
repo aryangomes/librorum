@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'acervo_idacervo')->textInput([
         'value'=>  isset($model->acervo_idacervo) ? $model->acervoIdacervo->titulo:
-        ''
+        '', 'disabled'=>true,
     ]) ?>
 
     <?= $form->field($model, 'codigo_livro')->textInput(['maxlength' => true]) ?>
