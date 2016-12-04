@@ -111,4 +111,22 @@ class UsuarioSearch extends Usuario
         return null;
     }
 
+
+    public function searchQtdExemplaresEmprestados($idUsuario)
+    {
+//        $query = Usuario::find()->where(['like','nome',$nomeUsuario])->all();
+
+        $query = Usuario::find()
+            ->joinWith('emprestimos')
+            ->joinWith('emprestimos.acervoExemplarIdacervoExemplars')
+            ->where(['usuario_idusuario' => $idUsuario, 'datadevolucao' => null])
+            ->count();
+
+
+        if($query != null){
+            return $query;
+        }
+        return null;
+    }
+
 }

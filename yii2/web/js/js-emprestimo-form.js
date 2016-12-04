@@ -58,6 +58,11 @@ $('#emprestimo-usuario_rg').blur(function () {
                         $('#result-get-usuario').html('Usuário não tem permissão para realizar empréstimo');
 
                         $('#result-get-usuario').show();
+                    }else if(resultado == "\"maxQtdExemplarEmprestimo\""){
+                        $('#user-password').prop('disabled', true);
+                        $('#result-get-usuario').attr('class', 'alert alert-danger');
+                        $('#result-get-usuario').html('Usuário atingiu o limite máximo de exemplares emprestados');
+                        $('#result-get-usuario').show();
                     } else {
                         $('#user-password').prop('disabled', false);
                         $('#result-get-usuario').hide();

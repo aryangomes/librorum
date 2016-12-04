@@ -362,8 +362,7 @@ class EmprestimoController extends Controller
         $modelSearch = new UsuarioSearch();
         $usuario = $modelSearch->searchUsuario($rg);
 
-        /*   var_dump(User::findIdentity($usuario->user_id)->validatePassword($password));
-          var_dump(User::findIdentity($usuario->user_id)->password); */
+
         echo Json::encode($usuario);
     }
 
@@ -480,12 +479,25 @@ class EmprestimoController extends Controller
     public function actionVerificaPodeEmprestar($idusuario)
     {
         $usuario = Usuario::findOne($idusuario);
+
+
         if ($usuario != null) {
             $pode_emprestar = $usuario->verificarPodeEmprestar();
 
             if ($pode_emprestar) {
+                $searchUsuario = new UsuarioSearch();
 
-                echo Json::encode(true);
+                $qtdExemplaresEmprestados = $searchUsuario->searchQtdExemplaresEmprestados($idusuario);
+
+                $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
+
+                if($qtdExemplaresEmprestados < $maxQtdExemplarEmprestimo){
+
+                    echo Json::encode(true);
+                }else{
+                    echo Json::encode('maxQtdExemplarEmprestimo');
+                }
+
             } else {
                 echo Json::encode(false);
             }
