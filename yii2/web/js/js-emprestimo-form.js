@@ -553,10 +553,35 @@ $('#confirmar-exemplar').click(function () {
        codigoExemplares.push($(this).val());
     });
 
+    // console.log('nu->: '+$("input[name='Acervo[titulo]']").length);
+
+
 
     $.each(codigoExemplares, function(index,codigoExemplar) {
+        console.log('s '+(index+1));
+/*
+ var codigoExemplares = [];
 
+ $("input[name='AcervoExemplar[codigo_livro][]']").each(function() {
+ codigoExemplares.push($(this).val());
+ });
 
+ console.log($("input[name='Acervo[titulo]']").length);
+
+ $.each(codigoExemplares, function(index,codigoExemplar) {
+
+ });
+
+ var codigoExemplar = $("input[name='AcervoExemplar[codigo_livro][]'").val();
+
+ if(codigoExemplar != '' && codigoExemplar.length > 0){
+ $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
+ $('#w10 .row > #acervo-titulo').last().val(data[1].titulo);
+ $('#w10 .row > #acervo-autor').last().val(data[1].autor);
+ console.log('add-> '+data);
+ });
+ }
+ */
 
     if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
 
@@ -568,8 +593,8 @@ $('#confirmar-exemplar').click(function () {
             console.log('exemplar.: ' + data);
             if (data != null) {
                 $("#mensagem-get-acervo-exemplar").hide();
-                $('#acervo-titulo').val(data[1].titulo);
-                $('#acervo-autor').val(data[1].autor);
+                $("input[name='Acervo[titulo]']:eq("+(index)+")").val(data[1].titulo);
+                $("input[name='Acervo[autor]']:eq("+(index)+")").val(data[1].autor);
                 $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
                 if (!(data[0].esta_disponivel)) {
                     exemplarDisponivel = false;
@@ -700,7 +725,12 @@ function adicionarInputCodigoExemplar() {
 
        if(qtdExemplarEmprestimo < maxQtdExemplarEmprestimo){
            $("#acervoexemplar-codigo_livro").parent().parent().append(inputCodigoExemplar);
+
+           $("#w10").append($("#w10 .row").last().clone());
+
+
             qtdExemplarEmprestimo++;
+
            $('#btRemoverInputCodigoExemplar').show();
        }else{
            alert('A quantidade máxima de exemplares por empréstimo chegou ao máximo');
@@ -712,6 +742,8 @@ function removerInputCodigoExemplar() {
 
     if(qtdExemplarEmprestimo > 1) {
         $("input[name='AcervoExemplar[codigo_livro][]']").last().parent().remove();
+        $("#w10 .row").last().remove();
+        // $("input[name='Acervo[autor]']").last().parent().remove();
         qtdExemplarEmprestimo--;
     }
 }

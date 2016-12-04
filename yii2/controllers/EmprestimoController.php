@@ -525,7 +525,8 @@ class EmprestimoController extends Controller
                 $emprestimos[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
             }
             foreach ($emprestimos as $e) {
-                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+
+                array_push($emprestimoExemplares, $e['emprestimoHasAcervoExemplars'][0]['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
             }
             foreach ($emprestimos as $e) {
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);
@@ -553,7 +554,8 @@ class EmprestimoController extends Controller
                 $emprestimo[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
             }
             foreach ($emprestimo as $e) {
-                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+
+                array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplars'][0]['acervoIdacervo']);
             }
             foreach ($emprestimo as $e) {
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);

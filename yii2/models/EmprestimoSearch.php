@@ -72,13 +72,17 @@ class EmprestimoSearch extends Emprestimo {
     }
 
     public function searchEmprestimoByRg($rg) {
-        $idUsuario = Usuario::find()->where(['rg' => $rg])->one();
-        if ($idUsuario != null) {
-            $idUsuario = $idUsuario->idusuario;
+
+        $usuario = Usuario::find()->where(['rg' => $rg])->one();
+
+        if ($usuario != null) {
+
+            $idUsuario = $usuario->idusuario;
+
             $query = Emprestimo::find()
                     ->joinWith('usuarioIdusuario')
-                    ->joinWith('acervoExemplarIdacervoExemplar')
-                    ->joinWith('acervoExemplarIdacervoExemplar.acervoIdacervo')
+                    ->joinWith('emprestimoHasAcervoExemplars')
+                    ->joinWith('emprestimoHasAcervoExemplars.acervoExemplarIdacervoExemplar')
                     ->where(['usuario_idusuario' => $idUsuario, 'datadevolucao' => null])
                     ->all();
 
@@ -94,13 +98,15 @@ class EmprestimoSearch extends Emprestimo {
     }
 
     public function searchEmprestimoByCodigoExemplar($codigoExemplar) {
+
         $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codigoExemplar])->one();
+
         if ($exemplar != null) {
 
             $query = Emprestimo::find()
                     ->joinWith('usuarioIdusuario')
-                    ->joinWith('acervoExemplarIdacervoExemplar')
-                    ->joinWith('acervoExemplarIdacervoExemplar.acervoIdacervo')
+                    ->joinWith('acervoExemplarIdacervoExemplars')
+                    ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
                     ->where(['acervo_exemplar_idacervo_exemplar' =>
                         $exemplar->idacervo_exemplar,
                         'datadevolucao' => null])
@@ -123,8 +129,8 @@ class EmprestimoSearch extends Emprestimo {
 
             $query = Emprestimo::find()
                     ->joinWith('usuarioIdusuario')
-                    ->joinWith('acervoExemplarIdacervoExemplar')
-                    ->joinWith('acervoExemplarIdacervoExemplar.acervoIdacervo')
+                    ->joinWith('acervoExemplarIdacervoExemplars')
+                    ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
                     ->where(['idemprestimo' => $idEmprestimo])
                     ->one();
 
