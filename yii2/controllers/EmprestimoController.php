@@ -13,6 +13,7 @@ use Yii;
 use app\models\Emprestimo;
 use app\models\EmprestimoSearch;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -111,15 +112,27 @@ class EmprestimoController extends Controller
 
         $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
 
-        $mensagem = "";
+        if(Yii::$app->session->hasFlash('mensagemSucesso')){
+
+            $mensagem = Yii::$app->session->getFlash('mensagemSucesso');
+
+        }else{
+
+            $mensagem = "";
+        }
+
 
         $situacoesusuario = \yii\helpers\ArrayHelper::map(
             \app\models\SituacaoUsuario::find()->all(), 'idsituacao_usuario', 'situacao');
 
         $user->setScenario("admin");
+
         $profile = new \amnah\yii2\user\models\Profile();
+
         $user->role_id = 2;
+
         $user->status = 1;
+
         $role = new \amnah\yii2\user\models\Role();
 
         //Definindo a data de Empréstimo
@@ -127,9 +140,6 @@ class EmprestimoController extends Controller
 
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
-        /*if ($model->load(Yii::$app->request->post())){
-            var_dump(Yii::$app->request->post());
-        }*/
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             //Inicia a transação:
@@ -168,7 +178,14 @@ class EmprestimoController extends Controller
 
                 if ($itensSalvos) {
                     $transaction->commit();
-                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
+
+                    $mensagem = "Empréstimo cadastrado com sucesso. 
+                    <a href='".Url::to(['view','id'=>$model->idemprestimo])."' target='_blank'>Clique aqui para acessá-lo!</a>";
+
+                    Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
+
+                    return $this->redirect(['create']);
+//                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
                 }
 
 
@@ -203,10 +220,14 @@ class EmprestimoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         $usuario = Usuario::findOne([$model->usuario_idusuario, $model->usuario_rg, $model->usuario_nome]);
+
         $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
+
         $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
         $user = User::findIdentity($usuario->user_id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idemprestimo]);
         } else {
@@ -257,13 +278,10 @@ class EmprestimoController extends Controller
                         }
                     }
 
-
                 }
 
                 if ($itensSalvos) {
                     $transaction->commit();
-
-                    Yii::$app->session->setFlash('mensagemSucesso', $mensagemSucesso);
 
                     return $this->redirect(['view', 'id' => $id]);
                 }
@@ -273,7 +291,6 @@ class EmprestimoController extends Controller
                 $transaction->rollBack();
                 $mensagem = "Ocorreu uma falha inesperada ao tentar salvar o Empréstimo";
 
-                Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
 
                 return $this->redirect(['view', 'id' => $id]);
             }
@@ -384,13 +401,17 @@ class EmprestimoController extends Controller
     public function actionGetBuscaUsuario($nomeUsuario)
     {
         $modelSearch = new UsuarioSearch();
+
         $usuarios = $modelSearch->searchMatriculaUsuario($nomeUsuario);
 
-
         if ($usuarios != null) {
+
             $usuario = [];
+
             foreach ($usuarios as $u) {
+
                 array_push($usuario, $u);
+
             }
             echo Json::encode($usuario);
         } else {
@@ -405,8 +426,6 @@ class EmprestimoController extends Controller
      */
     public function actionGetExemplar($codigoExemplar)
     {
-
-
         $exemplar = AcervoExemplar::find()
             ->joinWith('acervoIdacervo')
             ->where(['codigo_livro' => $codigoExemplar])->one();
@@ -436,16 +455,20 @@ class EmprestimoController extends Controller
     public function actionGetBuscaExemplar($tituloExemplar)
     {
         $modelSearch = new AcervoExemplarSearch();
-        $exemplares = $modelSearch->searchExemplarByTitulo($tituloExemplar);
 
+        $exemplares = $modelSearch->searchExemplarByTitulo($tituloExemplar);
 
         $exemplar = [];
 
         $auxexemplar = [];
+
         foreach ($exemplares as $e) {
+
             array_push($exemplar, $e);
+
             array_push($auxexemplar, $e['acervoIdacervo']);
         }
+
         if (count($exemplar) <= 0) {
             echo Json::encode(0);
         } else {
@@ -530,11 +553,15 @@ class EmprestimoController extends Controller
         if ($emprestimos != null) {
 
             $emprestimoExemplares = [];
+
             $emprestimoUsuario = [];
+
             foreach ($emprestimos as $key => $e) {
 
                 $emprestimos[$key]->dataprevisaodevolucao = (date("d/m/Y", strtotime($e->dataprevisaodevolucao)));
+
                 $emprestimos[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
+
             }
             foreach ($emprestimos as $e) {
 
@@ -544,6 +571,7 @@ class EmprestimoController extends Controller
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);
             }
             if ($emprestimos != null) {
+
                 echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares]);
             } else {
                 echo Json::encode(null);
@@ -556,13 +584,19 @@ class EmprestimoController extends Controller
     public function actionGetBuscaEmprestimoCodigoExemplar($codigoExemplar)
     {
         $modelSearch = new EmprestimoSearch();
+
         $emprestimo = $modelSearch->searchEmprestimoByCodigoExemplar($codigoExemplar);
+
         if ($emprestimo != null) {
+
             $emprestimoExemplares = [];
+
             $emprestimoUsuario = [];
+
             foreach ($emprestimo as $key => $e) {
 
                 $emprestimo[$key]->dataprevisaodevolucao = (date("d/m/Y", strtotime($e->dataprevisaodevolucao)));
+
                 $emprestimo[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
             }
             foreach ($emprestimo as $e) {
@@ -570,6 +604,7 @@ class EmprestimoController extends Controller
                 array_push($emprestimoExemplares, $e['acervoExemplarIdacervoExemplars'][0]['acervoIdacervo']);
             }
             foreach ($emprestimo as $e) {
+
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);
             }
             if ($emprestimo != null) {

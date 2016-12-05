@@ -22,7 +22,8 @@ use app\components\AccessFilter;
 /**
  * AdminController implements the CRUD actions for User model.
  */
-class AdminController extends Controller {
+class AdminController extends Controller
+{
 
     /**
      * @var \amnah\yii2\user\Module
@@ -33,7 +34,8 @@ class AdminController extends Controller {
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         // check for admin permission (`tbl_role.can_admin`)
         // note: check for Yii::$app->user first because it doesn't exist in console commands (throws exception)
         if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
@@ -46,7 +48,8 @@ class AdminController extends Controller {
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -78,7 +81,8 @@ class AdminController extends Controller {
      * List all User models
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         /** @var \amnah\yii2\user\models\search\UserSearch $searchModel */
         $searchModel = $this->module->model("UserSearch");
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
@@ -91,9 +95,10 @@ class AdminController extends Controller {
      * @param string $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'user' => $this->findModel($id),
+            'user' => $this->findModel($id),
         ]);
     }
 
@@ -102,7 +107,8 @@ class AdminController extends Controller {
      * be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
@@ -131,8 +137,9 @@ class AdminController extends Controller {
             $profile->setUser($user->id)->save(false);
 
             if ($user->role_id == 1) {
+
                 Yii::$app->db->createCommand(
-                        "INSERT INTO auth_assignment
+                    "INSERT INTO auth_assignment
             (item_name, user_id ) 
             VALUES (:item, :iduser)", [
                     ':item' => 'admin',
@@ -141,26 +148,38 @@ class AdminController extends Controller {
             }
 
             $usuario->nome = $post['Usuario']['nome'];
+
             $usuario->rg = $post['Usuario']['rg'];
+
             $usuario->cpf = $post['Usuario']['cpf'];
+
             $usuario->cargo = $post['Usuario']['cargo'];
+
             $usuario->reparticao = $post['Usuario']['reparticao'];
+
             $usuario->endereco = $post['Usuario']['endereco'];
+
             $usuario->telefone = $post['Usuario']['telefone'];
+
             $usuario->email = $post['Usuario']['email'];
+
             $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+
             $usuario->user_id = $user->id;
+
             $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
             if ($usuario->imageFile != null) {
 
                 $usuario->foto = $usuario->getPathWeb($usuario->nome);
             }
 
-
             if ($usuario->save()) {
+
                 $usuario->upload($usuario->nome);
 //                return $this->redirect(['view', 'id' => $user->id]);
-                Yii::$app->session->setFlash('mensagemSucesso',$mensagemSucesso);
+
+                Yii::$app->session->setFlash('mensagemSucesso', $mensagemSucesso);
+
                 return $this->redirect('create');
             }
         }
@@ -175,7 +194,8 @@ class AdminController extends Controller {
      * @param string $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         // set up user and profile
 
         $user = $this->findModel($id);
@@ -236,7 +256,8 @@ class AdminController extends Controller {
      * @param string $id
      * @return mixed
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
 
         $usuario = Usuario::find()->where(['user_id' => $id])->one();
         if ($usuario != null) {
@@ -253,15 +274,16 @@ class AdminController extends Controller {
         return $this->redirect(['index']);
     }
 
-    public function actionListaSituacao($q = null, $id = null) {
+    public function actionListaSituacao($q = null, $id = null)
+    {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = new Query;
             $query->select('idsituacao_usuario AS id, situacao AS text')
-                    ->from('situacao_usuario')
-                    ->where(['like', 'situacao', $q])
-                    ->limit(20);
+                ->from('situacao_usuario')
+                ->where(['like', 'situacao', $q])
+                ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);
@@ -278,7 +300,8 @@ class AdminController extends Controller {
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         /** @var \amnah\yii2\user\models\User $user */
         $user = $this->module->model("User");
         $user = $user::findOne($id);
@@ -289,7 +312,8 @@ class AdminController extends Controller {
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionResetarSenha($id, $novaSenha) {
+    public function actionResetarSenha($id, $novaSenha)
+    {
         $user = $this->findModel($id);
         if ($user != null) {
             $user->newPassword = $novaSenha;
@@ -303,7 +327,8 @@ class AdminController extends Controller {
         }
     }
 
-    public function actionCreateAjax($nome, $rg, $cpf, $telefone, $email, $cargo, $reparticao, $endereco, $situacaousuario, $password) {
+    public function actionCreateAjax($nome, $rg, $cpf, $telefone, $email, $cargo, $reparticao, $endereco, $situacaousuario, $password)
+    {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
         $usuario = new Usuario();
@@ -343,7 +368,8 @@ class AdminController extends Controller {
         }
     }
 
-    public function actionVerificaNome($nome) {
+    public function actionVerificaNome($nome)
+    {
         $usuario = Usuario::find()->where(['nome' => $nome])->one();
         if ($usuario == null) {
             echo Json::encode(true);
@@ -352,7 +378,8 @@ class AdminController extends Controller {
         }
     }
 
-    public function actionVerificaRg($rg) {
+    public function actionVerificaRg($rg)
+    {
         $usuario = Usuario::find()->where(['rg' => $rg])->one();
         if ($usuario == null) {
             echo Json::encode(true);
@@ -361,7 +388,8 @@ class AdminController extends Controller {
         }
     }
 
-    public function actionVerificaCpf($cpf) {
+    public function actionVerificaCpf($cpf)
+    {
         $usuario = Usuario::find()->where(['cpf' => $cpf])->one();
         if ($usuario == null) {
             echo Json::encode(true);

@@ -90,10 +90,14 @@ class ConfigController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
+
         $configuracoes = Config::getInstance()->getConfiguracoes();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['view', 'id' => $model->chave]);
+
         } else {
+
             return $this->render('update', [
                         'model' => $model,
                         'configuracoes' => $configuracoes,
@@ -106,13 +110,14 @@ class ConfigController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
-     */
+
     public function actionDelete($id) {
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
-
+     */
     /**
      * Finds the Config model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

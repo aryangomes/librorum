@@ -60,6 +60,25 @@ AppAsset::register($this);
                             <?php
                             if (Yii::$app->user->can("admin")) {
                                 ?>
+
+                                <li>
+                                    <a href="#"><i class="fa fa-bolt fa-fw"></i><strong>Acesso Rápido</strong> <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="<?= Url::toRoute('/acervo/create') ?>">Catalogar Acervo</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= Url::toRoute('/emprestimo/create') ?>">Cadastrar Empréstimo</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?= Url::toRoute('/user/admin/create') ?>">Cadastrar usuário</a>
+                                        </li>
+
+
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+
                                 <?php
                                 if (Yii::$app->user->can("admin")) {
                                     ?>

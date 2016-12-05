@@ -22,10 +22,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
+                [
+                    'attribute'=>'chave',
+
+
+                    'format'=>'raw',
+
+                    'value'=>function($modelConfig){
+                        return Html::a($modelConfig->chave,
+                            \yii\helpers\Url::to(['view', 'id'=>$modelConfig->chave]));
+                    }
+                ],
                 'chave',
                 'valor',
                 'descricao',
-                ['class' => 'yii\grid\ActionColumn'],
+//                ['class' => 'yii\grid\ActionColumn'],
             ],
         ]);
         ?>

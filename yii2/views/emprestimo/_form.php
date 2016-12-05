@@ -21,11 +21,9 @@ use yii\widgets\MaskedInput;
 
     <?php
 
-
     if (isset($mensagem) && !empty($mensagem)) {
-
     ?>
-    <div class="alert alert-danger">
+    <div class="alert alert-info">
         <?= $mensagem ?>
     </div>
     <?php

@@ -139,18 +139,28 @@ class AcervoController extends Controller
                             $count = 0;
 
                             $i = $codigoInicio;
+
                             while ($count <= ($codigoFim - $codigoInicio)) {
+
                                 $codigo = $i;
+
                                 if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+
                                     $exemplar = new AcervoExemplar();
+
                                     $exemplar->esta_disponivel = 1;
+
                                     $exemplar->acervo_idacervo = $model->idacervo;
+
                                     $exemplar->codigo_livro = $codigo;
 
                                     $exemplar->save(false);
+
                                     if ($count == ($codigoFim - $codigoInicio)) {
 //                                        return $this->redirect(['view', 'id' => $model->idacervo]);
+
                                         Yii::$app->session->setFlash('mensagemSucesso',$mensagemSucesso);
+
                                         return $this->redirect('create');
                                     }
                                     $i++;
@@ -163,28 +173,43 @@ class AcervoController extends Controller
 
                         }
                     } else {
+
                         $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
                         if ($quantidadeExemplares > 0) {
 
                             $count = 1;
+
                             $i = 1;
+
                             while ($count <= $quantidadeExemplares) {
+
                                 $codigo = $model->idacervo . '' . $i;
+
                                 if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+
                                     $exemplar = new AcervoExemplar();
+
                                     $exemplar->esta_disponivel = 1;
+
                                     $exemplar->acervo_idacervo = $model->idacervo;
+
                                     $exemplar->codigo_livro = $model->idacervo . '' . $i;
 
                                     $exemplar->save(false);
+
                                     if ($count == $quantidadeExemplares) {
 //                                        return $this->redirect(['view', 'id' => $model->idacervo]);
+
                                         Yii::$app->session->setFlash('mensagemSucesso',$mensagemSucesso);
+
                                         return $this->redirect('create');
                                     }
+
                                     $i++;
+
                                     $count++;
                                 } else {
+
                                     $i++;
                                 }
 

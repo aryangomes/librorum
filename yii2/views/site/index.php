@@ -7,22 +7,23 @@ use yii\bootstrap\Modal;
 
 $this->title = 'Librorum';
 ?>
-<div >
+<div>
 
 
-    <div  class="row text-center">
+    <div class="row text-center">
         <h1>SISTEMA DE AUTOMAÇÃO DE BIBLIOTECA <strong>LIBRORUM</strong></h1>
 
 
     </div>
 
 
-    <div >
+    <div>
 
-        <div >
+        <div>
 
 
-            <h3><p class="text-center">Desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte
+            <h3><p class="text-center">Desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande
+                    do Norte
                 </p></h3>
 
 
@@ -30,11 +31,11 @@ $this->title = 'Librorum';
         <div>
             <hr>
         </div>
-        <div >
+        <div>
             <p class="row">
                 <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
             <div class="container">
-                <h4 >Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
+                <h4>Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
 
 
             <div class="input-group">
@@ -59,14 +60,14 @@ $this->title = 'Librorum';
             </div>
             <table id="tableresult-rg" class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>RG</th>
-                        <th>Título</th>
-                        <th>Data Empréstimo</th>
-                        <th>Data Data de previsão da devolução</th>
-                        <th>Ações</th>
-                    </tr>
+                <tr>
+                    <th>Nome</th>
+                    <th>RG</th>
+                    <th>Título</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Data de previsão da devolução</th>
+                    <th>Ações</th>
+                </tr>
                 </thead>
                 <tbody id="tbody-result-rg">
 
@@ -74,13 +75,11 @@ $this->title = 'Librorum';
             </table>
 
 
-
             <!-- -------  END  Busca de Empréstimo por RG -------------  -->
             </p>
             <?php
             $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-busca-emprestimo.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
             ?>
-
 
 
             <p class="row">
@@ -106,14 +105,14 @@ $this->title = 'Librorum';
             </div>
             <table id="tableresult-emprestimo-exemplar" class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>RG</th>
-                        <th>Título</th>
-                        <th>Data Empréstimo</th>
-                        <th>Data Data de previsão da devolução</th>
-                        <th>Ações</th>
-                    </tr>
+                <tr>
+                    <th>Nome</th>
+                    <th>RG</th>
+                    <th>Título</th>
+                    <th>Data Empréstimo</th>
+                    <th>Data Data de previsão da devolução</th>
+                    <th>Ações</th>
+                </tr>
                 </thead>
                 <tbody id="tbody-result-emprestimo-exemplar">
 
@@ -121,13 +120,11 @@ $this->title = 'Librorum';
             </table>
 
 
-
-
-
             <!-- -------  END  de Empréstimo por código exemplar -------------  -->
             </p>
 
-
         </div>
+
     </div>
+
 </div>
