@@ -144,9 +144,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'idemprestimo',
-            'dataemprestimo:datetime',
-            'dataprevisaodevolucao:date',
-            'datadevolucao:datetime',
+
+            [
+                'attribute'=>'dataemprestimo',
+                'value'=> isset($model->dataemprestimo) ?
+                        Yii::$app->formatter->asDate($model->dataemprestimo, 'dd/M/Y à\s HH:m') : null,
+
+            ],
+
+            [
+                'attribute'=>'dataprevisaodevolucao',
+                'value'=> isset($model->dataprevisaodevolucao) ?
+                    Yii::$app->formatter->asDate($model->dataprevisaodevolucao, 'dd/M/Y') : null,
+
+            ],
+
+            [
+                'attribute'=>'datadevolucao',
+                'value'=> isset($model->datadevolucao) ?
+                    Yii::$app->formatter->asDate($model->datadevolucao, 'dd/M/Y à\s HH:m') : 'Não devolvido',
+
+            ],
 
             'usuario_nome',
             'usuario_rg',

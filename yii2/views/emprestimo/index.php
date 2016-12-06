@@ -35,9 +35,31 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('Visualizar Empréstimo', ['view', 'id' => $model->idemprestimo]);
                     }
                         ],
-                        'dataemprestimo:datetime',
-                        'dataprevisaodevolucao:date',
-                        'datadevolucao:datetime',
+                [
+                    'attribute'=>'dataemprestimo',
+                    'value'=> function ($model){
+                        return isset($model->dataemprestimo) ?
+                            Yii::$app->formatter->asDate($model->dataemprestimo, 'dd/M/Y à\s HH:m') : null;
+                    },
+                ],
+
+                [
+                    'attribute'=>'dataprevisaodevolucao',
+                    'value'=> function ($model){
+                        return isset($model->dataprevisaodevolucao) ?
+                            Yii::$app->formatter->asDate($model->dataprevisaodevolucao, 'dd/M/Y') : null;
+                    },
+                ],
+
+                [
+                    'attribute'=>'datadevolucao',
+                    'value'=> function ($model){
+                        return isset($model->datadevolucao) ?
+                            Yii::$app->formatter->asDate($model->datadevolucao, 'dd/M/Y à\s HH:m') : 'Não devolvido';
+                    },
+                ],
+
+
                         'usuarioIdusuario.nome',
                     // 'usuario_nome',
                     // 'usuario_rg',
