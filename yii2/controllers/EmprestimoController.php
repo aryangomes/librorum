@@ -70,6 +70,7 @@ class EmprestimoController extends Controller
     public function actionIndex()
     {
         $searchModel = new EmprestimoSearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -86,10 +87,24 @@ class EmprestimoController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        ($model->calcularDiasDeEmprestimo());
+
+        //Seta os dias de diferença entre o dia do empréstimo e a data atual
+        $model->calcularDiasDeEmprestimo();
+
+        $searchModel = new EmprestimoSearch();
+
+        $exemplaresEmprestados = null;
+
+        if ($searchModel->searchDadosEmprestimo($id) != null) {
+            $exemplaresEmprestados = $searchModel->searchDadosEmprestimo($id)["acervoExemplarIdacervoExemplars"];
+        }
+
+
+//       var_dump($exemplaresEmprestados["acervoExemplarIdacervoExemplars"][0]["acervoIdacervo"]["titulo"]); die();
 
         return $this->render('view', [
             'model' => $model,
+            'exemplaresEmprestados' => $exemplaresEmprestados
         ]);
     }
 
@@ -112,11 +127,11 @@ class EmprestimoController extends Controller
 
         $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
 
-        if(Yii::$app->session->hasFlash('mensagemSucesso')){
+        if (Yii::$app->session->hasFlash('mensagemSucesso')) {
 
             $mensagem = Yii::$app->session->getFlash('mensagemSucesso');
 
-        }else{
+        } else {
 
             $mensagem = "";
         }
@@ -180,7 +195,7 @@ class EmprestimoController extends Controller
                     $transaction->commit();
 
                     $mensagem = "Empréstimo cadastrado com sucesso. 
-                    <a href='".Url::to(['view','id'=>$model->idemprestimo])."' target='_blank'>Clique aqui para acessá-lo!</a>";
+                    <a href='" . Url::to(['view', 'id' => $model->idemprestimo]) . "' target='_blank'>Clique aqui para acessá-lo!</a>";
 
                     Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
 
@@ -296,9 +311,8 @@ class EmprestimoController extends Controller
             }
 
 
-        } else {
-            return $this->redirect(['index']);
         }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -316,7 +330,7 @@ class EmprestimoController extends Controller
         try {
 
             $exemplaresEmprestimo = EmprestimoHasAcervoExemplar::find()
-                ->where(['emprestimo_idemprestimo'=>$id])
+                ->where(['emprestimo_idemprestimo' => $id])
                 ->all();
 
             $itensDeletados = true;
@@ -514,10 +528,10 @@ class EmprestimoController extends Controller
 
                 $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
 
-                if($qtdExemplaresEmprestados < $maxQtdExemplarEmprestimo){
+                if ($qtdExemplaresEmprestados < $maxQtdExemplarEmprestimo) {
 
                     echo Json::encode(true);
-                }else{
+                } else {
                     echo Json::encode('maxQtdExemplarEmprestimo');
                 }
 
@@ -625,10 +639,13 @@ class EmprestimoController extends Controller
         date_default_timezone_set('America/Sao_Paulo');
 
         $emprestimoSearch = new EmprestimoSearch();
+
         $dadosEmprestimo = $emprestimoSearch->searchDadosEmprestimo($id);
 
         $configSearch = new \app\models\ConfigSearch();
+
         $config = $configSearch->searchConfig('nome_biblioteca');
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'content' => $this->renderPartial('comprovante', [

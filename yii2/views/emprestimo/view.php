@@ -7,6 +7,7 @@ use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimo */
+/* @var $exemplaresEmprestados array */
 
 $this->title = "Empréstimo da data: " .
     date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
@@ -154,6 +155,38 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ])
     ?>
+
+
+    <h3>Exemplares emprestados</h3>
+    <div class="table-responsive">
+
+        <table class="table table-bordered">
+            <thead>
+
+            <tr>
+
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Código Exemplar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($exemplaresEmprestados as $exemplar) {
+                ?>
+
+                <tr>
+                    <td><?= $exemplar["acervoIdacervo"]->titulo ?> </td>
+                    <td><?= $exemplar["acervoIdacervo"]->autor ?> </td>
+                    <td><?= $exemplar->codigo_livro ?> </td>
+                </tr>
+                <?php
+            }
+
+            ?>
+            </tbody>
+        </table>
+    </div>
 
     <?php
     if ($model->diasDiferenca > 0 && $model->datadevolucao == null) {

@@ -123,6 +123,12 @@ class EmprestimoSearch extends Emprestimo {
         return $query;
     }
 
+    /**
+     * Retorna os dados de um empréstimo contendo informações do usuário e exemplares que
+     * ele emprestou
+     * @param $idEmprestimo
+     * @return array|null|\yii\db\ActiveRecord
+     */
     public function searchDadosEmprestimo($idEmprestimo) {
 
         if ($idEmprestimo != null) {
