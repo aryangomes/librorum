@@ -64,8 +64,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             'width' => 400]) : 'Não há foto'
             ,
             ],
-            'created_at:datetime',
-            'updated_at:datetime',
+
+            [
+                'attribute'=>'created_at',
+                'value'=> isset($user->created_at) ?
+                    Yii::$app->formatter->asDate($user->created_at, 'dd/M/Y à\s HH:m') : null,
+
+            ],
+
+            [
+                'attribute'=>'updated_at',
+                'value'=> isset($user->updated_at) ?
+                    Yii::$app->formatter->asDate($user->updated_at, 'dd/M/Y à\s HH:m') : null,
+
+            ],
+
         ],
     ])
     ?>

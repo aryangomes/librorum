@@ -58,6 +58,7 @@ class EmprestimoController extends Controller
                     'get-busca-emprestimo-rg' => 'emprestimo',
                     'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
                     'gerar-comprovante-emprestimo' => 'emprestimo',
+                    'get-busca-emprestimo'=>'emprestimo',
                 ],
             ],
         ];
@@ -151,7 +152,7 @@ class EmprestimoController extends Controller
         $role = new \amnah\yii2\user\models\Role();
 
         //Definindo a data de Empréstimo
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
 
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
@@ -454,12 +455,16 @@ class EmprestimoController extends Controller
     public function actionGetDataPrevisaoDevolucao()
     {
         //Definindo zona de tempo para o horário brasileiro
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
 
         $dias_emprestimo = \app\models\Config::findOne('dias_emprestimo');
+
         if ($dias_emprestimo != null) {
+
             $dataprevisao = date('Y-m-d H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+
             $dataprevisaoformatado = date('d/m/Y H:i:s', strtotime("+" . $dias_emprestimo->valor . " days"));
+
             echo Json::encode([$dataprevisao, $dataprevisaoformatado]);
         } else {
             echo Json::encode(null);
@@ -563,7 +568,11 @@ class EmprestimoController extends Controller
     public function actionGetBuscaEmprestimoRg($rg)
     {
         $modelSearch = new EmprestimoSearch();
+
         $emprestimos = $modelSearch->searchEmprestimoByRg($rg);
+
+        $arrayDiasDiferenca = [];
+
         if ($emprestimos != null) {
 
             $emprestimoExemplares = [];
@@ -572,21 +581,43 @@ class EmprestimoController extends Controller
 
             foreach ($emprestimos as $key => $e) {
 
+                $emprestimos[$key]->calcularDiasDeEmprestimo();
+
+                array_push($arrayDiasDiferenca, $e->diasDiferenca);
+
                 $emprestimos[$key]->dataprevisaodevolucao = (date("d/m/Y", strtotime($e->dataprevisaodevolucao)));
 
                 $emprestimos[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
 
             }
+
+
             foreach ($emprestimos as $e) {
 
-                array_push($emprestimoExemplares, $e['emprestimoHasAcervoExemplars'][0]['acervoExemplarIdacervoExemplar']['acervoIdacervo']);
+                $exemplaresEmprestados = $e['emprestimoHasAcervoExemplars'];
+
+
+                foreach ($exemplaresEmprestados as $ee){
+
+                    array_push($emprestimoExemplares, [
+
+                        $ee['acervoExemplarIdacervoExemplar'],
+                        $ee['acervoExemplarIdacervoExemplar']['acervoIdacervo']
+                    ]);
+                }
+
             }
+
             foreach ($emprestimos as $e) {
+
                 array_push($emprestimoUsuario, $e['usuarioIdusuario']);
             }
+
+
             if ($emprestimos != null) {
 
-                echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares]);
+                echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares,
+                $arrayDiasDiferenca]);
             } else {
                 echo Json::encode(null);
             }
@@ -635,8 +666,8 @@ class EmprestimoController extends Controller
     public function actionGerarComprovanteEmprestimo($id)
     {
 
-        //         Setando a data para o fuso do Brasil
-        date_default_timezone_set('America/Sao_Paulo');
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Recife');
 
         $emprestimoSearch = new EmprestimoSearch();
 
@@ -666,6 +697,60 @@ class EmprestimoController extends Controller
             ]
         ]);
         return $pdf->render();
+    }
+
+
+    public function actionGetBuscaEmprestimo($id)
+    {
+        $modelSearch = new EmprestimoSearch();
+
+        $emprestimo = $modelSearch->searchDadosEmprestimo($id);
+
+        $arrayDiasDiferenca = [];
+
+        if ($emprestimo != null) {
+
+            $emprestimoExemplares = [];
+
+            $emprestimoUsuario = [];
+
+
+
+                $emprestimo->calcularDiasDeEmprestimo();
+
+                array_push($arrayDiasDiferenca, $emprestimo->diasDiferenca);
+
+                $emprestimo->dataprevisaodevolucao = (date("d/m/Y", strtotime($emprestimo->dataprevisaodevolucao)));
+
+                $emprestimo->dataemprestimo = (date("d/m/Y H:i", strtotime($emprestimo->dataemprestimo)));
+
+                $exemplaresEmprestados = $emprestimo['acervoExemplarIdacervoExemplars'];
+
+
+                foreach ($exemplaresEmprestados as $ee){
+
+                    array_push($emprestimoExemplares, [
+
+                        $ee,
+                        $ee['acervoIdacervo']
+                    ]);
+                }
+
+
+                array_push($emprestimoUsuario, $emprestimo['usuarioIdusuario']);
+
+
+
+            if ($emprestimo != null) {
+
+                echo Json::encode([$emprestimo, $emprestimoUsuario, $emprestimoExemplares,
+                    $arrayDiasDiferenca]);
+            } else {
+                echo Json::encode(null);
+            }
+        } else {
+            echo Json::encode(null);
+        }
     }
 
 }

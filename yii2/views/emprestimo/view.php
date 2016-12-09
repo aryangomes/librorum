@@ -9,7 +9,7 @@ use yii\bootstrap\Modal;
 /* @var $model app\models\Emprestimo */
 /* @var $exemplaresEmprestados array */
 
-$this->title = "Empréstimo da data: " .
+$this->title = "Data do Empréstimo: " .
     date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -210,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
     if ($model->diasDiferenca > 0 && $model->datadevolucao == null) {
         ?>
         <div class="alert alert-info">
-            O exemplar já está emprestado a <strong><?= number_format($model->diasDiferenca, 0) ?></strong> dia(s) .
+            O exemplar já está emprestado a <strong><?= number_format($model->diasDiferenca, 0) ?></strong> dia(s).
         </div>
         <?php
     } else if ($model->diasDiferenca == 0) {

@@ -6,7 +6,9 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatorio */
 
-$this->title = $model->idrelatorio;
+$this->title = 'Relatório de ' . $model->tipo . ' de ' .
+    Yii::$app->formatter->asDate($model->inicio_intervalo, 'dd/M/Y') . ' até '.
+    Yii::$app->formatter->asDate($model->fim_intervalo, 'dd/M/Y');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Relatorios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -43,9 +45,27 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'idrelatorio',
             'tipo',
-            'inicio_intervalo',
-            'fim_intervalo',
-            'data_geracao',
+
+            [
+                'attribute'=>'inicio_intervalo',
+                'value'=> isset($model->inicio_intervalo) ?
+                    Yii::$app->formatter->asDate($model->inicio_intervalo, 'dd/M/Y') : null,
+
+            ],
+
+            [
+                'attribute'=>'fim_intervalo',
+                'value'=> isset($model->fim_intervalo) ?
+                    Yii::$app->formatter->asDate($model->fim_intervalo, 'dd/M/Y') : null,
+
+            ],
+
+            [
+                'attribute'=>'data_geracao',
+                'value'=> isset($model->data_geracao) ?
+                    Yii::$app->formatter->asDate($model->data_geracao, 'dd/M/Y') : null,
+
+            ],
         ],
     ]) ?>
 

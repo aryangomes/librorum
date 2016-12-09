@@ -24,11 +24,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idrelatorio',
+
             'tipo',
-            'inicio_intervalo',
-            'fim_intervalo',
-            'data_geracao',
+
+            [
+                'attribute'=>'inicio_intervalo',
+                'value'=> function ($model){
+                    return isset($model->inicio_intervalo) ?
+                        Yii::$app->formatter->asDate($model->inicio_intervalo, 'dd/M/Y') : null;
+                },
+            ],
+
+            [
+                'attribute'=>'fim_intervalo',
+                'value'=> function ($model){
+                    return isset($model->fim_intervalo) ?
+                        Yii::$app->formatter->asDate($model->fim_intervalo, 'dd/M/Y') : null;
+                },
+            ],
+
+            [
+                'attribute'=>'data_geracao',
+                'value'=> function ($model){
+                    return isset($model->data_geracao) ?
+                        Yii::$app->formatter->asDate($model->data_geracao, 'dd/M/Y') : null;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

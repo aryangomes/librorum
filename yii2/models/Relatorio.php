@@ -47,11 +47,11 @@ class Relatorio extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idrelatorio' => Yii::t('app', 'Idrelatorio'),
-            'tipo' => Yii::t('app', 'Tipo'),
-            'inicio_intervalo' => Yii::t('app', 'Inicio Intervalo'),
-            'fim_intervalo' => Yii::t('app', 'Fim Intervalo'),
-            'data_geracao' => Yii::t('app', 'Data Geracao'),
+            'idrelatorio' => Yii::t('app', 'Identificador do Relatório'),
+            'tipo' => Yii::t('app', 'Tipo do Relatório'),
+            'inicio_intervalo' => Yii::t('app', 'Início do Intervalo'),
+            'fim_intervalo' => Yii::t('app', 'Fim do Intervalo'),
+            'data_geracao' => Yii::t('app', 'Data de Geração'),
         ];
     }
 }

@@ -62,7 +62,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
                     'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
-                    'created_at:datetime',
+            [
+                'attribute'=>'created_at',
+                'value'=> function ($model){
+                    return isset($model->created_at) ?
+                        Yii::$app->formatter->asDate($model->created_at, 'dd/M/Y à\s HH:m') : null;
+                },
+            ],
+
                 // 'username',
                 // 'password',
                 // 'auth_key',
