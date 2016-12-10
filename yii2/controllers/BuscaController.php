@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Busca;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -9,12 +10,14 @@ use yii\filters\VerbFilter;
 use app\models\Acervo;
 use app\models\AcervoExemplar;
 
-class BuscaController extends Controller {
+class BuscaController extends Controller
+{
 
     /**
-     * @inheritdoc 
+     * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -25,39 +28,85 @@ class BuscaController extends Controller {
         ];
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
 
-       return $this->render('index');
+        $model = new Busca();
+
+        $filtros = Busca::$filtros;
+
+        return $this->render('index',
+            [
+                'model' => $model,
+                'filtros' => $filtros,
+            ]);
     }
 
-    public function actionBuscaAcervo($acervo) {
+    public function actionBuscaAcervo()
+    {
         $session = Yii::$app->session;
-        if (strlen($acervo) > 0) {
-            $acervo = Acervo::find()
-                            ->joinWith('tipoMaterialIdtipoMaterial')
-                            ->joinWith('categoriaAcervoIdcategoriaAcervo')
-                            ->where(['LIKE', 'titulo', $acervo])->one();
 
-            
-            if ($acervo != null) {
-                $exemplares = AcervoExemplar::find()
-                                ->where(['acervo_idacervo' => $acervo->idacervo])->all();
-                if (count($exemplares) > 0) {
-                    return $this->render('index', ['acervo' => $acervo, 'exemplares' => $exemplares,
-                               ]);
-                } else {
-                    $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
-                            . 'título.');
-                      return $this->redirect('index');
+        $busca = Yii::$app->request->get();
+
+        $filtrosEscolhidos = $busca['Busca']['filtro'];
+
+        $exemplares = [];
+
+        if (strlen($busca['acervo']) > 0) {
+
+            $query = Acervo::find()
+                ->joinWith('tipoMaterialIdtipoMaterial')
+                ->joinWith('categoriaAcervoIdcategoriaAcervo');
+
+            if(($filtrosEscolhidos) != ''){
+                foreach ($filtrosEscolhidos as $filtro) {
+                    $query->orWhere(['LIKE', $filtro, $busca['acervo']]);
                 }
+            }
+
+
+            $resultado = [];
+
+
+            if (count($query->all()) > 0) {
+
+                foreach ($query->all() as $acervo) {
+
+                    if ($acervo != null) {
+
+                        $exemplaresAcervo = AcervoExemplar::find()
+                            ->where(['acervo_idacervo' => $acervo->idacervo])->all();
+                        if (count($exemplaresAcervo) > 0) {
+
+                           array_push($exemplares, $exemplaresAcervo);
+
+                        }
+
+                        array_push($resultado,[$acervo,$exemplares]);
+                    }
+                }
+
+                $model = new Busca();
+
+                $filtros = Busca::$filtros;
+
+                return $this->render('index',
+                    [
+                        'resultado'=>$resultado,
+
+                        'model' => $model,
+
+                        'filtros' => $filtros,
+                    ]);
             } else {
-                $session->setFlash('buscaAcervo', 'Não foi encontrado nenhum exemplar com esse '
-                        . 'título.');
+                $session->setFlash('buscaAcervo', 'Nada encontrado');
                 return $this->redirect('index');
             }
-        }else{
-            $session->setFlash('buscaAcervo', 'Digite um título.');
-               return $this->redirect('index');
+
+
+        } else {
+            $session->setFlash('buscaAcervo', 'Digite uma consulta.');
+            return $this->redirect('index');
         }
     }
 

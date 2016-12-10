@@ -28,14 +28,19 @@ $('#btPesquisarPorRG').click(function () {
 
 
                 $('#result-messagem-busca-emprestimo-rg').attr('class', 'alert alert-success');
+
                 $('#result-messagem-busca-emprestimo-rg').html('</b>Empréstimo(s) encontrado(s)</b>');
+
+
+
                 data.forEach(function (item, index) {
+
                     console.log('item ' + item);
+
 
                     $('#tbody-result-rg').append(
                         '<tr><td>' + data[1][index].nome + '</td>' +
                         '<td>' + data[1][index].rg + '</td>' +
-                        '<td>' + data[2][index].titulo + '</td>' +
                         '<td>' + data[0][index].dataemprestimo + '</td>' +
                         '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
                         '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"' +
@@ -89,12 +94,14 @@ $('#btPesquisarExemplar').click(function () {
                         $('#tbody-result-emprestimo-exemplar').append(
                             '<tr><td>' + data[1][index].nome + '</td>' +
                             '<td>' + data[1][index].rg + '</td>' +
-                            '<td>' + data[2][index].titulo + '</td>' +
                             '<td>' + data[0][index].dataemprestimo + '</td>' +
                             '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
-                            '<td><a target=\'_blank\' href=\'emprestimo/view/?id=' + data[0][index].idemprestimo + '\'  ' +
-                            'class=\'btn btn-success\' id=\'actionbuscar\' > <span class=\'glyphicon glyphicon-ok\'>' +
-                            '</span></a ></td></tr>');
+                            '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"' +
+                            ' onclick="carregarDadosModalEmprestimo('+data[0][index].idemprestimo +')">Visualizar detalhes do Empréstimo ' +
+                            '<span class=\'glyphicon glyphicon-search\'>' +
+                            '</span></button>'
+                            + '</td>' +
+                            '</tr>');
 
                     });
 

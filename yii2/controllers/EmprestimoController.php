@@ -232,7 +232,7 @@ class EmprestimoController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
-     */
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -255,7 +255,7 @@ class EmprestimoController extends Controller
                 'exemplar' => $exemplar,
             ]);
         }
-    }
+    } */
 
     /**
      * @param $id
@@ -266,7 +266,7 @@ class EmprestimoController extends Controller
     {
         $model = $this->findModel($id);
 
-        $mensagemSucesso = "Exemplar devolvido com sucesso";
+        $mensagemSucesso = "Exemplar(es) devolvido com sucesso";
 
 
         if ((Yii::$app->request->post())) {
@@ -299,7 +299,10 @@ class EmprestimoController extends Controller
                 if ($itensSalvos) {
                     $transaction->commit();
 
-                    return $this->redirect(['view', 'id' => $id]);
+                    Yii::$app->session->setFlash('mensagemDevolucaoSucesso', $mensagemSucesso);
+
+                    return $this->redirect(['/']);
+//                    return $this->redirect(['view', 'id' => $id]);
                 }
 
 
@@ -357,7 +360,10 @@ class EmprestimoController extends Controller
 
             if ($itensDeletados && $model->delete()) {
                 $transaction->commit();
-                return $this->redirect(['index']);
+
+                Yii::$app->session->setFlash('mensagemCanceladoSucesso', 'Empréstimo cancelado com sucesso');
+
+                return $this->redirect(['/']);
             }
 
         } catch (\Exception $exception) {
@@ -506,12 +512,16 @@ class EmprestimoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+
             $model->dataprevisaodevolucao = date("Y-m-d H:i:s", strtotime(Yii::$app->request->post()['Emprestimo']['dataprevisaodevolucao']));
 
             if ($model->save()) {
+                Yii::$app->session->setFlash('mensagemRenovadoSucesso', 'Empréstimo renovado com sucesso');
 
-                return $this->redirect(['view', 'id' => $id]);
+                return $this->redirect(['/' , 'msg'=>'mensagemDevolucaoSucesso']);
+//                return $this->redirect(['view', 'id' => $id]);
             }
+
             return $this->redirect(['view', 'id' => $id]);
         } else {
             return $this->redirect(['index']);

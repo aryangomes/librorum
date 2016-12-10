@@ -23,6 +23,12 @@ $this->title = 'Busca no Acervo';
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="submit">Pesquisar</button>
                 </span>
+
+            </div>
+            <div class="form-group">
+                <?= Html::activeCheckboxList($model, 'filtro', $filtros,
+                    ['class' => 'form-control']) ?>
+
             </div>
         </form>
     </div>
@@ -38,47 +44,66 @@ $this->title = 'Busca no Acervo';
     } else {
         ?>
         <?php
-        if (isset($exemplares)) {
+        if (isset($resultado)) {
             ?>
             <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
             <div class="container">
                 <h3 class="row">Resultados da Pesquisa</h3>
             </div>
             <div class="table-responsive">
-            <table class="table table-striped table-bordered "> 
-                <tr>
-                    <th>Título</th>
-                    <th>Autor</th>
-                    <th>Editora</th>
-                    <th>Material</th>
-                    <th>Categoria</th>
-                    <th>Código do Livro</th>
-                    <th>Disponibilidade</th>
-                </tr>
+                <table class="table table-striped table-bordered ">
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Editora</th>
+                        <th>Material</th>
+                        <th>Categoria</th>
+                        <th>Código do Livro</th>
+                        <th>Disponibilidade</th>
+                    </tr>
 
-                <?php
-                if (isset($exemplares)) {
-                    foreach ($exemplares as $result) {
-                        ?>
-                        <tr>
-                            <td><?= $acervo->titulo ?></td>
-                            <td><?= $acervo->autor ?></td>
-                            <td><?= $acervo->editora ?></td>
-                            <td><?= $acervo->tipoMaterialIdtipoMaterial->nome ?></td>
-                            <td><?= $acervo->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
-                         
-                            <td><?= $result->codigo_livro ?></td>
-                            <td><?= $result->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
-                            <?php
-                        }
-                    }
+                    <?php
+
+                    foreach ($resultado as $key => $res) {
+
+                        foreach ($res[1] as $exemplar) {
+
+                            foreach ($exemplar as $i => $e) {
+
                     ?>
-                </tr>
-            </table>
+
+                    <tr>
+                        <td><?= $res[0]->titulo ?></td>
+
+                        <td><?= $res[0]->autor ?></td>
+
+                        <td><?= $res[0]->editora ?></td>
+
+                        <td><?= $res[0]->tipoMaterialIdtipoMaterial->nome ?></td>
+
+                        <td><?= $res[0]->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
+
+                        <td><?= $e->codigo_livro ?></td>
+                        <td><?= $e->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
+
+                        <?php
+
+
+                             }
+                            }
+
+                        }
+
+                        ?>
+                    </tr>
+
+
+                </table>
             </div>
             <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
             <?php
         }
+
     }
     ?>
 </div>

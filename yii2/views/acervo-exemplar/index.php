@@ -33,7 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($model) {
                         return $model->esta_disponivel ?
                                 'Disponível' : 'Não disponível';
-                    }
+
+                    },
+                    'filter'=>['0'=>'Não disponível','1'=>'Disponível'],
                 ],
                 ['class' => 'yii\grid\ActionColumn'],
             ],

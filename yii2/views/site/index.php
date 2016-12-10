@@ -35,7 +35,20 @@ date_default_timezone_set('America/Recife');
         </div>
         <div>
             <p class="row">
-                <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
+
+                <?php
+                if (isset($mensagem) && !empty($mensagem)) {
+                ?>
+            <div class="alert alert-success">
+                <?= $mensagem ?>
+            </div>
+            <?php
+            }
+
+
+            ?>
+
+            <!-- -------  BEGIN  Busca de Empréstimo por RG -------------  -->
             <div class="container">
                 <h4>Pesquisa de Empréstimo pelo RG do Usuário</h4></div>
 
@@ -65,7 +78,6 @@ date_default_timezone_set('America/Recife');
                 <tr>
                     <th>Nome</th>
                     <th>RG</th>
-                    <th>Título</th>
                     <th>Data Empréstimo</th>
                     <th>Data Data de previsão da devolução</th>
                     <th>Ações</th>
@@ -110,7 +122,6 @@ date_default_timezone_set('America/Recife');
                 <tr>
                     <th>Nome</th>
                     <th>RG</th>
-                    <th>Título</th>
                     <th>Data Empréstimo</th>
                     <th>Data Data de previsão da devolução</th>
                     <th>Ações</th>
@@ -141,7 +152,6 @@ date_default_timezone_set('America/Recife');
                     </div>
                     <div class="modal-body">
                         <div class="emprestimo-view">
-
 
 
                             <a id="view-btncancelar" class="btn btn-danger" href=""
@@ -220,7 +230,7 @@ date_default_timezone_set('America/Recife');
                                                             da devolução</label>
                                                         <input type="text" id="emprestimo-dataprevisaodevolucaolabel"
                                                                class="form-control"
-                                                               
+
                                                                value="" disabled="">
 
                                                         <div class="help-block"></div>
