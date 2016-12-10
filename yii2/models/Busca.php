@@ -13,21 +13,25 @@ use Yii;
 class Busca extends \yii\db\ActiveRecord
 {
     public static $filtros = [
-        'cdd'=>'CDD',
-        'autor'=>'Autor(es)',
-        'titulo'=> 'Título',
-        'editora'=>'Editora',
-        'tipo_material_idtipo_material'=>'Tipo do Material',
-        ];
+        'titulo' => 'Título',
+
+        'autor' => 'Autor',
+
+        'editora' => 'Editora',
+
+        'cdd' => 'CDD',
+
+    ];
 
     public $filtro;
+    public $tipoMaterial;
 
     public function attributeLabels()
     {
         return [
 
             'cdd' => Yii::t('app', 'CDD'),
-            'autor' => Yii::t('app', 'Autor(es)'),
+            'autor' => Yii::t('app', 'Autor'),
             'titulo' => Yii::t('app', 'Título'),
             'editora' => Yii::t('app', 'Editora'),
 

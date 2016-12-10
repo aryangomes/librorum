@@ -26,7 +26,15 @@ $this->title = 'Busca no Acervo';
 
             </div>
             <div class="form-group">
+                <?= Html::activeLabel($model,'filtro') ?>
                 <?= Html::activeCheckboxList($model, 'filtro', $filtros,
+                    ['class' => 'form-control']) ?>
+
+            </div>
+
+            <div class="form-group">
+                <?= Html::Label('Tipo Material') ?>
+                <?= Html::activeDropDownList($model, 'tipoMaterial', $tiposMateriais,
                     ['class' => 'form-control']) ?>
 
             </div>
@@ -59,6 +67,7 @@ $this->title = 'Busca no Acervo';
                         <th>Material</th>
                         <th>Categoria</th>
                         <th>Código do Livro</th>
+                        <th>CDD</th>
                         <th>Disponibilidade</th>
                     </tr>
 
@@ -83,7 +92,10 @@ $this->title = 'Busca no Acervo';
 
                         <td><?= $res[0]->categoriaAcervoIdcategoriaAcervo->categoria ?></td>
 
+                        <td><?= $res[0]->cdd?></td>
+
                         <td><?= $e->codigo_livro ?></td>
+
                         <td><?= $e->esta_disponivel ? 'Disponível' : 'Não Disponível' ?> </td>
 
                         <?php

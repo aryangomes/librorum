@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\Busca;
+use app\models\TipoMaterial;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,10 +37,18 @@ class BuscaController extends Controller
 
         $filtros = Busca::$filtros;
 
+        $tiposMateriais = ArrayHelper::map(TipoMaterial::find()->all(),
+            'idtipo_material', 'nome' );
+
+        $model->tipoMaterial = 1;
+
+        $model->filtro = 'titulo';
+
         return $this->render('index',
             [
                 'model' => $model,
                 'filtros' => $filtros,
+                'tiposMateriais'=>$tiposMateriais
             ]);
     }
 
@@ -50,6 +60,9 @@ class BuscaController extends Controller
 
         $filtrosEscolhidos = $busca['Busca']['filtro'];
 
+        $tiposMateriais = ArrayHelper::map(TipoMaterial::find()->all(),
+           'idtipo_material', 'nome' );
+
         $exemplares = [];
 
         if (strlen($busca['acervo']) > 0) {
@@ -59,6 +72,7 @@ class BuscaController extends Controller
                 ->joinWith('categoriaAcervoIdcategoriaAcervo');
 
             if(($filtrosEscolhidos) != ''){
+
                 foreach ($filtrosEscolhidos as $filtro) {
                     $query->orWhere(['LIKE', $filtro, $busca['acervo']]);
                 }
@@ -67,6 +81,7 @@ class BuscaController extends Controller
 
             $resultado = [];
 
+            $query->andWhere(['tipo_material_idtipo_material'=>$busca['Busca']['tipoMaterial']]);
 
             if (count($query->all()) > 0) {
 
@@ -83,10 +98,15 @@ class BuscaController extends Controller
                         }
 
                         array_push($resultado,[$acervo,$exemplares]);
+
                     }
                 }
 
                 $model = new Busca();
+
+                $model->tipoMaterial = $busca['Busca']['tipoMaterial'];
+
+                $model->filtro = $filtrosEscolhidos;
 
                 $filtros = Busca::$filtros;
 
@@ -97,6 +117,8 @@ class BuscaController extends Controller
                         'model' => $model,
 
                         'filtros' => $filtros,
+
+                        'tiposMateriais'=>$tiposMateriais,
                     ]);
             } else {
                 $session->setFlash('buscaAcervo', 'Nada encontrado');
