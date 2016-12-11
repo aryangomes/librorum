@@ -85,6 +85,8 @@ class BuscaController extends Controller
 
             if (count($query->all()) > 0) {
 
+                $countResultado = 0;
+
                 foreach ($query->all() as $acervo) {
 
                     if ($acervo != null) {
@@ -94,6 +96,7 @@ class BuscaController extends Controller
                         if (count($exemplaresAcervo) > 0) {
 
                            array_push($exemplares, $exemplaresAcervo);
+                           $countResultado += (count($exemplaresAcervo));
 
                         }
 
@@ -101,6 +104,8 @@ class BuscaController extends Controller
 
                     }
                 }
+
+
 
                 $model = new Busca();
 
@@ -113,6 +118,8 @@ class BuscaController extends Controller
                 return $this->render('index',
                     [
                         'resultado'=>$resultado,
+
+                        'countResultado'=>$countResultado,
 
                         'model' => $model,
 

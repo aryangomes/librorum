@@ -57,6 +57,7 @@ class RelatorioController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'tiposRelatorio'=>Relatorio::$tiposRelatorio,
         ]);
     }
 
@@ -68,8 +69,6 @@ class RelatorioController extends Controller
     public function actionView($id)
     {
         $modelRelatorio =  $this->findModel($id);
-
-
 
             $searchModel = new RelatorioSearch();
 

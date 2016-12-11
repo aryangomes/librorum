@@ -46,6 +46,7 @@ class AcervoController extends Controller
                     'view' => 'acervo',
                     'get-busca-pessoa' => 'acervo',
                     'gerar-novo-codigo-exemplares' => 'acervo',
+                    'verifica-titulo-existe'=>'acervo',
                 ],
             ],
         ];
@@ -468,6 +469,20 @@ class AcervoController extends Controller
             }
         }
 
+    }
+
+    public function actionVerificaTituloExiste($acervoTitulo)
+    {
+        $acervo =  Acervo::find()->where([
+            'titulo'=>$acervoTitulo
+        ])->one();
+
+        if ($acervo != null) {
+            echo Json::encode(true);
+        } else {
+
+            echo Json::encode(false);
+        }
     }
 
 }

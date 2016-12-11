@@ -162,3 +162,27 @@ $('#btGerarNovoCodigoExemplar').click(function () {
         $("form").submit();
     }
 });
+
+
+$("#acervo-titulo").blur(function () {
+    acervoTitulo = $(this).val();
+    $.get('verifica-titulo-existe', {acervoTitulo: acervoTitulo}, function (data) {
+            console.log(data);
+
+        if(data == 'true'){
+            $('.field-acervo-titulo').append('' +
+                '<div id="aviso-tituloexiste" class="alert alert-danger">' +
+                'Título de acervo já existe' +
+                '</div>');
+
+            $('#btGerarNovoCodigoExemplar').attr('disabled',true);
+        }else{
+            $('#aviso-tituloexiste').html('');
+            $('#aviso-tituloexiste').hide();
+            $('#btGerarNovoCodigoExemplar').attr('disabled',false);
+        }
+
+    });
+
+
+    });

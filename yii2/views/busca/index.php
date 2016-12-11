@@ -53,6 +53,7 @@ $this->title = 'Busca no Acervo';
         ?>
         <?php
         if (isset($resultado)) {
+
             ?>
             <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
             <div class="container">
@@ -111,6 +112,16 @@ $this->title = 'Busca no Acervo';
 
 
                 </table>
+
+                <div class="alert alert-info">
+                    <?php
+                    if(isset($countResultado)){
+                    ?>
+                        <?= $countResultado . ' resultado(s) encontrado(s)' ?>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
             <!-- ------------- RESULTADO DA PESQUISA ----------------- -->
             <?php

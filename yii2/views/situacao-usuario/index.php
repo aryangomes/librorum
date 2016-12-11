@@ -14,10 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="situacao-usuario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-<?= Html::a(Yii::t('app', 'Create {model}',['model'=>Yii::t('app','Situacao Usuarios')]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Situacao Usuarios')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <div class="table-responsive">
         <?php Pjax::begin(); ?>    <?=
@@ -26,27 +26,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                
 
-                'idsituacao_usuario',
+
                 'situacao',
                 [
-                'attribute'=>'pode_emprestar',
-                'value'=> function ($model) {
-                    return $model->pode_emprestar ?
-                        'Pode' : 'Não Pode';
-                }
-        ],
+                    'attribute' => 'pode_emprestar',
+                    'value' => function ($model) {
+                        return $model->pode_emprestar ?
+                            'Pode' : 'Não Pode';
+                    },
+                    'filter' => ['1' => 'Pode', '0' => 'Não Pode'],
+                ],
                 ['class' => 'yii\grid\ActionColumn'],
 
             ],
 
 
-            
-
-
         ]);
         ?>
-<?php Pjax::end(); ?>
+        <?php Pjax::end(); ?>
     </div>
 </div>

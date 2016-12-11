@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return isset($model->dataemprestimo) ?
                             Yii::$app->formatter->asDate($model->dataemprestimo, 'dd/M/Y à\s HH:m') : null;
                     },
+
                 ],
 
                 [

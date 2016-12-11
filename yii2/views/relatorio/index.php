@@ -25,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 
-            'tipo',
+            [
+                'attribute'=>'tipo',
+                'filter'=>$tiposRelatorio,
+                'value'=> function ($model) {
+                    return isset($model->tipo) ?
+                        \app\models\Relatorio::$tiposRelatorio[$model->tipo] : null;
+                }
+            ],
 
             [
                 'attribute'=>'inicio_intervalo',
@@ -49,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return isset($model->data_geracao) ?
                         Yii::$app->formatter->asDate($model->data_geracao, 'dd/M/Y') : null;
                 },
+
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
