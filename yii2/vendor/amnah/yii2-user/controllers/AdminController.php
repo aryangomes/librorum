@@ -2,6 +2,7 @@
 
 namespace amnah\yii2\user\controllers;
 
+use amnah\yii2\user\models\search\UserSearch;
 use app\models\Usuario;
 use Yii;
 use amnah\yii2\user\models\User;
@@ -72,6 +73,7 @@ class AdminController extends Controller
                     'verifica-nome' => 'usuario',
                     'verifica-rg' => 'usuario',
                     'verifica-cpf' => 'usuario',
+                    'lista-suspensos'=>'usuario',
                 ],
             ],
         ];
@@ -120,6 +122,8 @@ class AdminController extends Controller
         $post = Yii::$app->request->post();
         $userLoaded = $user->load($post);
         $profile->load($post);
+
+        $usuario->situacao_usuario_idsituacao_usuario = 1;
 
         $mensagemSucesso = "Usuário cadastrado com sucesso";
 
@@ -312,6 +316,11 @@ class AdminController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    /**
+     * Configura uma nova senha para o usuário
+     * @param $id
+     * @param $novaSenha
+     */
     public function actionResetarSenha($id, $novaSenha)
     {
         $user = $this->findModel($id);
@@ -327,7 +336,22 @@ class AdminController extends Controller
         }
     }
 
-    public function actionCreateAjax($nome, $rg, $cpf, $telefone, $email, $cargo, $reparticao, $endereco, $situacaousuario, $password)
+    /**
+     * Cadastra um novo usuário
+     * @param $nome
+     * @param $rg
+     * @param $cpf
+     * @param $telefone
+     * @param $email
+     * @param $cargo
+     * @param $reparticao
+     * @param $endereco
+     * @param $situacaousuario
+     * @param $password
+     */
+    public function actionCreateAjax($nome, $rg, $cpf, $telefone, $email,
+                                     $cargo, $reparticao, $endereco,
+                                     $situacaousuario, $password)
     {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
@@ -342,32 +366,54 @@ class AdminController extends Controller
 
         if ($user->validate()) {
             $user->username = $nome;
+
             $user->email = $rg;
+
             $user->save(false);
+
             $profile->setUser($user->id)->save(false);
 
             $usuario->nome = $nome;
+
             $usuario->rg = $rg;
+
             $usuario->cpf = $cpf;
+
             $usuario->cargo = $cargo;
+
             $usuario->reparticao = $reparticao;
+
             $usuario->endereco = $endereco;
+
             $usuario->telefone = $telefone;
+
             $usuario->email = $email;
+
             $usuario->situacao_usuario_idsituacao_usuario = $situacaousuario;
+
             $usuario->user_id = $user->id;
+
             if ($usuario->save(false)) {
                 $usuarioCadastrado = [$rg, $nome, $cpf, $cargo, $reparticao,
+
                     $usuario->idusuario, $usuario->user_id];
+
                 echo Json::encode($usuarioCadastrado);
+
             } else {
+
                 echo Json::encode(false);
             }
         } else {
+
             echo Json::encode(false);
         }
     }
 
+    /**
+     * Verifica se o Nome do usuário já está cadastrado
+     * @param $nome
+     */
     public function actionVerificaNome($nome)
     {
         $usuario = Usuario::find()->where(['nome' => $nome])->one();
@@ -378,6 +424,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Verifica se o RG do usuário já está cadastrado
+     * @param $rg
+     */
     public function actionVerificaRg($rg)
     {
         $usuario = Usuario::find()->where(['rg' => $rg])->one();
@@ -388,6 +438,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Verifica se o CPF do usuário já está cadastrado
+     * @param $cpf
+     */
     public function actionVerificaCpf($cpf)
     {
         $usuario = Usuario::find()->where(['cpf' => $cpf])->one();
@@ -398,20 +452,16 @@ class AdminController extends Controller
         }
     }
 
-    /* public function actionUploadAjax($nomeUsuario) {
-      $usuario = new Usuario();
-      $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-      if ($usuario->imageFile != null) {
+    /**
+     * Lista os usuário que não podem realizar empréstimos
+     * @return string
+     */
+    public function actionListaSuspensos(){
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->searchUsuariosSuspensos();
 
-      $usuario->foto = $usuario->getPathWeb($nomeUsuario);
-      if ($usuario->save()) {
-      $usuario->upload($usuario->nome);
-      return $this->redirect(['view', 'id' => $user->id]);
-      //                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
-      }
-      echo Json::encode(true);
-      }   else{
-      echo Json::encode(false);
-      }
-      } */
+        return $this->render('listasuspensos', compact('searchModel', 'dataProvider'));
+    }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace amnah\yii2\user\models\search;
 
+use app\models\Usuario;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -115,5 +116,34 @@ class UserSearch extends User
             ->andFilterWhere(['like', "profile.full_name", $this->getAttribute('profile.full_name')]);
 
         return $dataProvider;
+    }
+
+    /**
+     * Retorna os usuários que não podem realizar empréstimos
+     * @return ActiveDataProvider
+     */
+    public function searchUsuariosSuspensos(){
+        $query = Usuario::find()
+            ->joinWith('user')
+        ->joinWith('situacaoUsuarioIdsituacaoUsuario')
+        ->where(['pode_emprestar'=>0]);
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort'=> ['defaultOrder' => ['user_id'=>SORT_DESC]],
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        return $dataProvider    ;
+
     }
 }

@@ -71,9 +71,12 @@ AppAsset::register($this);
                                             <a href="<?= Url::toRoute('/emprestimo/create') ?>">Cadastrar Empréstimo</a>
                                         </li>
                                         <li>
-                                            <a href="<?= Url::toRoute('/user/admin/create') ?>">Cadastrar usuário</a>
+                                            <a href="<?= Url::toRoute('/user/admin/create') ?>">Cadastrar Usuário</a>
                                         </li>
 
+                                        <li>
+                                            <a href="<?= Url::toRoute('/user/admin/') ?>">Lista de Usuários</a>
+                                        </li>
 
                                     </ul>
                                     <!-- /.nav-second-level -->
@@ -131,7 +134,11 @@ AppAsset::register($this);
                                     <a href="#"><i class="fa fa-users fa-fw"></i>Usuário<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
-                                            <a href="<?= Url::toRoute('/user/admin') ?>">Usuário</a>
+                                            <a href="<?= Url::toRoute('/user/admin') ?>">Lista de Usuários</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="<?= Url::toRoute('/user/admin/') ?>">Lista de Usuários</a>
                                         </li>
                                         <li>
                                             <a href="<?= Url::toRoute('/situacao-usuario') ?>">Situação do Usuário</a>
