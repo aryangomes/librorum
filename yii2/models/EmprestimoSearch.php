@@ -10,12 +10,14 @@ use app\models\Emprestimo;
 /**
  * EmprestimoSearch represents the model behind the search form about `app\models\Emprestimo`.
  */
-class EmprestimoSearch extends Emprestimo {
+class EmprestimoSearch extends Emprestimo
+{
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['idemprestimo', 'usuario_idusuario'], 'integer'],
             [['dataemprestimo', 'dataprevisaodevolucao', 'datadevolucao', 'usuario_nome', 'usuario_rg', 'diasDiferenca'], 'safe'],
@@ -25,7 +27,8 @@ class EmprestimoSearch extends Emprestimo {
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -37,7 +40,8 @@ class EmprestimoSearch extends Emprestimo {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params)
+    {
         $query = Emprestimo::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -45,7 +49,7 @@ class EmprestimoSearch extends Emprestimo {
             'pagination' => [
                 'pageSize' => 10,
             ],
-            'sort'=> ['defaultOrder' => ['idemprestimo'=>SORT_DESC]],
+            'sort' => ['defaultOrder' => ['idemprestimo' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -66,12 +70,13 @@ class EmprestimoSearch extends Emprestimo {
         ]);
 
         $query->andFilterWhere(['like', 'usuario_nome', $this->usuario_nome])
-                ->andFilterWhere(['like', 'usuario_rg', $this->usuario_rg]);
+            ->andFilterWhere(['like', 'usuario_rg', $this->usuario_rg]);
 
         return $dataProvider;
     }
 
-    public function searchEmprestimoByRg($rg) {
+    public function searchEmprestimoByRg($rg)
+    {
 
         $usuario = Usuario::find()->where(['rg' => $rg])->one();
 
@@ -80,11 +85,11 @@ class EmprestimoSearch extends Emprestimo {
             $idUsuario = $usuario->idusuario;
 
             $query = Emprestimo::find()
-                    ->joinWith('usuarioIdusuario')
-                    ->joinWith('emprestimoHasAcervoExemplars')
-                    ->joinWith('emprestimoHasAcervoExemplars.acervoExemplarIdacervoExemplar')
-                    ->where(['usuario_idusuario' => $idUsuario, 'datadevolucao' => null])
-                    ->all();
+                ->joinWith('usuarioIdusuario')
+                ->joinWith('emprestimoHasAcervoExemplars')
+                ->joinWith('emprestimoHasAcervoExemplars.acervoExemplarIdacervoExemplar')
+                ->where(['usuario_idusuario' => $idUsuario, 'datadevolucao' => null])
+                ->all();
 
             if (count($query) <= 0) {
                 $query = null;
@@ -97,20 +102,21 @@ class EmprestimoSearch extends Emprestimo {
         return $query;
     }
 
-    public function searchEmprestimoByCodigoExemplar($codigoExemplar) {
+    public function searchEmprestimoByCodigoExemplar($codigoExemplar)
+    {
 
         $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codigoExemplar])->one();
 
         if ($exemplar != null) {
 
             $query = Emprestimo::find()
-                    ->joinWith('usuarioIdusuario')
-                    ->joinWith('acervoExemplarIdacervoExemplars')
-                    ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
-                    ->where(['acervo_exemplar_idacervo_exemplar' =>
-                        $exemplar->idacervo_exemplar,
-                        'datadevolucao' => null])
-                    ->all();
+                ->joinWith('usuarioIdusuario')
+                ->joinWith('acervoExemplarIdacervoExemplars')
+                ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
+                ->where(['acervo_exemplar_idacervo_exemplar' =>
+                    $exemplar->idacervo_exemplar,
+                    'datadevolucao' => null])
+                ->all();
 
             if (count($query) <= 0) {
                 $query = null;
@@ -129,16 +135,17 @@ class EmprestimoSearch extends Emprestimo {
      * @param $idEmprestimo
      * @return array|null|\yii\db\ActiveRecord
      */
-    public function searchDadosEmprestimo($idEmprestimo) {
+    public function searchDadosEmprestimo($idEmprestimo)
+    {
 
         if ($idEmprestimo != null) {
 
             $query = Emprestimo::find()
-                    ->joinWith('usuarioIdusuario')
-                    ->joinWith('acervoExemplarIdacervoExemplars')
-                    ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
-                    ->where(['idemprestimo' => $idEmprestimo])
-                    ->one();
+                ->joinWith('usuarioIdusuario')
+                ->joinWith('acervoExemplarIdacervoExemplars')
+                ->joinWith('acervoExemplarIdacervoExemplars.acervoIdacervo')
+                ->where(['idemprestimo' => $idEmprestimo])
+                ->one();
 
             if (count($query) <= 0) {
                 $query = null;
@@ -146,6 +153,20 @@ class EmprestimoSearch extends Emprestimo {
         } else {
             $query = null;
         }
+
+
+        return $query;
+    }
+
+    public function searchEmprestimoDoDiaAtual()
+    {
+
+        $query = Emprestimo::find()
+            ->where(['dataprevisaodevolucao' => date('Y-m-d'),
+                'datadevolucao' => null])
+            ->joinWith('usuarioIdusuario')
+
+            ->all();
 
 
         return $query;

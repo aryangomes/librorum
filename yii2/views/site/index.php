@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $emprestimosDoDiaAtual array*/
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -295,7 +296,7 @@ date_default_timezone_set('America/Recife');
                                 <tr>
                                     <th>Nome do Usuário</th>
                                     <td><span class="view-emprestimousuario"></span></td>
-                                </tr>
+                                </tr>/
                                 <tr>
                                     <th>Rg do Usuário</th>
                                     <td><span class="view-rgusuarioemprestimo"></span></td>
@@ -338,7 +339,53 @@ date_default_timezone_set('America/Recife');
 
 
         <!-- ------------- END MODAL EMPRESTIMO VIEW ------------- -->
+        <?php
+        if ((count($emprestimosDoDiaAtual) > 0) && (Yii::$app->user->can("admin"))) {
 
+            ?>
+            <h3>Empréstimo com previsão de devolução no dia <?= date('d/m/Y')?> </h3>
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Data de previsão da devolução</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <?php
+
+                    foreach ($emprestimosDoDiaAtual as $emprestimo) {
+
+                        ?>
+                        <tr>
+                        <td><?= $emprestimo['usuarioIdusuario']->nome ?></td>
+                        <td><?= $emprestimo['usuarioIdusuario']->rg ?></td>
+                        <td><?= Yii::$app->formatter->asDate($emprestimo->dataemprestimo , 'dd/M/Y') ?></td>
+                        <td><?= Yii::$app->formatter->asDate($emprestimo->dataprevisaodevolucao  , 'dd/M/Y')?></td>
+                        <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
+                             onclick="carregarDadosModalEmprestimo(<?= $emprestimo->idemprestimo  ?>)">
+                                Visualizar detalhes do Empréstimo
+                            <span class="glyphicon glyphicon-search">
+                            </span></button></td>
+                        </tr>
+                        <?php
+
+                    }
+                    ?>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <?php
+        }
+
+        ?>
     </div>
 
 </div>

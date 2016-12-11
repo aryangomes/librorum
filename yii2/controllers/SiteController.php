@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Busca;
+use app\models\EmprestimoSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -55,6 +56,10 @@ class SiteController extends Controller
 
             $session = Yii::$app->session;
 
+            $searchEmprestimo = new EmprestimoSearch();
+
+            $emprestimosDoDiaAtual = $searchEmprestimo->searchEmprestimoDoDiaAtual();
+
             if ($session->hasFlash('mensagemDevolucaoSucesso') ||
                 $session->hasFlash('mensagemCanceladoSucesso') ||
                 $session->hasFlash('mensagemRenovadoSucesso')) {
@@ -70,20 +75,16 @@ class SiteController extends Controller
                     $mensagem = $session->getFlash('mensagemRenovadoSucesso');
                 }
 
-
-
             } else {
 
                 $mensagem = "";
             }
 
-
-
             return $this->render(
                 'index',
                 [
                     'mensagem' => $mensagem,
-
+                    'emprestimosDoDiaAtual'=>$emprestimosDoDiaAtual,
                 ]);
 
         } else {
