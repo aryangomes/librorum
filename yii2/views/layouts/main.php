@@ -138,7 +138,7 @@ AppAsset::register($this);
                                         </li>
 
                                         <li>
-                                            <a href="<?= Url::toRoute('/user/admin/') ?>">Lista de Usuários</a>
+                                            <a href="<?= Url::toRoute('/user/admin/lista-suspensos') ?>">Lista de Usuários Suspensos</a>
                                         </li>
                                         <li>
                                             <a href="<?= Url::toRoute('/situacao-usuario') ?>">Situação do Usuário</a>
@@ -148,6 +148,20 @@ AppAsset::register($this);
                                     <!-- /.nav-second-level -->
                                 </li>
                             <?php } ?>
+
+                            <li>
+                            <?php
+                            if (!Yii::$app->user->isGuest) {
+                                ?>
+                                <a href="<?= Url::toRoute('/user/account') ?>"><i class="fa fa-user">
+
+                                    </i> Conta do Usuário</a>
+
+                                <?php
+                            }
+                            ?>
+                            </li>
+
                             <?php
                             if (Yii::$app->user->can("admin")) {
                                 ?>

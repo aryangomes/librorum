@@ -23,7 +23,7 @@ use yii\widgets\MaskedInput;
 
     if (isset($mensagem) && !empty($mensagem)) {
     ?>
-    <div class="alert alert-info">
+    <div class="alert alert-success">
         <?= $mensagem ?>
     </div>
     <?php

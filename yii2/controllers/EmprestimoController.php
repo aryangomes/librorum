@@ -58,7 +58,7 @@ class EmprestimoController extends Controller
                     'get-busca-emprestimo-rg' => 'emprestimo',
                     'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
                     'gerar-comprovante-emprestimo' => 'emprestimo',
-                    'get-busca-emprestimo'=>'emprestimo',
+                    'get-busca-emprestimo' => 'emprestimo',
                 ],
             ],
         ];
@@ -156,53 +156,84 @@ class EmprestimoController extends Controller
 
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 
             //Inicia a transação:
             $transaction = \Yii::$app->db->beginTransaction();
             try {
 
-                $itensSalvos = true;
-
-                $codigosExemplares = Yii::$app->request->post()['AcervoExemplar']['codigo_livro'];
-
-                foreach ($codigosExemplares as $codExem) {
-
-                    $modelEmprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
-
-                    $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codExem])->one();
+                if ($model->save()) {
 
 
-                    if ($exemplar != null) {
+                    $itensSalvos = true;
 
-                        $exemplar->esta_disponivel = 0;
+                    $codigosExemplares = Yii::$app->request->post()['AcervoExemplar']['codigo_livro'];
 
-                        $modelEmprestimoHasAcervoExemplar->emprestimo_idemprestimo = $model->idemprestimo;
+                    foreach ($codigosExemplares as $codExem) {
 
-                        $modelEmprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar = $exemplar->idacervo_exemplar;
+                        if (!empty($codExem)) {
 
-                        if (!($exemplar->save()) || !($modelEmprestimoHasAcervoExemplar->save())) {
-                            $itensSalvos = false;
-                            break;
+
+                            $modelEmprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                            $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codExem])->one();
+
+
+                            if ($exemplar != null) {
+
+                                if ($exemplar->esta_disponivel == 0) {
+                                    $itensSalvos = false;
+
+                                    $mensagem = "Exemplar " . $exemplar->acervoIdacervo->titulo
+                                        . ' está indisponível';
+                                    break;
+                                } else {
+
+                                    $exemplar->esta_disponivel = 0;
+
+                                    $modelEmprestimoHasAcervoExemplar->emprestimo_idemprestimo = $model->idemprestimo;
+
+                                    $modelEmprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar = $exemplar->idacervo_exemplar;
+
+                                    if (!($exemplar->save()) || !($modelEmprestimoHasAcervoExemplar->save())) {
+                                        $itensSalvos = false;
+                                        break;
+                                    }
+                                }
+
+                            } else {
+                                $itensSalvos = false;
+                                break;
+                            }
                         }
-                    } else {
-                        $itensSalvos = false;
-                        break;
+                    }
+
+                    if ($itensSalvos) {
+                        $transaction->commit();
+
+                        $mensagem = "Empréstimo cadastrado com sucesso. 
+                    <a href='" . Url::to(['view', 'id' => $model->idemprestimo]) . "' target='_blank'>Clique aqui para acessá-lo!</a>";
+
+                        Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
+
+                        return $this->redirect(['create']);
+//                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
                     }
                 }
 
-
-                if ($itensSalvos) {
-                    $transaction->commit();
-
-                    $mensagem = "Empréstimo cadastrado com sucesso. 
-                    <a href='" . Url::to(['view', 'id' => $model->idemprestimo]) . "' target='_blank'>Clique aqui para acessá-lo!</a>";
-
-                    Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
-
-                    return $this->redirect(['create']);
-//                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
-                }
+               
+                    return $this->render('create', [
+                        'model' => $model,
+                        'usuario' => $usuario,
+                        'acervo' => $acervo,
+                        'exemplar' => $exemplar,
+                        'user' => $user,
+                        'profile' => $profile,
+                        'role' => $role,
+                        'situacoesusuario' => $situacoesusuario,
+                        'mensagem' => $mensagem,
+                        'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,
+                    ]);
 
 
             } catch (\Exception $exception) {
@@ -234,28 +265,28 @@ class EmprestimoController extends Controller
      * @return mixed
 
     public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        $usuario = Usuario::findOne([$model->usuario_idusuario, $model->usuario_rg, $model->usuario_nome]);
-
-        $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
-
-        $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
-        $user = User::findIdentity($usuario->user_id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idemprestimo]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'usuario' => $usuario,
-                'acervo' => $acervo,
-                'user' => $user,
-                'exemplar' => $exemplar,
-            ]);
-        }
-    } */
+     * {
+     * $model = $this->findModel($id);
+     *
+     * $usuario = Usuario::findOne([$model->usuario_idusuario, $model->usuario_rg, $model->usuario_nome]);
+     *
+     * $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
+     *
+     * $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
+     * $user = User::findIdentity($usuario->user_id);
+     *
+     * if ($model->load(Yii::$app->request->post()) && $model->save()) {
+     * return $this->redirect(['view', 'id' => $model->idemprestimo]);
+     * } else {
+     * return $this->render('update', [
+     * 'model' => $model,
+     * 'usuario' => $usuario,
+     * 'acervo' => $acervo,
+     * 'user' => $user,
+     * 'exemplar' => $exemplar,
+     * ]);
+     * }
+     * } */
 
     /**
      * @param $id
@@ -518,7 +549,7 @@ class EmprestimoController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('mensagemRenovadoSucesso', 'Empréstimo renovado com sucesso');
 
-                return $this->redirect(['/' , 'msg'=>'mensagemDevolucaoSucesso']);
+                return $this->redirect(['/', 'msg' => 'mensagemDevolucaoSucesso']);
 //                return $this->redirect(['view', 'id' => $id]);
             }
 
@@ -607,7 +638,7 @@ class EmprestimoController extends Controller
                 $exemplaresEmprestados = $e['emprestimoHasAcervoExemplars'];
 
 
-                foreach ($exemplaresEmprestados as $ee){
+                foreach ($exemplaresEmprestados as $ee) {
 
                     array_push($emprestimoExemplares, [
 
@@ -627,7 +658,7 @@ class EmprestimoController extends Controller
             if ($emprestimos != null) {
 
                 echo Json::encode([$emprestimos, $emprestimoUsuario, $emprestimoExemplares,
-                $arrayDiasDiferenca]);
+                    $arrayDiasDiferenca]);
             } else {
                 echo Json::encode(null);
             }
@@ -725,30 +756,28 @@ class EmprestimoController extends Controller
             $emprestimoUsuario = [];
 
 
+            $emprestimo->calcularDiasDeEmprestimo();
 
-                $emprestimo->calcularDiasDeEmprestimo();
+            array_push($arrayDiasDiferenca, $emprestimo->diasDiferenca);
 
-                array_push($arrayDiasDiferenca, $emprestimo->diasDiferenca);
+            $emprestimo->dataprevisaodevolucao = (date("d/m/Y", strtotime($emprestimo->dataprevisaodevolucao)));
 
-                $emprestimo->dataprevisaodevolucao = (date("d/m/Y", strtotime($emprestimo->dataprevisaodevolucao)));
+            $emprestimo->dataemprestimo = (date("d/m/Y H:i", strtotime($emprestimo->dataemprestimo)));
 
-                $emprestimo->dataemprestimo = (date("d/m/Y H:i", strtotime($emprestimo->dataemprestimo)));
-
-                $exemplaresEmprestados = $emprestimo['acervoExemplarIdacervoExemplars'];
-
-
-                foreach ($exemplaresEmprestados as $ee){
-
-                    array_push($emprestimoExemplares, [
-
-                        $ee,
-                        $ee['acervoIdacervo']
-                    ]);
-                }
+            $exemplaresEmprestados = $emprestimo['acervoExemplarIdacervoExemplars'];
 
 
-                array_push($emprestimoUsuario, $emprestimo['usuarioIdusuario']);
+            foreach ($exemplaresEmprestados as $ee) {
 
+                array_push($emprestimoExemplares, [
+
+                    $ee,
+                    $ee['acervoIdacervo']
+                ]);
+            }
+
+
+            array_push($emprestimoUsuario, $emprestimo['usuarioIdusuario']);
 
 
             if ($emprestimo != null) {
