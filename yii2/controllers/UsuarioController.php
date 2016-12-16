@@ -180,4 +180,6 @@ class UsuarioController extends Controller
             throw new HttpException(403, 'Acesso negado.');
         }
     }
+
+
 }

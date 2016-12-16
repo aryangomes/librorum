@@ -165,11 +165,28 @@ class EmprestimoSearch extends Emprestimo
             ->where(['dataprevisaodevolucao' => date('Y-m-d'),
                 'datadevolucao' => null])
             ->joinWith('usuarioIdusuario')
-
             ->all();
 
 
         return $query;
+    }
+
+    public function searchUsuariosQueNaoFizeramDevolucao()
+    {
+
+        $query = Emprestimo::find()
+            ->joinWith('usuarioIdusuario')
+            ->where(['datadevolucao' => null]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => ['defaultOrder' => ['dataemprestimo' => SORT_DESC]],
+        ]);
+
+        return $dataProvider;
     }
 
 }

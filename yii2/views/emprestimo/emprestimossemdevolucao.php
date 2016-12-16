@@ -2,23 +2,19 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+use \yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\EmprestimoSearch */
+/* @var $searchModel app\models\UsuarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Loans');
+$this->title = 'Empréstimos sem Devolução';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="emprestimo-index">
+<div class="usuario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Loan')]), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <div class="table-responsive">
         <?php Pjax::begin(); ?>
         <?=
@@ -27,12 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-//            'idemprestimo',
+
                 [
                     'label' => 'Empréstimo',
                     'format' => 'raw',
+                    'visible'=>Yii::$app->user->can('admin'),
                     'value' => function ($model) {
-                        return Html::a('Visualizar Empréstimo', ['view', 'id' => $model->idemprestimo]);
+                        return Html::a('Visualizar Empréstimo', ['/emprestimo/view', 'id' => $model->idemprestimo]);
                     }
                 ],
 
@@ -40,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'usuarioIdusuario.rg',
 
                 [
-                    'attribute' => 'dataemprestimo',
-                    'value' => function ($model) {
+                    'attribute'=>'dataemprestimo',
+                    'value'=> function ($model){
                         return isset($model->dataemprestimo) ?
                             Yii::$app->formatter->asDate($model->dataemprestimo, 'dd/M/Y à\s HH:m') : null;
                     },
@@ -49,32 +46,43 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
 
                 [
-                    'attribute' => 'dataprevisaodevolucao',
-                    'value' => function ($model) {
+                    'attribute'=>'dataprevisaodevolucao',
+                    'value'=> function ($model){
                         return isset($model->dataprevisaodevolucao) ?
                             Yii::$app->formatter->asDate($model->dataprevisaodevolucao, 'dd/M/Y') : null;
                     },
                 ],
 
                 [
-                    'attribute' => 'datadevolucao',
-                    'value' => function ($model) {
+                    'attribute'=>'datadevolucao',
+                    'value'=> function ($model){
                         return isset($model->datadevolucao) ?
                             Yii::$app->formatter->asDate($model->datadevolucao, 'dd/M/Y à\s HH:m') : 'Não devolvido';
                     },
+                ],
 
+                [
+                    'label'=>'Exemplar(es) Emprestado(s)',
+                    'attribute'=>'AcervoExemplarIdacervoExemplars',
+                    'value'=> function ($model){
+                        $exemplares = "";
+                        foreach ($model->acervoExemplarIdacervoExemplars as $key => $exemplar){
+                            $exemplares .= $exemplar['acervoIdacervo']->titulo;
+
+                            if($key < (count($model->acervoExemplarIdacervoExemplars)-1) &&
+                                count($model->acervoExemplarIdacervoExemplars) >1 ){
+                               $exemplares .= ', ' ;
+                            }
+                        }
+                        return  $exemplares;
+                    },
                 ],
 
 
 
-                // 'usuario_nome',
-                // 'usuario_rg',
-                // 'acervo_exemplar_idacervo_exemplar',
-            ['class' => 'yii\grid\ActionColumn'],
             ],
         ]);
         ?>
         <?php Pjax::end(); ?>
-
     </div>
 </div>

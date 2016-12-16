@@ -68,16 +68,16 @@ class Usuario extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'idusuario' => Yii::t('app', 'Idusuario'),
-            'nome' => Yii::t('app', 'Nome'),
-            'rg' => Yii::t('app', 'Rg'),
-            'cpf' => Yii::t('app', 'Cpf'),
-            'cargo' => Yii::t('app', 'Cargo'),
-            'reparticao' => Yii::t('app', 'Repartição'),
-            'endereco' => Yii::t('app', 'Endereço'),
-            'telefone' => Yii::t('app', 'Telefone'),
-            'email' => Yii::t('app', 'Email'),
+            'nome' => Yii::t('app', 'Nome do Usuário'),
+            'rg' => Yii::t('app', 'Rg do Usuário'),
+            'cpf' => Yii::t('app', 'Cpf do Usuário'),
+            'cargo' => Yii::t('app', 'Cargo do Usuário'),
+            'reparticao' => Yii::t('app', 'Repartição do Usuário'),
+            'endereco' => Yii::t('app', 'Endereço do Usuário'),
+            'telefone' => Yii::t('app', 'Telefone do Usuário'),
+            'email' => Yii::t('app', 'Email do Usuário'),
             'user_id' => Yii::t('app', 'User ID'),
-            'imageFile' => Yii::t('app', 'Foto'),
+            'imageFile' => Yii::t('app', 'Foto do Usuário'),
             'situacaoUsuarioIdsituacaoUsuario' => yii::t('app', 'Situação Do Usuário'),
         ];
     }

@@ -59,6 +59,7 @@ class EmprestimoController extends Controller
                     'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
                     'gerar-comprovante-emprestimo' => 'emprestimo',
                     'get-busca-emprestimo' => 'emprestimo',
+                    'emprestimos-sem-devolucao'=> 'emprestimo',
                 ],
             ],
         ];
@@ -790,6 +791,21 @@ class EmprestimoController extends Controller
         } else {
             echo Json::encode(null);
         }
+    }
+
+    public function actionEmprestimosSemDevolucao()
+    {
+        $searchModel = new EmprestimoSearch();
+
+        $dataProvider = $searchModel->searchUsuariosQueNaoFizeramDevolucao();
+
+        return $this->render('emprestimossemdevolucao', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+        ]);
+
+
     }
 
 }
