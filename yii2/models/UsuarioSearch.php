@@ -47,7 +47,7 @@ class UsuarioSearch extends Usuario
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-             'pagination' => [
+            'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
@@ -86,9 +86,8 @@ class UsuarioSearch extends Usuario
     public function searchUsuario($rg)
     {
         $query = Usuario::find()
-
-            ->where(['rg'=>$rg])->one();
-        if($query != null){
+            ->where(['rg' => $rg])->one();
+        if ($query != null) {
             return $query;
         }
 
@@ -102,19 +101,23 @@ class UsuarioSearch extends Usuario
      */
     public function searchMatriculaUsuario($nomeUsuario)
     {
-        $query = Usuario::find()->where(['like','nome',$nomeUsuario])->all();
+        $query = Usuario::find()->where(['like', 'nome', $nomeUsuario])->all();
 
 
-        if($query != null){
+        if ($query != null) {
             return $query;
         }
         return null;
     }
 
 
+    /**
+     * Busca os exemplares emprestados de um usuário
+     * @param $idUsuario
+     * @return int|null|string
+     */
     public function searchQtdExemplaresEmprestados($idUsuario)
     {
-//        $query = Usuario::find()->where(['like','nome',$nomeUsuario])->all();
 
         $query = Usuario::find()
             ->joinWith('emprestimos')
@@ -123,10 +126,37 @@ class UsuarioSearch extends Usuario
             ->count();
 
 
-        if($query != null){
+        if ($query != null) {
             return $query;
         }
         return null;
+    }
+
+    /**
+     * Retorna todos os empréstimos de um usuário
+     * @param $idUsuario
+     * @return ActiveDataProvider
+     */
+    public function searchHistoricoUsuario($idUsuario)
+    {
+
+        $query = Emprestimo::find()
+            ->joinWith('usuarioIdusuario');
+        
+        $query->andFilterWhere([
+            'user_id' => $idUsuario,
+
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => ['defaultOrder' => ['dataemprestimo' => SORT_DESC]],
+        ]);
+
+        return $dataProvider;
     }
 
 }

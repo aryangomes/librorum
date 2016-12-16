@@ -11,8 +11,10 @@ class AccessFilter extends ActionFilter
 public $actions;
     public function beforeAction($action)
     {
-     
+
        if (isset($this->actions[$action->id])) {
+
+
            //se o Usuário NÃO tiver acesso
            if (!\Yii::$app->user->can($this->actions[$action->id])) {
            throw new HttpException(403,'Acesso negado.');

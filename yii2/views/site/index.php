@@ -274,7 +274,6 @@ date_default_timezone_set('America/Recife');
 
 
                             <p></p>
-
                             <table id="w4" class="table table-striped table-bordered detail-view">
                                 <tbody>
                                 <tr>

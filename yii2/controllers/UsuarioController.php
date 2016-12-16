@@ -6,9 +6,11 @@ use Yii;
 use app\models\Usuario;
 use app\models\UsuarioSearch;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\components\AccessFilter;
+
 /**
  * UsuarioController implements the CRUD actions for Usuario model.
  */
@@ -26,8 +28,10 @@ class UsuarioController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-              'autorizacao' => [
+
+            'autorizacao' => [
                 'class' => AccessFilter::className(),
+                'except' => ['historico-emprestimo'],
                 'actions' => [
 
                     'index' => 'usuario',
@@ -35,6 +39,7 @@ class UsuarioController extends Controller
                     'delete' => 'usuario',
                     'create' => 'usuario',
                     'view' => 'usuario',
+
                 ],
             ],
         ];
@@ -63,7 +68,7 @@ class UsuarioController extends Controller
      * @return mixed
      */
     public function actionView($idusuario, $nome, $rg)
-        {
+    {
 
         return $this->render('view', [
             'model' => $this->findModel($idusuario, $nome, $rg),
@@ -119,10 +124,10 @@ class UsuarioController extends Controller
      */
     public function actionDelete($idusuario, $nome, $rg)
     {
-        $model =  $this->findModel($idusuario, $nome, $rg);
+        $model = $this->findModel($idusuario, $nome, $rg);
 
-        if($model->delete()){
-        $this->findModel($idusuario, $nome, $rg)->deleteFoto();
+        if ($model->delete()) {
+            $this->findModel($idusuario, $nome, $rg)->deleteFoto();
 
             return $this->redirect(['index']);
         }
@@ -145,6 +150,34 @@ class UsuarioController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Lista o histórico de Empréstimos de um usuário específico
+     * @param $idUsuario
+     * @return string
+     * @throws HttpException
+     */
+    public function actionHistoricoEmprestimo($idUsuario)
+    {
+        if (!Yii::$app->user->isGuest) {
+
+            $searchModel = new UsuarioSearch();
+
+            $usuarioModel = Usuario::find()->where(['user_id' => $idUsuario])->one();
+
+            $dataProvider = $searchModel->searchHistoricoUsuario($idUsuario);
+
+            return $this->render('historicoemprestimo', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'usuarioModel' => $usuarioModel,
+            ]);
+
+        } else {
+
+            throw new HttpException(403, 'Acesso negado.');
         }
     }
 }

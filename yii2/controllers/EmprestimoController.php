@@ -221,7 +221,7 @@ class EmprestimoController extends Controller
                     }
                 }
 
-               
+
                     return $this->render('create', [
                         'model' => $model,
                         'usuario' => $usuario,

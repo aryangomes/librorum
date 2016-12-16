@@ -27,8 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?=
         Html::a(Yii::t('user', 'Create {modelClass}', [
-                    'modelClass' => Yii::t('user', 'User')
-                ]), ['create'], ['class' => 'btn btn-success'])
+            'modelClass' => Yii::t('user', 'User')
+        ]), ['create'], ['class' => 'btn btn-success'])
         ?>
     </p>
 
@@ -44,46 +44,46 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'profile.full_name',
                 'label' => Yii::t('user', 'Full Name'),
                 'format' => 'raw',
-                'value' => function($model) {
+                'value' => function ($model) {
 
                     return Html::a($model->username, ['view', 'id' => $model->id]);
                 },
-                    ],
-                    'usuario.rg',
-                    'email',
-                    
-                    [
-                        'attribute' => 'role_id',
-                        'label' => Yii::t('user', 'Role'),
-                        'filter' => $role::dropdown(),
-                        'value' => function($model, $index, $dataColumn) use ($role) {
-                            $roleDropdown = $role::dropdown();
-                            return $roleDropdown[$model->role_id];
-                        },
-                    ],
-                    'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
+            ],
+            'usuario.rg',
+            'email',
+
             [
-                'attribute'=>'created_at',
-                'value'=> function ($model){
+                'attribute' => 'role_id',
+                'label' => Yii::t('user', 'Role'),
+                'filter' => $role::dropdown(),
+                'value' => function ($model, $index, $dataColumn) use ($role) {
+                    $roleDropdown = $role::dropdown();
+                    return $roleDropdown[$model->role_id];
+                },
+            ],
+            'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
+            [
+                'attribute' => 'created_at',
+                'value' => function ($model) {
                     return isset($model->created_at) ?
                         Yii::$app->formatter->asDate($model->created_at, 'dd/M/Y à\s HH:m') : null;
                 },
             ],
 
-                // 'username',
-                // 'password',
-                // 'auth_key',
-                // 'access_token',
-                // 'logged_in_ip',
-                // 'logged_in_at',
-                // 'created_ip',
-                // 'updated_at',
-                // 'banned_at',
-                // 'banned_reason',
+            // 'username',
+            // 'password',
+            // 'auth_key',
+            // 'access_token',
+            // 'logged_in_ip',
+            // 'logged_in_at',
+            // 'created_ip',
+            // 'updated_at',
+            // 'banned_at',
+            // 'banned_reason',
 //            ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]);
-            ?>
-            <?php \yii\widgets\Pjax::end(); ?>
+        ],
+    ]);
+    ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

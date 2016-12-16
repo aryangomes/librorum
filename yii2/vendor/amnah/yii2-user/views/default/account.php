@@ -56,9 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <hr/>
 
-    <?php if ($module->useEmail): ?>
-        <?= $form->field($user, 'email') ?>
-    <?php endif; ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
@@ -67,7 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <p class="small"><?= Yii::t('user', "Pending email confirmation: [ {newEmail} ]", ["newEmail" => $userToken->data]) ?></p>
                 <p class="small">
-                    <?= Html::a(Yii::t("user", "Resend"), ["/user/resend-change"]) ?> / <?= Html::a(Yii::t("user", "Cancel"), ["/user/cancel"]) ?>
+                    <?= Html::a(Yii::t("user", "Resend"), ["/user/resend-change"]) ?>
+                    / <?= Html::a(Yii::t("user", "Cancel"), ["/user/cancel"]) ?>
                 </p>
 
             <?php elseif ($module->emailConfirmation): ?>
@@ -88,17 +86,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
             <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary']) ?>
+
+            <?= Html::a('Visualizar Histórico de Empréstimos',
+                \yii\helpers\Url::to(['/usuario/historico-emprestimo',
+                    'idUsuario' => Yii::$app->user->getId()]),
+                ['class' => 'btn btn-info']) ?>
         </div>
     </div>
 
     <?php ActiveForm::end(); ?>
 
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-10">
-            <?php foreach ($user->userAuths as $userAuth): ?>
-                <p>Linked Social Account: <?= ucfirst($userAuth->provider) ?> / <?= $userAuth->provider_id ?></p>
-            <?php endforeach; ?>
-        </div>
-    </div>
 
 </div>
