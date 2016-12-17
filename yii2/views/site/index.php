@@ -295,7 +295,7 @@ date_default_timezone_set('America/Recife');
                                 <tr>
                                     <th>Nome do Usuário</th>
                                     <td><span class="view-emprestimousuario"></span></td>
-                                </tr>/
+                                </tr>
                                 <tr>
                                     <th>Rg do Usuário</th>
                                     <td><span class="view-rgusuarioemprestimo"></span></td>

@@ -5,6 +5,8 @@
 
 var qtdExemplarEmprestimo = 1;
 
+var urlFotoPadrao = "/librorum/yii2//web/uploads/imgs/fotos-usuarios/userdefault.png";
+
 $('#tableresult').hide();
 
 $('#tableresult-exemplar').hide();
@@ -42,13 +44,22 @@ $('#emprestimo-usuario_rg').blur(function () {
                 $('#emprestimo-usuario_idusuario').val(data.idusuario);
                 $('#usuario-user_id').val(data.user_id);
                 $('#usuario_idusuario').val(data.idusuario);
-                $('#foto-usuario').attr("src", data.foto);
+                if(data.foto != null) {
+                    $('#foto-usuario').attr("src", data.foto);
+                }else{
+                    $('#foto-usuario').attr("src", urlFotoPadrao);
+                }
                 $('#btSave').prop('disabled', true);
                 $('#mensagem-senha-errada').hide();
                 $('#result-get-usuario').html('');
                 $('#user-password').prop('disabled', false);
                 $('#result-get-usuario').hide();
                 $('#mensagem-cadastro-usuario').hide();
+
+                $("img").error(function () {
+                    $(this).unbind("error").attr("src", urlFotoPadrao);
+                });
+
                 $.get('verifica-pode-emprestar', {idusuario: data.idusuario}, function (resultado) {
                     // console.log('pode emprestar.:' + resultado);
                     if (resultado == 'false') {

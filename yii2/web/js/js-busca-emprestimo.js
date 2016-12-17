@@ -29,7 +29,7 @@ $('#btPesquisarPorRG').click(function () {
 
                 $('#result-messagem-busca-emprestimo-rg').attr('class', 'alert alert-success');
 
-                $('#result-messagem-busca-emprestimo-rg').html('</b>Empréstimo(s) encontrado(s)</b>');
+                $('#result-messagem-busca-emprestimo-rg').html('<b>Empréstimo(s) encontrado(s)</b>');
 
 
 
@@ -87,7 +87,7 @@ $('#btPesquisarExemplar').click(function () {
 
 
                     $('#result-messagem-busca-emprestimo-exemplar').attr('class', 'alert alert-success');
-                    $('#result-messagem-busca-emprestimo-exemplar').html('</b>Empréstimo(s) encontrado(s)</b>');
+                    $('#result-messagem-busca-emprestimo-exemplar').html('<b>Empréstimo(s) encontrado(s)</b>');
                     data.forEach(function (item, index) {
 
 
@@ -214,3 +214,4 @@ function carregarDadosModalEmprestimo(id) {
     });
 
 }
+
