@@ -19,6 +19,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Loan')]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <div class="form-group">
+        <?= Html::label('Situação do Empréstimo') ?>
+        <?php $form = \yii\widgets\ActiveForm::begin(['action' => 'emprestimo', 'id' => 'situacao-emprestimo', 'method' => 'get',]); ?>
+        <?= Html::dropDownList('situacao-emprestimo',$situacaoEmprestimo,['nao devolvido'=>'Não devolvido', 'devolvido'=>'Devolvido'],
+            ['class' => 'form-control',
+            'prompt'=>'Selecione a Situação de Empréstimo...']) ?>
+        <?php $form = \yii\widgets\ActiveForm::end(); ?>
+    </div>
+    <?php
+    $this->registerJs('$("select").change(function(){$(this).submit()});');
+    ?>
+
     <div class="table-responsive">
         <?php Pjax::begin(); ?>
         <?=

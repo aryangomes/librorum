@@ -69,15 +69,19 @@ class EmprestimoController extends Controller
      * Lists all Emprestimo models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($situacaoEmprestimo = '')
     {
         $searchModel = new EmprestimoSearch();
-
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//var_dump(Yii::$app->request->queryParams['situacao-emprestimo']);die();
+        if (Yii::$app->request->get()) {
+            $situacaoEmprestimo = Yii::$app->request->get()['situacao-emprestimo'];
+        }
+        $dataProvider = $searchModel->searchIndexEmprestimo($situacaoEmprestimo);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'situacaoEmprestimo'=>$situacaoEmprestimo,
         ]);
     }
 

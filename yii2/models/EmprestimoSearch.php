@@ -75,6 +75,30 @@ class EmprestimoSearch extends Emprestimo
         return $dataProvider;
     }
 
+    public function searchIndexEmprestimo($situacaoEmprestimo)
+    {
+        $query = Emprestimo::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => ['defaultOrder' => ['idemprestimo' => SORT_DESC]],
+        ]);
+
+
+
+        if ($situacaoEmprestimo == 'nao devolvido') {
+            $query->where('datadevolucao is null');
+        }else if($situacaoEmprestimo == 'devolvido'){
+            $query->where('datadevolucao is not null');
+        }
+
+
+        return $dataProvider;
+    }
+
     public function searchEmprestimoByRg($rg)
     {
 
