@@ -231,7 +231,7 @@ use yii\widgets\MaskedInput;
                         'type' => Form::INPUT_RAW,
                         'value' => '<div class="col-sm-6"><div class="form-group ">
                             <label class="control-label" for="confirmar-usuario">Confirmar Usuário</label>
-                            <input type="button" id="confirmar-usuario" class="btn btn-primary" value="Confirmar">
+                            <input type="button" title="Clique aqui para confirmar os dados do Usuário" data-toggle="tooltip" id="confirmar-usuario" class="btn btn-primary" value="Confirmar">
 
 
 	</div>'
@@ -275,7 +275,9 @@ use yii\widgets\MaskedInput;
         Html::input('text', 'busca-usuario', null, ['class' => 'form-control', 'id' => 'busca-usuario',
             'placeholder' => 'Digite o nome do usuário']) . "
  <span class=\"input-group-btn\"> 
-  " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary']) . "
+  " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary',
+            'title'=>'Clique aqui para pesquisar o usuário',
+            'data-toggle'=>"tooltip"]) . "
  </span> </div> 
 </div> </div> </div>
         <div id=\"result-mensagem-busca-usuario\">
@@ -313,11 +315,12 @@ use yii\widgets\MaskedInput;
                             'value' => '<div class="col-sm-6">
                 <div class="form-group ">
                 <label class="control-label" for="confirmar-usuario">Confirmar Exemplar</label>
-                <input type="button" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar">
+                <input type="button" title="Clique aqui para confirmar os dados do Exemplar" data-toggle="tooltip" id="confirmar-exemplar" class="btn btn-primary" value="Confirmar">
                 </div>
                 <div class="form-group ">
               
-                <input type="button"  class="btn btn-success" 
+                <input type="button" title="Clique aqui para adicionar mais um campo para informar um Código do Exemplar" 
+                 data-toggle="tooltip" class="btn btn-success" 
                 onclick="adicionarInputCodigoExemplar()" value="Adicionar mais um campo de Código Exemplar">
                 </div>
                 
@@ -340,7 +343,9 @@ use yii\widgets\MaskedInput;
         Html::input('text', 'busca-exemplar', null, ['class' => 'form-control', 'id' => 'busca-exemplar',
             'placeholder' => 'Digite o título do exemplar']) . "
  <span class=\"input-group-btn\"> 
-  " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary']) . "
+  " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary',
+            'title'=>'Clique aqui para pesquisar o exemplar',
+            'data-toggle'=>"tooltip"]) . "
  </span> </div></div></div></div>
          
 
@@ -524,11 +529,15 @@ use yii\widgets\MaskedInput;
 <div class="form-group">
     <?=
     Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-        'id' => 'btSave'])
+        'id' => 'btSave',
+        'title'=> $model->isNewRecord ? 'Clique aqui cadastrar o Empréstimo':'Clique aqui atualizar o Empréstimo',
+        'data-toggle'=>"tooltip"])
     ?>
 
 
-    <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning'])
+    <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning',
+        'title'=>'Clique aqui para limpar os dados dos campos',
+        'data-toggle'=>"tooltip"])
     ?>
 </div>
 

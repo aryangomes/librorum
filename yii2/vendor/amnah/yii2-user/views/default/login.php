@@ -34,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
-            <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary',
+                'title'=>'Clique aqui logar no sistema',
+                'data-toggle'=>"tooltip"]) ?>
 
             <br/><br/>
 

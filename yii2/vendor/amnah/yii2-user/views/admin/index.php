@@ -28,7 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?=
         Html::a(Yii::t('user', 'Create {modelClass}', [
             'modelClass' => Yii::t('user', 'User')
-        ]), ['create'], ['class' => 'btn btn-success'])
+        ]), ['create'], ['class' => 'btn btn-success',
+            'title'=>'Clique aqui para cadastrar um usuário',
+            'data-toggle'=>"tooltip"])
         ?>
     </p>
 

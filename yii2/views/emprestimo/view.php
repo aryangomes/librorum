@@ -11,7 +11,7 @@ use yii\bootstrap\Modal;
 
 $this->title = "Data do Empréstimo: " .
     date('d/m/Y H:i:s', strtotime($model->dataemprestimo));
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Loans'), 'url' => ['/emprestimo']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="emprestimo-view">
@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
         'class' => 'btn btn-danger',
+        'title'=>"Clique aqui para cancelar o Empréstimo",
+
         'data' => [
             'confirm' => Yii::t('app', 'Você deseja cancelar o empréstimo?'),
             'method' => 'post',
@@ -45,7 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => '<h2>Devolução</h2>',
         'toggleButton' => ['label' => isset($model->datadevolucao) ? 'Devolvido' : 'Fazer Devolução',
             'class' => 'btn btn-success',
-            'disabled' => isset($model->datadevolucao) ? true : false],
+            'disabled' => isset($model->datadevolucao) ? true : false,
+            'title'=>"Clique aqui para fazer a devolução do Empréstimo",],
     ]);
 
     $form = ActiveForm::begin(['action' => ['devolucao', 'id' => $model->idemprestimo]]);
@@ -84,7 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'header' => '<h2>Renovar empréstimo</h2>',
         'toggleButton' => ['label' => 'Fazer Renovação de Empréstimo',
             'class' => 'btn btn-warning',
-            'disabled' => isset($model->datadevolucao) ? true : false],
+            'disabled' => isset($model->datadevolucao) ? true : false,
+            'title'=>"Clique aqui para renovar o Empréstimo",],
+
+
     ]);
 
     $form = ActiveForm::begin(['action' => ['renovar', 'id' => $model->idemprestimo]]);

@@ -21,7 +21,10 @@ $this->title = 'Busca no Acervo';
             <div class="form-group input-group input-group-lg">
                 <input type="text" name="acervo" class="form-control" placeholder="Buscar Material">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">Pesquisar</button>
+                    <button class="btn btn-primary"
+                             title='Clique aqui para pesquisar'
+            data-toggle="tooltip"
+                            type="submit">Pesquisar</button>
                 </span>
 
             </div>

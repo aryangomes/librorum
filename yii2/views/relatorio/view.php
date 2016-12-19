@@ -17,9 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idrelatorio], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idrelatorio], ['class' => 'btn btn-primary',
+            'title' => 'Clique aqui para atualizar o relatório',]) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idrelatorio], [
             'class' => 'btn btn-danger',
+            'title' => 'Clique aqui para excluir o relatório',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
@@ -29,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Gerar Relatório Empréstimo-->
         <?php
         echo isset($model->datadevolucao) ? '' :
-            Html::a('Gerar Comprovante de Empréstimo', ['gerar-relatorio-'.$model->tipo,
+            Html::a('Gerar PDF do Relatório', ['gerar-relatorio-'.$model->tipo,
                 'id' => $model->idrelatorio], [
                 'class' => 'btn btn-success',
                 'target' => '_blank',
                 'data-toggle' => 'tooltip',
-                'title' => 'Clique aqui para gerar o comprovante do empréstimo',
+                'title' => 'Clique aqui para gerar um PDF do relatório',
             ]);
         ?>
         <!-- Gerar Relatório Empréstimo-->

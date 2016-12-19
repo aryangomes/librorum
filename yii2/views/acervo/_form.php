@@ -379,7 +379,10 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
     <div class="form-group">
         <?= Html::Button($model->isNewRecord ? Yii::t('app', 'Catalog') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                'id' => 'btGerarNovoCodigoExemplar']) ?>
+                'id' => 'btGerarNovoCodigoExemplar',
+                'title'=>$model->isNewRecord ? 'Clique aqui para catalogar o acervo':
+                    'Clique aqui para atualizar o acervo',
+                'data-toggle'=>"tooltip"]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

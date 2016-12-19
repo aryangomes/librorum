@@ -85,12 +85,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
-            <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary',
+                'title'=>'Clique aqui para atualizar o usuário',
+                'data-toggle'=>"tooltip"]) ?>
 
             <?= Html::a('Visualizar Histórico de Empréstimos',
                 \yii\helpers\Url::to(['/usuario/historico-emprestimo',
                     'idUsuario' => Yii::$app->user->getId()]),
-                ['class' => 'btn btn-info']) ?>
+                ['class' => 'btn btn-info',
+                    'title'=> 'Clique aqui para visualizar o histórico de empréstimo do usuário',
+                    'data-toggle'=>"tooltip"]) ?>
         </div>
     </div>
 

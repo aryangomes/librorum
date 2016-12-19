@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Loan')]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Loan')]), ['create'], ['class' => 'btn btn-success',
+            'title'=>'Clique aqui para cadastrar um empréstimo',
+            'data-toggle'=>"tooltip"]) ?>
     </p>
 
     <div class="form-group">
@@ -83,7 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'usuario_nome',
                 // 'usuario_rg',
                 // 'acervo_exemplar_idacervo_exemplar',
-            ['class' => 'yii\grid\ActionColumn'],
+            /*['class' => 'yii\grid\ActionColumn',
+            'template'=>'{view} {delete}'],*/
             ],
         ]);
         ?>

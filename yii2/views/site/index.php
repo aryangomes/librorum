@@ -67,7 +67,9 @@ date_default_timezone_set('America/Recife');
                 <span class="input-group-btn">
                     <?=
                     Html::button('Pesquisar', ['class' => 'btn btn-primary',
-                        'id' => 'btPesquisarPorRG'])
+                        'id' => 'btPesquisarPorRG',
+                    'title'=>'Clique aqui para pesquisar',
+                        'data-toggle'=>"tooltip"])
                     ?>
                 </span>
             </div>
@@ -113,7 +115,9 @@ date_default_timezone_set('America/Recife');
 
 
                 <span class="input-group-btn">
-                    <?= Html::button('Pesquisar', ['class' => 'btn btn-primary', 'id' => 'btPesquisarExemplar']) ?>
+                    <?= Html::button('Pesquisar', ['class' => 'btn btn-primary', 'id' => 'btPesquisarExemplar',
+                        'title'=>'Clique aqui para pesquisar',
+                        'data-toggle'=>"tooltip"]) ?>
                 </span>
             </div>
             <div id="result-messagem-busca-emprestimo-exemplar">
@@ -156,9 +160,15 @@ date_default_timezone_set('America/Recife');
 
 
                             <a id="view-btncancelar" class="btn btn-danger" href=""
-                               data-confirm="Você deseja cancelar o empréstimo?" data-method="post">Cancelar</a>
+                               data-confirm="Você deseja cancelar o empréstimo?"
+                               title="Clique aqui para cancelar o Empréstimo"
+                               data-toggle="tooltip"
+                               data-method="post">Cancelar</a>
 
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#w0">Fazer
+                            <button type="button" class="btn btn-success"
+                                    title="Clique aqui para fazer a devolução do Empréstimo"
+
+                                    data-toggle="modal" data-target="#w0">Fazer
                                 Devolução
                             </button>
                             <div id="w0" class="fade modal" role="dialog" tabindex="-1">
@@ -206,7 +216,10 @@ date_default_timezone_set('America/Recife');
                             </div>    <!--   Devolução  -->
 
                             <!--   Renovação     -->
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#w2">Fazer
+                            <button type="button" class="btn btn-warning"
+                                    title="Clique aqui para renovar o Empréstimo"
+
+                                    data-toggle="modal" data-target="#w2">Fazer
                                 Renovação de Empréstimo
                             </button>
                             <div id="w2" class="fade modal" role="dialog" tabindex="-1">

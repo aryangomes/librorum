@@ -162,16 +162,6 @@ $role = $module->model("Role");
                     ]);
                     ?>
 
-
-
-
-
-
-
-
-
-
-
                     <?php $form->field($profile, 'full_name')->hiddenInput()->label(false); ?>
 
 
@@ -191,21 +181,24 @@ $role = $module->model("Role");
         // permite habilitar ou desabilitar o botão de upload
                         'showUpload' => false,
                         'browseLabel'=>'Carregar Foto...',
-    //'minImageWidth' => 900,
-    //'minImageHeight' => 300,
-    //'maxImageWidth' =>900,
-    //'maxImageHeight' => 300
+
                         ],
-                        'options' => ['accept' => 'image/jpeg, image/png'],
+                        'options' => ['accept' => 'image/jpeg, image/png',
+                            'title'=>'Clique aqui para carregar uma foto',
+                            'data-toggle'=>"tooltip"],
                         ]);
                         ?>
 
                         <div class="form-group">
-                            <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                            <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                                'title'=>$user->isNewRecord ? 'Clique aqui para cadastrar um usuário':'Clique aqui para atualizar o usuário',
+                                'data-toggle'=>"tooltip"]) ?>
                             <?=
                             Html::Button('Alterar Senha do Usuário', ['class' => 'btn btn-warning',
                                 'id' => 'btAlterarSenhaDoUsuário',
-                                'disabled' => $user->isNewRecord ? true : false])
+                                'disabled' => $user->isNewRecord ? true : false,
+                                'title'=>'Clique aqui para habilitar a alteraração a senha do usuário',
+                                'data-toggle'=>"tooltip"])
                                 ?>
                             </div>
 

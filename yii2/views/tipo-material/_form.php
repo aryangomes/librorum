@@ -15,7 +15,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true, 'placeholder' => 'Ex: Livro, Revista ...']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+            'title'=>$model->isNewRecord ?'Clique aqui para cadastrar um tipo material':'Clique aqui para atualizar um tipo material',
+            'data-toggle'=>"tooltip"]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

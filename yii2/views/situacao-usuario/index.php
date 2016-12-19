@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Situacao Usuarios')]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create {model}', ['model' => Yii::t('app', 'Situacao Usuarios')]), ['create'], ['class' => 'btn btn-success',
+            'title'=>'Clique aqui para cadastrar uma situação do usuário',
+            'data-toggle'=>"tooltip"]) ?>
     </p>
     <div class="table-responsive">
         <?php Pjax::begin(); ?>    <?=

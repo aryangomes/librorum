@@ -16,11 +16,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary',
+            'title'=> 'Clique aqui para atualizar o usuário',
+            'data-toggle'=>'tooltip']) ?>
         <?= Html::a('Visualizar Histórico de Empréstimos',
             \yii\helpers\Url::to(['/usuario/historico-emprestimo',
-                'idUsuario'=>$user->id]),
-            ['class'=>'btn btn-info']) ?>
+                'idUsuario'=>$user->id,
+              ]),
+            ['class'=>'btn btn-info',
+                'title'=> 'Clique aqui para visualizar o histórico de empréstimo do usuário',
+                'data-toggle'=>'tooltip']) ?>
     </p>
 
     <?=

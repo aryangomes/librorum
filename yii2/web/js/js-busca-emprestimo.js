@@ -43,7 +43,7 @@ $('#btPesquisarPorRG').click(function () {
                         '<td>' + data[1][index].rg + '</td>' +
                         '<td>' + data[0][index].dataemprestimo + '</td>' +
                         '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
-                        '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"' +
+                        '<td><button type="button" class="btn btn-success" title="Clique para visualizar os detalhes do Empréstimo" data-toggle="modal" data-target="#myModal"' +
                         ' onclick="carregarDadosModalEmprestimo('+data[0][index].idemprestimo +')">Visualizar detalhes do Empréstimo ' +
                         '<span class=\'glyphicon glyphicon-search\'>' +
                         '</span></button>'
@@ -96,7 +96,7 @@ $('#btPesquisarExemplar').click(function () {
                             '<td>' + data[1][index].rg + '</td>' +
                             '<td>' + data[0][index].dataemprestimo + '</td>' +
                             '<td>' + data[0][index].dataprevisaodevolucao + '</td>' +
-                            '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"' +
+                            '<td><button type="button" class="btn btn-success" title="Clique para visualizar os detalhes do Empréstimo" data-toggle="modal" data-target="#myModal"' +
                             ' onclick="carregarDadosModalEmprestimo('+data[0][index].idemprestimo +')">Visualizar detalhes do Empréstimo ' +
                             '<span class=\'glyphicon glyphicon-search\'>' +
                             '</span></button>'

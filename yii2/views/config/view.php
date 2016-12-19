@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->chave], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->chave], ['class' => 'btn btn-primary',
+            'title'=>'Clique aqui para atualizar a configuração',
+            'data-toggle'=>"tooltip"]) ?>
 
     </p>
 

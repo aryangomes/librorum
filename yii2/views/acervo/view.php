@@ -33,10 +33,12 @@ alert(<?= Yii::$app->session->getFlash('erro')?>)
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idacervo], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->idacervo], ['class' => 'btn btn-primary',
+            'title'=>'Clique aqui para atualizar o acervo',]) ?>
         <?=
         Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->idacervo], [
             'class' => 'btn btn-danger',
+            'title'=>'Clique aqui para excluir um acervo',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
@@ -50,6 +52,7 @@ alert(<?= Yii::$app->session->getFlash('erro')?>)
             'header' => '<h2>Gerar novo código de exemplares</h2>',
             'toggleButton' => ['label' => 'Gerar novo código de exemplares',
                 'class' => 'btn btn-warning',
+                'title'=>'Clique aqui para gerar novos códigos para os exemplares do acervo',
                ],
         ]);
 
