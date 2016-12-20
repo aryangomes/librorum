@@ -14,13 +14,28 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="acervo-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+
+
+    <?php
+    if (Yii::$app->session->has('mensagem')) {
+        ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagem') ?>
+        </div>
+        <?php
+    }
+
+
+    ?>
 
     <p>
 <?= Html::a(Yii::t('app', 'Catalog {model}', ['model' => Yii::t('app', 'Collection')]), ['create'], ['class' => 'btn btn-success',
     'title'=>'Clique aqui para cadastrar um acervo',
     'data-toggle'=>"tooltip"]) ?>
     </p>
+
+
+
     <div class="table-responsive">
         <?php Pjax::begin(); ?>    <?=
         GridView::widget([

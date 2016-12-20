@@ -8,6 +8,7 @@ use Yii;
 use amnah\yii2\user\models\User;
 use amnah\yii2\user\models\UserToken;
 use amnah\yii2\user\models\UserAuth;
+use yii\base\Exception;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -73,7 +74,7 @@ class AdminController extends Controller
                     'verifica-nome' => 'usuario',
                     'verifica-rg' => 'usuario',
                     'verifica-cpf' => 'usuario',
-                    'lista-suspensos'=>'usuario',
+                    'lista-suspensos' => 'usuario',
                 ],
             ],
         ];
@@ -113,15 +114,26 @@ class AdminController extends Controller
     {
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
+
         $usuario = new Usuario();
+
         $user = $this->module->model("User");
+
         $user->setScenario("admin");
+
         $profile = $this->module->model("Profile");
+
         $user->role_id = 2;
+
         $user->status = 1;
+
         $post = Yii::$app->request->post();
+
         $userLoaded = $user->load($post);
+
         $profile->load($post);
+
+        $session = Yii::$app->session;
 
         $usuario->situacao_usuario_idsituacao_usuario = 1;
 
@@ -135,56 +147,73 @@ class AdminController extends Controller
 
         if ($userLoaded && $user->validate() && $profile->validate()) {
 
-            $user->username = $post['Usuario']['nome'];
-            $user->email = $post['Usuario']['rg'];
-            $user->save(false);
-            $profile->setUser($user->id)->save(false);
+            $transaction = \Yii::$app->db->beginTransaction();
 
-            if ($user->role_id == 1) {
+            try {
+                $user->username = $post['Usuario']['nome'];
 
-                Yii::$app->db->createCommand(
-                    "INSERT INTO auth_assignment
+                $user->email = $post['Usuario']['rg'];
+
+                $user->save(false);
+
+                $profile->setUser($user->id)->save(false);
+
+                if ($user->role_id == 1) {
+
+                    Yii::$app->db->createCommand(
+                        "INSERT INTO auth_assignment
             (item_name, user_id ) 
             VALUES (:item, :iduser)", [
-                    ':item' => 'admin',
-                    ':iduser' => $user->id,
-                ])->execute();
-            }
+                        ':item' => 'admin',
+                        ':iduser' => $user->id,
+                    ])->execute();
+                }
 
-            $usuario->nome = $post['Usuario']['nome'];
+                $usuario->nome = $post['Usuario']['nome'];
 
-            $usuario->rg = $post['Usuario']['rg'];
+                $usuario->rg = $post['Usuario']['rg'];
 
-            $usuario->cpf = $post['Usuario']['cpf'];
+                $usuario->cpf = $post['Usuario']['cpf'];
 
-            $usuario->cargo = $post['Usuario']['cargo'];
+                $usuario->cargo = $post['Usuario']['cargo'];
 
-            $usuario->reparticao = $post['Usuario']['reparticao'];
+                $usuario->reparticao = $post['Usuario']['reparticao'];
 
-            $usuario->endereco = $post['Usuario']['endereco'];
+                $usuario->endereco = $post['Usuario']['endereco'];
 
-            $usuario->telefone = $post['Usuario']['telefone'];
+                $usuario->telefone = $post['Usuario']['telefone'];
 
-            $usuario->email = $post['Usuario']['email'];
+                $usuario->email = $post['Usuario']['email'];
 
-            $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+                $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
 
-            $usuario->user_id = $user->id;
+                $usuario->user_id = $user->id;
 
-            $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-            if ($usuario->imageFile != null) {
+                $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+                if ($usuario->imageFile != null) {
 
-                $usuario->foto = $usuario->getPathWeb($usuario->nome);
-            }
+                    $usuario->foto = $usuario->getPathWeb($usuario->nome);
+                }
 
-            if ($usuario->save()) {
+                if ($usuario->save()) {
 
-                $usuario->upload($usuario->nome);
-//                return $this->redirect(['view', 'id' => $user->id]);
+                    $usuario->upload($usuario->nome);
 
-                Yii::$app->session->setFlash('mensagemSucesso', $mensagemSucesso);
+                    $transaction->commit();
 
-                return $this->redirect('create');
+                    Yii::$app->session->setFlash('mensagem', $mensagemSucesso);
+
+                    return $this->redirect('create');
+                }
+
+            } catch (Exception $e) {
+                $transaction->rollBack();
+
+                $mensagem = "Ocorreu uma falha ao se tentar cadastrar o Usuário";
+
+                $session->setFlash('mensagem', $mensagem);
+
+                return $this->render('create', compact('user', 'profile', 'usuario'));
             }
         }
 
@@ -203,14 +232,20 @@ class AdminController extends Controller
         // set up user and profile
 
         $user = $this->findModel($id);
+
         $user->setScenario("admin");
+
         $profile = $user->profile;
 
         $usuario = Usuario::find()->where(['user_id' => $id])->one();
 
         $post = Yii::$app->request->post();
+
         $userLoaded = $user->load($post);
+
         $profile->load($post);
+
+        $session = Yii::$app->session;
 
         // validate for ajax request
         if (Yii::$app->request->isAjax) {
@@ -220,33 +255,58 @@ class AdminController extends Controller
 
         // load post data and validate
         if ($userLoaded && $user->validate() && $profile->validate()) {
-            $user->username = $post['Usuario']['nome'];
-            $user->email = $post['Usuario']['rg'];
-            $user->save(false);
-            $profile->setUser($user->id)->save(false);
 
-            if ($usuario != null) {
-                $usuario->nome = $post['Usuario']['nome'];
-                $usuario->rg = $post['Usuario']['rg'];
-                $usuario->cpf = $post['Usuario']['cpf'];
-                $usuario->cargo = $post['Usuario']['cargo'];
-                $usuario->reparticao = $post['Usuario']['reparticao'];
-                $usuario->endereco = $post['Usuario']['endereco'];
-                $usuario->telefone = $post['Usuario']['telefone'];
-                $usuario->email = $post['Usuario']['email'];
-                $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
-                $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
-                if ($usuario->imageFile != null) {
-                    $usuario->deleteFoto();
-                    $usuario->foto = $usuario->getPathWeb($usuario->nome);
+            $transaction = \Yii::$app->db->beginTransaction();
+
+            try {
+
+                $user->username = $post['Usuario']['nome'];
+
+                $user->email = $post['Usuario']['rg'];
+
+                $user->save(false);
+
+                $profile->setUser($user->id)->save(false);
+
+
+                if ($usuario != null) {
+                    $usuario->nome = $post['Usuario']['nome'];
+                    $usuario->rg = $post['Usuario']['rg'];
+                    $usuario->cpf = $post['Usuario']['cpf'];
+                    $usuario->cargo = $post['Usuario']['cargo'];
+                    $usuario->reparticao = $post['Usuario']['reparticao'];
+                    $usuario->endereco = $post['Usuario']['endereco'];
+                    $usuario->telefone = $post['Usuario']['telefone'];
+                    $usuario->email = $post['Usuario']['email'];
+                    $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+                    $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+                    if ($usuario->imageFile != null) {
+                        $usuario->deleteFoto();
+                        $usuario->foto = $usuario->getPathWeb($usuario->nome);
+                    }
+
+
+                    if ($usuario->save()) {
+
+                        $usuario->upload($usuario->nome);
+
+                        $transaction->commit();
+
+
+                        $session->setFlash('mensagem',  "Usuário atualizado com sucesso");
+
+                        return $this->redirect(['view', 'id' => $user->id]);
+
+                    }
                 }
+            } catch (Exception $e) {
+                $transaction->rollBack();
 
+                $mensagem = "Ocorreu uma falha ao se tentar atualizar o Usuário";
 
-                if ($usuario->save()) {
-                    $usuario->upload($usuario->nome);
-                    return $this->redirect(['view', 'id' => $user->id]);
-//                return $this->redirect(['/usuario/view', 'idusuario' => $usuario->idusuario, 'nome' => $usuario->nome, 'rg' => $usuario->rg]);
-                }
+                $session->setFlash('mensagem', $mensagem);
+
+                return $this->render('create', compact('user', 'profile', 'usuario'));
             }
         }
 
@@ -264,20 +324,52 @@ class AdminController extends Controller
     {
 
         $usuario = Usuario::find()->where(['user_id' => $id])->one();
+
+        $transaction = \Yii::$app->db->beginTransaction();
+
+        $session = Yii::$app->session;
+        try {
+
         if ($usuario != null) {
+
             $usuario->deleteFoto();
+
         }
         // delete profile and userTokens first to handle foreign key constraint
         $user = $this->findModel($id);
+
         $profile = $user->profile;
+
         UserToken::deleteAll(['user_id' => $user->id]);
+
         UserAuth::deleteAll(['user_id' => $user->id]);
+
         $profile->delete();
-        $user->delete();
+
+        if($user->delete()){
+
+        }  $transaction->commit();
+
+            $session->setFlash('mensagem', "Usuário excluído com sucesso");
+
+
+        } catch (Exception $e) {
+            $transaction->rollBack();
+
+            $session->setFlash('mensagem', "Ocorreu uma falha ao se tentar excluir o Usuário");
+
+            return $this->render('create', compact('user', 'profile', 'usuario'));
+        }
 
         return $this->redirect(['index']);
     }
 
+    /**
+     * Retorna a lista de situações de usuário
+     * @param null $q
+     * @param null $id
+     * @return array
+     */
     public function actionListaSituacao($q = null, $id = null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -456,7 +548,8 @@ class AdminController extends Controller
      * Lista os usuário que não podem realizar empréstimos
      * @return string
      */
-    public function actionListaSuspensos(){
+    public function actionListaSuspensos()
+    {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->searchUsuariosSuspensos();
 

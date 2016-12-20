@@ -15,6 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php
+    if (Yii::$app->session->has('mensagem')) {
+        ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagem') ?>
+        </div>
+        <?php
+    }
+
+
+    ?>
+
     <p>
         <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary',
             'title'=> 'Clique aqui para atualizar o usuário',

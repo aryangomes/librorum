@@ -22,16 +22,18 @@ $urlcategoriaacervo = \yii\helpers\Url::to(['categoria-acervo/categoria-acervo-l
 
 <div class="acervo-form">
     <?php
-    if (Yii::$app->session->has('mensagemSucesso')) {
+    if (Yii::$app->session->has('mensagem')) {
         ?>
         <div class="alert alert-success">
-            <?=   Yii::$app->session->getFlash('mensagemSucesso') ?>
+            <?=   Yii::$app->session->getFlash('mensagem') ?>
         </div>
         <?php
     }
 
 
     ?>
+
+
 
     <?php
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);

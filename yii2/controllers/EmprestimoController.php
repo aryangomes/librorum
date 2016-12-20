@@ -59,7 +59,7 @@ class EmprestimoController extends Controller
                     'get-busca-emprestimo-codigo-exemplar' => 'emprestimo',
                     'gerar-comprovante-emprestimo' => 'emprestimo',
                     'get-busca-emprestimo' => 'emprestimo',
-                    'emprestimos-sem-devolucao'=> 'emprestimo',
+                    'emprestimos-sem-devolucao' => 'emprestimo',
                 ],
             ],
         ];
@@ -81,7 +81,7 @@ class EmprestimoController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'situacaoEmprestimo'=>$situacaoEmprestimo,
+            'situacaoEmprestimo' => $situacaoEmprestimo,
         ]);
     }
 
@@ -222,23 +222,22 @@ class EmprestimoController extends Controller
                         Yii::$app->session->setFlash('mensagemSucesso', $mensagem);
 
                         return $this->redirect(['create']);
-//                    return $this->redirect(['view', 'id' => $model->idemprestimo]);
                     }
                 }
 
 
-                    return $this->render('create', [
-                        'model' => $model,
-                        'usuario' => $usuario,
-                        'acervo' => $acervo,
-                        'exemplar' => $exemplar,
-                        'user' => $user,
-                        'profile' => $profile,
-                        'role' => $role,
-                        'situacoesusuario' => $situacoesusuario,
-                        'mensagem' => $mensagem,
-                        'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,
-                    ]);
+                return $this->render('create', [
+                    'model' => $model,
+                    'usuario' => $usuario,
+                    'acervo' => $acervo,
+                    'exemplar' => $exemplar,
+                    'user' => $user,
+                    'profile' => $profile,
+                    'role' => $role,
+                    'situacoesusuario' => $situacoesusuario,
+                    'mensagem' => $mensagem,
+                    'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,
+                ]);
 
 
             } catch (\Exception $exception) {
@@ -263,37 +262,9 @@ class EmprestimoController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Emprestimo model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-
-    public function actionUpdate($id)
-     * {
-     * $model = $this->findModel($id);
-     *
-     * $usuario = Usuario::findOne([$model->usuario_idusuario, $model->usuario_rg, $model->usuario_nome]);
-     *
-     * $acervo = Acervo::findOne([$model->acervo_exemplar_idacervo_exemplar]);
-     *
-     * $exemplar = AcervoExemplar::findOne([$model->acervo_exemplar_idacervo_exemplar]);
-     * $user = User::findIdentity($usuario->user_id);
-     *
-     * if ($model->load(Yii::$app->request->post()) && $model->save()) {
-     * return $this->redirect(['view', 'id' => $model->idemprestimo]);
-     * } else {
-     * return $this->render('update', [
-     * 'model' => $model,
-     * 'usuario' => $usuario,
-     * 'acervo' => $acervo,
-     * 'user' => $user,
-     * 'exemplar' => $exemplar,
-     * ]);
-     * }
-     * } */
 
     /**
+     * Realiza a devolução do empréstimo
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
@@ -338,7 +309,6 @@ class EmprestimoController extends Controller
                     Yii::$app->session->setFlash('mensagemDevolucaoSucesso', $mensagemSucesso);
 
                     return $this->redirect(['/']);
-//                    return $this->redirect(['view', 'id' => $id]);
                 }
 
 
@@ -494,6 +464,9 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Retorna a data de previsão de devolução do empréstimo
+     */
     public function actionGetDataPrevisaoDevolucao()
     {
         //Definindo zona de tempo para o horário brasileiro
@@ -513,6 +486,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Busca um exemplar pelo título informado
+     * @param $tituloExemplar
+     */
     public function actionGetBuscaExemplar($tituloExemplar)
     {
         $modelSearch = new AcervoExemplarSearch();
@@ -539,6 +516,7 @@ class EmprestimoController extends Controller
     }
 
     /**
+     * Realiza a renovação do empréstimo
      * @param $id
      * @return mixed
      * @throws NotFoundHttpException
@@ -555,7 +533,7 @@ class EmprestimoController extends Controller
                 Yii::$app->session->setFlash('mensagemRenovadoSucesso', 'Empréstimo renovado com sucesso');
 
                 return $this->redirect(['/', 'msg' => 'mensagemDevolucaoSucesso']);
-//                return $this->redirect(['view', 'id' => $id]);
+
             }
 
             return $this->redirect(['view', 'id' => $id]);
@@ -564,6 +542,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Retorna se um usuário pode ou não realizar empréstimo
+     * @param $idusuario
+     */
     public function actionVerificaPodeEmprestar($idusuario)
     {
         $usuario = Usuario::findOne($idusuario);
@@ -594,6 +576,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Configura o dias de um empréstimo
+     * @param $diasEmprestimo
+     */
     public function actionConfigurarDiasEmprestimo($diasEmprestimo)
     {
         $config = new Config();
@@ -611,6 +597,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Busca um empréstimo dado um RG de um usuário
+     * @param $rg
+     */
     public function actionGetBuscaEmprestimoRg($rg)
     {
         $modelSearch = new EmprestimoSearch();
@@ -636,7 +626,6 @@ class EmprestimoController extends Controller
                 $emprestimos[$key]->dataemprestimo = (date("d/m/Y H:i", strtotime($e->dataemprestimo)));
 
             }
-
 
             foreach ($emprestimos as $e) {
 
@@ -672,6 +661,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Busca um empréstimo dado um Código de um exemplar
+     * @param $codigoExemplar
+     */
     public function actionGetBuscaEmprestimoCodigoExemplar($codigoExemplar)
     {
         $modelSearch = new EmprestimoSearch();
@@ -709,6 +702,11 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Gera um PDF com o compravante de empréstimo
+     * @param $id
+     * @return mixed
+     */
     public function actionGerarComprovanteEmprestimo($id)
     {
 
@@ -734,7 +732,6 @@ class EmprestimoController extends Controller
                 ($dadosEmprestimo->dataemprestimo)) . '.pdf',
             'options' => [
                 'title' => 'Comprovante de Empréstimo',
-//                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
             ],
             'methods' => [
                 'SetHeader' => ['Gerado por: Krajee Pdf Component||Gerado em: ' .
@@ -746,6 +743,10 @@ class EmprestimoController extends Controller
     }
 
 
+    /**
+     * Busca e retorna todos os dados de um empréstimo
+     * @param $id
+     */
     public function actionGetBuscaEmprestimo($id)
     {
         $modelSearch = new EmprestimoSearch();
@@ -797,6 +798,10 @@ class EmprestimoController extends Controller
         }
     }
 
+    /**
+     * Retorna os empréstimo que não foram devolvidos
+     * @return string
+     */
     public function actionEmprestimosSemDevolucao()
     {
         $searchModel = new EmprestimoSearch();

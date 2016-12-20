@@ -26,6 +26,12 @@ alert(<?= Yii::$app->session->getFlash('erro')?>)
             ],
             'body' => Yii::$app->session->getFlash('erro'),
         ]);
+    }else   if (Yii::$app->session->has('mensagem')) {
+    ?>
+        <div class="alert alert-success">
+            <?=   Yii::$app->session->getFlash('mensagem') ?>
+        </div>
+        <?php
     }
 
     ?>
