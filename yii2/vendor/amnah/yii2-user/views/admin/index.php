@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'usuario.rg',
-            'email',
+            'usuario.email',
 
             [
                 'attribute' => 'role_id',
