@@ -59,7 +59,7 @@ $role = $module->model("Role");
             ],
             ],
             'rg' => ['type' => Form::INPUT_TEXT,
-                'options' => ['placeholder' => 'Digite o RG do Usuário']],
+                'options' => ['placeholder' => 'Somente números. Exemplo: 999999999']],
             'cpf' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => MaskedInput::className(),
                 'options' => ['mask' => ['999.999.999-99']]],
         ],

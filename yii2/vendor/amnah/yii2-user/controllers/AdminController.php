@@ -269,17 +269,45 @@ class AdminController extends Controller
                 $profile->setUser($user->id)->save(false);
 
 
+                Yii::$app->db->createCommand(
+                    "DELETE FROM auth_assignment
+                        where user_id = :iduser", [
+                    ':iduser' => $user->id,
+                ])->execute();
+
+                if ($user->role_id == 1) {
+
+                    Yii::$app->db->createCommand(
+                        "INSERT INTO auth_assignment
+                        (item_name, user_id ) 
+                        VALUES (:item, :iduser)", [
+                        ':item' => 'admin',
+                        ':iduser' => $user->id,
+                    ])->execute();
+                }
+
+
                 if ($usuario != null) {
                     $usuario->nome = $post['Usuario']['nome'];
+
                     $usuario->rg = $post['Usuario']['rg'];
+
                     $usuario->cpf = $post['Usuario']['cpf'];
+
                     $usuario->cargo = $post['Usuario']['cargo'];
+
                     $usuario->reparticao = $post['Usuario']['reparticao'];
+
                     $usuario->endereco = $post['Usuario']['endereco'];
+
                     $usuario->telefone = $post['Usuario']['telefone'];
+
                     $usuario->email = $post['Usuario']['email'];
+
                     $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
+
                     $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
+
                     if ($usuario->imageFile != null) {
                         $usuario->deleteFoto();
                         $usuario->foto = $usuario->getPathWeb($usuario->nome);
