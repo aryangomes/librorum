@@ -3,6 +3,8 @@ $('#w6').hide();
 $('#w8').hide();
 $('#w10').hide();
 
+$('#busca-pessoa').focus();
+
 $('#aquisicao-pessoa_idpessoa').change(function () {
     var tipopessoa = $(this).val();
     

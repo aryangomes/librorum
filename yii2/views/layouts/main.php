@@ -35,7 +35,7 @@ AppAsset::register($this);
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?= Url::toRoute('/site') ?>">
+            <a class="navbar-brand" href="<?= Url::toRoute('/') ?>">
                 <img src="<?= Url::to('@web/css/img/logotipo-librorum.png'); ?>">
             </a>
         </div>
@@ -49,7 +49,9 @@ AppAsset::register($this);
                 <ul class="nav" id="side-menu">
 
                     <li>
-                        <a href="<?= Url::toRoute('/site') ?>"><i class="fa fa-home  fa-fw"></i> Início</a>
+                        <a href="<?= Url::toRoute('/') ?>"><i class="fa fa-home  fa-fw"></i>
+                            <?=  !Yii::$app->user->isGuest ?
+                               ' Bem Vindo,' . Yii::$app->user->displayName : 'Ínicio'?></a>
                     </li>
                     <li>
                         <a href="<?= Url::toRoute('/busca') ?>"><i class="fa fa-search fa-fw"></i> Busca no Acervo</a>

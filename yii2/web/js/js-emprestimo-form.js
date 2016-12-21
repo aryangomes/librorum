@@ -1,7 +1,7 @@
 /**
  * Created by aryan on 03/07/16.
  */
-
+$('#emprestimo-usuario_rg').focus();
 
 var qtdExemplarEmprestimo = 1;
 

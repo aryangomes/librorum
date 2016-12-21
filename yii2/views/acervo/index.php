@@ -44,7 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //'idacervo',
-                'titulo',
+
+                [
+                    'attribute'=>'titulo',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return Html::a($model->titulo, ['view', 'id' => $model->idacervo]);
+                    }
+                ],
                 'autor',
                 'editora',
                 [
