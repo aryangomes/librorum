@@ -62,22 +62,6 @@ class PessoaJuridicaController extends Controller {
         ]);
     }
 
-    /**
-     * Creates a new PessoaJuridica model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate() {
-        $model = new PessoaJuridica();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->pessoa_idpessoa]);
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Updates an existing PessoaJuridica model.

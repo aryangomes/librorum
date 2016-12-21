@@ -71,22 +71,6 @@ class PessoaController extends Controller {
         ]);
     }
 
-    /**
-     * Creates a new Pessoa model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate() {
-        $model = new Pessoa();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idpessoa]);
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Updates an existing Pessoa model.

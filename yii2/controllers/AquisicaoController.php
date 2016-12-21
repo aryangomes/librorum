@@ -64,23 +64,7 @@ class AquisicaoController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Aquisicao model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Aquisicao();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idaquisicao]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Updates an existing Aquisicao model.

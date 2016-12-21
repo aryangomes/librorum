@@ -64,23 +64,7 @@ class ConfigController extends Controller {
         ]);
     }
 
-    /**
-     * Creates a new Config model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
 
-    public function actionCreate() {
-        $model = new Config();
-        $configuracoes = Config::getInstance()->getConfiguracoes();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->chave]);
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-                        'configuracoes' => $configuracoes,
-            ]);
-        }
-    }*/
 
     /**
      * Updates an existing Config model.

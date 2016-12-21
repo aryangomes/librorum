@@ -64,23 +64,7 @@ class AcervoExemplarController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new AcervoExemplar model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new AcervoExemplar();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idacervo_exemplar]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
 
     /**
      * Updates an existing AcervoExemplar model.
