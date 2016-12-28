@@ -107,6 +107,7 @@ class RelatorioSearch extends Relatorio
 
         }
 
+
         return [$datas, $qtdEmprestimosPorData];
     }
 

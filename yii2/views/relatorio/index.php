@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\RelatorioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Relatorios');
+$this->title = Yii::t('app', 'Relatórios');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="relatorio-index">

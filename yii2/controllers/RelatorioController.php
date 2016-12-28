@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+
 /**
  * RelatorioController implements the CRUD actions for Relatorio model.
  */
@@ -37,8 +38,8 @@ class RelatorioController extends Controller
                     'delete' => 'relatorio',
                     'create' => 'relatorio',
                     'view' => 'relatorio',
-                   'gerar-relatorio-emprestimos'=> 'relatorio',
-                   'gerar-relatorio-evolucoes'=> 'relatorio',
+                    'gerar-relatorio-emprestimos' => 'relatorio',
+                    'gerar-relatorio-devolucoes' => 'relatorio',
 
                 ],
             ],
@@ -57,7 +58,7 @@ class RelatorioController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'tiposRelatorio'=>Relatorio::$tiposRelatorio,
+            'tiposRelatorio' => Relatorio::$tiposRelatorio,
         ]);
     }
 
@@ -68,16 +69,34 @@ class RelatorioController extends Controller
      */
     public function actionView($id)
     {
-        $modelRelatorio =  $this->findModel($id);
+        $modelRelatorio = $this->findModel($id);
 
-            $searchModel = new RelatorioSearch();
+        $searchModel = new RelatorioSearch();
 
-            $dados = $searchModel->searchRelatorioDevolucoes(
-                $modelRelatorio->inicio_intervalo,
-                $modelRelatorio->fim_intervalo
-            );
+        $dadosGrafico = null;
+        
+        switch ($modelRelatorio->tipo){
+            case 'emprestimos':
+                $dadosGrafico = $searchModel->searchRelatorioEmprestimos(
+                    $modelRelatorio->inicio_intervalo,
+                    $modelRelatorio->fim_intervalo
+                );
+                break;
+            case 'devolucoes':
+                $dadosGrafico = $searchModel->searchRelatorioDevolucoes(
+                    $modelRelatorio->inicio_intervalo,
+                    $modelRelatorio->fim_intervalo
+                );
+                break;
+            
+            default:
+                break;
+        }
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dadosGrafico'=>$dadosGrafico,
         ]);
     }
 
@@ -102,7 +121,7 @@ class RelatorioController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $modelRelatorio,
-                'tiposRelatorio'=>Relatorio::$tiposRelatorio,
+                'tiposRelatorio' => Relatorio::$tiposRelatorio,
             ]);
         }
     }
@@ -122,7 +141,7 @@ class RelatorioController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'tiposRelatorio'=>Relatorio::$tiposRelatorio,
+                'tiposRelatorio' => Relatorio::$tiposRelatorio,
             ]);
         }
     }
@@ -163,9 +182,9 @@ class RelatorioController extends Controller
         //Setando a data para o fuso do Brasil
         date_default_timezone_set('America/Sao_Paulo');
 
-        $modelRelatorio =  $this->findModel($id);
+        $modelRelatorio = $this->findModel($id);
 
-        if($modelRelatorio != null){
+        if ($modelRelatorio != null) {
 
             $searchModel = new RelatorioSearch();
 
@@ -174,22 +193,22 @@ class RelatorioController extends Controller
                 $modelRelatorio->fim_intervalo
             );
 
-            $title = 'Relatório de Empréstimo (de '. date("d/m/Y", strtotime
+            $title = 'Relatório de Empréstimo (de ' . date("d/m/Y", strtotime
                 ($modelRelatorio->inicio_intervalo)) . ' até ' . date("d/m/Y", strtotime
-                ($modelRelatorio->fim_intervalo)) .')';
+                ($modelRelatorio->fim_intervalo)) . ')';
 
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8,
-                'content' => $this->renderPartial('pdf'.$modelRelatorio->tipo, [
+                'content' => $this->renderPartial('pdf' . $modelRelatorio->tipo, [
                     'dados' => $dados,
-                    'title'=>$title
+                    'title' => $title
 
                 ]),
                 'filename' => 'relatorio-emprestimo-de-' .
                     date("d-m-Y", strtotime
                     ($modelRelatorio->inicio_intervalo))
-                    .'-ate-'.
+                    . '-ate-' .
                     date("d-m-Y", strtotime
                     ($modelRelatorio->fim_intervalo))
                     . '.pdf',
@@ -215,9 +234,9 @@ class RelatorioController extends Controller
         //Setando a data para o fuso do Brasil
         date_default_timezone_set('America/Sao_Paulo');
 
-        $modelRelatorio =  $this->findModel($id);
+        $modelRelatorio = $this->findModel($id);
 
-        if($modelRelatorio != null){
+        if ($modelRelatorio != null) {
 
             $searchModel = new RelatorioSearch();
 
@@ -226,22 +245,22 @@ class RelatorioController extends Controller
                 $modelRelatorio->fim_intervalo
             );
 
-            $title = 'Relatório de Devoluções (de '. date("d/m/Y", strtotime
+            $title = 'Relatório de Devoluções (de ' . date("d/m/Y", strtotime
                 ($modelRelatorio->inicio_intervalo)) . ' até ' . date("d/m/Y", strtotime
-                ($modelRelatorio->fim_intervalo)) .')';
+                ($modelRelatorio->fim_intervalo)) . ')';
 
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_UTF8,
-                'content' => $this->renderPartial('pdf'.$modelRelatorio->tipo, [
+                'content' => $this->renderPartial('pdf' . $modelRelatorio->tipo, [
                     'dados' => $dados,
-                    'title'=>$title
+                    'title' => $title
 
                 ]),
                 'filename' => 'relatorio-devolucoes-de-' .
                     date("d-m-Y", strtotime
                     ($modelRelatorio->inicio_intervalo))
-                    .'-ate-'.
+                    . '-ate-' .
                     date("d-m-Y", strtotime
                     ($modelRelatorio->fim_intervalo))
                     . '.pdf',

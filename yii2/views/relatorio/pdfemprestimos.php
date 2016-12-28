@@ -18,6 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
     <div>
+        <?php
+        if(count($dados[0]) > 0){
+        ?>
         <table class="table table-responsive table-bordered">
             <thead>
             <tr>
@@ -41,7 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
             </tbody>
         </table>
 
+            <?php
 
+        }else{
+            ?>
+            <h4 class="text-center">Não há registros para esse período</h4>
+        <?php
+        }
+        ?>
     </div>
 </div>
 

@@ -327,4 +327,13 @@ return array (
       '@p2made/yii2theme/sbAdmin' => $vendorDir . '/p2made/yii2-sb-admin-theme',
     ),
   ),
+    'miloschuman/yii2-highcharts-widget' =>
+        array (
+            'name' => 'miloschuman/yii2-highcharts-widget',
+            'version' => '9999999-dev',
+            'alias' =>
+                array (
+                    '@miloschuman/highcharts' => $vendorDir . '/miloschuman/yii2-highcharts-widget/src',
+                ),
+        ),
 );
