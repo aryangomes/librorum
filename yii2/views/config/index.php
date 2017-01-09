@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             \yii\helpers\Url::to(['view', 'id'=>$modelConfig->chave]));
                     }
                 ],
-                'chave',
+
                 'valor',
                 'descricao',
 //                ['class' => 'yii\grid\ActionColumn'],

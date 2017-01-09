@@ -251,7 +251,7 @@ use yii\widgets\MaskedInput;
                 'contentBefore' => '<legend class="text-info"><small>Informações do Usuário</small></legend>',
                 'attributes' => [
 
-                    'foto' => ['type' => Form::INPUT_RAW, 'value' => Html::img('#', ['id' => 'foto-usuario',
+                    'foto' => ['type' => Form::INPUT_RAW, 'value' => Html::img('../uploads/imgs/fotos-usuarios/userdefault.png', ['id' => 'foto-usuario',
                         'class' => "img-thumbnail img-responsive", 'width' => "304", 'height' => "236",
                     ]),
                     ],

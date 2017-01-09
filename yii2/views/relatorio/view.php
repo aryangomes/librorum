@@ -110,6 +110,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
     <?php
+    }else{
+        ?>
+    <h4>Não há registros para esse período</h4>
+    <?php
     }
     ?>
 </div>

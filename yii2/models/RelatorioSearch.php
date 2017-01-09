@@ -47,9 +47,16 @@ class RelatorioSearch extends Relatorio
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => ['defaultOrder' => ['data_geracao' => SORT_DESC]],
         ]);
 
         $this->load($params);
+
+
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

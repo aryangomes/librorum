@@ -26,7 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'acervoIdacervo.titulo',
+                [
+                    'attribute'=> 'acervoIdacervo.titulo',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return Html::a($model->acervoIdacervo->titulo, ['view', 'id' =>
+                            $model->idacervo_exemplar]);
+                    }
+                ],
+
                 'codigo_livro',
                 [
                     'attribute' => 'esta_disponivel',

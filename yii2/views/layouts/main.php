@@ -51,7 +51,7 @@ AppAsset::register($this);
                     <li>
                         <a href="<?= Url::toRoute('/') ?>"><i class="fa fa-home  fa-fw"></i>
                             <?=  !Yii::$app->user->isGuest ?
-                               ' Bem Vindo,' . Yii::$app->user->displayName : 'Ínicio'?></a>
+                               ' Bem Vindo, ' . Yii::$app->user->displayName : 'Ínicio'?></a>
                     </li>
                     <li>
                         <a href="<?= Url::toRoute('/busca') ?>"><i class="fa fa-search fa-fw"></i> Busca no Acervo</a>
