@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'title'=>'Clique aqui para cadastrar uma categoria de acervo',
     'data-toggle'=>'tooltip']) ?>
     </p>
+    <div class="table-responsive">
     <?php Pjax::begin(); ?>
     <?=
     GridView::widget([
@@ -35,4 +36,5 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 <?php Pjax::end(); ?>
+        </div>
 </div>

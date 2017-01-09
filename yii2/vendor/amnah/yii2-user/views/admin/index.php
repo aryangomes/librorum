@@ -23,70 +23,68 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
 
-
-
     <p>
         <?=
         Html::a(Yii::t('user', 'Create {modelClass}', [
             'modelClass' => Yii::t('user', 'User')
         ]), ['create'], ['class' => 'btn btn-success',
-            'title'=>'Clique aqui para cadastrar um usuário',
-            'data-toggle'=>"tooltip"])
+            'title' => 'Clique aqui para cadastrar um usuário',
+            'data-toggle' => "tooltip"])
         ?>
     </p>
-
-    <?php \yii\widgets\Pjax::begin(); ?>
-    <?=
-    GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <div class="table-responsive">
+        <?php \yii\widgets\Pjax::begin(); ?>
+        <?=
+        GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 //            'id',
-            [
-                'attribute' => 'profile.full_name',
-                'label' => Yii::t('user', 'Full Name'),
-                'format' => 'raw',
-                'value' => function ($model) {
+                [
+                    'attribute' => 'profile.full_name',
+                    'label' => Yii::t('user', 'Full Name'),
+                    'format' => 'raw',
+                    'value' => function ($model) {
 
-                    return Html::a($model->username, ['view', 'id' => $model->id]);
-                },
-            ],
-            'usuario.rg',
-            'usuario.email',
+                        return Html::a($model->username, ['view', 'id' => $model->id]);
+                    },
+                ],
+                'usuario.rg',
+                'usuario.email',
 
-            [
-                'attribute' => 'role_id',
-                'label' => Yii::t('user', 'Role'),
-                'filter' => $role::dropdown(),
-                'value' => function ($model, $index, $dataColumn) use ($role) {
-                    $roleDropdown = $role::dropdown();
-                    return $roleDropdown[$model->role_id];
-                },
-            ],
-            'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
-            [
-                'attribute' => 'created_at',
-                'value' => function ($model) {
-                    return isset($model->created_at) ?
-                        Yii::$app->formatter->asDate($model->created_at, 'dd/M/Y à\s HH:m') : null;
-                },
-            ],
+                [
+                    'attribute' => 'role_id',
+                    'label' => Yii::t('user', 'Role'),
+                    'filter' => $role::dropdown(),
+                    'value' => function ($model, $index, $dataColumn) use ($role) {
+                        $roleDropdown = $role::dropdown();
+                        return $roleDropdown[$model->role_id];
+                    },
+                ],
+                'usuario.situacaoUsuarioIdsituacaoUsuario.situacao',
+                [
+                    'attribute' => 'created_at',
+                    'value' => function ($model) {
+                        return isset($model->created_at) ?
+                            Yii::$app->formatter->asDate($model->created_at, 'dd/M/Y à\s HH:m') : null;
+                    },
+                ],
 
-            // 'username',
-            // 'password',
-            // 'auth_key',
-            // 'access_token',
-            // 'logged_in_ip',
-            // 'logged_in_at',
-            // 'created_ip',
-            // 'updated_at',
-            // 'banned_at',
-            // 'banned_reason',
+                // 'username',
+                // 'password',
+                // 'auth_key',
+                // 'access_token',
+                // 'logged_in_ip',
+                // 'logged_in_at',
+                // 'created_ip',
+                // 'updated_at',
+                // 'banned_at',
+                // 'banned_reason',
 //            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]);
-    ?>
-    <?php \yii\widgets\Pjax::end(); ?>
-
+            ],
+        ]);
+        ?>
+        <?php \yii\widgets\Pjax::end(); ?>
+    </div>
 </div>
