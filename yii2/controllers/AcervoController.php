@@ -114,7 +114,10 @@ class AcervoController extends Controller
 
             $aquisicao->pessoa_idpessoa = $dadosAquisicao['pessoa_idpessoa'];
 
-            $mensagemSucesso = "Acervo catalogado com sucesso";
+            $codigoExamplares = [];
+
+            $mensagemSucesso =
+                "Acervo catalogado com sucesso. Os códigos dos exemplares desse acervo são: ";
 
             if ($catalogarAcervoExistente) {
                 $aquisicao->quantidade = intval($post['Acervo']['codigoFim']) - intval($post['Acervo']['codigoInicio']);
@@ -123,6 +126,7 @@ class AcervoController extends Controller
             }
 
             $aquisicao->preco = $dadosAquisicao['preco'];
+
 
 
             //Inicia a transação:
@@ -162,11 +166,16 @@ class AcervoController extends Controller
 
                                         $exemplar->save(false);
 
+                                        array_push($codigoExamplares, $exemplar->codigo_livro);
+
                                         if ($count == ($codigoFim - $codigoInicio)) {
 
                                             $transaction->commit();
 
-                                            Yii::$app->session->setFlash('mensagemSucesso', $mensagemSucesso);
+                                            $mensagemSucesso .= (implode(", ", $codigoExamplares));
+
+                                            Yii::$app->session->setFlash('mensagem', $mensagemSucesso);
+
 
                                             return $this->redirect('create');
                                         }
@@ -204,9 +213,13 @@ class AcervoController extends Controller
 
                                         $exemplar->save(false);
 
+                                        array_push($codigoExamplares, $exemplar->codigo_livro);
+
                                         if ($count == $quantidadeExemplares) {
 
                                             $transaction->commit();
+
+                                            $mensagemSucesso .= (implode(", ", $codigoExamplares));
 
                                             Yii::$app->session->setFlash('mensagem', $mensagemSucesso);
 
