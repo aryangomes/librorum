@@ -42,7 +42,7 @@ class Usuario extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['nome', 'rg', 'endereco', 'telefone', 'email', 'user_id',
+            [['nome', 'rg', 'endereco', 'telefone',  'user_id',
             'situacao_usuario_idsituacao_usuario'], 'required'],
             [['user_id', 'situacao_usuario_idsituacao_usuario'], 'integer'],
             [['nome'], 'string', 'max' => 55],

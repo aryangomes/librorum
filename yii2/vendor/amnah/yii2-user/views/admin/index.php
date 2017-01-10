@@ -51,7 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'usuario.rg',
-                'usuario.email',
+
+                [
+                    'attribute' =>  'usuario.email',
+                    'value' => function ($model) {
+                        return isset($model->usuario->email) ? $model->usuario->email: 'Sem email cadastrado';
+                    },
+                ],
 
                 [
                     'attribute' => 'role_id',

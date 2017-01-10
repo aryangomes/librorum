@@ -54,7 +54,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             
             'usuario.cpf',
-            'usuario.email',
+
+            [
+                'attribute' =>'usuario.email',
+                'format' => 'raw',
+                'value' => isset($user->usuario->email)
+                    ? $user->usuario->email: 'Sem email cadastrado',
+            ],
             'usuario.cargo',
             'usuario.reparticao',
             'usuario.endereco',
@@ -69,7 +75,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'usuario.foto',
-//                'label' => Yii::t('user', 'FullName'),
                 'format' => 'raw',
                 'value' => isset($user->usuario->foto) ?
                         Html::img($user->usuario->foto, ['class' => 'img-responsive img-thumbnail',
