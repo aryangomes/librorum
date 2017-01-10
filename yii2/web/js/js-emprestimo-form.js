@@ -33,7 +33,7 @@ $('#emprestimo-usuario_rg').blur(function () {
 
             var
                 data = $.parseJSON(data);
-            // console.log('get-usuario.: ' + data);
+
             if (data != null) {
                 $('#rgusuario').val(rg);
                 $('#usuario-cpf').val(data.cpf);
@@ -61,7 +61,7 @@ $('#emprestimo-usuario_rg').blur(function () {
                 });
 
                 $.get('verifica-pode-emprestar', {idusuario: data.idusuario}, function (resultado) {
-                    // console.log('pode emprestar.:' + resultado);
+
                     if (resultado == 'false') {
 
                         $('#user-password').prop('disabled', true);
@@ -92,83 +92,13 @@ um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
 });
 
 
-/*$('#acervoexemplar-codigo_livro').blur(function () {
- var codigoExemplar = $(this).val();
- if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
-
-
- $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
-
-
- var data = $.parseJSON((data));
- console.log('exemplar.: ' + data);
- if (data != null) {
- $("#mensagem-get-acervo-exemplar").hide();
- $('#acervo-titulo').val(data[1].titulo);
- $('#acervo-autor').val(data[1].autor);
- $('#emprestimo-acervo_exemplar_idacervo_exemplar').val(data[0].idacervo_exemplar);
- if (!(data[0].esta_disponivel)) {
- exemplarDisponivel = false;
- $("#mensagem-indisponivel-exemplar").html("<div class=\"alert alert-warning\" role=\"alert\">" +
- "<strong>Alerta!</strong> Exemplar indisponível no momento." +
- "</div>");
- $('button[type="submit"]').prop('disabled', true);
- $('#form-exemplar').show();
- $('#form-emprestimo').hide();
- $('#btSave').prop('disabled', true);
-
- } else {
- exemplarDisponivel = true;
- $("#mensagem-indisponivel-exemplar").html("");
- if ($('#emprestimo-usuario_rg').val().length > 0 &&
- $('#user-password').val().length > 0) {
-
- $('#btSave').prop('disabled', false);
- $('button[type="submit"]').prop('disabled', false);
- } else {
- console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
-
- $('#btSave').prop('disabled', true);
- $('button[type="submit"]').prop('disabled', true);
- }
- $('#form-exemplar').hide();
- $('#form-emprestimo').show();
-
-
- $('#w13 li:eq(1)').removeClass();
- $('#w13 li:eq(2)').addClass("active");
- $("#tab-exemplar").removeClass();
- $("#tab-exemplar").addClass("tab-pane fade");
- $("#tab-emprestimo").addClass("tab-pane fade in active");
- previsaoDevolucao();
-
- }
-
- } else {
-
- $("#mensagem-get-acervo-exemplar").html("<div class=\"alert alert-danger\" role=\"alert\">" +
- "<strong>Alerta!</strong> Exemplar não encontrado." +
- "</div>");
- $("#mensagem-get-acervo-exemplar").show();
- $('#btSave').prop('disabled', true);
- }
-
- });
- } else {
- $('#btSave').prop('disabled', true);
- }
- });*/
-
-
 var previsaoDevolucao = function () {
     $.get('get-data-previsao-devolucao', function (data) {
-        // console.log('previsao.: ' + data);
+
         var data = $.parseJSON((data));
 
         if (data != null) {
 
-//            $('#mensagem-get-data-previsao').hide();
-//            $('#mensagem-get-data-previsao').html('');
             $('#emprestimo-dataprevisaodevolucao').val(data[0]);
             $('#lb-dataprevisaodevolucao').val(data[1]);
 
@@ -189,14 +119,14 @@ var previsaoDevolucao = function () {
 
 $('#busca-usuario').blur(function () {
     var buscausuario = $(this).val();
-    // console.log('buscausuario.:' + buscausuario.length);
+
     if (buscausuario != ' ' && buscausuario.length > 0) {
 
 
         $.get('get-busca-usuario', {nomeUsuario: buscausuario}, function (data) {
 
             var data = $.parseJSON(data);
-            // console.log('get-busca-usuario.: ' + data);
+
             if (data != null) {
                 $('#tableresult').show();
                 $('#tbody-result').html('');
@@ -205,7 +135,7 @@ $('#busca-usuario').blur(function () {
                 $('#result-mensagem-busca-usuario').attr('class', 'alert alert-success');
                 $('#result-mensagem-busca-usuario').html('</b>RG encontrado(s)</b>');
                 data.forEach(function (item) {
-                    // console.log('rg.:' + item.rg);
+
                     $('#tbody-result').append(
                         '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
@@ -225,14 +155,14 @@ um novo Usuário, <a href=\"#\" data-toggle=\"modal\"\n\
 
 $('#btPesquisar').click(function () {
     var buscausuario = $(this).val();
-    // console.log('buscausuario.:' + buscausuario.length);
+
     if (buscausuario != ' ' && buscausuario.length > 0) {
 
 
         $.get('get-busca-usuario', {nomeUsuario: buscausuario}, function (data) {
 
             var data = $.parseJSON(data);
-            // console.log(data);
+
             if (data.length > 0) {
                 $('#tableresult').show();
                 $('#tbody-result').html('');
@@ -242,7 +172,7 @@ $('#btPesquisar').click(function () {
                 $('#result-mensagem-busca-usuario').html('</b>RG encontrado(s)</b>');
 
                 data.forEach(function (item) {
-                    // console.log('rg.:' + item.rg);
+
                     $('#tbody-result').append(
                         '<tr><td>' + item.nome + '</td><td>' + item.rg + '</td><td><a href=\'#\' onclick=\'actionSelecionarUsuario(\"' + item.rg + '\")\' class=\'btn btn-success\' id=\'actionbuscar\' > <span class="glyphicon glyphicon-ok"></span></a ></td></tr>');
                 });
@@ -260,14 +190,14 @@ $('#btPesquisar').click(function () {
 
 $('#busca-exemplar').blur(function () {
     var buscaexemplar = $(this).val();
-    // console.log('buscaexemplar.:' + buscaexemplar.length);
+
     if (buscaexemplar != ' ' && buscaexemplar.length > 0) {
 
 
         $.get('get-busca-exemplar', {tituloExemplar: buscaexemplar}, function (data) {
 
             var data = $.parseJSON(data);
-            // console.log(data);
+
             if (data.length > 0) {
                 $('#tableresult-exemplar').show();
                 $('#tbody-result-exemplar').html('');
@@ -277,13 +207,11 @@ $('#busca-exemplar').blur(function () {
                 var titulos = [];
                 var autores = [];
                 data[0].forEach(function (item) {
-                    // console.log(item);
 
                     codigoslivro.push(item.codigo_livro);
 
                 });
                 data[1].forEach(function (item) {
-                    // console.log(item);
 
                     titulos.push(item.titulo);
                     autores.push(item.autor);
@@ -308,14 +236,13 @@ $('#busca-exemplar').blur(function () {
 
 $('#btPesquisarExemplar').blur(function () {
     var buscaexemplar = $(this).val();
-    // console.log('buscaexemplar.:' + buscaexemplar.length);
     if (buscaexemplar != ' ' && buscaexemplar.length > 0) {
 
 
         $.get('get-busca-exemplar', {tituloExemplar: buscaexemplar}, function (data) {
 
             var data = $.parseJSON(data);
-            // console.log(data);
+
             if (data.length > 0) {
                 $('#tableresult-exemplar').show();
                 $('#tbody-result-exemplar').html('');
@@ -325,13 +252,11 @@ $('#btPesquisarExemplar').blur(function () {
                 var titulos = [];
                 var autores = [];
                 data[0].forEach(function (item) {
-                    // console.log(item);
 
                     codigoslivro.push(item.codigo_livro);
 
                 });
                 data[1].forEach(function (item) {
-                    // console.log(item);
 
                     titulos.push(item.titulo);
                     autores.push(item.autor);
@@ -357,7 +282,6 @@ $('#btPesquisarExemplar').blur(function () {
 $('#user-password').blur(function () {
     var senha = $(this).val();
     var user_id = $('#usuario-user_id').val();
-    // console.log('user_id.:' + $('#emprestimo-usuario_rg').val().length);
     if (senha != ' ' && senha.length > 0 && $('#emprestimo-usuario_rg').val().length > 0) {
         $('#mensagem-senha-errada').hide();
         validarSenha(user_id, senha);
@@ -388,7 +312,7 @@ $('#btAlterarSenha').click(function () {
             }, function (data) {
 
                 var data = $.parseJSON(data);
-                // console.log(data);
+
                 if (data) {
                     $('#mensagem-resetar-senha').attr('class', 'alert alert-success');
                     $('#mensagem-resetar-senha').html('Senha alterada com sucesso');
@@ -449,9 +373,9 @@ $('#btCadastrarUsuario').click(function () {
             password: password
 
         }, function (data) {
-            // console.log('bdata: ' + data);
+
             var data = $.parseJSON(data);
-            // console.log('adata: ' + data);
+
 
             $('#mensagem-cadastro-usuario').show();
             if (data != null && data != false) {
@@ -486,10 +410,6 @@ $('#btCadastrarUsuario').click(function () {
     }
 });
 
-/*function isEmail(email) {
- var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
- return regex.test(email);
- }*/
 
 
 $('#btConfigurarDiasEmprestimo').click(function () {
@@ -505,7 +425,7 @@ $('#btConfigurarDiasEmprestimo').click(function () {
         }, function (data) {
 
             var data = $.parseJSON(data);
-            // console.log(data);
+
             if (data) {
 
                 $('#mensagem-get-data-previsao').html("<div class=\"alert alert-success\" role=\"alert\">" +
@@ -535,7 +455,7 @@ $('#confirmar-usuario').click(function () {
     var senha = $('#user-password').val();
     var user_id = $('#usuario-user_id').val();
     validarSenha(user_id, senha);
-    // console.log('[confirmar-usuario]senhaValidada.: ' + senhaValidada);
+
     if ($('#emprestimo-usuario_rg').val().length > 0 &&
         $('#user-password').val().length > 0 &&
         senhaValidada) {
@@ -559,8 +479,6 @@ $('#confirmar-usuario').click(function () {
 
 $('#confirmar-exemplar').click(function () {
 
-    // var codigoExemplar = $('#acervoexemplar-codigo_livro').val();
-
     var testeExemplarDisponibilidade = [];
 
     var codigoExemplares = [];
@@ -568,34 +486,9 @@ $('#confirmar-exemplar').click(function () {
         codigoExemplares.push($(this).val());
     });
 
-    // console.log('nu->: '+$("input[name='Acervo[titulo]']").length);
 
 
     $.each(codigoExemplares, function (index, codigoExemplar) {
-        console.log('s ' + (index));
-        /*
-         var codigoExemplares = [];
-
-         $("input[name='AcervoExemplar[codigo_livro][]']").each(function() {
-         codigoExemplares.push($(this).val());
-         });
-
-         console.log($("input[name='Acervo[titulo]']").length);
-
-         $.each(codigoExemplares, function(index,codigoExemplar) {
-
-         });
-
-         var codigoExemplar = $("input[name='AcervoExemplar[codigo_livro][]'").val();
-
-         if(codigoExemplar != '' && codigoExemplar.length > 0){
-         $.get('get-exemplar', {codigoExemplar: codigoExemplar}, function (data) {
-         $('#w10 .row > #acervo-titulo').last().val(data[1].titulo);
-         $('#w10 .row > #acervo-autor').last().val(data[1].autor);
-         console.log('add-> '+data);
-         });
-         }
-         */
 
         if (codigoExemplar != ' ' && codigoExemplar.length > 0) {
 
@@ -604,7 +497,7 @@ $('#confirmar-exemplar').click(function () {
 
 
                 var data = $.parseJSON((data));
-                // console.log('exemplar.: ' + data);
+
                 if (data != null) {
                     $("#mensagem-get-acervo-exemplar").hide();
                     $("input[name='Acervo[titulo]']:eq(" + (index) + ")").val(data[1].titulo);
@@ -634,7 +527,6 @@ $('#confirmar-exemplar').click(function () {
                             $('#btSave').prop('disabled', false);
                             $('button[type="submit"]').prop('disabled', false);
                         } else {
-                            // console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
 
                             $('#btSave').prop('disabled', true);
                             $('button[type="submit"]').prop('disabled', true);
@@ -663,9 +555,7 @@ $('#confirmar-exemplar').click(function () {
                 }
 
             });
-        }/* else {
-            $('#btSave').prop('disabled', true);
-        }*/
+        }
 
         console.log('final.: ' + testeExemplarDisponibilidade);
 
@@ -678,45 +568,14 @@ $('#confirmar-exemplar').click(function () {
     } else {
         $('#btSave').prop('disabled', true);
     }
-    /* if ($('#emprestimo-usuario_rg').val().length > 0 &&
-     $('#user-password').val().length > 0 &&
-     $('#acervoexemplar-codigo_livro').val().length > 0 &&
-     senhaValidada && exemplarDisponivel) {
 
-     $("#mensagem-indisponivel-exemplar").html("");
-     if ($('#emprestimo-usuario_rg').val().length > 0 &&
-     $('#user-password').val().length > 0) {
-
-     $('#btSave').prop('disabled', false);
-     $('button[type="submit"]').prop('disabled', false);
-     } else {
-     console.log('usuario_rg.:' + $('#emprestimo-usuario_rg').val().length);
-
-     $('#btSave').prop('disabled', true);
-     $('button[type="submit"]').prop('disabled', true);
-     }
-     $('#form-exemplar').hide();
-     $('#form-emprestimo').show();
-
-
-     $('#w13 li:eq(1)').removeClass();
-     $('#w13 li:eq(2)').addClass("active");
-     $("#tab-exemplar").removeClass();
-     $("#tab-exemplar").addClass("tab-pane fade");
-     $("#tab-emprestimo").addClass("tab-pane fade in active");
-     previsaoDevolucao();
-     } else {
-
-     $('#btSave').prop('disabled', true);
-     $('button[type="submit"]').prop('disabled', true);
-     }*/
 
 });
 
 
 function validarSenha(user_id, senha) {
     $.get('validar-senha', {user_id: user_id, senha: senha}, function (data) {
-        // console.log('val.:' + data);
+
         var data = $.parseJSON(data);
         if (data) {
 
@@ -740,7 +599,7 @@ function validarSenha(user_id, senha) {
             $('#form-exemplar').hide();
             senhaValidada = false;
         }
-        // console.log('senhaValidada.: ' + senhaValidada);
+
         $('#btSave').prop('disabled', true);
     });
 }
@@ -765,7 +624,7 @@ function adicionarInputCodigoExemplar() {
     } else {
         alert('A quantidade máxima de exemplares por empréstimo chegou ao máximo');
     }
-    // console.log(qtdExemplarEmprestimo);
+
 }
 
 function removerInputCodigoExemplar() {
@@ -773,7 +632,7 @@ function removerInputCodigoExemplar() {
     if (qtdExemplarEmprestimo > 1) {
         $("input[name='AcervoExemplar[codigo_livro][]']").last().parent().remove();
         $("#w10 .row").last().remove();
-        // $("input[name='Acervo[autor]']").last().parent().remove();
+
         qtdExemplarEmprestimo--;
     }
 }

@@ -17,10 +17,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+        /* 'user' => [
+             'identityClass' => 'app\models\User',
+             'enableAutoLogin' => true,
+         ],*/
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -71,7 +71,7 @@ $config = [
             'format' => Pdf::FORMAT_A4,
             'orientation' => Pdf::ORIENT_PORTRAIT,
             'destination' => Pdf::DEST_BROWSER,
-        // refer settings section for all configuration options
+            // refer settings section for all configuration options
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
@@ -84,23 +84,23 @@ $config = [
     'modules' => [
         'user' => [
             'class' => 'amnah\yii2\user\Module',
-        // set custom module properties here ...
+            // set custom module properties here ...
         ],
     ],
     'params' => $params,
 ];
 
-/* if (YII_ENV_DEV) {
-  // configuration adjustments for 'dev' environment
-  $config['bootstrap'][] = 'debug';
-  $config['modules']['debug'] = [
-  'class' => 'yii\debug\Module',
-  ];
+if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
+    /*$config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+    ];*/
 
-  $config['bootstrap'][] = 'gii';
-  $config['modules']['gii'] = [
-  'class' => 'yii\gii\Module',
-  ];
-  } */
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}
 
 return $config;

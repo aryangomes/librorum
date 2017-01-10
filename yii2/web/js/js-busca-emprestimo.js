@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var urlEmprestimo = '/librorum/yii2/web/emprestimo/';
 
 $('#tableresult-rg').hide();
 
@@ -164,19 +164,19 @@ function carregarDadosModalEmprestimo(id) {
                 });
 
                 $('#view-gerarcomprovanteemprestimo').attr('href',
-                    '/librorum/yii2/web/emprestimo/gerar-comprovante-emprestimo?id='+
+                    urlEmprestimo + 'gerar-comprovante-emprestimo?id='+
                     data[index].idemprestimo);
 
                 $('#view-formrenovar').attr('action',
-                    '/librorum/yii2/web/emprestimo/renovar?id='+
+                    urlEmprestimo + 'renovar?id='+
                     data[index].idemprestimo);
 
                 $('#w1').attr('action',
-                    '/librorum/yii2/web/emprestimo/devolucao?id='+
+                    urlEmprestimo + 'devolucao?id='+
                     data[index].idemprestimo);
 
                 $('#view-btncancelar').attr('href',
-                    '/librorum/yii2/web/emprestimo/delete?id='+
+                    urlEmprestimo + 'delete?id='+
                     data[index].idemprestimo);
 
                 data[3].forEach(function (item,index) {

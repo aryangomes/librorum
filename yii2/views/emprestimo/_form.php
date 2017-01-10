@@ -35,6 +35,9 @@ use yii\widgets\MaskedInput;
     $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);
     ?>
 
+    <div id="mensagem-senha-errada"></div>
+    <div id="mensagem-indisponivel-exemplar"></div>
+
     <?php
 
     use kartik\tabs\TabsX;
@@ -542,8 +545,7 @@ use yii\widgets\MaskedInput;
 </div>
 
 <?php ActiveForm::end(); ?>
-<div id="mensagem-senha-errada"></div>
-<div id="mensagem-indisponivel-exemplar"></div>
+
 <?php
 $this->registerJsFile(\Yii::getAlias("@web") . '/js/js-emprestimo-form.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
