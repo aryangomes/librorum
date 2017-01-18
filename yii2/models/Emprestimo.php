@@ -22,7 +22,8 @@ use Yii;
 class Emprestimo extends \yii\db\ActiveRecord
 {
 
-	public $diasDiferenca;
+    public $diasDiferenca;
+
     /**
      * @inheritdoc
      */
@@ -87,19 +88,27 @@ class Emprestimo extends \yii\db\ActiveRecord
         return $this->hasMany(AcervoExemplar::className(), ['idacervo_exemplar' => 'acervo_exemplar_idacervo_exemplar'])->viaTable('emprestimo_has_acervo_exemplar', ['emprestimo_idemprestimo' => 'idemprestimo']);
     }
 
-/**
+    /**
      * Retorna a quantidade de dias que um exemplar está emprestado
      */
-    public function calcularDiasDeEmprestimo() {
-        date_default_timezone_set('America/Sao_Paulo');
+    public function calcularDiasDeEmprestimo()
+    {
+        date_default_timezone_set('America/Recife');
+
         $this->diasDiferenca = 0;
+
         $dataDeEmprestimo = $this->dataemprestimo;
+
         if ($dataDeEmprestimo != null) {
+
             $dataDeEmprestimo = date('Y-m-d', strtotime($dataDeEmprestimo));
+
             $dataAtual = date('Y-m-d');
+
             $diasDiferenca = strtotime($dataAtual) - strtotime($dataDeEmprestimo);
-          
+
             if ($diasDiferenca > 0) {
+
                 $this->diasDiferenca = ($diasDiferenca / (60 * 60 * 24));
             } else {
                 $this->diasDiferenca = 0;

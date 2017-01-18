@@ -126,17 +126,30 @@ class TipoAquisicaoController extends Controller {
         }
     }
 
+    /**
+     * Retorna os Tipos de Aquisição
+     * @param null $q
+     * @param null $idtipo_aquisicao
+     * @return array
+     */
     public function actionTipoAquisicaoList($q = null, $idtipo_aquisicao = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         $out = ['results' => ['id' => '', 'text' => '']];
+
         if (!is_null($q)) {
+
             $query = new Query;
+
             $query->select('idtipo_aquisicao AS id, nome AS text')
                     ->from('tipo_aquisicao')
                     ->where(['like', 'nome', $q])
                     ->limit(20);
+
             $command = $query->createCommand();
+
             $data = $command->queryAll();
+
             $out['results'] = array_values($data);
         } elseif ($idtipo_aquisicao > 0) {
             $out['results'] = ['id' => $idtipo_aquisicao, 'text' => TipoMaterial::find($idtipo_aquisicao)->nome];

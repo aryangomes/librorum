@@ -16,6 +16,8 @@ $('#aquisicao-pessoa_idpessoa').change(function () {
         $('#w8').hide();
     }
 });
+
+
 $('#busca-pessoa').blur(function () {
     var nomepessoa = $(this).val();
     console.log('nomepessoa.:' + nomepessoa.length);

@@ -73,6 +73,10 @@ class Config extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Retorna as configurações pré-definidas
+     * @return array
+     */
     public function getConfiguracoes() {
         return $this->configuracoes;
     }

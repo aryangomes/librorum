@@ -183,8 +183,8 @@ class AdminController extends Controller
 
                 $usuario->telefone = $post['Usuario']['telefone'];
 
-                $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email']))? null
-                    :  $post['Usuario']['email'];
+                $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email'])) ? null
+                    : $post['Usuario']['email'];
 
                 $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
 
@@ -305,8 +305,8 @@ class AdminController extends Controller
 
                     $usuario->email = $post['Usuario']['email'];
 
-                    $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email']))? null
-                        :  $post['Usuario']['email'];
+                    $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email'])) ? null
+                        : $post['Usuario']['email'];
 
                     $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
 
@@ -325,7 +325,7 @@ class AdminController extends Controller
                         $transaction->commit();
 
 
-                        $session->setFlash('mensagem',  "Usuário atualizado com sucesso");
+                        $session->setFlash('mensagem', "Usuário atualizado com sucesso");
 
                         return $this->redirect(['view', 'id' => $user->id]);
 
@@ -362,25 +362,26 @@ class AdminController extends Controller
         $session = Yii::$app->session;
         try {
 
-        if ($usuario != null) {
+            if ($usuario != null) {
 
-            $usuario->deleteFoto();
+                $usuario->deleteFoto();
 
-        }
-        // delete profile and userTokens first to handle foreign key constraint
-        $user = $this->findModel($id);
+            }
+            // delete profile and userTokens first to handle foreign key constraint
+            $user = $this->findModel($id);
 
-        $profile = $user->profile;
+            $profile = $user->profile;
 
-        UserToken::deleteAll(['user_id' => $user->id]);
+            UserToken::deleteAll(['user_id' => $user->id]);
 
-        UserAuth::deleteAll(['user_id' => $user->id]);
+            UserAuth::deleteAll(['user_id' => $user->id]);
 
-        $profile->delete();
+            $profile->delete();
 
-        if($user->delete()){
+            if ($user->delete()) {
 
-        }  $transaction->commit();
+            }
+            $transaction->commit();
 
             $session->setFlash('mensagem', "Usuário excluído com sucesso");
 

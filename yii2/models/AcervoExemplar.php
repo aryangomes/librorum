@@ -66,16 +66,22 @@ class AcervoExemplar extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Emprestimo::className(), ['acervo_exemplar_idacervo_exemplar' => 'idacervo_exemplar']);
     }
-    
-    public static function verificaCodigoLivroExiste($codigo) {
-        $exemplar = AcervoExemplar::find()
-                ->where([
-                    'codigo_livro'=>$codigo
-                ])->one();
 
-        if($exemplar == null){
+    /**
+     * Verifica se um código de Acervo Exemplar já existe
+     * @param $codigo
+     * @return bool
+     */
+    public static function verificaCodigoLivroExiste($codigo)
+    {
+        $exemplar = AcervoExemplar::find()
+            ->where([
+                'codigo_livro' => $codigo
+            ])->one();
+
+        if ($exemplar == null) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }

@@ -65,7 +65,12 @@ class ConfigSearch extends Config
 
         return $dataProvider;
     }
-    
+
+    /**
+     * Retorna uma configuração da chave passada
+     * @param $chave
+     * @return array|null|\yii\db\ActiveRecord
+     */
     public function searchConfig($chave)
     {
         $query = Config::find()->where(['chave'=>$chave])

@@ -548,6 +548,7 @@ class User extends ActiveRecord implements IdentityInterface
 
 
     /**
+     * Altera a senha do Usuário
      * @return string
      */
     public function resetarSenha()

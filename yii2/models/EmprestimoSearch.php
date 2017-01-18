@@ -75,6 +75,11 @@ class EmprestimoSearch extends Emprestimo
         return $dataProvider;
     }
 
+    /**
+     * Retorna empréstimos de acordo com a situação de empréstimo passado
+     * @param $situacaoEmprestimo
+     * @return ActiveDataProvider
+     */
     public function searchIndexEmprestimo($situacaoEmprestimo)
     {
         $query = Emprestimo::find();
@@ -88,10 +93,9 @@ class EmprestimoSearch extends Emprestimo
         ]);
 
 
-
         if ($situacaoEmprestimo == 'nao devolvido') {
             $query->where('datadevolucao is null');
-        }else if($situacaoEmprestimo == 'devolvido'){
+        } else if ($situacaoEmprestimo == 'devolvido') {
             $query->where('datadevolucao is not null');
         }
 
@@ -99,6 +103,11 @@ class EmprestimoSearch extends Emprestimo
         return $dataProvider;
     }
 
+    /**
+     * Recupera um empréstimo realizado por um usuário
+     * @param $rg
+     * @return array|null|\yii\db\ActiveRecord[]
+     */
     public function searchEmprestimoByRg($rg)
     {
 
@@ -126,6 +135,11 @@ class EmprestimoSearch extends Emprestimo
         return $query;
     }
 
+    /**
+     * Recupera um empréstimo de acordo com o código exemplar passado
+     * @param $codigoExemplar
+     * @return array|null|\yii\db\ActiveRecord[]
+     */
     public function searchEmprestimoByCodigoExemplar($codigoExemplar)
     {
 
@@ -182,6 +196,10 @@ class EmprestimoSearch extends Emprestimo
         return $query;
     }
 
+    /**
+     * Recupera os empréstimos da data atual
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function searchEmprestimoDoDiaAtual()
     {
 
@@ -195,6 +213,10 @@ class EmprestimoSearch extends Emprestimo
         return $query;
     }
 
+    /**
+     * Recupera os empréstimos que não tiveram sua devolução realizada
+     * @return ActiveDataProvider
+     */
     public function searchUsuariosQueNaoFizeramDevolucao()
     {
 

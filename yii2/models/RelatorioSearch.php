@@ -78,6 +78,7 @@ class RelatorioSearch extends Relatorio
     }
 
     /**
+     * Retorna os empréstimos realizados no intervalo passado
      * @param $inicioIntervalo
      * @param $fimIntervalo
      * @return array
@@ -120,6 +121,7 @@ class RelatorioSearch extends Relatorio
 
 
     /**
+     * Retorna os empréstimos com devolução no intervalo passado
      * @param $inicioIntervalo
      * @param $fimIntervalo
      * @return array

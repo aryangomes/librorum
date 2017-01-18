@@ -80,6 +80,7 @@ class UsuarioSearch extends Usuario
     }
 
     /***
+     * Recupera um Usuário pelo RG dele
      * @param $rg
      * @return array|null|\yii\db\ActiveRecord
      */
@@ -96,6 +97,7 @@ class UsuarioSearch extends Usuario
     }
 
     /***
+     * Recupera um Usuário pelo nome dele
      * @param $nomeUsuario
      * @return array|null|\yii\db\ActiveRecord[]
      */

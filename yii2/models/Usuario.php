@@ -23,38 +23,41 @@ use Yii;
  * @property integer $situacao_usuario_idsituacao_usuario
  *
  * @property Emprestimo[] $emprestimos
- * @property SituacaoUsuario $situacaoUsuarioIdsituacaoUsuario 
+ * @property SituacaoUsuario $situacaoUsuarioIdsituacaoUsuario
  * @property User $user
  */
-class Usuario extends \yii\db\ActiveRecord {
+class Usuario extends \yii\db\ActiveRecord
+{
 
     public $imageFile;
 
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'usuario';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['nome', 'rg', 'endereco', 'telefone',  'user_id',
-            'situacao_usuario_idsituacao_usuario'], 'required'],
+            [['nome', 'rg', 'endereco', 'telefone', 'user_id',
+                'situacao_usuario_idsituacao_usuario'], 'required'],
             [['user_id', 'situacao_usuario_idsituacao_usuario'], 'integer'],
             [['nome'], 'string', 'max' => 55],
-           
+
             [['rg'], 'string', 'max' => 12],
             [['cpf', 'telefone'], 'string', 'max' => 14],
             [['cargo', 'reparticao'], 'string', 'max' => 45],
             [['endereco'], 'string', 'max' => 200],
             [['email'], 'string', 'max' => 150],
             [['foto'], 'string', 'max' => 300],
-          //  [['email'], 'email'],
-             [['nome','rg'], 'unique'],
+            //  [['email'], 'email'],
+            [['nome', 'rg'], 'unique'],
             [['situacao_usuario_idsituacao_usuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['situacaoUsuarioIdsituacaoUsuario'], 'exist', 'skipOnError' => true, 'targetClass' => SituacaoUsuario::className(), 'targetAttribute' => ['situacao_usuario_idsituacao_usuario' => 'idsituacao_usuario']],
@@ -65,7 +68,8 @@ class Usuario extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'idusuario' => Yii::t('app', 'Idusuario'),
             'nome' => Yii::t('app', 'Nome do Usuário'),
@@ -85,22 +89,31 @@ class Usuario extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEmprestimos() {
+    public function getEmprestimos()
+    {
         return $this->hasMany(Emprestimo::className(), ['usuario_idusuario' => 'idusuario', 'usuario_nome' => 'nome', 'usuario_rg' => 'rg']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function getSituacaoUsuarioIdsituacaoUsuario() {
+    public function getSituacaoUsuarioIdsituacaoUsuario()
+    {
         return $this->hasOne(SituacaoUsuario::className(), ['idsituacao_usuario' => 'situacao_usuario_idsituacao_usuario']);
     }
 
-    public function upload($nomeUsuario) {
+    /**
+     * Faz o upload da foto do usuário
+     * @param $nomeUsuario
+     * @return bool
+     */
+    public function upload($nomeUsuario)
+    {
 
         if ($this->imageFile != null) {
             $this->imageFile->saveAs($this->getPathLocal($nomeUsuario));
@@ -110,18 +123,34 @@ class Usuario extends \yii\db\ActiveRecord {
         }
     }
 
-    public function getPathWeb($nomeUsuario) {
+    /**
+     * Retorna o caminho web da foto
+     * @param $nomeUsuario
+     * @return string
+     */
+    public function getPathWeb($nomeUsuario)
+    {
 
         $nomeUsuario = strtolower(preg_replace('/\s+/', '', $nomeUsuario));
         return \Yii::getAlias("@web") . '/uploads/imgs/fotos-usuarios/' . $this->imageFile->baseName . $nomeUsuario . '.' . $this->imageFile->extension;
     }
 
-    public function getPathLocal($nomeUsuario) {
+    /**
+     * Retorna o caminho local da foto
+     * @param $nomeUsuario
+     * @return string
+     */
+    public function getPathLocal($nomeUsuario)
+    {
         $nomeUsuario = strtolower(preg_replace('/\s+/', '', $nomeUsuario));
         return \Yii::getAlias("@webroot") . '/uploads/imgs/fotos-usuarios/' . $this->imageFile->baseName . $nomeUsuario . '.' . $this->imageFile->extension;
     }
 
-    public function deleteFoto() {
+    /**
+     * Exclui a foto do usuário
+     */
+    public function deleteFoto()
+    {
         $path = \Yii::getAlias("@webroot") . substr($this->foto, strpos($this->foto, '/uploads/'));
 
         if (file_exists($path)) {
@@ -129,9 +158,16 @@ class Usuario extends \yii\db\ActiveRecord {
         }
     }
 
-    public function verificarPodeEmprestar() {
+    /**
+     * Verifica se o Usuário tem autorização para realizar o empréstimo
+     * @return int
+     */
+    public function verificarPodeEmprestar()
+    {
         $situacaoUsuario = SituacaoUsuario::findOne($this->situacao_usuario_idsituacao_usuario);
+
         if ($situacaoUsuario != null) {
+
             return $situacaoUsuario->pode_emprestar;
         }
     }

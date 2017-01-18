@@ -128,7 +128,6 @@ class AcervoController extends Controller
             $aquisicao->preco = $dadosAquisicao['preco'];
 
 
-
             //Inicia a transação:
             $transaction = \Yii::$app->db->beginTransaction();
             try {
@@ -340,10 +339,10 @@ class AcervoController extends Controller
 
         $aquisicao = Aquisicao::findOne($modelEmprestimo->aquisicao_idaquisicao);
 
-        if($aquisicao != null){
+        if ($aquisicao != null) {
             try {
 
-                if($aquisicao->delete()){
+                if ($aquisicao->delete()) {
                     $transaction->commit();
 
                     Yii::$app->session->setFlash('mensagem', "Acervo excluído com sucesso");

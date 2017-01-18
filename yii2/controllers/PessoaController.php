@@ -117,25 +117,37 @@ class PessoaController extends Controller {
         }
     }
 
+    /**
+     * Realiza o cadastro de uma Pessoa via Ajax
+     * @param $pessoaNome
+     * @param $pessoaTipo
+     * @param $identificao
+     */
     public function actionCreateAjax($pessoaNome, $pessoaTipo, $identificao) {
 
-
-
         if ($pessoaNome != null) {
+
             $pessoa = new Pessoa();
-            $tipoPessoa;
+
             if ($pessoaTipo == 1) {
+
                 $tipoPessoa = new \app\models\PessoaFisica();
+
                 $tipoPessoa->cpf = $identificao;
+
             } else {
                 $tipoPessoa = new \app\models\PessoaJuridica();
+
                 $tipoPessoa->cnpj = $identificao;
             }
 
             $pessoa->nome = $pessoaNome;
             if ($pessoa->save()) {
+
                 $tipoPessoa->pessoa_idpessoa = $pessoa->idpessoa;
+
                 if ($tipoPessoa->save()) {
+
                     echo Json::encode($tipoPessoa);
                 } else {
                     echo Json::encode(null);

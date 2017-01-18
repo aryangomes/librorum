@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Query;
 use app\components\AccessFilter;
+
 /**
  * CategoriaAcervoController implements the CRUD actions for CategoriaAcervo model.
  */
@@ -27,7 +28,7 @@ class CategoriaAcervoController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-                   'autorizacao' => [
+            'autorizacao' => [
                 'class' => AccessFilter::className(),
                 'actions' => [
 
@@ -135,20 +136,32 @@ class CategoriaAcervoController extends Controller
         }
     }
 
-    public function actionCategoriaAcervoList($q = null, $idcategoria_acervo = null) {
+    /**
+     * Retorna as Categorias do Acervo
+     * @param null $q
+     * @param null $idcategoria_acervo
+     * @return array
+     */
+    public function actionCategoriaAcervoList($q = null, $idcategoria_acervo = null)
+    {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
+
             $query = new Query;
+
             $query->select('idcategoria_acervo AS id, categoria AS text')
                 ->from('categoria_acervo')
                 ->where(['like', 'categoria', $q])
                 ->limit(20);
+
             $command = $query->createCommand();
+
             $data = $command->queryAll();
+
             $out['results'] = array_values($data);
-        }
-        elseif ($idcategoria_acervo > 0) {
+
+        } elseif ($idcategoria_acervo > 0) {
             $out['results'] = ['id' => $idcategoria_acervo, 'text' => TipoMaterial::find($idcategoria_acervo)->categoria];
         }
         return $out;

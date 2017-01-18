@@ -76,7 +76,12 @@ class AcervoSearch extends Acervo
 
         return $dataProvider;
     }
-    
+
+    /**
+     * Recupera os exemplares de um Acervo
+     * @param $idAcervo
+     * @return array|\yii\db\ActiveRecord[]
+     */
      public function searchExemplares($idAcervo)
     {
         $query = AcervoExemplar::find()->where([

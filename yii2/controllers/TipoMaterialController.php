@@ -136,17 +136,29 @@ class TipoMaterialController extends Controller
         }
     }
 
+    /**
+     * Retorna os Tipos de Material
+     * @param null $q
+     * @param null $idtipo_material
+     * @return array
+     */
     public function actionTipoMaterialList($q = null, $idtipo_material = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         $out = ['results' => ['id' => '', 'text' => '']];
+
         if (!is_null($q)) {
             $query = new Query;
+
             $query->select('idtipo_material AS id, nome AS text')
                 ->from('tipo_material')
                 ->where(['like', 'nome', $q])
                 ->limit(20);
+
             $command = $query->createCommand();
+
             $data = $command->queryAll();
+
             $out['results'] = array_values($data);
         }
         elseif ($idtipo_material > 0) {

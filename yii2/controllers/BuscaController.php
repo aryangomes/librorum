@@ -38,7 +38,7 @@ class BuscaController extends Controller
         $filtros = Busca::$filtros;
 
         $tiposMateriais = ArrayHelper::map(TipoMaterial::find()->all(),
-            'idtipo_material', 'nome' );
+            'idtipo_material', 'nome');
 
         $model->tipoMaterial = 1;
 
@@ -48,10 +48,14 @@ class BuscaController extends Controller
             [
                 'model' => $model,
                 'filtros' => $filtros,
-                'tiposMateriais'=>$tiposMateriais
+                'tiposMateriais' => $tiposMateriais
             ]);
     }
 
+    /**
+     * Realiza a busca no Acervo
+     * @return string|\yii\web\Response
+     */
     public function actionBuscaAcervo()
     {
         $session = Yii::$app->session;
@@ -61,7 +65,7 @@ class BuscaController extends Controller
         $filtrosEscolhidos = $busca['Busca']['filtro'];
 
         $tiposMateriais = ArrayHelper::map(TipoMaterial::find()->all(),
-           'idtipo_material', 'nome' );
+            'idtipo_material', 'nome');
 
         $exemplares = [];
 
@@ -71,7 +75,7 @@ class BuscaController extends Controller
                 ->joinWith('tipoMaterialIdtipoMaterial')
                 ->joinWith('categoriaAcervoIdcategoriaAcervo');
 
-            if(($filtrosEscolhidos) != ''){
+            if (($filtrosEscolhidos) != '') {
 
                 foreach ($filtrosEscolhidos as $filtro) {
                     $query->orWhere(['LIKE', $filtro, $busca['acervo']]);
@@ -81,7 +85,7 @@ class BuscaController extends Controller
 
             $resultado = [];
 
-            $query->andWhere(['tipo_material_idtipo_material'=>$busca['Busca']['tipoMaterial']]);
+            $query->andWhere(['tipo_material_idtipo_material' => $busca['Busca']['tipoMaterial']]);
 
             if (count($query->all()) > 0) {
 
@@ -95,16 +99,15 @@ class BuscaController extends Controller
                             ->where(['acervo_idacervo' => $acervo->idacervo])->all();
                         if (count($exemplaresAcervo) > 0) {
 
-                           array_push($exemplares, $exemplaresAcervo);
-                         //  $countResultado += (count($exemplaresAcervo));
-                             $countResultado++;
+                            array_push($exemplares, $exemplaresAcervo);
+                            //  $countResultado += (count($exemplaresAcervo));
+                            $countResultado++;
                         }
 
-                        array_push($resultado,[$acervo,$exemplares]);
+                        array_push($resultado, [$acervo, $exemplares]);
 
                     }
                 }
-
 
 
                 $model = new Busca();
@@ -117,15 +120,15 @@ class BuscaController extends Controller
 
                 return $this->render('index',
                     [
-                        'resultado'=>$resultado,
+                        'resultado' => $resultado,
 
-                        'countResultado'=>$countResultado,
+                        'countResultado' => $countResultado,
 
                         'model' => $model,
 
                         'filtros' => $filtros,
 
-                        'tiposMateriais'=>$tiposMateriais,
+                        'tiposMateriais' => $tiposMateriais,
                     ]);
             } else {
                 $session->setFlash('buscaAcervo', 'Nada encontrado');

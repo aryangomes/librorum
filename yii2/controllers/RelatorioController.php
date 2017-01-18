@@ -175,12 +175,16 @@ class RelatorioController extends Controller
         }
     }
 
-
+    /**
+     * Gera o relatório de Empréstimos realizados
+     * @param $id
+     * @return mixed|\yii\web\Response
+     */
     public function actionGerarRelatorioEmprestimos($id)
     {
 
         //Setando a data para o fuso do Brasil
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
 
         $modelRelatorio = $this->findModel($id);
 
@@ -228,11 +232,16 @@ class RelatorioController extends Controller
 
     }
 
+    /**
+     * Gera o relatório de Empréstimos devolvidos
+     * @param $id
+     * @return mixed|\yii\web\Response
+     */
     public function actionGerarRelatorioDevolucoes($id)
     {
 
         //Setando a data para o fuso do Brasil
-        date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Recife');
 
         $modelRelatorio = $this->findModel($id);
 

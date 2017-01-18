@@ -73,6 +73,11 @@ class AcervoExemplarSearch extends AcervoExemplar
         return $dataProvider;
     }
 
+    /**
+     * Recupera um exemplar pelo título passado
+     * @param $tituloExemplar
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public function searchExemplarByTitulo($tituloExemplar)
     {
         $query = AcervoExemplar::find()
