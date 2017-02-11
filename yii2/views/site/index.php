@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $emprestimosDoDiaAtual array*/
+/* @var $emprestimosDoDiaAtual array */
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -68,29 +68,30 @@ date_default_timezone_set('America/Recife');
                     <?=
                     Html::button('Pesquisar', ['class' => 'btn btn-primary',
                         'id' => 'btPesquisarPorRG',
-                    'title'=>'Clique aqui para pesquisar',
-                        'data-toggle'=>"tooltip"])
+                        'title' => 'Clique aqui para pesquisar',
+                        'data-toggle' => "tooltip"])
                     ?>
                 </span>
             </div>
 
             <div id="result-messagem-busca-emprestimo-rg">
             </div>
-            <table id="tableresult-rg" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>RG</th>
-                    <th>Data Empréstimo</th>
-                    <th>Data Data de previsão da devolução</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody id="tbody-result-rg">
+            <div class="table-responsive">
+                <table id="tableresult-rg" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Data de previsão da devolução</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-result-rg">
 
-                </tbody>
-            </table>
-
+                    </tbody>
+                </table>
+            </div>
 
             <!-- -------  END  Busca de Empréstimo por RG -------------  -->
             </p>
@@ -116,27 +117,28 @@ date_default_timezone_set('America/Recife');
 
                 <span class="input-group-btn">
                     <?= Html::button('Pesquisar', ['class' => 'btn btn-primary', 'id' => 'btPesquisarExemplar',
-                        'title'=>'Clique aqui para pesquisar',
-                        'data-toggle'=>"tooltip"]) ?>
+                        'title' => 'Clique aqui para pesquisar',
+                        'data-toggle' => "tooltip"]) ?>
                 </span>
             </div>
             <div id="result-messagem-busca-emprestimo-exemplar">
             </div>
-            <table id="tableresult-emprestimo-exemplar" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>RG</th>
-                    <th>Data Empréstimo</th>
-                    <th>Data Data de previsão da devolução</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody id="tbody-result-emprestimo-exemplar">
+            <div class="table-responsive">
+                <table id="tableresult-emprestimo-exemplar" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>RG</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Data de previsão da devolução</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody-result-emprestimo-exemplar">
 
-                </tbody>
-            </table>
-
+                    </tbody>
+                </table>
+            </div>
 
             <!-- -------  END  de Empréstimo por código exemplar -------------  -->
             </p>
@@ -355,7 +357,7 @@ date_default_timezone_set('America/Recife');
         if ((count($emprestimosDoDiaAtual) > 0) && (Yii::$app->user->can("admin"))) {
 
             ?>
-            <h3>Empréstimo com previsão de devolução no dia <?= date('d/m/Y')?> </h3>
+            <h3>Empréstimo com previsão de devolução no dia <?= date('d/m/Y') ?> </h3>
             <div class="table-responsive">
 
                 <table class="table table-bordered">
@@ -368,22 +370,24 @@ date_default_timezone_set('America/Recife');
                         <th>Ações</th>
                     </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                     <?php
 
                     foreach ($emprestimosDoDiaAtual as $emprestimo) {
 
                         ?>
                         <tr>
-                        <td><?= $emprestimo['usuarioIdusuario']->nome ?></td>
-                        <td><?= $emprestimo['usuarioIdusuario']->rg ?></td>
-                        <td><?= Yii::$app->formatter->asDate($emprestimo->dataemprestimo , 'dd/M/Y') ?></td>
-                        <td><?= Yii::$app->formatter->asDate($emprestimo->dataprevisaodevolucao  , 'dd/M/Y')?></td>
-                        <td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
-                             onclick="carregarDadosModalEmprestimo(<?= $emprestimo->idemprestimo  ?>)">
-                                Visualizar detalhes do Empréstimo
-                            <span class="glyphicon glyphicon-search">
-                            </span></button></td>
+                            <td><?= $emprestimo['usuarioIdusuario']->nome ?></td>
+                            <td><?= $emprestimo['usuarioIdusuario']->rg ?></td>
+                            <td><?= Yii::$app->formatter->asDate($emprestimo->dataemprestimo, 'dd/M/Y') ?></td>
+                            <td><?= Yii::$app->formatter->asDate($emprestimo->dataprevisaodevolucao, 'dd/M/Y') ?></td>
+                            <td>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"
+                                        onclick="carregarDadosModalEmprestimo(<?= $emprestimo->idemprestimo ?>)">
+                                    Visualizar detalhes do Empréstimo
+                                    <span class="glyphicon glyphicon-search">
+                            </span></button>
+                            </td>
                         </tr>
                         <?php
 
