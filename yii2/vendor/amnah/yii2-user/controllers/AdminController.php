@@ -190,6 +190,7 @@ class AdminController extends Controller
 
                 $usuario->user_id = $user->id;
 
+                //Carrega a foto do usuário
                 $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
                 if ($usuario->imageFile != null) {
 
@@ -197,7 +198,7 @@ class AdminController extends Controller
                 }
 
                 if ($usuario->save()) {
-
+                    //Upload da foto
                     $usuario->upload($usuario->nome);
 
                     $transaction->commit();
@@ -276,6 +277,7 @@ class AdminController extends Controller
                     ':iduser' => $user->id,
                 ])->execute();
 
+                // Dá permissões de Admin para o usuário
                 if ($user->role_id == 1) {
 
                     Yii::$app->db->createCommand(
@@ -310,6 +312,7 @@ class AdminController extends Controller
 
                     $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
 
+                    //Carrega a foto do usuário
                     $usuario->imageFile = UploadedFile::getInstanceByName('Usuario[imageFile]');
 
                     if ($usuario->imageFile != null) {
@@ -319,7 +322,7 @@ class AdminController extends Controller
 
 
                     if ($usuario->save()) {
-
+                        //Upload da foto
                         $usuario->upload($usuario->nome);
 
                         $transaction->commit();
@@ -363,7 +366,7 @@ class AdminController extends Controller
         try {
 
             if ($usuario != null) {
-
+                //Deleta a foto do usuário
                 $usuario->deleteFoto();
 
             }
@@ -462,7 +465,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Cadastra um novo usuário
+     * Cadastra um novo usuário usando Ajax
      * @param $nome
      * @param $rg
      * @param $cpf

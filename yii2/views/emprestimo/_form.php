@@ -9,6 +9,12 @@ use yii\widgets\MaskedInput;
 /* @var $this yii\web\View */
 /* @var $model app\models\Emprestimos */
 /* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View $this
+ * @var amnah\yii2\user\Module $module
+ * @var amnah\yii2\user\models\User $user
+ * @var yii\widgets\ActiveForm $form
+ */
 ?>
 
 <div class="emprestimos-form">
@@ -22,11 +28,11 @@ use yii\widgets\MaskedInput;
     <?php
 
     if (isset($mensagem) && !empty($mensagem)) {
-    ?>
-    <div class="alert alert-success">
-        <?= $mensagem ?>
-    </div>
-    <?php
+        ?>
+        <div class="alert alert-success">
+            <?= $mensagem ?>
+        </div>
+        <?php
 
     }
     ?>
@@ -69,16 +75,6 @@ use yii\widgets\MaskedInput;
         'id' => 'modalcadastrarusuario',
         'size' => Modal::SIZE_LARGE,
     ]);
-    ?>
-    <?php
-    /**
-     * @var yii\web\View $this
-     * @var amnah\yii2\user\Module $module
-     * @var amnah\yii2\user\models\User $user
-     * @var amnah\yii2\user\models\Profile $profile
-     * @var amnah\yii2\user\models\Role $role
-     * @var yii\widgets\ActiveForm $form
-     */
     ?>
 
 
@@ -279,8 +275,8 @@ use yii\widgets\MaskedInput;
             'placeholder' => 'Digite o nome do usuário']) . "
  <span class=\"input-group-btn\"> 
   " . Html::button('Pesquisar', ['id' => 'btPesquisar', 'class' => 'btn btn-primary',
-            'title'=>'Clique aqui para pesquisar o usuário',
-            'data-toggle'=>"tooltip"]) . "
+            'title' => 'Clique aqui para pesquisar o usuário',
+            'data-toggle' => "tooltip"]) . "
  </span> </div> 
 </div> </div> </div>
         <div id=\"result-mensagem-busca-usuario\">
@@ -311,7 +307,7 @@ use yii\widgets\MaskedInput;
 
                         'codigo_livro' => ['type' => Form::INPUT_TEXT, 'options' =>
                             ['placeholder' => 'Digite o código do exemplar',
-                            'name'=>'AcervoExemplar[codigo_livro][]']
+                                'name' => 'AcervoExemplar[codigo_livro][]']
                         ],
                         'actions' => [
                             'type' => Form::INPUT_RAW,
@@ -347,8 +343,8 @@ use yii\widgets\MaskedInput;
             'placeholder' => 'Digite o título do exemplar']) . "
  <span class=\"input-group-btn\"> 
   " . Html::button('Pesquisar', ['id' => 'btPesquisarExemplar', 'class' => 'btn btn-primary',
-            'title'=>'Clique aqui para pesquisar o exemplar',
-            'data-toggle'=>"tooltip"]) . "
+            'title' => 'Clique aqui para pesquisar o exemplar',
+            'data-toggle' => "tooltip"]) . "
  </span> </div></div></div></div>
          
 
@@ -533,14 +529,14 @@ use yii\widgets\MaskedInput;
     <?=
     Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
         'id' => 'btSave',
-        'title'=> $model->isNewRecord ? 'Clique aqui cadastrar o Empréstimo':'Clique aqui atualizar o Empréstimo',
-        'data-toggle'=>"tooltip"])
+        'title' => $model->isNewRecord ? 'Clique aqui cadastrar o Empréstimo' : 'Clique aqui atualizar o Empréstimo',
+        'data-toggle' => "tooltip"])
     ?>
 
 
     <?= Html::resetButton('Limpar', ['class' => 'btn btn-warning',
-        'title'=>'Clique aqui para limpar os dados dos campos',
-        'data-toggle'=>"tooltip"])
+        'title' => 'Clique aqui para limpar os dados dos campos',
+        'data-toggle' => "tooltip"])
     ?>
 </div>
 

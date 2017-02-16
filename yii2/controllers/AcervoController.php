@@ -135,7 +135,9 @@ class AcervoController extends Controller
                 if ($aquisicao->save(false)) {
 
                     $model->load(Yii::$app->request->post());
+
                     $model->aquisicao_idaquisicao = $aquisicao->idaquisicao;
+
                     if ($model->save()) {
                         if ($catalogarAcervoExistente) {
 

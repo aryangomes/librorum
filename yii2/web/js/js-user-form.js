@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+$('#usuario-nome').focus();
 
 $(document).ready(function () {
 

@@ -72,7 +72,7 @@ class EmprestimoController extends Controller
     public function actionIndex($situacaoEmprestimo = '')
     {
         $searchModel = new EmprestimoSearch();
-//var_dump(Yii::$app->request->queryParams['situacao-emprestimo']);die();
+
         if (Yii::$app->request->get()) {
             $situacaoEmprestimo = Yii::$app->request->get()['situacao-emprestimo'];
         }
@@ -105,8 +105,6 @@ class EmprestimoController extends Controller
             $exemplaresEmprestados = $searchModel->searchDadosEmprestimo($id)["acervoExemplarIdacervoExemplars"];
         }
 
-
-//       var_dump($exemplaresEmprestados["acervoExemplarIdacervoExemplars"][0]["acervoIdacervo"]["titulo"]); die();
 
         return $this->render('view', [
             'model' => $model,
@@ -148,13 +146,11 @@ class EmprestimoController extends Controller
 
         $user->setScenario("admin");
 
-        $profile = new \amnah\yii2\user\models\Profile();
 
         $user->role_id = 2;
 
         $user->status = 1;
 
-        $role = new \amnah\yii2\user\models\Role();
 
         //Definindo a data de Empréstimo
         date_default_timezone_set('America/Recife');
@@ -169,7 +165,6 @@ class EmprestimoController extends Controller
 
                 if ($model->save()) {
 
-
                     $itensSalvos = true;
 
                     $codigosExemplares = Yii::$app->request->post()['AcervoExemplar']['codigo_livro'];
@@ -178,11 +173,9 @@ class EmprestimoController extends Controller
 
                         if (!empty($codExem)) {
 
-
                             $modelEmprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
 
                             $exemplar = AcervoExemplar::find()->where(['codigo_livro' => $codExem])->one();
-
 
                             if ($exemplar != null) {
 
@@ -232,8 +225,6 @@ class EmprestimoController extends Controller
                     'acervo' => $acervo,
                     'exemplar' => $exemplar,
                     'user' => $user,
-                    'profile' => $profile,
-                    'role' => $role,
                     'situacoesusuario' => $situacoesusuario,
                     'mensagem' => $mensagem,
                     'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,
@@ -253,8 +244,6 @@ class EmprestimoController extends Controller
                 'acervo' => $acervo,
                 'exemplar' => $exemplar,
                 'user' => $user,
-                'profile' => $profile,
-                'role' => $role,
                 'situacoesusuario' => $situacoesusuario,
                 'mensagem' => $mensagem,
                 'maxQtdExemplarEmprestimo' => $maxQtdExemplarEmprestimo,

@@ -56,3 +56,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+
+<?php $this->registerJs("$('#loginform-email').focus();") ?>

@@ -85,7 +85,8 @@ class Emprestimo extends \yii\db\ActiveRecord
      */
     public function getAcervoExemplarIdacervoExemplars()
     {
-        return $this->hasMany(AcervoExemplar::className(), ['idacervo_exemplar' => 'acervo_exemplar_idacervo_exemplar'])->viaTable('emprestimo_has_acervo_exemplar', ['emprestimo_idemprestimo' => 'idemprestimo']);
+        return $this->hasMany(AcervoExemplar::className(), ['idacervo_exemplar' => 'acervo_exemplar_idacervo_exemplar'])
+            ->viaTable('emprestimo_has_acervo_exemplar', ['emprestimo_idemprestimo' => 'idemprestimo']);
     }
 
     /**

@@ -100,7 +100,7 @@ class BuscaController extends Controller
                         if (count($exemplaresAcervo) > 0) {
 
                             array_push($exemplares, $exemplaresAcervo);
-                            //  $countResultado += (count($exemplaresAcervo));
+
                             $countResultado++;
                         }
 

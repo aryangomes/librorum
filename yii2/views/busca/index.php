@@ -19,7 +19,7 @@ $this->title = 'Busca no Acervo';
     <div class="bs-example">
         <form class="" id="w1" action="/librorum/yii2/web/busca/busca-acervo" method="get">
             <div class="form-group input-group input-group-lg">
-                <input type="text" name="acervo" class="form-control" placeholder="Buscar Material">
+                <input id="buscar-material" type="text" name="acervo" class="form-control" placeholder="Buscar Material">
                 <span class="input-group-btn">
                     <button class="btn btn-primary"
                              title='Clique aqui para pesquisar'
@@ -133,3 +133,6 @@ $this->title = 'Busca no Acervo';
     }
     ?>
 </div>
+
+
+<?php $this->registerJs("$('#buscar-material').focus();") ?>
