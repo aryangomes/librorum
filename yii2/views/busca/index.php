@@ -17,7 +17,7 @@ $this->title = 'Busca no Acervo';
     </div>
 
     <div class="bs-example">
-        <form class="" id="w1" action="/librorum/yii2/web/busca/busca-acervo" method="get">
+        <form class="" id="w1" action="<?= \yii\helpers\Url::toRoute('busca/busca-acervo') ?>" method="get">
             <div class="form-group input-group input-group-lg">
                 <input id="buscar-material" type="text" name="acervo" class="form-control" placeholder="Buscar Material">
                 <span class="input-group-btn">
