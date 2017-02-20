@@ -169,6 +169,8 @@ class AdminController extends Controller
                     ])->execute();
                 }
 
+
+
                 $usuario->nome = $post['Usuario']['nome'];
 
                 $usuario->rg = $post['Usuario']['rg'];

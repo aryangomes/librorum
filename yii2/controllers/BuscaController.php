@@ -75,6 +75,7 @@ class BuscaController extends Controller
                 ->joinWith('tipoMaterialIdtipoMaterial')
                 ->joinWith('categoriaAcervoIdcategoriaAcervo');
 
+
             if (($filtrosEscolhidos) != '') {
 
                 foreach ($filtrosEscolhidos as $filtro) {

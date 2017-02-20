@@ -102,17 +102,13 @@ class AcervoController extends Controller
         $mensagem = "";
 
 
-        if ((Yii::$app->request->post())) {
+        if ((Yii::$app->request->post()) && $aquisicao->load(Yii::$app->request->post())) {
+
+
 
             $catalogarAcervoExistente = Yii::$app->request->post()['Acervo']['catalogarAcervoExistente'];
 
             $post = Yii::$app->request->post();
-
-            $dadosAquisicao = $post['Aquisicao'];
-
-            $aquisicao->tipo_aquisicao_idtipo_aquisicao = $dadosAquisicao['tipo_aquisicao_idtipo_aquisicao'];
-
-            $aquisicao->pessoa_idpessoa = $dadosAquisicao['pessoa_idpessoa'];
 
             $codigoExamplares = [];
 
@@ -125,7 +121,8 @@ class AcervoController extends Controller
                 $aquisicao->quantidade = $post['Acervo']['quantidadeExemplar'];
             }
 
-            $aquisicao->preco = $dadosAquisicao['preco'];
+            $aquisicao->preco = $post['Aquisicao']['preco'];
+
 
 
             //Inicia a transação:
@@ -177,13 +174,16 @@ class AcervoController extends Controller
 
                                             Yii::$app->session->setFlash('mensagem', $mensagemSucesso);
 
-
                                             return $this->redirect('create');
                                         }
                                         $i++;
+
                                         $count++;
+
                                     } else {
+
                                         $i++;
+
                                     }
 
                                 }
@@ -230,6 +230,7 @@ class AcervoController extends Controller
                                         $i++;
 
                                         $count++;
+
                                     } else {
 
                                         $i++;
@@ -284,15 +285,8 @@ class AcervoController extends Controller
         $tipoPessoa = (($pessoaFisica->pessoa_idpessoa) != null) ? $this->tiposPessoa['1'] : $this->tiposPessoa['2'];
 
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $aquisicao->load(Yii::$app->request->post())) {
 
-            $dadosAquisicao = (Yii::$app->request->post()['Aquisicao']);
-
-            $aquisicao->tipo_aquisicao_idtipo_aquisicao = $dadosAquisicao['tipo_aquisicao_idtipo_aquisicao'];
-
-            $aquisicao->pessoa_idpessoa = $dadosAquisicao['pessoa_idpessoa'];
-
-            $aquisicao->preco = $dadosAquisicao['preco'];
 
             $transaction = \Yii::$app->db->beginTransaction();
             try {
