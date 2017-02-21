@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $tiposRelatorio array */
 
 $this->title = Yii::t('app', 'Create {model}', ['model'=> Yii::t('app', 'Relatório')]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Relatorios'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Relatórios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="relatorio-create">

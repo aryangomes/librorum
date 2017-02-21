@@ -165,7 +165,7 @@ date_default_timezone_set('America/Recife');
                                data-confirm="Você deseja cancelar o empréstimo?"
                                title="Clique aqui para cancelar o Empréstimo"
                                data-toggle="tooltip"
-                               data-method="post">Cancelar</a>
+                               data-method="post">Cancelar o Empréstimo</a>
 
                             <button type="button" class="btn btn-success"
                                     title="Clique aqui para fazer a devolução do Empréstimo"

@@ -115,6 +115,9 @@ class AdminController extends Controller
         /** @var \amnah\yii2\user\models\User $user */
         /** @var \amnah\yii2\user\models\Profile $profile */
 
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Recife');
+
         $usuario = new Usuario();
 
         $user = $this->module->model("User");
@@ -233,6 +236,9 @@ class AdminController extends Controller
      */
     public function actionUpdate($id)
     {
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Recife');
+
         // set up user and profile
 
         $user = $this->findModel($id);

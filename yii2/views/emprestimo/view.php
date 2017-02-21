@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
     <?=
-    !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar'), ['delete', 'id' => $model->idemprestimo], [
+    !(isset($model->datadevolucao)) ? Html::a(Yii::t('app', 'Cancelar o Empréstimo'), ['delete', 'id' => $model->idemprestimo], [
         'class' => 'btn btn-danger',
         'title'=>"Clique aqui para cancelar o Empréstimo",
 

@@ -203,6 +203,9 @@ class EmprestimoSearch extends Emprestimo
     public function searchEmprestimoDoDiaAtual()
     {
 
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Recife');
+
         $query = Emprestimo::find()
             ->where(['dataprevisaodevolucao' => date('Y-m-d'),
                 'datadevolucao' => null])

@@ -119,6 +119,9 @@ class EmprestimoController extends Controller
      */
     public function actionCreate()
     {
+        //Setando a data para o fuso do Brasil
+        date_default_timezone_set('America/Recife');
+
         $model = new Emprestimo();
 
         $usuario = new Usuario();
@@ -151,9 +154,6 @@ class EmprestimoController extends Controller
 
         $user->status = 1;
 
-
-        //Definindo a data de Empréstimo
-        date_default_timezone_set('America/Recife');
 
         $model->dataemprestimo = date('Y-m-d H:i:s');
 
