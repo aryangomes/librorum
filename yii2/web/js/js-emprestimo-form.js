@@ -625,7 +625,7 @@ function adicionarInputCodigoExemplar() {
         $("#w10").append($("#w10 .row").last().clone());
 
 
-        qtdExemplarEmprestimo++;
+        qtdExemplarEmprestimo =+1;
 
         $('#btRemoverInputCodigoExemplar').show();
     } else {
@@ -636,7 +636,7 @@ function adicionarInputCodigoExemplar() {
 
 function removerInputCodigoExemplar() {
 
-    if (qtdExemplarEmprestimo > 1) {
+    if (qtdExemplarEmprestimo > 0) {
         $("input[name='AcervoExemplar[codigo_livro][]']").last().parent().remove();
         $("#w10 .row").last().remove();
 

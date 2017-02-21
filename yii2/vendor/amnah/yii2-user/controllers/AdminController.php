@@ -156,6 +156,10 @@ class AdminController extends Controller
 
                 $user->save(false);
 
+                $usuario->nome = $post['Usuario']['nome'];
+
+                $profile->full_name =  $usuario->nome;
+
                 $profile->setUser($user->id)->save(false);
 
                 if ($user->role_id == 1) {
@@ -168,10 +172,6 @@ class AdminController extends Controller
                         ':iduser' => $user->id,
                     ])->execute();
                 }
-
-
-
-                $usuario->nome = $post['Usuario']['nome'];
 
                 $usuario->rg = $post['Usuario']['rg'];
 
@@ -269,6 +269,8 @@ class AdminController extends Controller
                 $user->email = $post['Usuario']['rg'];
 
                 $user->save(false);
+
+                $profile->full_name =  $post['Usuario']['nome'];
 
                 $profile->setUser($user->id)->save(false);
 
