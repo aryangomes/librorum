@@ -550,11 +550,11 @@ class EmprestimoController extends Controller
 
                 $maxQtdExemplarEmprestimo = \app\models\Config::findOne('max_qtd_exemplar_emprestimo')['valor'];
 
-                if ($qtdExemplaresEmprestados < $maxQtdExemplarEmprestimo) {
+                if ($qtdExemplaresEmprestados >= $maxQtdExemplarEmprestimo) {
 
-                    echo Json::encode(true);
-                } else {
                     echo Json::encode('maxQtdExemplarEmprestimo');
+                } else {
+                    echo ($qtdExemplaresEmprestados);
                 }
 
             } else {

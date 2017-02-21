@@ -19,6 +19,7 @@ $('#form-emprestimo').hide();
 
 $('#btSave').prop('disabled', true);
 
+var idUsuario;
 
 
 var senhaValidada = false;
@@ -49,6 +50,9 @@ $('#emprestimo-usuario_rg').blur(function () {
                 }else{
                     $('#foto-usuario').attr("src", urlFotoPadrao);
                 }
+
+
+
                 $('#btSave').prop('disabled', true);
                 $('#mensagem-senha-errada').hide();
                 $('#result-get-usuario').html('');
@@ -75,6 +79,9 @@ $('#emprestimo-usuario_rg').blur(function () {
                         $('#result-get-usuario').html('Usuário atingiu o limite máximo de exemplares emprestados');
                         $('#result-get-usuario').show();
                     } else {
+                        qtdExemplarEmprestimo = resultado;
+                        console.log('q:'+qtdExemplarEmprestimo);
+
                         $('#user-password').prop('disabled', false);
                         $('#result-get-usuario').hide();
                     }
@@ -612,7 +619,7 @@ var inputCodigoExemplar = '<div class="form-group field-inputCodigoExemplar requ
 function adicionarInputCodigoExemplar() {
 
 
-    if (qtdExemplarEmprestimo < maxQtdExemplarEmprestimo) {
+    if ((parseInt(qtdExemplarEmprestimo)+1) < maxQtdExemplarEmprestimo) {
         $("#acervoexemplar-codigo_livro").parent().parent().append(inputCodigoExemplar);
 
         $("#w10").append($("#w10 .row").last().clone());

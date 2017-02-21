@@ -185,7 +185,7 @@ class AdminController extends Controller
 
                 $usuario->telefone = $post['Usuario']['telefone'];
 
-                $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email'])) ? null
+                $usuario->email = empty($post['Usuario']['email']) ? null
                     : $post['Usuario']['email'];
 
                 $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
@@ -307,9 +307,8 @@ class AdminController extends Controller
 
                     $usuario->telefone = $post['Usuario']['telefone'];
 
-                    $usuario->email = $post['Usuario']['email'];
 
-                    $usuario->email = (isset($post['Usuario']['email']) || empty($post['Usuario']['email'])) ? null
+                    $usuario->email = empty($post['Usuario']['email'])? null
                         : $post['Usuario']['email'];
 
                     $usuario->situacao_usuario_idsituacao_usuario = $post['Usuario']['situacaoUsuarioIdsituacaoUsuario'];
