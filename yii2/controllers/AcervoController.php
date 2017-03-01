@@ -428,7 +428,11 @@ class AcervoController extends Controller
 
 
                 //Guarda todos os empréstimos que tem exemplares do Acervo passado que foram emprestados
-                $emprestimosDosExemplar = [];
+                $emprestimosDosExemplarDevolvidos = [];
+
+                //Guarda todos os empréstimos que tem exemplares do Acervo passado que não foram emprestados
+                $emprestimosDosExemplarNaoDevolvidos = [];
+
 
                 foreach (AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all() as $exemplar){
 
@@ -436,13 +440,16 @@ class AcervoController extends Controller
                                   ->where(['acervo_exemplar_idacervo_exemplar'=>$exemplar->idacervo_exemplar])->all()
                     as $empresHasExemplar){
 
-                        array_push($emprestimosDosExemplar , $empresHasExemplar->emprestimo_idemprestimo);
+                        if(Emprestimo::findOne($empresHasExemplar->emprestimo_idemprestimo)->datadevolucao == null){
+                            array_push($emprestimosDosExemplarNaoDevolvidos , $empresHasExemplar->emprestimo_idemprestimo);
+                        }else{
+                            array_push($emprestimosDosExemplarDevolvidos , $empresHasExemplar->emprestimo_idemprestimo);
+                        }
+
+
                     }
 
                 }
-
-                array_unique($emprestimosDosExemplar);
-
 
                 $exemplaresExcluidos = AcervoExemplar::deleteAll(
                     ['acervo_idacervo' => $idAcervo]);
@@ -512,23 +519,34 @@ class AcervoController extends Controller
                                             //Guarda os exemplares do Acervo
                                             $acervoExemplares = AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all();
 
+
+                                            foreach ($emprestimosDosExemplarDevolvidos as $key => $value){
+                                                $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                                                $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
+                                                    $acervoExemplares[0]->idacervo_exemplar;
+
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo =
+                                                    $emprestimosDosExemplarDevolvidos[$key];
+
+                                                $emprestimoHasAcervoExemplar->save();
+                                            }
+
                                             $j = 0;
 
-                                            while ($j < count($emprestimosDosExemplar)){
+                                            while ($j < count($emprestimosDosExemplarNaoDevolvidos)){
+
                                                 $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
 
                                                 $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
                                                     $acervoExemplares[$j]->idacervo_exemplar;
 
-                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo = $emprestimosDosExemplar[$j];
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo =
+                                                    $emprestimosDosExemplarNaoDevolvidos[$j];
 
                                                 $emprestimoHasAcervoExemplar->save();
 
-                                                if(Emprestimo::findOne($emprestimosDosExemplar[$j])->datadevolucao == null){
-
-                                                    $acervoExemplares[$j]->esta_disponivel = 0;
-
-                                                }
+                                                $acervoExemplares[$j]->esta_disponivel = 0;
 
                                                 $acervoExemplares[$j]->save();
 
@@ -599,23 +617,33 @@ class AcervoController extends Controller
                                             //Guarda os exemplares do Acervo
                                             $acervoExemplares = AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all();
 
+                                            foreach ($emprestimosDosExemplarDevolvidos as $key => $value){
+                                                $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                                                $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
+                                                    $acervoExemplares[0]->idacervo_exemplar;
+
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo =
+                                                    $emprestimosDosExemplarDevolvidos[$key];
+
+                                                $emprestimoHasAcervoExemplar->save();
+                                            }
+
                                             $j = 0;
 
-                                            while ($j < count($emprestimosDosExemplar)){
+                                            while ($j < count($emprestimosDosExemplarNaoDevolvidos)){
+
                                                 $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
 
                                                 $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
                                                     $acervoExemplares[$j]->idacervo_exemplar;
 
-                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo = $emprestimosDosExemplar[$j];
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo =
+                                                    $emprestimosDosExemplarNaoDevolvidos[$j];
 
                                                 $emprestimoHasAcervoExemplar->save();
 
-                                                if(Emprestimo::findOne($emprestimosDosExemplar[$j])->datadevolucao == null){
-
-                                                    $acervoExemplares[$j]->esta_disponivel = 0;
-
-                                                }
+                                                $acervoExemplares[$j]->esta_disponivel = 0;
 
                                                 $acervoExemplares[$j]->save();
 
