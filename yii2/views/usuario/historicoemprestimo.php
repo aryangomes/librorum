@@ -8,7 +8,7 @@ use \yii\widgets\Pjax;
 /* @var $searchModel app\models\UsuarioSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Histórico de empréstimos de ' . $usuarioModel->nome ;
+$this->title = 'Histórico de empréstimos de ' . Yii::$app->user->displayName;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuario-index">

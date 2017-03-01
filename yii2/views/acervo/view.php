@@ -64,7 +64,7 @@ alert(<?= Yii::$app->session->getFlash('erro')?>)
 
         $form = ActiveForm::begin([
             'action' => ['gerar-novo-codigo-exemplares',
-            'id' => $model->idacervo]]);
+            'idAcervo' => $model->idacervo]]);
 
         $model->catalogarAcervoExistente= 0;
         ?>

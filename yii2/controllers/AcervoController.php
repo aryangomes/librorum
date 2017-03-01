@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Emprestimo;
+use app\models\EmprestimoHasAcervoExemplar;
 use Yii;
 use app\models\Acervo;
 use app\models\AcervoSearch;
@@ -405,10 +407,10 @@ class AcervoController extends Controller
 
     /**
      * Gera novos códigos de exemplares para o acervo
-     * @param $id
+     * @param $idAcervo
      *
      */
-    public function actionGerarNovoCodigoExemplares($id)
+    public function actionGerarNovoCodigoExemplares($idAcervo)
     {
 
         if (Yii::$app->request->post()) {
@@ -420,13 +422,31 @@ class AcervoController extends Controller
 
             $transaction = \Yii::$app->db->beginTransaction();
 
-            $aquisicao = Aquisicao::findOne($this->findModel($id)->aquisicao_idaquisicao);
+            $aquisicao = Aquisicao::findOne($this->findModel($idAcervo)->aquisicao_idaquisicao);
 
             try {
 
 
+                //Guarda todos os empréstimos que tem exemplares do Acervo passado que foram emprestados
+                $emprestimosDosExemplar = [];
+
+                foreach (AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all() as $exemplar){
+
+                    foreach ( EmprestimoHasAcervoExemplar::find()
+                                  ->where(['acervo_exemplar_idacervo_exemplar'=>$exemplar->idacervo_exemplar])->all()
+                    as $empresHasExemplar){
+
+                        array_push($emprestimosDosExemplar , $empresHasExemplar->emprestimo_idemprestimo);
+                    }
+
+                }
+
+                array_unique($emprestimosDosExemplar);
+
+
                 $exemplaresExcluidos = AcervoExemplar::deleteAll(
-                    ['acervo_idacervo' => $id]);
+                    ['acervo_idacervo' => $idAcervo]);
+
 
                 if ($exemplaresExcluidos > 0) {
 
@@ -452,13 +472,16 @@ class AcervoController extends Controller
                                 $codigo = $i;
 
                                 if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
+
                                     $exemplar = new AcervoExemplar();
 
                                     $exemplar->esta_disponivel = 1;
 
-                                    $exemplar->acervo_idacervo = $id;
+                                    $exemplar->acervo_idacervo = $idAcervo;
 
                                     $exemplar->codigo_livro = $codigo;
+
+
 
                                     if (!$exemplar->save(false)) {
 
@@ -469,6 +492,8 @@ class AcervoController extends Controller
                                         break;
 
                                     }
+
+
 
                                     if ($count == ($codigoFim - $codigoInicio)) {
                                         if (!$itensInseridos) {
@@ -484,11 +509,37 @@ class AcervoController extends Controller
 
                                             $aquisicao->save(false);
 
+                                            //Guarda os exemplares do Acervo
+                                            $acervoExemplares = AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all();
+
+                                            $j = 0;
+
+                                            while ($j < count($emprestimosDosExemplar)){
+                                                $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                                                $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
+                                                    $acervoExemplares[$j]->idacervo_exemplar;
+
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo = $emprestimosDosExemplar[$j];
+
+                                                $emprestimoHasAcervoExemplar->save();
+
+                                                if(Emprestimo::findOne($emprestimosDosExemplar[$j])->datadevolucao == null){
+
+                                                    $acervoExemplares[$j]->esta_disponivel = 0;
+
+                                                }
+
+                                                $acervoExemplares[$j]->save();
+
+                                                $j++;
+                                            }
+
                                             $transaction->commit();
 
                                             Yii::$app->session->setFlash('mensagem', "Novo(s) código(s) gerado(s)");
                                         }
-                                        return $this->redirect(['view', 'id' => $id]);
+                                        return $this->redirect(['view', 'id' => $idAcervo]);
 
                                     }
                                     $i++;
@@ -505,7 +556,7 @@ class AcervoController extends Controller
                             $mensagem = "<b>Erro! </b>Digite os código de inicio e fim.";
                             $session->setFlash('erro', $mensagem);
 
-                            return $this->redirect(['view', 'id' => $id]);
+                            return $this->redirect(['view', 'id' => $idAcervo]);
                         }
                     } else {
                         $quantidadeExemplares = Yii::$app->request->post()['Acervo']['quantidadeExemplar'];
@@ -514,15 +565,15 @@ class AcervoController extends Controller
                             $count = 1;
                             $i = 1;
                             while ($count <= $quantidadeExemplares) {
-                                $codigo = $id . '' . $i;
+                                $codigo = $idAcervo . '' . $i;
                                 if (!AcervoExemplar::verificaCodigoLivroExiste($codigo)) {
                                     $exemplar = new AcervoExemplar();
 
                                     $exemplar->esta_disponivel = 1;
 
-                                    $exemplar->acervo_idacervo = $id;
+                                    $exemplar->acervo_idacervo = $idAcervo;
 
-                                    $exemplar->codigo_livro = $id . '' . $i;
+                                    $exemplar->codigo_livro = $idAcervo . '' . $i;
 
 
                                     if (!$exemplar->save()) {
@@ -545,11 +596,38 @@ class AcervoController extends Controller
 
                                             $aquisicao->save();
 
+                                            //Guarda os exemplares do Acervo
+                                            $acervoExemplares = AcervoExemplar::find()->where(['acervo_idacervo' => $idAcervo])->all();
+
+                                            $j = 0;
+
+                                            while ($j < count($emprestimosDosExemplar)){
+                                                $emprestimoHasAcervoExemplar = new EmprestimoHasAcervoExemplar();
+
+                                                $emprestimoHasAcervoExemplar->acervo_exemplar_idacervo_exemplar =
+                                                    $acervoExemplares[$j]->idacervo_exemplar;
+
+                                                $emprestimoHasAcervoExemplar->emprestimo_idemprestimo = $emprestimosDosExemplar[$j];
+
+                                                $emprestimoHasAcervoExemplar->save();
+
+                                                if(Emprestimo::findOne($emprestimosDosExemplar[$j])->datadevolucao == null){
+
+                                                    $acervoExemplares[$j]->esta_disponivel = 0;
+
+                                                }
+
+                                                $acervoExemplares[$j]->save();
+
+                                                $j++;
+                                            }
+
+
                                             $transaction->commit();
 
                                             Yii::$app->session->setFlash('mensagem', "Novo(s) código(s) gerado(s)");
                                         }
-                                        return $this->redirect(['view', 'id' => $id]);
+                                        return $this->redirect(['view', 'id' => $idAcervo]);
 
                                     }
                                     $i++;
@@ -563,7 +641,7 @@ class AcervoController extends Controller
                             $transaction->rollBack();
                             $mensagem = " <b>Erro! </b>Digite a quantidade de exemplares";
                             $session->setFlash('erro', $mensagem);
-                            return $this->redirect(['view', 'id' => $id]);
+                            return $this->redirect(['view', 'id' => $idAcervo]);
                         }
                     }
 
@@ -571,13 +649,13 @@ class AcervoController extends Controller
                     $transaction->rollBack();
                     $mensagem = "Não foi possível gerar novos códigos";
                     $session->setFlash('erro', $mensagem);
-                    return $this->redirect(['view', 'id' => $id]);
+                    return $this->redirect(['view', 'id' => $idAcervo]);
                 }
             } catch (Exception $e) {
                 $transaction->rollBack();
                 $mensagem = "Não foi possível gerar novos códigos";
                 $session->setFlash('erro', $mensagem);
-                return $this->redirect(['view', 'id' => $id]);
+                return $this->redirect(['view', 'id' => $idAcervo]);
             }
         }
 

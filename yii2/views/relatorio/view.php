@@ -9,7 +9,7 @@ use miloschuman\highcharts\HighchartsAsset;
 /* @var $model app\models\Relatorio */
 
 
-$this->title = 'Relatório de ' . $model->tipo . ' de ' .
+$this->title = 'Relatório de ' .\app\models\Relatorio::$tiposRelatorio[$model->tipo] . ' de ' .
     Yii::$app->formatter->asDate($model->inicio_intervalo, 'dd/M/Y') . ' até ' .
     Yii::$app->formatter->asDate($model->fim_intervalo, 'dd/M/Y');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Relatórios'), 'url' => ['index']];
