@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 //            'id',
                 [
-                    'attribute' => 'profile.full_name',
+                    'attribute' => 'username',
                     'label' => Yii::t('user', 'Full Name'),
                     'format' => 'raw',
                     'value' => function ($model) {
