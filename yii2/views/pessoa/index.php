@@ -25,7 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'nome',
+
+                [
+                    'attribute' => 'nome',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        return Html::a($model->nome, ['view', 'id' => $model->idpessoa]);
+                    }
+                ],
+
                 [
                     'attribute' => 'pessoaFisica.cpf',
                     'value' => function ($model) {
@@ -42,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 $model->pessoaJuridica['cnpj'] : '';
                     }
                 ],
-                ['class' => 'yii\grid\ActionColumn'],
+
             ],
         ]);
         ?>

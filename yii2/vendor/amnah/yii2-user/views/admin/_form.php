@@ -152,11 +152,14 @@ $role = $module->model("Role");
 
             'password' => ['type' => Form::INPUT_PASSWORD, 'options' => [
                 'value' => !$user->isNewRecord ? $user->password : '',
-                'disabled' => !$user->isNewRecord ? true : false]
+                'disabled' => !$user->isNewRecord ? true : false,
+           'placeholder'=>'Digite a senha do Usuário...']
             ],
             'password_repeat' => ['type' => Form::INPUT_PASSWORD, 'options' => [
                 'value' => !$user->isNewRecord ? $user->password : '',
-                'disabled' => !$user->isNewRecord ? true : false]],
+                'disabled' => !$user->isNewRecord ? true : false,
+                'placeholder'=>'Confirme a senha do Usuário...']
+               ],
             'role_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => ['data' => $role::dropdown()]],
 
 

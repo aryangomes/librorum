@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\TipoAquisicao;
 use Yii;
 use app\models\Aquisicao;
 use app\models\AquisicaoSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -76,11 +78,14 @@ class AquisicaoController extends Controller
     {
         $model = $this->findModel($id);
 
+        $tipoAquisicao = ArrayHelper::map(TipoAquisicao::find()->all(), 'idtipo_aquisicao','nome');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idaquisicao]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'tipoAquisicao'=>$tipoAquisicao
             ]);
         }
     }
